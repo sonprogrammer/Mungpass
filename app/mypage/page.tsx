@@ -19,7 +19,7 @@ export default function MyPage() {
   // 목업
   const user = {
     name: "홍길동",
-    email: "123@naver.com",
+    email: "example@plan-a.com",
     grade: "D",
     mileage: 500,
     joinDate: "2026.01.05"
