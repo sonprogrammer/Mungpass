@@ -8,11 +8,10 @@ import { QRCodeSVG } from 'qrcode.react';
 import { X, RefreshCw, ShieldAlert } from 'lucide-react';
 
 export default function QrModal({ userId, onClose }: { userId: string, onClose: () => void }) {
-  // 1. 순수하지 않은 값(무작위성)은 초기 상태 설정 시 딱 한 번만 실행합니다.
   const [seed, setSeed] = useState(() => Math.random().toString(36).substring(7));
   const [tick, setTick] = useState(() => Math.floor(Date.now() / 1000));
 
-  // 2. 외부 시스템(시간)과의 동기화
+  // 2. 외부 시간 동기화
   useEffect(() => {
     const timer = setInterval(() => {
       setTick(Math.floor(Date.now() / 1000));
@@ -25,18 +24,17 @@ export default function QrModal({ userId, onClose }: { userId: string, onClose: 
   const currentPeriod = Math.floor(tick / secondsInPeriod);
   const timeLeft = secondsInPeriod - (tick % secondsInPeriod);
 
-  // 4. 강제 갱신 함수 (이벤트 핸들러 내에서 impure 기능을 수행)
+  // 4. 강제 갱신 
   const handleRefresh = () => {
     setSeed(Math.random().toString(36).substring(7));
   };
 
-  // 5. [순수 함수 영역] 렌더링 중에는 고정된 state들만 조합하여 토큰을 만듭니다.
-  // 이 과정은 이제 동일한 입력을 넣으면 항상 동일한 출력을 내놓는 '순수'한 로직입니다.
+
   const token = useMemo(() => {
     return `auth_${userId}_${currentPeriod}_${seed}`;
   }, [userId, currentPeriod, seed]);
 
-  // 배경 스크롤 방지
+ 
   useEffect(() => {
     document.body.style.overflow = 'hidden';
     return () => { document.body.style.overflow = 'unset'; };
@@ -48,7 +46,7 @@ export default function QrModal({ userId, onClose }: { userId: string, onClose: 
         className="bg-white w-full max-w-xs rounded-[40px] p-8 flex flex-col items-center relative shadow-2xl" 
         onClick={(e) => e.stopPropagation()}
       >
-        <div className="absolute top-0 left-0 w-full h-2 bg-gradient-to-r from-blue-500 to-indigo-600" />
+        <div className="absolute top-0 left-0 w-full h-2 bg-linear-to-r from-blue-500 to-indigo-600" />
         <button onClick={onClose} className="absolute top-4 right-4 p-3 text-slate-300"><X className="w-6 h-6" /></button>
 
         <div className="text-center mt-4 mb-8">

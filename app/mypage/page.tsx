@@ -16,7 +16,7 @@ import { useRouter } from 'next/navigation';
 export default function MyPage() {
   const router = useRouter();
 
-  // 임시 사용자 데이터 (추후 Supabase 연동)
+  // 목업
   const user = {
     name: "홍길동",
     email: "123@naver.com",
@@ -26,7 +26,7 @@ export default function MyPage() {
   };
 
   const handleLogout = () => {
-    // [TODO] Supabase signOut 로직
+    // TODO Supabase signOut 로직
     if (confirm("로그아웃 하시겠습니까?")) {
       router.push("/");
     }
@@ -34,7 +34,7 @@ export default function MyPage() {
 
   return (
     <div className="min-h-screen bg-slate-50">
-      {/* 상단 프로필 섹션 */}
+      {/* //* 상단 프로필 섹션 */}
       <section className="bg-white px-6 pt-10 pb-8 rounded-b-[40px] shadow-sm border-b border-slate-100">
         <div className="flex items-center justify-between mb-6">
           <div className="flex items-center gap-4">
@@ -51,7 +51,7 @@ export default function MyPage() {
           </button>
         </div>
 
-        {/* 등급 및 포인트 카드 */}
+        {/* //* 등급 및 포인트 카드 */}
         <div className="grid grid-cols-2 gap-3">
           <div className="bg-slate-900 p-4 rounded-2xl text-white">
             <p className="text-[10px] text-white/50 font-bold uppercase mb-1">현재 등급</p>
@@ -70,7 +70,7 @@ export default function MyPage() {
         </div>
       </section>
 
-      {/* 메뉴 리스트 */}
+      {/* //* 메뉴 리스트 */}
       <main className="p-6 space-y-6">
         <div className="space-y-2">
           <h3 className="text-xs font-bold text-slate-400 uppercase ml-1 mb-3">내 활동 관리</h3>
@@ -86,7 +86,7 @@ export default function MyPage() {
           <MenuItem icon={<Info className="w-5 h-5 text-slate-500" />} title="약관 및 개인정보 처리방침" />
         </div>
 
-        {/* 로그아웃 버튼 */}
+        {/* //* 로그아웃 버튼 */}
         <button 
           onClick={handleLogout}
           className="w-full py-4 flex items-center justify-center gap-2 text-slate-400 font-bold text-sm hover:text-red-500 transition-colors"
@@ -103,7 +103,7 @@ export default function MyPage() {
   );
 }
 
-// 메뉴 아이템 컴포넌트
+//* 메뉴 아이템 
 function MenuItem({ icon, title }: { icon: React.ReactNode, title: string }) {
   return (
     <button className="w-full flex items-center justify-between p-4 bg-white rounded-2xl border border-slate-100 shadow-sm active:scale-[0.98] transition-all">

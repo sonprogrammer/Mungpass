@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { Mail, Lock, User, CheckCircle2, MessageSquare, Smartphone, ShieldCheck } from 'lucide-react';
 import { SubmitButton } from './components/SubmitButton';
@@ -19,7 +19,7 @@ export default function LandingPage() {
   const [isVerified, setIsVerified] = useState(false);
 
   async function handleAuthAction(formData: FormData) {
-    // 회원가입 모드일 때 비밀번호 미일치 시 진행 방지
+    // 회원가입 모드일 때 비밀번호 미일치 시 
     if (!isLogin && !isMatch) {
       alert("비밀번호가 일치하지 않습니다.");
       return;
@@ -29,7 +29,6 @@ export default function LandingPage() {
   }
 
   return (
-    // 전체 배경 고정 (스크롤 방지)
     <div className="h-screen w-full bg-slate-50 flex flex-col justify-center items-center p-4 font-sans overflow-hidden">
       
       {/* 상단 로고 (고정) */}
@@ -41,9 +40,8 @@ export default function LandingPage() {
       </div>
 
       {/* 메인 카드 컨테이너 */}
-      <div className="w-full max-w-md bg-white rounded-[32px] shadow-2xl shadow-slate-200/50 border border-slate-100 flex flex-col max-h-[85vh]">
+      <div className="w-full max-w-md bg-white rounded-8 shadow-2xl shadow-slate-200/50 border border-slate-100 flex flex-col max-h-[85vh]">
         
-        {/* 카드 상단 탭 (카드 내 고정) */}
         <div className="p-6 pb-2 shrink-0">
           <div className="flex bg-slate-100 p-1.5 rounded-2xl">
             <button

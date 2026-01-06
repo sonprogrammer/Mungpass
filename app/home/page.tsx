@@ -32,8 +32,8 @@ export default function HomePage() {
     setIsScannerOpen(false);
     
     // 여기서 data(QR 내용)를 분석해서 마일리지 적립 API 호출
-    // console.log("스캔된 QR 데이터:", data);
-    // alert(`인증 완료! 데이터: ${data}`);
+    // console.log("스캔된 QR 데이터:", data)
+    // alert(`인증 완료! 데이터: ${data}`)
     setUserData(prev => ({
         ...prev,
         mileage: prev.mileage + 100, // 100포인트 추가
@@ -51,13 +51,13 @@ export default function HomePage() {
      
 
       <main className="p-6 max-w-md mx-auto space-y-6">
-        {/* 웰컴 섹션 */}
+
         <section>
           <h2 className="text-2xl font-bold text-slate-800">안녕하세요, {userData.name}님!</h2>
           <p className="text-slate-500 text-sm mt-1">오늘도 새로운 프로그램에 참여해보세요.</p>
         </section>
 
-        {/* 등급 현황 카드 */}
+        {/* //*등급  */}
         <section className="bg-white rounded-3xl p-6 shadow-sm border border-slate-100">
           <div className="flex justify-between items-end mb-4">
             <div>
@@ -70,7 +70,7 @@ export default function HomePage() {
             </div>
           </div>
           
-          {/* 프로그레스 바 */}
+          {/* //*프로그레스 바 */}
           <div className="w-full h-3 bg-slate-100 rounded-full overflow-hidden mb-2">
             <div 
               className="h-full bg-blue-600 rounded-full transition-all duration-1000"
@@ -84,7 +84,7 @@ export default function HomePage() {
         </section>
         
 
-        {/* 주요 액션 버튼 (QR) */}
+        {/* //* QR*/}
         <button 
             onClick={() => setIsScannerOpen(true)}
             className="w-full bg-slate-900 hover:bg-slate-800 text-white p-5 rounded-3xl shadow-xl flex items-center justify-between group transition-all">
@@ -100,7 +100,7 @@ export default function HomePage() {
           <ChevronRight className="w-6 h-6 text-white/40" />
         </button>
 
-        {/* 2단 메뉴 섹션 */}
+      
         <div className="grid grid-cols-2 gap-4">
           <div className="bg-white p-5 rounded-3xl border border-slate-100 shadow-sm">
             <div className="bg-indigo-50 w-10 h-10 rounded-2xl flex items-center justify-center mb-3">
@@ -118,7 +118,7 @@ export default function HomePage() {
           </div>
         </div>
 
-        {/* 최신 소식 / 이벤트 리스트 */}
+        {/*//* 최신 소식 / 이벤트 리스트 */}
         <section className="space-y-4">
           <div className="flex justify-between items-center">
             <h3 className="font-bold text-slate-800">진행 중인 프로그램</h3>
@@ -127,8 +127,8 @@ export default function HomePage() {
           
           {[1, 2].map((i) => (
             <div key={i} className="flex gap-4 bg-white p-4 rounded-2xl border border-slate-100">
-              <div className="w-20 h-20 bg-slate-200 rounded-xl overflow-hidden flex-shrink-0">
-                <div className="w-full h-full bg-gradient-to-br from-slate-200 to-slate-300 flex items-center justify-center">
+              <div className="w-20 h-20 bg-slate-200 rounded-xl overflow-hidden shrink-0">
+                <div className="w-full h-full bg-linear-to-br from-slate-200 to-slate-300 flex items-center justify-center">
                   <MapPin className="text-white w-6 h-6" />
                 </div>
               </div>

@@ -9,7 +9,7 @@ export default function QrScannerModal({ onClose, onScanSuccess }: {
   onScanSuccess: (data: string) => void 
 }) {
   const scannerRef = useRef<Html5Qrcode | null>(null);
-  const isInitialized = useRef(false); // [추가] 초기화 여부 체크용
+  const isInitialized = useRef(false); //  초기화 여부 체크용ㅇ
 
   useEffect(() => {
     // 이미 초기화 중이라면 중복 실행 방지
@@ -39,7 +39,7 @@ export default function QrScannerModal({ onClose, onScanSuccess }: {
         );
       } catch (err) {
         console.error("카메라 시작 에러:", err);
-        // 권한 문제 등이 있을 때만 에러 메시지
+        // 권한 문제 등이 있을 때만 에러
         if (!err?.toString().includes("Already scanning")) {
             alert("카메라를 켤 수 없습니다.");
             onClose();
@@ -49,7 +49,7 @@ export default function QrScannerModal({ onClose, onScanSuccess }: {
 
     startScanner();
 
-    // 언마운트 시 클린업
+
     return () => {
       isInitialized.current = false;
       if (scannerRef.current) {
@@ -67,7 +67,7 @@ export default function QrScannerModal({ onClose, onScanSuccess }: {
 
   return (
     <div className="fixed inset-0 z-[1000] h-[100dvh] w-screen bg-black flex flex-col items-center justify-center overflow-hidden">
-      {/* 닫기 버튼 */}
+  
       <button 
         onClick={onClose}
         className="absolute top-8 right-8 z-[1001] p-3 bg-white/10 rounded-full text-white backdrop-blur-md active:scale-95"
@@ -75,17 +75,17 @@ export default function QrScannerModal({ onClose, onScanSuccess }: {
         <X className="w-6 h-6" />
       </button>
 
-      {/* 가이드 문구 */}
+      {/* //*가이드 문구 */}
       <div className="absolute top-20 text-center z-[1001] pointer-events-none">
         <Camera className="w-8 h-8 text-blue-500 mx-auto mb-2" />
         <h3 className="text-white font-bold text-lg">QR 코드 스캔</h3>
         <p className="text-white/60 text-sm mt-1 px-6">사각형 안에 QR 코드를 맞춰주세요</p>
       </div>
 
-      {/* 카메라 뷰: [&>video] 선택자로 라이브러리가 생성한 비디오 스타일 강제 제어 */}
+      {/* //*카메라*/}
       <div id="reader" className="w-full h-full [&>video]:w-full [&>video]:h-full [&>video]:object-cover" />
 
-      {/* 스캔 가이드 라인 디자인 */}
+      {/* //*스캔 가이드 라인 */}
       <div className="absolute inset-0 pointer-events-none flex items-center justify-center z-[1001]">
         <div className="w-64 h-64 border-2 border-white/20 rounded-3xl relative">
           <div className="absolute -top-1 -left-1 w-6 h-6 border-t-4 border-l-4 border-blue-500 rounded-tl-lg" />
