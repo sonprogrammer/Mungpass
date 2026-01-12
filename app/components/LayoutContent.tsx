@@ -10,7 +10,7 @@ export default function LayoutContent({ children }: { children: React.ReactNode 
 
   return (
     <div className="flex justify-center bg-slate-200 min-h-screen">
-      <div className="w-full max-w-[480px] bg-white min-h-screen flex flex-col relative shadow-2xl">
+      <div className="w-full max-w-120 bg-white min-h-screen flex flex-col relative shadow-2xl">
         {!isAuthPage && <Header />}
         
         <main className={`flex-1 ${!isAuthPage ? "pb-24" : ""}`}>

@@ -1,20 +1,44 @@
 'use client'
 
-import { Trophy } from "lucide-react";
+import { Bone, Bell } from "lucide-react";
 import Link from "next/link";
+import { useState } from "react";
+import NotificationDrawer from './NotificationDrawer'
 
 export default function Header() {
+  const [isBellOpen, setIsBellOpen] = useState(false);
   return (
-    <header className="bg-white/80 backdrop-blur-md px-6 py-4 flex justify-between items-center border-b border-slate-100 sticky top-0 z-50">
-    <Link href='home'>
-      <h1 className="text-xl font-bold tracking-tight text-slate-900">
-        Plan <span className="text-blue-600">ALLIANCE</span>
-      </h1>
-    </Link>
-      <div className="bg-blue-50 px-3 py-1 rounded-full flex items-center gap-1.5">
-        <Trophy className="w-4 h-4 text-blue-600" />
-        <span className="text-xs font-bold text-blue-700">Grade D</span>
-      </div>
-    </header>
+    <>
+      <header className="bg-white/70 backdrop-blur-md px-6 py-4 flex justify-between items-center border-b border-orange-100/50 sticky top-0 z-50 shadow-sm">
+        <Link href='/home' className="flex items-center gap-2 group">
+          <div className="bg-orange-500 p-1.5 rounded-xl group-active:scale-95 transition-transform">
+            <Bone className="w-5 h-5 text-white rotate-45" />
+          </div>
+          <h1 className="text-2xl font-black text-slate-900 tracking-tighter">
+            멍 <span className="text-orange-500">패스</span>
+          </h1>
+        </Link>
+
+        <div className="flex items-center gap-3">
+          <div className="bg-orange-50 px-3 py-1.5 rounded-full flex items-center gap-1.5 border border-orange-100">
+            <Bone className="w-3.5 h-3.5 text-orange-500" />
+            <span className="text-[10px] font-black text-orange-600 uppercase">Puppy Grade</span>
+          </div>
+          <button
+            onClick={() => setIsBellOpen(true)}
+            className="relative text-slate-400 p-2 hover:bg-orange-50 hover:text-orange-500 rounded-full transition-all cursor-pointer"
+          >
+            <Bell className="w-5 h-5" />
+            {/* 알림 배지 */}
+            <span className="absolute top-1.5 right-1.5 w-2 h-2 bg-red-500 rounded-full border-2 border-white"></span>
+          </button>
+        </div>
+      </header>
+      <NotificationDrawer
+        isOpen={isBellOpen}
+        onClose={() => setIsBellOpen(false)}
+      />
+    </>
+
   );
 }
