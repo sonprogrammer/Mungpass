@@ -1,33 +1,28 @@
 'use client';
 
+import { KakaoPlace, MapProps } from '@/shared/types/map';
 import React from 'react';
 import { Map, MapMarker } from 'react-kakao-maps-sdk';
 
-interface MapProps {
-  center: { lat: number; lng: number };
-  places: any[];
-  onMarkerClick: (place: any) => void;
-}
 
 export default function KakaoMap({ center, places, onMarkerClick }: MapProps) {
   return (
     <div className="w-full h-full relative">
       <Map
-        center={center}
+        center={{ lat: center.lat, lng: center.lon}}
         style={{ width: "100%", height: "100%" }}
         level={4}
         isPanto={true}
       >
-        {/* 현재 내 위치 마커 (기본 마커) */}
-        <MapMarker position={center} />
+        {/* //*현재 내 위치 마커 */}
+        <MapMarker position={{lat: center.lat, lng: center.lon}} />
 
-        {/* 주변 실제 샵 마커들 */}
-        {places.map((place) => (
+        {/* //* 주변 샵 마커들 */}
+        {places.map((place: KakaoPlace) => (
           <MapMarker
             key={place.id}
             position={{ lat: Number(place.y), lng: Number(place.x) }}
             onClick={() => onMarkerClick(place)}
-            // 카카오 기본 별 마커 이미지
             image={{
               src: "https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/markerStar.png",
               size: { width: 24, height: 35 }

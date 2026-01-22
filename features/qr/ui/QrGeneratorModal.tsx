@@ -7,7 +7,7 @@ import React, { useState, useEffect, useMemo } from 'react';
 import { QRCodeSVG } from 'qrcode.react';
 import { X, RefreshCw, ShieldAlert } from 'lucide-react';
 
-export default function QrModal({ userId, onClose }: { userId: string, onClose: () => void }) {
+export default function QrGeneratorModal({ userId, onClose }: { userId: string, onClose: () => void }) {
   const [seed, setSeed] = useState(() => Math.random().toString(36).substring(7));
   const [tick, setTick] = useState(() => Math.floor(Date.now() / 1000));
 
@@ -41,7 +41,7 @@ export default function QrModal({ userId, onClose }: { userId: string, onClose: 
   }, []);
 
   return (
-    <div className="fixed inset-0 z-[999] bg-slate-900/90 backdrop-blur-md flex items-center justify-center p-6" onClick={onClose}>
+    <div className="fixed inset-0 z-100 bg-slate-900/90 backdrop-blur-md flex items-center justify-center p-6" onClick={onClose}>
       <div 
         className="bg-white w-full max-w-xs rounded-[40px] p-8 flex flex-col items-center relative shadow-2xl" 
         onClick={(e) => e.stopPropagation()}

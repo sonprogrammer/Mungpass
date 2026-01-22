@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
-import LayoutContent from "@/app/components/LayoutContent";
+import LayoutContent from "@/app/ui/LayoutContent";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -14,8 +14,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Alliance",
-  description: "온라인 출석체크",
+  title: "멍패스",
+  description: "애견과 함께",
 };
 
 export default function RootLayout({
