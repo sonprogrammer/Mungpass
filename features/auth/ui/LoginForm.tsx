@@ -29,7 +29,7 @@ export function LoginForm() {
                     <input
                         name="password"
                         type="password"
-                        placeholder="비밀번호는 비밀!"
+                        placeholder="비밀번호"
                         required
                         value={passwords.password}
                         onChange={(e) => setPasswords({ ...passwords, password: e.target.value })}

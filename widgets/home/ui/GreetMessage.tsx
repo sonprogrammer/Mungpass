@@ -1,10 +1,12 @@
+import { UserProfile } from "@/entities/user/model/useUserStore";
 import { Dog } from "lucide-react";
 
 export function GreetMessage({userData, myDog}) {
+  console.log('user', userData)
     return(
         <section className="flex items-center justify-between">
           <div>
-            <h2 className="text-2xl font-bold text-slate-800">{userData.name}님, 반가워요!</h2>
+            <h2 className="text-2xl font-bold text-slate-800">{userData.nickname}님, 반가워요!</h2>
             <p className="text-orange-400 text-sm font-medium flex items-center gap-1 mt-1">
               {myDog.name}는 지금 <span className="underline decoration-2">{myDog.status}</span>
             </p>
