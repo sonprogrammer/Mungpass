@@ -16,6 +16,7 @@ export default function AroundPage() {
 
   const center = data.center
   const places = data.places
+  console.log('places',places)
 
   return (
     <div className="bg-[#FFFBEB] min-h-screen pb-24">

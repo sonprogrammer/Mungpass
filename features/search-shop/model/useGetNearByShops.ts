@@ -16,19 +16,21 @@ export function useGetNearByShops() {
         
         navigator.geolocation.getCurrentPosition((pos) => {
             const coords = { lat: pos.coords.latitude, lon: pos.coords.longitude}
-            console.log('coords', coords)
+            // console.log('coords', coords)
             
             if(window.kakao.maps.services){
                 const ps = new window.kakao.maps.services.Places()
                 ps.keywordSearch('애견 카페', (res, status) => {
                     if(status === window.kakao.maps.services.Status.OK){
+                        console.log(res)
                         startTransition(() => {
                             setData({center: coords, places: res as KakaoPlace[]})
                         })
                     }
                 },{
                     location: new window.kakao.maps.LatLng(coords.lat, coords.lon),
-                    radius: 2000
+                    radius: 2000,
+                    category_group_code: 'CE7'
                 })
             }
         })

@@ -1,4 +1,4 @@
-import { History, Gift, Heart } from "lucide-react"
+import { History, Heart } from "lucide-react"
 import { useRouter } from "next/navigation"
 
 export function Menu() {
@@ -14,7 +14,7 @@ export function Menu() {
             </div>
 
             <div
-                onClick={() => router.push('/favorites')}
+                onClick={() => router.push('/save')}
                 className="bg-white p-5 rounded-4xl border border-orange-50 shadow-sm hover:shadow-md transition-all cursor-pointer group"
             >
                 <div className="bg-pink-50 w-12 h-12 rounded-2xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">

@@ -1,4 +1,4 @@
-import { kakaologin } from "@/features/api/kakaologin";
+import { kakaologin } from "@/features/auth/api/kakaologin";
 
 
 export function SocialLogin() {

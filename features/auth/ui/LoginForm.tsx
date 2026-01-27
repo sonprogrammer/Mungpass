@@ -1,10 +1,6 @@
-import { Bone, Mail } from "lucide-react";
-import { useState } from "react";
+import { Bone, Mail } from "lucide-react"
 
 export function LoginForm() {
-
-    //  *비밀번호 실시간 체크
-  const [passwords, setPasswords] = useState({ password: '', confirm: '' })
 
     return (
         <div>
@@ -31,8 +27,6 @@ export function LoginForm() {
                         type="password"
                         placeholder="비밀번호"
                         required
-                        value={passwords.password}
-                        onChange={(e) => setPasswords({ ...passwords, password: e.target.value })}
                         className="w-full pl-12 pr-4 py-4 bg-orange-50/30 border-2 border-orange-50 rounded-2xl focus:border-orange-500 focus:ring-0 outline-none font-medium text-sm transition-all"
                     />
                 </div>
