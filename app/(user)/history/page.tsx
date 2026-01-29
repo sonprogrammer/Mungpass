@@ -44,9 +44,9 @@ export default function HistoryPage() {
 
 
     return (
-        <main className="h-screen bg-[#FFFBEB] flex flex-col overflow-x-hidden">
+        <main className="h-full bg-[#FFFBEB] flex flex-col">
 
-            <header className="p-6 w-full max-w-120 mx-auto shrink-0">
+            <header className=" p-6 w-full max-w-120 mx-auto shrink-0">
                 <h1 className="text-2xl font-extrabold text-slate-800">
                     멍패스 기록
                 </h1>

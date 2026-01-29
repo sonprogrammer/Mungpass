@@ -1,4 +1,4 @@
-import { AroundHeaderProps } from "@/widgets/around/model/types";
+import { AroundHeaderProps } from "@/entities/place/model/types";
 import { Map as MapIcon, Search, X } from "lucide-react";
 
 export function AroundHeader({showMap, toggle} : AroundHeaderProps) {

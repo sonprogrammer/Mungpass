@@ -10,6 +10,7 @@ export interface KakaoPlace{
     category_name: string;
     address_name: string;
     road_address_name: string;
+    category_group_name: string;
     phone: string;
     x: string; //경도
     y: string; // 위도

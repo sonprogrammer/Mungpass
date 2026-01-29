@@ -1,4 +1,4 @@
-import { PlaceListProps } from "@/widgets/around/model/types";
+import { PlaceListProps } from "@/entities/place/model/types";
 import { MapPin } from "lucide-react";
 
 export function PlaceList({ places, placeClick }: PlaceListProps) {
@@ -6,7 +6,7 @@ export function PlaceList({ places, placeClick }: PlaceListProps) {
   const sortedPlaces = [...places].sort((a, b) => Number(a.distance) - Number(b.distance))
 
   return (
-    <div className="p-6 space-y-5">
+    <div className="space-y-5">
       {sortedPlaces.map((place) => (
         <div
           key={place.id}

@@ -18,9 +18,9 @@ export default function HomePage() {
 
 
   return (
-    <div className="min-h-screen bg-[#FFFBEB] pb-24 font-sans">
+    <div className="h-full">
 
-      <main className="p-6 max-w-md mx-auto space-y-6">
+      <main className="p-6 space-y-6 ">
         {/* //*GreetMsg부분 */}
         <GreetMessage userData={profile} myDog={dog} />
 
@@ -36,7 +36,7 @@ export default function HomePage() {
         <Menu />
 
         {/* //*주변 애견카페  */}
-        <NearByPlace />
+          <NearByPlace />
       </main>
 
     </div>

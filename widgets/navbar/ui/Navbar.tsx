@@ -14,7 +14,7 @@ export default function Navbar() {
   ];
 
   return (
-    <nav className="fixed bottom-0 left-1/2 -translate-x-1/2 w-full max-w-120 bg-white/95 backdrop-blur-xl border-t border-orange-50 px-10 py-3 flex justify-between items-center z-50  rounded-t-4xl shadow-[0_-10px_25px_-5px_rgba(249,115,22,0.1)]">
+    <nav className="w-full max-w-120 bg-white/95 backdrop-blur-xl border-t border-orange-50 px-10 py-3 flex justify-between items-center z-50  rounded-t-4xl shadow-[0_-10px_25px_-5px_rgba(249,115,22,0.1)]">
       {navItems.map((item) => {
         const isActive = pathname === item.href;
         return (

@@ -16,12 +16,42 @@ export default function FavoritesPage() {
             address: "충남 천안시 서북구 불당동",
             visitCount: 3,
         },
+        {
+            id: 3,
+            name: "멍멍이 놀이터",
+            address: "충남 천안시 서북구 불당동",
+            visitCount: 3,
+        },
+        {
+            id: 4,
+            name: "멍멍이 놀이터",
+            address: "충남 천안시 서북구 불당동",
+            visitCount: 3,
+        },
+        {
+            id: 5,
+            name: "멍멍이 놀이터",
+            address: "충남 천안시 서북구 불당동",
+            visitCount: 3,
+        },
+        {
+            id: 6,
+            name: "멍멍이 놀이터",
+            address: "충남 천안시 서북구 불당동",
+            visitCount: 3,
+        },
+        {
+            id: 7,
+            name: "멍멍이 놀이터",
+            address: "충남 천안시 서북구 불당동",
+            visitCount: 3,
+        },
     ];
 
     return (
 
 
-        <main className="h-screen bg-[#FFFBEB] flex flex-col overflow-x-hidden">
+        <main className="h-full bg-[#FFFBEB] flex flex-col ">
 
             <header className="p-6 w-full max-w-120 mx-auto shrink-0">
                 <h1 className="text-2xl font-extrabold text-slate-800">
