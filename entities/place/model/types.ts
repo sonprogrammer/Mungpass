@@ -9,5 +9,8 @@ export interface AroundHeaderProps{
     showMap: boolean 
     toggle: () => void
     onSearch: (keyword: string) => void
-    keyword: string;
+    searchValue: string;
+    setSearchValue: (search: string) => void
+    radius: number;
+    setRadius: (radius: number) => void
 }

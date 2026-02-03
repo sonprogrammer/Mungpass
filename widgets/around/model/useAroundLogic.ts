@@ -2,43 +2,38 @@
 
 import { useGetNearByShops } from "@/features/search-shop/model/useGetNearByShops";
 import { useSearchShops } from "@/features/search-shop/model/useSearchShops";
-import { useState } from "react";
+import { Bound } from "@/shared/types/map";
+import { getCenterFromBound } from "@/shared/utils/map";
 
-export function useAroundLogic(){
-    const [showMap, setShowMap]= useState<boolean>(false)
-    const [keyword, setKeyword] = useState<string>('')
+
+export function useAroundLogic(keyword: string, radius: number, newBound?: Bound | null){
     
+    console.log('newCenterform login', newBound)
     
     // * 주변 애견카페
-    const { data: nearByData, isPending: nearByPending} = useGetNearByShops()
+    const { data: nearByData, isPending: nearByPending} = useGetNearByShops(radius, newBound)
     // * 검색 애견카페
     const { data: searchData, isPending: searchPending} = useSearchShops(keyword)
 
+    
     const isSearching = !!keyword
+
+    const isSearchEmpty = isSearching && (!searchData || searchData.length === 0)
+    
     const displayShops = (isSearching ? searchData : nearByData?.places) ?? []
     const displayCenter = (() => {
+        if(newBound) return getCenterFromBound(newBound)
         if(isSearching && searchData?.[0]){
             return{lat: Number(searchData[0].y), lon: Number(searchData[0].x)}
         }
         return nearByData?.center ?? { lat: 37.5665, lon: 126.9780 }
     })()
 
-    const handleToggleMap = () => {
-        if(!showMap && isSearching && displayShops.length === 0){
-            setKeyword('')
-            setShowMap(true)
-            return
-        }
-        setShowMap(prev => !prev)
-    }
+    
     
     
     return{
-        showMap,
-        setShowMap,
-        keyword,
-        setKeyword,
-        handleToggleMap,
+        isSearchEmpty,
         displayCenter,
         displayShops,
         isPending: isSearching ? searchPending : nearByPending

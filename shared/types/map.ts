@@ -1,7 +1,13 @@
 
+
 export interface Coords{
     lat: number;
     lon: number;
+}
+
+export interface Bound{
+    sw: Coords
+    ne: Coords
 }
 
 export interface KakaoPlace{
@@ -19,7 +25,8 @@ export interface KakaoPlace{
 }
 
 export interface MapProps{
-    center: Coords,
+    center: Coords
     places: KakaoPlace[];
     onMarkerClick: (place: KakaoPlace) => void;
+    onBoundChange: (bound: Bound) => void
 }

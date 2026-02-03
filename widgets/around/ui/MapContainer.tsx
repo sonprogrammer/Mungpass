@@ -3,7 +3,7 @@ import { MapProps } from "@/shared/types/map";
 import KakaoMap from "@/shared/ui/map/KakaoMap";
 
 
-export function MapContainer({center, places,onMarkerClick}: MapProps){
+export function MapContainer({center, places,onMarkerClick, onBoundChange}: MapProps){
 
     console.log('center', center, places)
     return(
@@ -13,6 +13,7 @@ export function MapContainer({center, places,onMarkerClick}: MapProps){
               center={center} 
               places={places} 
               onMarkerClick={onMarkerClick} 
+              onBoundChange={onBoundChange}
             />
           </div>
         </div>

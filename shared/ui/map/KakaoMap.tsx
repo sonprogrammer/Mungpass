@@ -5,7 +5,10 @@ import React from 'react';
 import { CustomOverlayMap, Map, MapMarker } from 'react-kakao-maps-sdk';
 
 
-export default function KakaoMap({ center, places, onMarkerClick }: MapProps) {
+export default function KakaoMap({ center, places, onMarkerClick, onBoundChange }: MapProps) {
+  
+  
+  
   return (
     <div className="w-full h-full relative">
       <Map
@@ -13,6 +16,20 @@ export default function KakaoMap({ center, places, onMarkerClick }: MapProps) {
         style={{ width: "100%", height: "100%" }}
         level={4}
         isPanto={true}
+        scrollwheel={true}
+        onIdle={(map) =>{
+          if(onBoundChange){
+            const currentBound = map.getBounds()
+            const sw = currentBound.getSouthWest()
+            const ne = currentBound.getNorthEast()
+            
+            console.log('currencetner', currentBound.getSouthWest())
+            onBoundChange({
+                sw: { lat: sw.getLat(), lon: sw.getLng()},
+                ne: { lat: ne.getLat(), lon: ne.getLng()}
+            })
+          }
+        }}
       >
         {/* //*현재 내 위치 마커 */}
         <MapMarker position={{ lat: center.lat, lng: center.lon }} />
