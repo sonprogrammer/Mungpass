@@ -1,5 +1,5 @@
 
-import { MapProps } from "@/shared/types/map";
+import { MapProps } from "@/shared/model/map";
 import KakaoMap from "@/shared/ui/map/KakaoMap";
 
 

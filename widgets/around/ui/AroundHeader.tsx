@@ -18,8 +18,6 @@ export function AroundHeader({ radius, setRadius, searchValue, setSearchValue, s
         }
     }
 
-    console.log('sera', searchValue)
-
 
     return (
         <section className="p-6 bg-white rounded-b-[3rem] shadow-sm space-y-4 sticky top-0 z-30">

@@ -4,7 +4,7 @@ import { DEFAULT_RADIUS } from "@/entities/place/model/constants";
 import { PlaceDetailSheet } from "@/entities/place/ui/PlaceDetailSheet";
 import { PlaceListState } from "@/entities/place/ui/PlaceListState";
 import { useGetNearByShops } from "@/features/search-shop/model/useGetNearByShops";
-import { KakaoPlace } from "@/shared/types/map";
+import { KakaoPlace } from "@/shared/model/map";
 import { BottomSheet } from "@/shared/ui/place/BottomSheet";
 import { MapPin } from "lucide-react";
 import { useRouter } from "next/navigation";

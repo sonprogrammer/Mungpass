@@ -2,13 +2,12 @@
 
 import { useGetNearByShops } from "@/features/search-shop/model/useGetNearByShops";
 import { useSearchShops } from "@/features/search-shop/model/useSearchShops";
-import { Bound } from "@/shared/types/map";
+import { Bound } from "@/shared/model/map";
 import { getCenterFromBound } from "@/shared/utils/map";
 
 
 export function useAroundLogic(keyword: string, radius: number, newBound?: Bound | null){
     
-    console.log('newCenterform login', newBound)
     
     // * 주변 애견카페
     const { data: nearByData, isPending: nearByPending} = useGetNearByShops(radius, newBound)

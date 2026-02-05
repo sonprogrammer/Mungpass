@@ -1,6 +1,6 @@
 'use client';
 
-import { KakaoPlace, MapProps } from '@/shared/types/map';
+import { KakaoPlace, MapProps } from '@/shared/model/map';
 import React from 'react';
 import { CustomOverlayMap, Map, MapMarker } from 'react-kakao-maps-sdk';
 

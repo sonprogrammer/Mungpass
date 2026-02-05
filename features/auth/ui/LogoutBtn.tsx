@@ -11,6 +11,7 @@ export function LogoutBtn(){
 
         // TODO 서버 로그아웃 처리
 
+        console.log('cliekc')
             await handleLogout()
 
     }

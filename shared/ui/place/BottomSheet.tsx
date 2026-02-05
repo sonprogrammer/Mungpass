@@ -1,6 +1,6 @@
 'use client'
 
-import { BottomSheetProps } from "@/shared/types/place"
+import { BottomSheetProps } from "@/shared/model/place"
 
 
 export function BottomSheet({ isOpen, onClose, children }: BottomSheetProps) {

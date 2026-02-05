@@ -1,4 +1,4 @@
-import { KakaoPlace } from "@/shared/types/map"
+import { KakaoPlace } from "@/shared/model/map"
 
 export interface FetchShopsRes{
     center: {

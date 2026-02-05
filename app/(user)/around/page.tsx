@@ -4,7 +4,7 @@ import { useState } from 'react';
 
 import { AroundHeader } from '@/widgets/around/ui/AroundHeader';
 import { MapContainer } from '@/widgets/around/ui/MapContainer';
-import { Bound, KakaoPlace } from '@/shared/types/map';
+import { Bound, KakaoPlace } from '@/shared/model/map';
 import { PlaceListState } from '@/entities/place/ui/PlaceListState';
 import { BottomSheet } from '@/shared/ui/place/BottomSheet';
 import { PlaceDetailSheet } from '@/entities/place/ui/PlaceDetailSheet';
@@ -31,7 +31,7 @@ export default function AroundPage() {
     setKeyword('')
 
   }
-  
+
   const handleToggleMap = () => {
     if (isSearchEmpty) {
       alert('검색 결과가 없어 현재 위치를 기반으로 멍패스 샵 보여드립니다.')
@@ -44,14 +44,12 @@ export default function AroundPage() {
   }
 
   const handleCenterChange = (bound: Bound) => {
-    console.log('cn', bound)
     setMapCenter(bound)
     setShowRefreshBtn(true)
   }
 
   const handleRefresh = () => {
     if (mapCenter) {
-      console.log("이 좌표로 검색합니다:", mapCenter)
       setDragBound(mapCenter)
       setShowRefreshBtn(false)
     }
@@ -89,7 +87,7 @@ export default function AroundPage() {
               }}
               onBoundChange={handleCenterChange}
             />
-            <button 
+            <button
               onClick={handleMyLocation}
               className='absolute top-10 right-10 z-10 bg-orange-500/50 p-1 rounded-lg cursor-pointer flex items-center justify-center'
               aria-label='현재위치로 이동'

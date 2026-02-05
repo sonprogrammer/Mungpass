@@ -7,7 +7,6 @@ export function MenuPageListCard({
   title,
   description,
   subText,
-  badgeText,
   onClick,
 }: MenuPageListCardProps) {
   return (
@@ -38,12 +37,8 @@ export function MenuPageListCard({
             </p>
           )}
 
-          {badgeText && (
-            <div className="mt-2 inline-flex items-center px-3 py-1 rounded-full
-                            bg-orange-50 text-orange-500 text-xs font-semibold">
-              {badgeText}
-            </div>
-          )}
+       
+            
         </div>
       </div>
     </div>

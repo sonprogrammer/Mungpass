@@ -1,5 +1,5 @@
 import { FetchShopsRes } from "@/features/search-shop/model/types"
-import { Bound, Coords, KakaoPlace } from "@/shared/types/map"
+import { Bound, Coords, KakaoPlace } from "@/shared/model/map"
 import { getCenterFromBound } from "@/shared/utils/map"
 
 export const fetchNearByShops = (radius: number, newBound?: Bound | null): Promise<FetchShopsRes> => {
@@ -8,7 +8,6 @@ export const fetchNearByShops = (radius: number, newBound?: Bound | null): Promi
         if (!window.kakao?.maps?.services) {
             return reject(new Error('kakao is not loading'));
         }
-        console.log('newCenter', newBound)
         const ps = new window.kakao.maps.services.Places()
         const searchWithCoords = (coords: Coords) => {
             if(!window.kakao.maps.services){
@@ -32,7 +31,7 @@ export const fetchNearByShops = (radius: number, newBound?: Bound | null): Promi
         )
         }
 
-        const boundResponse = (res: any, status: any, currentCenter: Coords) => {
+        const boundResponse = (res: kakao.maps.services.PlacesSearchResult, status: kakao.maps.services.Status, currentCenter: Coords) => {
             if(status === window.kakao.maps.services.Status.OK){
                 resolve({ center: currentCenter, places: res as KakaoPlace[]})
             }else if(status === window.kakao.maps.services.Status.ZERO_RESULT){
