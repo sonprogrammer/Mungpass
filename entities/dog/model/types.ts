@@ -9,7 +9,7 @@ export interface Dog{
 }
 
 export interface DogCardProps{
-    dog: Dog | null;
+    dog: Dog[] | null;
     onEdit: () => void;
 }
 

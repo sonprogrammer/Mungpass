@@ -22,6 +22,7 @@ export function DogCard({ dog, onEdit }: DogCardProps) {
                 >
                     등록
                 </button>
+            
             </div>
         )
     }
@@ -31,8 +32,9 @@ export function DogCard({ dog, onEdit }: DogCardProps) {
             <div className="flex items-center gap-4">
                 <div className="w-16 h-16 rounded-full overflow-hidden bg-orange-50">
                     <Image
-                        src={dog.imageUrl || "/dog-default.png"}
-                        alt={dog.name}
+                    // TODO 임시데이터로 해논거라 바꿔나야함, 이건 애견이 여러마리일수도 있어서 배열로 둠
+                        src={dog[0].imageUrl || "/dog-default.png"}
+                        alt={dog[0].name}
                         width={64}
                         height={64}
                     />

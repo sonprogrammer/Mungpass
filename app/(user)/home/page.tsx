@@ -25,6 +25,7 @@ export default function HomePage() {
       <main className="p-6 space-y-6 ">
         {/* //*GreetMsg부분 */}
         <GreetMessage userData={profile} myDog={dog} />
+        
 
         {/* //* 쿠폰 --> 나중에 확장시 */}
         {/* <MembershipCard userData={userData} /> */}

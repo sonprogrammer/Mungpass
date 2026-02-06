@@ -1,3 +1,4 @@
+'use client'
 
 import { Box, Stack, Skeleton } from "@mui/material";
 

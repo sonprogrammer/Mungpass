@@ -1,3 +1,4 @@
+import { BackBtn } from "@/shared/ui/BackBtn";
 import { MenuPageListCard } from "@/widgets/home-menu/ui/MenuPageListCard";
 import { PawPrint, Store } from "lucide-react";
 
@@ -44,9 +45,12 @@ export default function HistoryPage() {
 
 
     return (
-        <main className="h-full bg-[#FFFBEB] flex flex-col">
+        <main className="h-full bg-[#FFFBEB] flex flex-col relative">
 
-            <header className=" p-6 w-full max-w-120 mx-auto shrink-0">
+            <div className="flex justify-start mt-2">
+                <BackBtn />
+            </div>
+            <header className=" px-6 w-full max-w-120 mx-auto shrink-0">
                 <h1 className="text-2xl font-extrabold text-slate-800">
                     멍패스 기록
                 </h1>

@@ -11,6 +11,10 @@ export interface UserProfile{
     join_date: string;
 }
 
+export interface ProfileCardProps{
+    user: UserProfile | null
+}
+
 export interface UserState {
     profile: UserProfile | null;
     isLoading: boolean;
