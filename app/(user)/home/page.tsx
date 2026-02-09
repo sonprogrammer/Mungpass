@@ -2,6 +2,7 @@
 
 import { useDogStore } from "@/entities/dog/model/types";
 import { useUserStore } from "@/entities/user/model/useUserStore";
+import { DogRegisterModal } from "@/features/dog/ui/DogRegisterModal";
 import { MyDogWidget } from "@/widgets/home/dog/ui/MyDogWidget";
 import { GreetMessage, QrCheckIn, Menu, NearByPlace } from "@/widgets/home/ui";
 import { HomeSkeleton } from "@/widgets/home/ui/HomeSkeleton";
@@ -31,6 +32,12 @@ export default function HomePage() {
         {/* <MembershipCard userData={userData} /> */}
 
         <MyDogWidget />
+
+        {/* //*지우기  */}
+        <DogRegisterModal
+        isOpen={true} 
+        // onClose={() => setIsRegOpen(false)} 
+      />
 
         {/* //*QR  */}
         <QrCheckIn />

@@ -15,14 +15,14 @@ export default function MyPetsPage() {
                 <h1 className="text-2xl font-extrabold text-slate-800">우리 아이 관리</h1>
 
             </header>
-          
+
             {dogs.length === 0 && (
                 <div>
                     <div className="flex flex-col items-center justify-center w-24 h-24 rounded-full bg-orange-300 hover:bg-orange-500 border-2 border-dashed border-orange-400 hover:border-orange-500 transition-all duration-200 group">
 
-  <span className="text-2xl text-orange-500 group-hover:text-orange-600 font-bold">+</span>
-  <span className="text-[10px] text-orange-400 group-hover:text-orange-500 mt-1">등록하기</span>
-</div>
+                        <span className="text-2xl text-orange-500 group-hover:text-orange-600 font-bold">+</span>
+                        <span className="text-[10px] text-orange-400 group-hover:text-orange-500 mt-1">등록하기</span>
+                    </div>
                 </div>
             )}
 
@@ -30,7 +30,7 @@ export default function MyPetsPage() {
                 {dogs.map(dog => (
                     <div key={dog.id} className="bg-white rounded-3xl p-6 shadow-sm border border-orange-50">
 
-                        <DogCard dog={dog} onEdit={() => router.push(`/pet-edit/${dog.id}`)} />
+                        {/* <DogCard dog={dog} onEdit={() => router.push(`/pet-edit/${dog.id}`)} /> */}
 
 
                         <div className="mt-4 pt-4 border-t border-dashed border-slate-100">

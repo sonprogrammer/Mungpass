@@ -42,10 +42,10 @@ export function DogCard({ dog, onEdit }: DogCardProps) {
 
                 <div>
                     <p className="text-lg font-black text-slate-800">
-                        {dog.name}
+                        {dog[0].name}
                     </p>
                     <p className="text-sm text-slate-500">
-                        몸무게 {dog.weight}kg
+                        몸무게 {dog[0].weight}kg
                     </p>
                 </div>
             </div>

@@ -29,8 +29,8 @@ export default function Header() {
             className="relative text-slate-400 p-2 hover:bg-orange-50 hover:text-orange-500 rounded-full transition-all cursor-pointer"
           >
             <Bell className="w-5 h-5" />
-            {/* //* 알림 배지 */}
-            <span className="absolute top-1.5 right-1.5 w-2 h-2 bg-red-500 rounded-full border-2 border-white"></span>
+            {/* //* 알림 배지 알림 있으면 주황점 있고 없으면 없게 */}
+            <span className="absolute top-1 right-1.5 w-3 h-3 bg-red-500 rounded-full animate-pulse border-2 border-white"></span>
           </button>
         </div>
       </header>
