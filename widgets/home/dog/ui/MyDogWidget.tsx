@@ -10,28 +10,20 @@ import 'swiper/css/pagination';
 import { useRouter } from "next/navigation"
 import { useUserStore } from "@/entities/user/model/useUserStore"
 import { useGetMyDogs } from "@/features/dog/model/useGetMyDogs"
-import { DogDetailModal } from "@/features/dog/ui/DogDetailModal/DogDetailModal";
 import { MyDogWidgetProps } from "@/widgets/home/model/types";
 
 
 export function MyDogWidget({dogPostModal, dogViewModal}:MyDogWidgetProps) {
     const router = useRouter()
     const profile = useUserStore(state => state.profile)
-    const setDogs = useDogStore(state => state.setDogs)
     const setSelectedDog = useDogStore(state => state.setSelectedDog)
 
     const { data: dogs, isPending} = useGetMyDogs(profile?.id)
 
 
-  useEffect(() => {
-    if(dogs && dogs.length > 0){
-        setDogs(dogs)
-    }
-  },[dogs, setDogs])
-
     const handleEdit = () => {
         //* 애견을 등록한게 있으면 마이펫페이지로 이동(수정, 확인 가능), 등록한적이 없으면 모달
-        if(dogs){
+        if(dogs && dogs.length > 0){
             router.push('/my-pets')
         }else{
             dogPostModal()

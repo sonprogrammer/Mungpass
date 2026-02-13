@@ -11,6 +11,8 @@ import { useDogStore } from "@/entities/dog/model/types";
 import { DogFormModal } from "@/features/dog/ui/DogFormModal";
 import { DogDetailModal } from "@/widgets/dog/ui/DogDetailModal";
 
+import { useDeleteDog } from "@/features/dog/model/useDeleteDog";
+
 
 export default function MyPetsPage() {
     const profile = useUserStore(state => state.profile)
@@ -21,6 +23,21 @@ export default function MyPetsPage() {
     const [isEdit, setIsEdit] = useState<boolean>(false)
     const [dogPostModalOpen, setDogPostModalOpen] = useState<boolean>(false)
     const [dogViewModalOpen, setDogViewModalOpen] = useState<boolean>(false)
+
+    const { mutate: deleteMutate} = useDeleteDog()
+
+    const handleDelete = () => {
+        if(!profile || !dogs || !selectedDog) return null
+
+        deleteMutate({
+            dogId: selectedDog.id,
+            userId: profile.id
+        })
+    }
+
+    const handleEdit = () => {
+        setDogViewModalOpen(true)
+    }
 
     return (
         <main className="h-screen bg-[#FFFAF0] p-6 pb-24">
@@ -64,12 +81,17 @@ export default function MyPetsPage() {
                                         animate={{ opacity: 1, scale: 1 }}
                                         exit={{ opacity: 0, scale: 0.8 }}
                                         className="absolute inset-0 bg-black/10 backdrop-blur-[2px] rounded-2xl flex items-center justify-center gap-5 z-10"
+                                        onClick={(e) => e.stopPropagation()}
                                     >
                                         {/* //TODO 클릭시 수정 / 삭제 로직 추가  */}
-                                        <button className="w-12 h-12 bg-slate-500 text-white rounded-full shadow-lg hover:bg-red-600 transition-colors flex items-center justify-center">
+                                        <button 
+                                            onClick={()=> {handleEdit(); console.log('hi')}}
+                                            className="w-12 h-12 bg-slate-500 text-white rounded-full shadow-lg hover:bg-red-600 transition-colors flex items-center justify-center">
                                             <Pencil className="w-6 h-6" />
                                         </button>
-                                        <button className="w-12 h-12 bg-red-500 text-white rounded-full shadow-lg hover:bg-red-600 transition-colors flex items-center justify-center">
+                                        <button 
+                                            onClick={handleDelete}
+                                            className="w-12 h-12 bg-red-500 text-white rounded-full shadow-lg hover:bg-red-600 transition-colors flex items-center justify-center">
                                             <Trash2 className="w-6 h-6" />
                                         </button>
                                     </motion.div>
@@ -83,7 +105,7 @@ export default function MyPetsPage() {
                     <motion.button
                         whileHover={{ scale: 1.02 }}
                         whileTap={{ scale: 0.98 }}
-                        className="aspect-square flex flex-col items-center justify-center gap-3 border-2 border-dashed border-orange-100 rounded-[2.5rem] bg-orange-50/30 text-orange-300 hover:bg-orange-50 hover:border-orange-200 transition-all group"
+                        className=" h-full flex flex-col items-center justify-center gap-3 border-2 border-dashed border-orange-100 rounded-[2.5rem] bg-orange-50/30 text-orange-300 hover:bg-orange-50 hover:border-orange-200 transition-all group"
                         onClick={() => setDogPostModalOpen(true)}
                     >
                         <div className="p-3 bg-white rounded-2xl shadow-sm group-hover:shadow-md transition-all">
@@ -121,6 +143,7 @@ export default function MyPetsPage() {
                 isOpen={dogViewModalOpen}
                 onClose={() => setDogViewModalOpen(false)}
                 dog={selectedDog}
+                directEditMode={true}
             />
         </main>
     )

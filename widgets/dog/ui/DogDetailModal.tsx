@@ -8,19 +8,29 @@ import { useUpdateMyDogs } from "@/features/dog/model/useUpdateMyDogs"
 import { DogFormFields } from "@/features/dog/ui/DogFormFields"
 import dayjs from "dayjs"
 import { Ellipsis, X } from "lucide-react"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { getDogAge } from "@/entities/dog/lib/getDogAge"
+import { useDeleteDog } from "@/features/dog/model/useDeleteDog"
 
-export function DogDetailModal({ dog, isOpen, onClose }: DogDetailModalProps) {
+export function DogDetailModal({ dog, isOpen, onClose, directEditMode }: DogDetailModalProps) {
     const [isEdit, setIsEdit] = useState<boolean>(false)
+    const [isDropdownOpen, setIsDropdownOpen] = useState<boolean>(false)
     const setSelectedDog = useDogStore(state => state.setSelectedDog)
     const profile = useUserStore(state => state.profile)
     console.log('profile', profile)
 
     const { imagePreview, imageFile, fileInputRef, handleImageChange } = useImageUpload(dog?.image_url)
     const { mutate: updatedMutate } = useUpdateMyDogs()
+    const { mutate: deleteMutate} = useDeleteDog()
 
+    const [prevOpen, setPrevOpen] = useState(isOpen)
 
+    if (isOpen !== prevOpen) {
+        setPrevOpen(isOpen);
+        if (isOpen) {
+            setIsEdit(!!directEditMode); 
+        }
+    }
 
     console.log('detailmodal', dog)
     if (!isOpen) return null
@@ -41,12 +51,23 @@ export function DogDetailModal({ dog, isOpen, onClose }: DogDetailModalProps) {
             }, userId: profile?.id
         })
 
-        if(imagePreview){
+        if (imagePreview) {
             setSelectedDog({
                 ...dog,
                 image_url: imagePreview
             })
         }
+    }
+
+    const handleDelete = () => {
+        if(!dog || !profile) return null
+
+        deleteMutate({
+            dogId: dog.id,
+            userId: profile.id
+        })
+        onClose()
+        setIsDropdownOpen(false)
     }
 
     return (
@@ -67,10 +88,39 @@ export function DogDetailModal({ dog, isOpen, onClose }: DogDetailModalProps) {
                             취소
                         </button>
                     ) : (
-                        <button onClick={() => setIsEdit(true)} className="p-2 hover:bg-orange-50 rounded-full text-slate-400">
-                            {/* TODO 클릭시 삭제 혹은 수정 드롭다운 */}
-                            <Ellipsis className="w-6 h-6" />
-                        </button>
+                        <div className="relative">
+
+                            <button onClick={() => setIsDropdownOpen(!isDropdownOpen)}
+                                className={`p-2 hover:bg-orange-50 rounded-full text-slate-400 ${isDropdownOpen ? 'bg-orange-100 text-orange-500' : 'hover:bg-orange-50 text-slate-400'}`}
+                            >
+                                <Ellipsis className="w-6 h-6" />
+                            </button>
+
+                            {isDropdownOpen && (
+                                <>
+                                    <div className="fixed inset-0 z-10" onClick={() => setIsDropdownOpen(false)} />
+                                        <div className="absolute right-0 mt-1 w-32 bg-white rounded-2xl shadow-xl border border-slate-100 py-2 z-20 animate-in fade-in zoom-in duration-150 origin-top-right">
+                                            <button
+                                                onClick={() => {
+                                                    setIsEdit(true);
+                                                    setIsDropdownOpen(false);
+                                                }}
+                                                className="w-full px-4 py-2 text-left text-sm font-bold text-slate-600 hover:bg-orange-50 hover:text-orange-500 transition-colors"
+                                            >
+                                                수정
+                                            </button>
+                                            <button
+                                                onClick={() => {
+                                                    handleDelete()
+                                                }}
+                                                className="w-full px-4 py-2 text-left text-sm font-bold text-red-500 hover:bg-red-50 transition-colors"
+                                            >
+                                                삭제하기
+                                            </button>
+                                        </div>
+                                </>
+                            )}
+                        </div>
                     )}
                 </div>
 
@@ -97,11 +147,11 @@ export function DogDetailModal({ dog, isOpen, onClose }: DogDetailModalProps) {
                             onImageChange={(e) => {
                                 handleImageChange(e)
                                 const file = e.target.files?.[0]
-                                if(file){
+                                if (file) {
                                     const reader = new FileReader()
                                     reader.onload = () => {
                                         const preiviewUrl = reader.result as string
-                                        setSelectedDog({...dog, image_url: preiviewUrl})
+                                        setSelectedDog({ ...dog, image_url: preiviewUrl })
                                     }
                                 }
                             }}

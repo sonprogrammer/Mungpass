@@ -35,6 +35,7 @@ export interface DogDetailModalProps{
     dog: Dog | null;
     isOpen: boolean;
     onClose: () => void;
+    directEditMode?: boolean
 }
 
 export interface DogFormFieldsProps{
