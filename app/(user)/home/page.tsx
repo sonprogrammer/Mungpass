@@ -17,7 +17,6 @@ import { useState } from "react";
 export default function HomePage() {
   const { profile, isLoading } = useUserStore()
   const { data: dogs } = useGetMyDogs(profile?.id)
-  const selectedDog = useDogStore(state => state.selectedDog)
   // console.log('dafasd', dogs)
 
   const [dogPostModalOpen, setDogPostModalOpen] = useState<boolean>(false)
@@ -62,7 +61,6 @@ export default function HomePage() {
       <DogDetailModal 
         isOpen={dogViewModalOpen}
         onClose={() => setDogViewModalOpen(false)} 
-        dog={selectedDog}
       />
 
     </div>

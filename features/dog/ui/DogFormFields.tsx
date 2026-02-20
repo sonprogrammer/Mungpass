@@ -63,7 +63,7 @@ export function DogFormFields({ formData, setFormData, imagePreview, onImageChan
                     type="number"
                     className="w-full p-4 rounded-2xl bg-slate-50 border-none outline-none"
                     value={formData.weight}
-                    onChange={(e) => setFormData({ ...formData, weight: e.target.value })}
+                    onChange={(e) => setFormData({ ...formData, weight: Number(e.target.value) })}
                 />
             </div>
 

@@ -17,7 +17,7 @@ export function useImageUpload(initialImage: string | null = null){
     }
 
     const resetImage = () => {
-        setImagePreview(initialImage)
+        setImagePreview(null)
         setImageFile(null)
     }
 

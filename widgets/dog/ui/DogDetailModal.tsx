@@ -3,7 +3,7 @@
 import { useDogStore } from "@/entities/dog/model/types"
 import { useUserStore } from "@/entities/user/model/useUserStore"
 import { useImageUpload } from "@/features/dog/lib/useImageUpload"
-import { DogDetailModalProps } from "@/features/dog/model/types"
+import { DogDetailModalProps, DogRegisterForm } from "@/features/dog/model/types"
 import { useUpdateMyDogs } from "@/features/dog/model/useUpdateMyDogs"
 import { DogFormFields } from "@/features/dog/ui/DogFormFields"
 import dayjs from "dayjs"
@@ -11,56 +11,73 @@ import { Ellipsis, X } from "lucide-react"
 import { useEffect, useState } from "react"
 import { getDogAge } from "@/entities/dog/lib/getDogAge"
 import { useDeleteDog } from "@/features/dog/model/useDeleteDog"
+import { useRegisterPrimaryDog } from "@/features/dog/model/useRegisterPrimaryDog"
+import { useGetMyDogs } from "@/features/dog/model/useGetMyDogs"
 
-export function DogDetailModal({ dog, isOpen, onClose, directEditMode }: DogDetailModalProps) {
+export function DogDetailModal({ isOpen, onClose, directEditMode }: DogDetailModalProps) {
     const [isEdit, setIsEdit] = useState<boolean>(false)
     const [isDropdownOpen, setIsDropdownOpen] = useState<boolean>(false)
+    const [localFormData, setLocalFormData] = useState<DogRegisterForm | null>(null)
+
+
     const setSelectedDog = useDogStore(state => state.setSelectedDog)
     const profile = useUserStore(state => state.profile)
-    console.log('profile', profile)
 
-    const { imagePreview, imageFile, fileInputRef, handleImageChange } = useImageUpload(dog?.image_url)
+    const selectedDog = useDogStore(state => state.selectedDog)
+    const { data : dogs} = useGetMyDogs(profile?.id)
+    const dog = dogs?.find(dog => dog.id === selectedDog?.id)
+
+    const { imagePreview, imageFile, fileInputRef, handleImageChange, resetImage } = useImageUpload(dog?.image_url)
     const { mutate: updatedMutate } = useUpdateMyDogs()
-    const { mutate: deleteMutate} = useDeleteDog()
+    const { mutate: deleteMutate } = useDeleteDog()
+    const { mutate: primaryMutate } = useRegisterPrimaryDog(profile?.id || '')
 
-    const [prevOpen, setPrevOpen] = useState(isOpen)
 
-    if (isOpen !== prevOpen) {
-        setPrevOpen(isOpen);
-        if (isOpen) {
-            setIsEdit(!!directEditMode); 
+    useEffect(() => {
+        if(isOpen && dog){
+            setIsEdit(!!directEditMode)
+
+            resetImage()
+            setLocalFormData({
+                name: dog.name,
+                breed: dog.breed,
+                weight: dog.weight,
+                description: dog.description || "",
+                birth_date: dog.birth_date,
+                image_url: dog.image_url
+            })
         }
-    }
-
-    console.log('detailmodal', dog)
-    if (!isOpen) return null
+    },[isOpen,dog, directEditMode])
+    
+     console.log('local', localFormData)
+    if (!isOpen || !localFormData) return null
 
     const handleEdit = () => {
+        if (!dog?.id || !profile?.id) return
         setIsEdit(false)
         if (!dog?.id || !profile?.id || !dog) {
             alert("데이터를 불러오는 중입니다.");
             return;
         }
+        console.log('localformdata', localFormData)
         updatedMutate({
             dogId: dog?.id, imageFile, formData: {
-                name: dog?.name,
-                breed: dog?.breed,
-                weight: dog?.weight,
-                description: dog?.description,
-                birth_date: dog?.birth_date,
-            }, userId: profile?.id
+                ...localFormData, 
+                image_url: (imageFile ? imagePreview : dog.image_url) ?? undefined
+            },
+             userId: profile?.id
         })
 
-        if (imagePreview) {
-            setSelectedDog({
-                ...dog,
-                image_url: imagePreview
-            })
-        }
+        // if (imagePreview) {
+        //     setSelectedDog({
+        //         ...dog,
+        //         image_url: imagePreview
+        //     })
+        // }
     }
 
     const handleDelete = () => {
-        if(!dog || !profile) return null
+        if (!dog || !profile) return null
 
         deleteMutate({
             dogId: dog.id,
@@ -68,6 +85,11 @@ export function DogDetailModal({ dog, isOpen, onClose, directEditMode }: DogDeta
         })
         onClose()
         setIsDropdownOpen(false)
+    }
+
+    const hanldePrimary = () => {
+        if (!dog?.id || !profile?.id) return
+        primaryMutate({ dogId: dog.id, userId: profile.id, currentPrimary: !!dog.is_primary })
     }
 
     return (
@@ -99,25 +121,25 @@ export function DogDetailModal({ dog, isOpen, onClose, directEditMode }: DogDeta
                             {isDropdownOpen && (
                                 <>
                                     <div className="fixed inset-0 z-10" onClick={() => setIsDropdownOpen(false)} />
-                                        <div className="absolute right-0 mt-1 w-32 bg-white rounded-2xl shadow-xl border border-slate-100 py-2 z-20 animate-in fade-in zoom-in duration-150 origin-top-right">
-                                            <button
-                                                onClick={() => {
-                                                    setIsEdit(true);
-                                                    setIsDropdownOpen(false);
-                                                }}
-                                                className="w-full px-4 py-2 text-left text-sm font-bold text-slate-600 hover:bg-orange-50 hover:text-orange-500 transition-colors"
-                                            >
-                                                수정
-                                            </button>
-                                            <button
-                                                onClick={() => {
-                                                    handleDelete()
-                                                }}
-                                                className="w-full px-4 py-2 text-left text-sm font-bold text-red-500 hover:bg-red-50 transition-colors"
-                                            >
-                                                삭제하기
-                                            </button>
-                                        </div>
+                                    <div className="absolute right-0 mt-1 w-32 bg-white rounded-2xl shadow-xl border border-slate-100 py-2 z-20 animate-in fade-in zoom-in duration-150 origin-top-right">
+                                        <button
+                                            onClick={() => {
+                                                setIsEdit(true);
+                                                setIsDropdownOpen(false);
+                                            }}
+                                            className="w-full px-4 py-2 text-left text-sm font-bold text-slate-600 hover:bg-orange-50 hover:text-orange-500 transition-colors"
+                                        >
+                                            수정
+                                        </button>
+                                        <button
+                                            onClick={() => {
+                                                handleDelete()
+                                            }}
+                                            className="w-full px-4 py-2 text-left text-sm font-bold text-red-500 hover:bg-red-50 transition-colors"
+                                        >
+                                            삭제하기
+                                        </button>
+                                    </div>
                                 </>
                             )}
                         </div>
@@ -126,35 +148,19 @@ export function DogDetailModal({ dog, isOpen, onClose, directEditMode }: DogDeta
 
                 <div className="p-8 pt-0 space-y-6 max-h-[70vh] overflow-y-auto">
 
-                    {isEdit && dog ? (
+                    {isEdit && localFormData && dog ? (
                         <DogFormFields
-                            formData={{
-                                name: dog.name,
-                                breed: dog.breed,
-                                weight: dog.weight,
-                                birth_date: dog.birth_date,
-                                description: dog.description,
-                                image_url: dog.image_url
-                            }}
-                            setFormData={(newData) => {
-                                setSelectedDog({
-                                    ...dog,
-                                    ...newData,
-                                    weight: isNaN(Number(newData.weight)) ? dog.weight : Number(newData.weight)
-                                });
-                            }}
+                            formData={localFormData}
+                            setFormData={setLocalFormData}
+                            // setFormData={(newData) => {
+                            //     setSelectedDog({
+                            //         ...dog,
+                            //         ...newData,
+                            //         weight: isNaN(Number(newData.weight)) ? dog.weight : Number(newData.weight)
+                            //     });
+                            // }}
                             imagePreview={imagePreview}
-                            onImageChange={(e) => {
-                                handleImageChange(e)
-                                const file = e.target.files?.[0]
-                                if (file) {
-                                    const reader = new FileReader()
-                                    reader.onload = () => {
-                                        const preiviewUrl = reader.result as string
-                                        setSelectedDog({ ...dog, image_url: preiviewUrl })
-                                    }
-                                }
-                            }}
+                            onImageChange={handleImageChange}
                             // onImageChange={handleImageChange}
                             fileInputRef={fileInputRef}
                         />
@@ -179,7 +185,23 @@ export function DogDetailModal({ dog, isOpen, onClose, directEditMode }: DogDeta
                                                 </span>
                                             )}
                                         </div>
-                                        <p className="text-xs font-bold text-slate-400 ml-0.5 uppercase tracking-wider">Pet Profile</p>
+                                        {!isEdit && (
+                                            <div className="flex items-center gap-2 bg-slate-50 px-3 py-1.5 rounded-full border border-slate-100">
+                                                <span className={`text-[10px] font-black ${dog?.is_primary ? 'text-orange-500' : 'text-slate-400'}`}>
+                                                    대표 애완견
+                                                </span>
+                                                <button
+                                                    onClick={hanldePrimary}
+                                                    className={`relative w-8 h-4 rounded-full transition-colors duration-200 
+                                                                ${dog?.is_primary ? 'bg-orange-500' : 'bg-slate-200'
+                                                                }`}
+                                                >
+                                                    <div className={`absolute top-0.5 left-0.5 bg-white w-3 h-3 rounded-full transition-transform 
+                                                                    duration-200 ${dog?.is_primary ? 'translate-x-4' : ''
+                                                        }`} />
+                                                </button>
+                                            </div>
+                                        )}
                                     </div>
                                 </div>
 

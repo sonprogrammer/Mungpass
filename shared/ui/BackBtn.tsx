@@ -7,12 +7,10 @@ export function BackBtn() {
     const router = useRouter()
     
     return(
-        <button
-            onClick={() => router.back()}
-            className={`cursor-pointer p-2 ml-2 bg-amber-600 hover:bg-red-300 rounded-full  flex items-center justify-center `}
-        >
-            <ChevronLeft className="w-8 h-8 "/>
-            
-        </button>
+        <button onClick={() => router.back()}
+                    className="p-3 bg-white rounded-2xl shadow-sm hover:shadow-md acitve: scale-95 transition-all -ml-2 cursor-pointer"
+                >
+                    <ChevronLeft className="w-6 h-6 text-slate-600" />
+                </button>
     )
 }

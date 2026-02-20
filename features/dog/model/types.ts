@@ -16,7 +16,7 @@ export interface DogFormModalProps{
 export interface DogRegisterForm{
     name: string;
     breed: string;
-    weight: string | number;
+    weight:  number;
     description: string;
     birth_date: string;
     image_url?: string;
@@ -32,7 +32,6 @@ export interface DogRegisterToSever{
 }
 
 export interface DogDetailModalProps{
-    dog: Dog | null;
     isOpen: boolean;
     onClose: () => void;
     directEditMode?: boolean

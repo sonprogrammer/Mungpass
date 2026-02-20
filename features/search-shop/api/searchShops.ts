@@ -2,6 +2,10 @@ import { KakaoPlace } from "@/shared/model/map";
 
 export const searchShops = (keyword: string): Promise<KakaoPlace[]> => {
     return new Promise((resolve, reject) => {
+        if (typeof window === "undefined") {
+            return reject(new Error("window is undefined (SSR)"))
+          }
+
         if(!window.kakao.maps.services){
             return reject(new Error('kakao map is not loadiong'))
         }

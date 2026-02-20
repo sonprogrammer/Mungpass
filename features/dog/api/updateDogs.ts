@@ -7,7 +7,7 @@ export async function updateDogs({ userId, dogId, formData,imageFile }: { userId
 
     if (!userId) throw new Error('login first')
 
-    let imageUrl = null
+    let imageUrl = formData.image_url
         
     if (imageFile) {
             const fileExt = imageFile.name.split('.').pop()
@@ -29,7 +29,7 @@ export async function updateDogs({ userId, dogId, formData,imageFile }: { userId
         weight: formData.weight,
         description: formData.description,
         birth_date: formData.birth_date,
-        image_url: imageUrl
+        image_url: imageUrl 
     }).eq('id', dogId).eq('owner_id', userId)
         .select()
 

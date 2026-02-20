@@ -21,16 +21,17 @@ export function MyDogWidget({dogPostModal, dogViewModal}:MyDogWidgetProps) {
     const { data: dogs, isPending} = useGetMyDogs(profile?.id)
 
 
-    const handleEdit = () => {
-        //* 애견을 등록한게 있으면 마이펫페이지로 이동(수정, 확인 가능), 등록한적이 없으면 모달
-        if(dogs && dogs.length > 0){
-            router.push('/my-pets')
-        }else{
-            dogPostModal()
+    //TODO handleEdit 이건 이제 필요가 없음, 우선 확인해보기 
+    // const handleEdit = () => {
+    //     //* 애견을 등록한게 있으면 마이펫페이지로 이동(수정, 확인 가능), 등록한적이 없으면 모달
+    //     if(dogs && dogs.length > 0){
+    //         router.push('/my-pets')
+    //     }else{
+    //         dogPostModal()
 
-        }
-        console.log('수정 버튼 클릭')
-    }
+    //     }
+    //     console.log('수정 버튼 클릭')
+    // }
 
     if (isPending) return <div className="h-24 animate-pulse bg-slate-100 rounded-[2.5rem]" />
     
@@ -47,7 +48,7 @@ export function MyDogWidget({dogPostModal, dogViewModal}:MyDogWidgetProps) {
                 </div>
 
                 <button
-                    onClick={handleEdit}
+                    onClick={dogPostModal}
                     className="px-4 py-2 rounded-full bg-orange-400 text-white text-sm font-semibold cursor-pointer"
                 >
                     등록
@@ -70,7 +71,7 @@ export function MyDogWidget({dogPostModal, dogViewModal}:MyDogWidgetProps) {
             
                 {dogs.map((dog) => (
                     <SwiperSlide key={dog.id} onClick={()=> {setSelectedDog(dog); dogViewModal()}}>
-                        <DogCard dog={dog}/>
+                        <DogCard dog={dog} />
                     </SwiperSlide>
                 ))}
 

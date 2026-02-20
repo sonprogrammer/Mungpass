@@ -6,10 +6,11 @@ export const useUpdateMyDogs = () => {
     const queryClient = useQueryClient()
 
     return useMutation({
-        mutationFn: ({userId, formData, dogId, imageFile}: {userId: string, formData: DogRegisterToSever, dogId: string, imageFile?: File |null}) => updateDogs({dogId, formData, userId, imageFile}),
+        mutationFn: updateDogs,
         onSuccess: (data,variables) => {
             queryClient.invalidateQueries({queryKey: ['my-dogs', variables.userId]})
             console.log('data form update hooks', data)
+            console.log('data form update hooks variabale', variables)
             alert('수정 성공')
         },
         onError: (err) => {

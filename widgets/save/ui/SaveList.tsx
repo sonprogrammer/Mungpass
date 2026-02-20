@@ -14,7 +14,7 @@ import { useState } from "react"
 export function SaveList() {
     const [selectedPlace, setSelectedPlace] = useState<KakaoPlace | null>(null)
     const { data: saveList, isPending } = useGetSaveList()
-
+    
 
     const handleMenuClick = (place: Favorites): KakaoPlace => {
         const placeData = {

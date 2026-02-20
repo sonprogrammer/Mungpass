@@ -7,7 +7,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { DogProfileCard } from "@/entities/dog/ui/DogProfileCard";
 import { useGetMyDogs } from "@/features/dog/model/useGetMyDogs";
 import { useUserStore } from "@/entities/user/model/useUserStore";
-import { useDogStore } from "@/entities/dog/model/types";
+import { Dog, useDogStore } from "@/entities/dog/model/types";
 import { DogFormModal } from "@/features/dog/ui/DogFormModal";
 import { DogDetailModal } from "@/widgets/dog/ui/DogDetailModal";
 
@@ -23,11 +23,15 @@ export default function MyPetsPage() {
     const [isEdit, setIsEdit] = useState<boolean>(false)
     const [dogPostModalOpen, setDogPostModalOpen] = useState<boolean>(false)
     const [dogViewModalOpen, setDogViewModalOpen] = useState<boolean>(false)
+    const [isDirectEdit, setIsDirectEdit] = useState<boolean>(false)
 
-    const { mutate: deleteMutate} = useDeleteDog()
+    const { mutate: deleteMutate } = useDeleteDog()
+
+    const primaryDogStatus = !!dogs?.find(dog => dog.is_primary)
+
 
     const handleDelete = () => {
-        if(!profile || !dogs || !selectedDog) return null
+        if (!profile || !dogs || !selectedDog) return null
 
         deleteMutate({
             dogId: selectedDog.id,
@@ -35,12 +39,20 @@ export default function MyPetsPage() {
         })
     }
 
-    const handleEdit = () => {
+    const handleViewDetail = (dog: Dog) => {
+        setSelectedDog(dog)
+        setIsDirectEdit(false)
+        setDogViewModalOpen(true)
+    }
+
+    const handleEdit = (dog: Dog) => {
+        setSelectedDog(dog)
+        setIsDirectEdit(true)
         setDogViewModalOpen(true)
     }
 
     return (
-        <main className="h-screen bg-[#FFFAF0] p-6 pb-24">
+        <main className="h-screen bg-[#FFFAF0] p-6 ">
             <header className="flex justify-between items-center mb-10">
                 <button onClick={() => router.back()}
                     className="p-3 bg-white rounded-2xl shadow-sm hover:shadow-md acitve: scale-95 transition-all -ml-2 cursor-pointer"
@@ -51,14 +63,20 @@ export default function MyPetsPage() {
 
                 <button
                     onClick={() => setIsEdit(!isEdit)}
-                    className={`p-3 rounded-2xl transition-all active:scale-95 cursor-pointer ${isEdit
-                        ? 'bg-orange-500 text-white shadow-lg shadow-orange-200'
-                        : 'bg-white text-slate-400 shadow-sm hover:text-slate-600'
+                    className={`p-3 rounded-2xl transition-all active:scale-95 cursor-pointer 
+                        ${isEdit ? 'bg-orange-500 text-white shadow-lg shadow-orange-200'
+                            : 'bg-white text-slate-400 shadow-sm hover:text-slate-600'
                         }`}
                 >
                     {isEdit ? <X className="w-5 h-5" /> : <Settings2 className="w-5 h-5" />}
                 </button>
             </header>
+            {!primaryDogStatus && dogs && dogs.length > 0 && (
+                <div className="mb-4 flex items-center justify-end gap-2 text-orange-400">
+                    <AlertCircle className="w-4 h-4" />
+                    <span className="text-xs font-bold tracking-tight">대표 강아지를 등록해 주세요</span>
+                </div>
+            )}
             <div className="grid grid-cols-2 gap-3">
                 <AnimatePresence mode="popLayout">
                     {dogs && dogs.map((dog, index) => (
@@ -69,7 +87,7 @@ export default function MyPetsPage() {
                             animate={{ opacity: 1, y: 0 }}
                             transition={{ delay: index * 0.1 }}
                             className="relative group"
-                            onClick={() => {setSelectedDog(dog); setDogViewModalOpen(true)}}
+                            onClick={() => handleViewDetail(dog)}
                         >
                             <DogProfileCard dog={dog} />
 
@@ -83,13 +101,12 @@ export default function MyPetsPage() {
                                         className="absolute inset-0 bg-black/10 backdrop-blur-[2px] rounded-2xl flex items-center justify-center gap-5 z-10"
                                         onClick={(e) => e.stopPropagation()}
                                     >
-                                        {/* //TODO 클릭시 수정 / 삭제 로직 추가  */}
-                                        <button 
-                                            onClick={()=> {handleEdit(); console.log('hi')}}
+                                        <button
+                                            onClick={() => { handleEdit(dog); console.log('hi') }}
                                             className="w-12 h-12 bg-slate-500 text-white rounded-full shadow-lg hover:bg-red-600 transition-colors flex items-center justify-center">
                                             <Pencil className="w-6 h-6" />
                                         </button>
-                                        <button 
+                                        <button
                                             onClick={handleDelete}
                                             className="w-12 h-12 bg-red-500 text-white rounded-full shadow-lg hover:bg-red-600 transition-colors flex items-center justify-center">
                                             <Trash2 className="w-6 h-6" />
@@ -105,7 +122,7 @@ export default function MyPetsPage() {
                     <motion.button
                         whileHover={{ scale: 1.02 }}
                         whileTap={{ scale: 0.98 }}
-                        className=" h-full flex flex-col items-center justify-center gap-3 border-2 border-dashed border-orange-100 rounded-[2.5rem] bg-orange-50/30 text-orange-300 hover:bg-orange-50 hover:border-orange-200 transition-all group"
+                        className=" aspect-4/5 flex flex-col items-center justify-center gap-3 border-2 border-dashed border-orange-100 rounded-[2.5rem] bg-white/50 text-orange-300 hover:bg-orange-50 hover:border-orange-200 transition-all group"
                         onClick={() => setDogPostModalOpen(true)}
                     >
                         <div className="p-3 bg-white rounded-2xl shadow-sm group-hover:shadow-md transition-all">
@@ -142,8 +159,7 @@ export default function MyPetsPage() {
             <DogDetailModal
                 isOpen={dogViewModalOpen}
                 onClose={() => setDogViewModalOpen(false)}
-                dog={selectedDog}
-                directEditMode={true}
+                directEditMode={isDirectEdit}
             />
         </main>
     )

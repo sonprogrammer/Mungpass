@@ -1,16 +1,18 @@
+// *마이도그위젯에서 나오는 카드
+
 import { getDogAge } from "@/entities/dog/lib/getDogAge"
 import { Dog } from "@/entities/dog/model/types"
 import dayjs from "dayjs"
 import { ChevronRight, ChessQueen } from "lucide-react"
 
 
-export function DogCard({ dog }: { dog: Dog }) {
+export function DogCard({ dog }: { dog: Dog}) {
 
 
 
     return (
 
-        <div className="bg-white rounded-[2.5rem] p-6 border border-orange-100 flex items-center justify-between" >
+        <div className="bg-white rounded-[2.5rem] p-6 border border-orange-100 flex items-center justify-between group hover:shadow-md" >
             <div className="flex items-center gap-4 relative" >
                 <div className=" w-16 h-16 rounded-full overflow-hidden bg-orange-50">
                     {/* //TODO 만약 대표 애견이면 왕관 나오게 */}
@@ -20,7 +22,6 @@ export function DogCard({ dog }: { dog: Dog }) {
                         </div>
                     }
                     <img
-                        // TODO 임시데이터로 해논거라 바꿔나야함, 이건 애견이 여러마리일수도 있어서 배열로 둠
                         src={dog.image_url || "/icon.png"}
                         alt={'강아지 프로필 사진'}
                         className="w-full h-full object-cover"
@@ -51,7 +52,7 @@ export function DogCard({ dog }: { dog: Dog }) {
             <button
                 className="p-2 cursor-pointer rounded-full hover:bg-orange-100 group bg-orange-50 transition-colors"
             >
-                <ChevronRight className="w-6 h-6 text-orange-400 group-hover:translate-x-0.5 transition-transform" />
+                <ChevronRight className="w-6 h-6 text-orange-400 group-hover:translate-x-1 transition-transform" />
             </button>
         </div>
     )

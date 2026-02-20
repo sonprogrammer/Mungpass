@@ -47,16 +47,16 @@ export default function HistoryPage() {
     return (
         <main className="h-full bg-[#FFFBEB] flex flex-col relative">
 
-            <div className="flex justify-start mt-2">
-                <BackBtn />
-            </div>
-            <header className=" px-6 w-full max-w-120 mx-auto shrink-0">
-                <h1 className="text-2xl font-extrabold text-slate-800">
-                    멍패스 기록
-                </h1>
-                <p className="text-sm text-slate-400 mt-1">
-                    우리 아이의 이용 내역이에요 🐾
-                </p>
+            <header className="relative p-6 w-full max-w-120 mx-auto shrink-0 flex items-center mt-2">
+                <div className="absolute left-6">
+                    <BackBtn />
+                </div>
+                <div className="flex flex-col w-full items-center">
+
+                    <h1 className="text-2xl font-extrabold text-slate-800">
+                        멍패스 기록
+                    </h1>
+                </div>
             </header>
 
             <div className="flex-1 min-h-0 overflow-y-auto w-full max-w-120 mx-auto">
