@@ -18,14 +18,16 @@ export function useAroundLogic(keyword: string, radius: number, newBound?: Bound
     const isSearching = !!keyword
 
     const isSearchEmpty = isSearching && (!searchData || searchData.length === 0)
+
     
     const displayShops = (isSearching ? searchData : nearByData?.places) ?? []
+    
     const displayCenter = (() => {
         if(newBound) return getCenterFromBound(newBound)
         if(isSearching && searchData?.[0]){
             return{lat: Number(searchData[0].y), lon: Number(searchData[0].x)}
         }
-        return nearByData?.center ?? { lat: 37.5665, lon: 126.9780 }
+        return nearByData?.center ?? { lat: 37.5665, lon: 126.9780 }//서울시청
     })()
 
     

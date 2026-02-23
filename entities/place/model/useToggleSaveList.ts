@@ -17,13 +17,6 @@ export const useToggleSaveList = () => {
             console.log('user', user)
             if (!user) throw new Error('you need to login first')
 
-            // const saveList = queryClient.getQueryData<Favorites[]>(['favorites']) || []
-            // console.log('saveList', saveList)
-
-            // //* 현재 보고 있는 상점이 저장되어있나 확인
-            // const isExist = saveList?.some(list => String(list.shop_id) === String(place.id))
-            // console.log('isExist', isExist)
-
             const { data: existing } = await supabase
                 .from('favorites')
                 .select('id')
@@ -45,17 +38,24 @@ export const useToggleSaveList = () => {
 
             const previousSave = queryClient.getQueryData<Favorites[]>(['favorites'])
 
-            queryClient.setQueryData(['favorites'], (old: Favorites[] = []) => {
+            queryClient.setQueryData<Favorites[]>(['favorites'], (old) => {
+                if(!old) return []
                 const isExist = old.some(list => list.shop_id === place.id)
                 if (isExist) {
                     return old.filter(list => list.shop_id !== place.id)
                 }
+
+                // * 낙관적 업데이트를위한 중요 데이터 제외, 임시데이터 삽입
                 return [...old, {
+                    id: Date.now().toString(),
+                    user_id: 'user',
                     shop_id: place.id,
                     shop_name: place.place_name,
                     category_name: place.category_name,
                     address: place.address_name,
-                    place_url: place.place_url
+                    place_url: place.place_url,
+                    phone: place.phone ?? null,
+                    created_at : new Date().toISOString()
                 }]
             })
             return { previousSave }

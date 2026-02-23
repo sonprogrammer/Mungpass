@@ -16,6 +16,7 @@ export const useGetSaveList = () => {
             console.log('user.auth', user)
             return saveApi.fetchSaveList(user.id)
         },
-        // staleTime: 1000 * 6 * 10
+        staleTime: 1000 * 60 * 10,
+        refetchOnWindowFocus: false
     })
 }

@@ -9,6 +9,7 @@ import dayjs from "dayjs";
 import "dayjs/locale/ko"; 
 import relativeTime from "dayjs/plugin/relativeTime";
 import isBetween from "dayjs/plugin/isBetween"; 
+import { Toaster} from 'react-hot-toast'
 
 
 dayjs.extend(relativeTime);
@@ -41,6 +42,7 @@ export default function LayoutContent({ children }: { children: React.ReactNode 
 
           <main className={`flex-1 bg-[#FFFBEB] overflow-y-auto `}>
             {children}
+            <Toaster position='top-center' reverseOrder={false} />
           </main>
 
           {!isAuthPage &&

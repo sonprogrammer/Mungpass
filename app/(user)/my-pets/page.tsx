@@ -37,6 +37,9 @@ export default function MyPetsPage() {
             dogId: selectedDog.id,
             userId: profile.id
         })
+        setSelectedDog(null)
+        setIsEdit(false)
+        // TODO alert주기
     }
 
     const handleViewDetail = (dog: Dog) => {
@@ -155,12 +158,15 @@ export default function MyPetsPage() {
                 onClose={() => setDogPostModalOpen(false)}
                 profile={profile}
             />
+            {dogViewModalOpen && selectedDog && (
 
-            <DogDetailModal
-                isOpen={dogViewModalOpen}
-                onClose={() => setDogViewModalOpen(false)}
-                directEditMode={isDirectEdit}
-            />
+                <DogDetailModal
+                    key={selectedDog.id}
+                    isOpen={dogViewModalOpen}
+                    onClose={() => setDogViewModalOpen(false)}
+                    directEditMode={isDirectEdit}
+                />
+            )}
         </main>
     )
 }

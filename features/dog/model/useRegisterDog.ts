@@ -1,5 +1,5 @@
 import { DogRegisterToSever } from './types';
-import { registerDog } from "@/features/dog/api/registerDog";
+import { registerDog } from "@/entities/dog/api/registerDog";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 export const useRegisterDog = () => {

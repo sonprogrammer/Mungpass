@@ -6,6 +6,8 @@ import { CustomOverlayMap, Map, MapMarker } from 'react-kakao-maps-sdk';
 
 
 export default function KakaoMap({ center, places, onMarkerClick, onBoundChange }: MapProps) {
+
+  console.log('ccccccc', center)
   
   
   
@@ -22,8 +24,7 @@ export default function KakaoMap({ center, places, onMarkerClick, onBoundChange 
             const currentBound = map.getBounds()
             const sw = currentBound.getSouthWest()
             const ne = currentBound.getNorthEast()
-            
-            console.log('currencetner', currentBound.getSouthWest())
+          
             onBoundChange({
                 sw: { lat: sw.getLat(), lon: sw.getLng()},
                 ne: { lat: ne.getLat(), lon: ne.getLng()}
@@ -41,7 +42,6 @@ export default function KakaoMap({ center, places, onMarkerClick, onBoundChange 
               position={{ lat: Number(place.y), lng: Number(place.x) }}
               onClick={() => onMarkerClick(place)}
               image={{
-                // src: "https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/markerStar.png",
                 src: '/dog.png',
                 size: { width: 30, height: 30 }
               }}

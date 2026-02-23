@@ -22,6 +22,9 @@ export default function HomePage() {
   const [dogPostModalOpen, setDogPostModalOpen] = useState<boolean>(false)
   const [dogViewModalOpen, setDogViewModalOpen] = useState<boolean>(false)
 
+  const selectedDog = useDogStore(state => state.selectedDog)
+
+
   if (isLoading) return <HomeSkeleton />;
   // const userData = { name: "홍길동", myCoupons: 2, visitCount: 12 };
   // const myDog = { name: "초코", status: "집에서 쉬는 중" };
@@ -38,7 +41,7 @@ export default function HomePage() {
         {/* //* 쿠폰 --> 나중에 확장시 */}
         {/* <MembershipCard userData={userData} /> */}
 
-        <MyDogWidget dogPostModal={() => setDogPostModalOpen(true)} dogViewModal={() => setDogViewModalOpen(true)}/>
+        <MyDogWidget dogPostModal={() => setDogPostModalOpen(true)} dogViewModal={() => setDogViewModalOpen(true)} />
 
 
 
@@ -58,10 +61,14 @@ export default function HomePage() {
         profile={profile}
       />
 
-      <DogDetailModal 
-        isOpen={dogViewModalOpen}
-        onClose={() => setDogViewModalOpen(false)} 
-      />
+      {dogViewModalOpen && selectedDog && (
+
+        <DogDetailModal
+          key={selectedDog?.id}
+          isOpen={dogViewModalOpen}
+          onClose={() => setDogViewModalOpen(false)}
+        />
+      )}
 
     </div>
   );

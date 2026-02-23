@@ -8,6 +8,7 @@ export function useSearchShops(keyword: string){
         queryKey: ['searchShops', keyword],
         queryFn: () => searchShops(keyword),
         enabled: !!keyword && keyword !== '애견 카페',
-        staleTime: 1000 * 60 * 10
+        staleTime: 1000 * 60 * 10,
+        gcTime: 1000 * 60 * 15
     })
 }

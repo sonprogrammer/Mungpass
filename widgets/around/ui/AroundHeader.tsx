@@ -20,13 +20,13 @@ export function AroundHeader({ radius, setRadius, searchValue, setSearchValue, s
 
 
     return (
-        <section className="p-6 bg-white rounded-b-[3rem] shadow-sm space-y-4 sticky top-0 z-30">
+        <section className="p-6 bg-white rounded-b-[3rem] shadow-sm space-y-4 sticky top-0 z-50">
             <div className="flex justify-between items-center">
                 <div>
                     <h2 className="text-2xl font-black text-slate-900">어디로 갈까요?</h2>
                     <p className="text-orange-500 text-sm font-bold">내 주변 멍패스 샵 🐾</p>
                 </div>
-                <button onClick={toggle} className={`p-3 rounded-2xl transition-all flex items-center gap-2 font-black text-xs ${showMap ? 'bg-orange-500 text-white shadow-lg' : 'bg-orange-50 text-orange-500'}`}>
+                <button onClick={toggle} className={`cursor-pointer p-3 rounded-2xl transition-all flex items-center gap-2 font-black text-xs ${showMap ? 'bg-orange-500 text-white shadow-lg' : 'bg-orange-50 text-orange-500'}`}>
                     {showMap ? <X className="w-4 h-4" />
                         :
                         <MapIcon className="w-4 h-4" />}

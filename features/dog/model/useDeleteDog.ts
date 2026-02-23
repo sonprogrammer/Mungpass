@@ -1,5 +1,5 @@
 import { useDogStore } from "@/entities/dog/model/types";
-import { deleteDog } from "@/features/dog/api/deleteDog";
+import { deleteDog } from "@/entities/dog/api/deleteDog";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 export const useDeleteDog = () => {

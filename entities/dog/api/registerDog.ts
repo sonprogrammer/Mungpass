@@ -1,4 +1,4 @@
-import { DogRegisterToSever } from './../model/types';
+import { DogRegisterToSever } from '../../../features/dog/model/types';
 import { supabaseClient } from "@/shared/api/supabase/client";
 
 export async function registerDog(formData: DogRegisterToSever, image: File | null, userId: string) {

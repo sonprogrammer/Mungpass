@@ -8,7 +8,7 @@ export function BottomSheet({ isOpen, onClose, children }: BottomSheetProps) {
         <>
             <div
                 onClick={onClose}
-                className={`fixed inset-0 bg-black/40 transition-opacity z-40 ${isOpen ? 'opacity-100' : 'opacity-0 pointer-events-none'}`}
+                className={`fixed inset-0 bg-black/40 transition-opacity z-100 ${isOpen ? 'opacity-100' : 'opacity-0 pointer-events-none'}`}
             />
 
             <div

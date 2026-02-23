@@ -8,46 +8,51 @@ import { useUpdateMyDogs } from "@/features/dog/model/useUpdateMyDogs"
 import { DogFormFields } from "@/features/dog/ui/DogFormFields"
 import dayjs from "dayjs"
 import { Ellipsis, X } from "lucide-react"
-import { useEffect, useState } from "react"
+import { useState } from "react"
 import { getDogAge } from "@/entities/dog/lib/getDogAge"
 import { useDeleteDog } from "@/features/dog/model/useDeleteDog"
 import { useRegisterPrimaryDog } from "@/features/dog/model/useRegisterPrimaryDog"
 import { useGetMyDogs } from "@/features/dog/model/useGetMyDogs"
 
 export function DogDetailModal({ isOpen, onClose, directEditMode }: DogDetailModalProps) {
-    const [isEdit, setIsEdit] = useState<boolean>(false)
+    const [isEdit, setIsEdit] = useState<boolean>(!!directEditMode)
     const [isDropdownOpen, setIsDropdownOpen] = useState<boolean>(false)
-    const [localFormData, setLocalFormData] = useState<DogRegisterForm | null>(null)
-
-
-    const setSelectedDog = useDogStore(state => state.setSelectedDog)
-    const profile = useUserStore(state => state.profile)
-
+    
+        const profile = useUserStore(state => state.profile)
+    
     const selectedDog = useDogStore(state => state.selectedDog)
     const { data : dogs} = useGetMyDogs(profile?.id)
     const dog = dogs?.find(dog => dog.id === selectedDog?.id)
+    const [localFormData, setLocalFormData] = useState<DogRegisterForm | null>(dog ? {
+                                                                                    name: dog.name,
+                                                                                    breed: dog.breed,
+                                                                                    weight: dog.weight,
+                                                                                    description: dog.description || '',
+                                                                                    birth_date: dog.birth_date,
+                                                                                    image_url: dog.image_url
+                                                                                }: null)
 
-    const { imagePreview, imageFile, fileInputRef, handleImageChange, resetImage } = useImageUpload(dog?.image_url)
+    const { imagePreview, imageFile, fileInputRef, handleImageChange } = useImageUpload(dog?.image_url)
     const { mutate: updatedMutate } = useUpdateMyDogs()
     const { mutate: deleteMutate } = useDeleteDog()
     const { mutate: primaryMutate } = useRegisterPrimaryDog(profile?.id || '')
 
 
-    useEffect(() => {
-        if(isOpen && dog){
-            setIsEdit(!!directEditMode)
+    // useEffect(() => {
+    //     if(isOpen && dog){
+    //         setIsEdit(!!directEditMode)
 
-            resetImage()
-            setLocalFormData({
-                name: dog.name,
-                breed: dog.breed,
-                weight: dog.weight,
-                description: dog.description || "",
-                birth_date: dog.birth_date,
-                image_url: dog.image_url
-            })
-        }
-    },[isOpen,dog, directEditMode])
+    //         resetImage()
+    //         setLocalFormData({
+    //             name: dog.name,
+    //             breed: dog.breed,
+    //             weight: dog.weight,
+    //             description: dog.description || "",
+    //             birth_date: dog.birth_date,
+    //             image_url: dog.image_url
+    //         })
+    //     }
+    // },[isOpen,dog, directEditMode])
     
      console.log('local', localFormData)
     if (!isOpen || !localFormData) return null

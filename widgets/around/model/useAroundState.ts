@@ -2,7 +2,8 @@
 
 import { Bound, KakaoPlace } from "@/shared/model/map";
 import { useAroundLogic } from "@/widgets/around/model/useAroundLogic";
-import { useState } from "react"
+import { useEffect, useState } from "react"
+import toast from "react-hot-toast";
 
 
 export function useAroundState() {
@@ -10,6 +11,7 @@ export function useAroundState() {
   const [showMap, setShowMap] = useState<boolean>(false)
   const [keyword, setKeyword] = useState<string>('')
   const [searchValue, setSearchValue] = useState<string>('')
+  // * 범위(기본 2km)
   const [radius, setRadius] = useState<number>(2000)
   // * 지도 드래그시 지도 중앙 위치
   const [mapCenter, setMapCenter] = useState<Bound | null>(null)
@@ -19,10 +21,23 @@ export function useAroundState() {
 
   const { displayCenter, displayShops, isPending, isSearchEmpty } = useAroundLogic(keyword, radius, dragBound)
 
+  console.log('mapcenter', mapCenter)
+
+  useEffect(() => {
+    if(!isPending && displayShops.length === 0){
+      toast.error('검색 결과가 없습니다. 다른지역을 찾아볼까요?', {id: 'search-empty', duration: 3000})
+    }
+  },[displayShops, isPending])
+  
   const handleMyLocation = () => {
     setDragBound(null)
     setMapCenter(null)
     setKeyword('')
+
+    navigator.geolocation.getCurrentPosition((pos) => {
+      const coords = {lat: pos.coords.latitude, lon: pos.coords.longitude}
+      setMapCenter(coords)
+    })
 
   }
 

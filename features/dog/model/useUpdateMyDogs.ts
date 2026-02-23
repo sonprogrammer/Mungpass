@@ -1,5 +1,5 @@
 import { DogRegisterToSever } from './types';
-import { updateDogs } from "../api/updateDogs";
+import { updateDogs } from "../../../entities/dog/api/updateDogs";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 export const useUpdateMyDogs = () => {

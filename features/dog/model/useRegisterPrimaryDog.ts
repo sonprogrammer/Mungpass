@@ -1,10 +1,9 @@
 import { registerPrimaryDog } from "@/entities/dog/api/registerPrimaryDog";
-import { Dog, useDogStore } from "@/entities/dog/model/types";
+import { Dog } from "@/entities/dog/model/types";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 export const useRegisterPrimaryDog =(userId: string) => {
     const queryClient = useQueryClient()
-    const setSelectedDog = useDogStore(state => state.setSelectedDog)
 
     
     return useMutation({
@@ -13,9 +12,9 @@ export const useRegisterPrimaryDog =(userId: string) => {
             await queryClient.cancelQueries({queryKey: ['my-dogs', userId]})
             const previousDogs = queryClient.getQueryData<Dog[]>(['my-dogs', userId])
 
-            queryClient.setQueryData<Dog[]>(['my-dogs', userId], (old: Dog[] | undefined) => {
+            queryClient.setQueryData<Dog[]>(['my-dogs', userId], (old) => {
                 if(!old) return previousDogs
-                return old?.map((dog: Dog) => ({
+                return old?.map((dog) => ({
                     ...dog,
                     is_primary: currentPrimary ? false : dog.id === dogId
                 }))
