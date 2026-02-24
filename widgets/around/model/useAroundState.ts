@@ -1,13 +1,13 @@
 'use client'
 
-import { Bound, KakaoPlace } from "@/shared/model/map";
+import { Bound, Coords, KakaoPlace } from "@/shared/model/map";
 import { useAroundLogic } from "@/widgets/around/model/useAroundLogic";
 import { useEffect, useState } from "react"
 import toast from "react-hot-toast";
 
 
 export function useAroundState() {
-    const [selectedPlace, setSelectedPlace] = useState<KakaoPlace | null>(null)
+  const [selectedPlace, setSelectedPlace] = useState<KakaoPlace | null>(null)
   const [showMap, setShowMap] = useState<boolean>(false)
   const [keyword, setKeyword] = useState<string>('')
   const [searchValue, setSearchValue] = useState<string>('')
@@ -18,6 +18,7 @@ export function useAroundState() {
   // * 드래그시 카톡에 전송되는 값
   const [dragBound, setDragBound] = useState<Bound | null>(null)
   const [showRefreshBtn, setShowRefreshBtn] = useState<boolean>(false)
+  const [currentCenter, setCurrentCenter]= useState<Coords | null>(null)
 
   const { displayCenter, displayShops, isPending, isSearchEmpty } = useAroundLogic(keyword, radius, dragBound)
 
@@ -34,10 +35,12 @@ export function useAroundState() {
     setMapCenter(null)
     setKeyword('')
 
-    navigator.geolocation.getCurrentPosition((pos) => {
-      const coords = {lat: pos.coords.latitude, lon: pos.coords.longitude}
-      setMapCenter(coords)
-    })
+    if(navigator.geolocation){
+      navigator.geolocation.getCurrentPosition((pos) => {
+        const myCoords = { lat: pos.coords.latitude, lon: pos.coords.longitude}
+        setCurrentCenter(myCoords)
+      })
+    }
 
   }
 
@@ -55,6 +58,10 @@ export function useAroundState() {
   const handleCenterChange = (bound: Bound) => {
     setMapCenter(bound)
     setShowRefreshBtn(true)
+
+    if (currentCenter) {
+      setCurrentCenter(null)
+    }
   }
 
   const handleRefresh = () => {
@@ -65,7 +72,7 @@ export function useAroundState() {
   }
 
   return{
-    state: { selectedPlace, showMap, keyword, searchValue, radius, showRefreshBtn, displayCenter, displayShops, isPending},
+    state: { selectedPlace, showMap, keyword, searchValue, radius, showRefreshBtn, center: currentCenter|| displayCenter, displayShops, isPending},
     actions: {
         setSelectedPlace, setShowMap, setKeyword, setSearchValue, setRadius, handleMyLocation, handleToggleMap, handleCenterChange, handleRefresh
     }

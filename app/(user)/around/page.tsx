@@ -28,7 +28,7 @@ export default function AroundPage() {
       <main>
         {state.showMap && (
           <MapSection 
-            center={state.displayCenter}
+            center={state.center}
             places={state.displayShops}
             showRefreshBtn={state.showRefreshBtn}
             onMarkerClick={actions.setSelectedPlace}

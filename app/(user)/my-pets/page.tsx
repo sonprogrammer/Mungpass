@@ -62,15 +62,16 @@ export default function MyPetsPage() {
                 >
                     <ChevronLeft className="w-6 h-6 text-slate-600" />
                 </button>
-                <h1 className="text-2xl font-black text-slate-800 tracking-tight">MY PETS</h1>
+                <h1 className="text-2xl font-black  text-slate-800 tracking-tight">MY PETS</h1>
 
-                <button
+                    <button
                     onClick={() => setIsEdit(!isEdit)}
                     className={`p-3 rounded-2xl transition-all active:scale-95 cursor-pointer 
+                        ${dogs && dogs?.length > 0 ? '' : 'opacity-0 pointer-events-none'}
                         ${isEdit ? 'bg-orange-500 text-white shadow-lg shadow-orange-200'
                             : 'bg-white text-slate-400 shadow-sm hover:text-slate-600'
-                        }`}
-                >
+                            }`}
+                            >
                     {isEdit ? <X className="w-5 h-5" /> : <Settings2 className="w-5 h-5" />}
                 </button>
             </header>
@@ -146,7 +147,7 @@ export default function MyPetsPage() {
                         등록된 아이가 없네요!<br />
                         새로운 가족을 등록해볼까요?
                     </p>
-                    <button className="px-8 py-4 bg-orange-400 text-white font-black rounded-2xl shadow-lg shadow-orange-100">
+                    <button onClick={() => setDogPostModalOpen(true)} className="px-8 py-4 bg-orange-400 text-white font-black rounded-2xl shadow-lg shadow-orange-100">
                         지금 등록하기
                     </button>
                 </div>
