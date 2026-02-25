@@ -2,16 +2,7 @@
 
 import React from 'react';
 import {
-  Settings,
-  LogOut,
-  ChevronRight,
-  Dog,
-  Ticket,
-  Heart,
-  Bell,
-  MessageCircle,
-  Clock,
-  CircleHelp
+  Settings
 } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { ProfileCard } from '@/entities/user/ui/ProfileCard';
@@ -24,21 +15,12 @@ export default function MyPage() {
   const router = useRouter();
   const profile = useUserStore(state => state.profile)
 
-  // 목업 데이터
-  // const user = {
-  //   name: "홍길동",
-  //   email: "example@mungpass.com",
-  //   myDog: "초코",
-  //   couponCount: 22,
-  //   totalVisits: 12,
-  //   joinDate: "2026.01.05"
-  // };
 
   return (
     <div className="h-screen bg-[#FFFBEB] pb-24">
       {/* //* 🟠 프로필 섹션 (오렌지 테마) */}
       <section className="bg-white px-6 pt-12 pb-8 rounded-b-[3.5rem] shadow-sm border-b border-orange-50">
-        <div className="flex items-center justify-between mb-8">
+        <div className="flex items-center justify-between ">
           {/* ProfileCard */}
           <ProfileCard user={profile} />
           {/*  */}
@@ -50,8 +32,8 @@ export default function MyPage() {
 
         </div>
 
-        {/* //* 활동 요약  */}
-        <UserStats user={profile} />
+        {/* //* 활동 요약  --> 쿠폰이랑 활동요약이라 나중에 추가해주는게 좋음*/}
+        {/* <UserStats user={profile} /> */}
       </section>
 
       {/* //*  메뉴 리스트 */}

@@ -13,7 +13,7 @@ export function LoginForm() {
                         name="email"
                         type="email"
                         placeholder="mungpass@example.com"
-                  required
+                        required
                         className="w-full pl-12 pr-4 py-4 bg-orange-50/30 border-2 border-orange-50 rounded-2xl
                             focus:border-orange-500 focus:ring-0 outline-none font-medium text-sm transition-all" />
                 </div>

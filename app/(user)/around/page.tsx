@@ -11,7 +11,6 @@ import { MapSection } from '@/widgets/around/ui/MapSection';
 export default function AroundPage() {
   const { state, actions } = useAroundState()
 
-  console.log('selected',state.selectedPlace)
   return (
     <div className="bg-[#FFFBEB] h-screen pb-24">
 

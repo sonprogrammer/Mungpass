@@ -22,7 +22,6 @@ export function useAroundState() {
 
   const { displayCenter, displayShops, isPending, isSearchEmpty } = useAroundLogic(keyword, radius, dragBound)
 
-  console.log('mapcenter', mapCenter)
 
   useEffect(() => {
     if(!isPending && displayShops.length === 0){

@@ -3,25 +3,15 @@ import { useFormStatus } from 'react-dom';
 import { ArrowRight, Loader2 } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 
-export function SubmitButton({ isLogin, isMatch }: { isLogin: boolean, isMatch: boolean }) {
+export function SubmitButton({ isLogin }: { isLogin: boolean }) {
   const { pending } = useFormStatus();
 
-  const router = useRouter()
-  
-  async function handleAuthAction(formData: FormData) {
-    if (!isLogin && !isMatch) {
-      alert("비밀번호가 일치하지 않습니다.");
-      return;
-    }
-    await new Promise((res) => setTimeout(res, 1000));
-    router.push('/home');
-  }
 
   return (
     <button
       type="submit"
       disabled={pending}
-      className="w-full bg-orange-500 hover:bg-orange-700 disabled:bg-orange-400 cursor-pointer text-white font-bold py-4 rounded-xl shadow-lg shadow-orange-200 transition-all flex items-center justify-center gap-2 mt-4"
+      className="w-full bg-orange-500 hover:bg-orange-700 disabled:bg-orange-400 cursor-pointer text-white font-bold py-4 rounded-xl shadow-lg shadow-orange-200 transition-all flex items-center justify-center gap-2"
     >
       {pending ? (
         <Loader2 className="w-5 h-5 animate-spin" />

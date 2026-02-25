@@ -1,18 +1,18 @@
 'use client'
 
 import { handleLogout } from "@/features/auth/api/handleLogout"
+import { cookieLogout } from "@/features/auth/api/logoutAction"
 import { LogOut } from "lucide-react"
-import { useRouter } from "next/navigation"
 
 export function LogoutBtn(){
-    const router = useRouter()
 
     const logout = async() => {
 
         // TODO 서버 로그아웃 처리
 
+        await handleLogout()
+        await cookieLogout()
         console.log('cliekc')
-            await handleLogout()
 
     }
     

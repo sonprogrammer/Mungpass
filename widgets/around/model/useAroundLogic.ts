@@ -14,7 +14,6 @@ export function useAroundLogic(keyword: string, radius: number, newBound?: Bound
     // * 검색 애견카페
     const { data: searchData, isPending: searchPending} = useSearchShops(keyword)
 
-    console.log('nearbydatas', nearByData)
     const isSearching = !!keyword
 
     const isSearchEmpty = isSearching && (!searchData || searchData.length === 0)
