@@ -11,7 +11,7 @@ export function LoginForm() {
                     <Mail className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-orange-200" />
                     <input
                         name="email"
-                        type="email"
+                        type="email" 
                         placeholder="mungpass@example.com"
                         required
                         className="w-full pl-12 pr-4 py-4 bg-orange-50/30 border-2 border-orange-50 rounded-2xl
