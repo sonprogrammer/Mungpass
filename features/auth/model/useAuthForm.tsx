@@ -3,11 +3,11 @@ import { signup } from "../api/signup";
 import { regularLogin } from "../api/regularLogin";
 import { useRouter } from "next/navigation";
 
-export function useAuthForm(isLogin: boolean, setIsLogin: (a: boolean) => void) {
+export function useAuthForm(mode: 'login' | 'signup') {
   const router = useRouter();
 
   const handleAuthAction = async (formData: FormData) => {
-    if (isLogin) {
+    if (mode ==='login') {
       try {
         await regularLogin(formData)
         router.push('/home')
@@ -25,8 +25,8 @@ export function useAuthForm(isLogin: boolean, setIsLogin: (a: boolean) => void) 
 
       try {
         await signup(formData)
-        alert("회원가입 완료! 로그인을 해주세요.")
-        setIsLogin(true)
+        alert("회원가입 완료! 로그인창으로 이동합니다.")
+        router.push('/')
       } catch {
         alert("회원가입 중 에러가 발생했습니다.")
       }

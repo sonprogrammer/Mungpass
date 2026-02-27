@@ -17,7 +17,7 @@ dayjs.extend(isBetween);
 dayjs.locale("ko");
 export default function LayoutContent({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
-  const isAuthPage = pathname === "/";
+  const isAuthPage = pathname === "/" || '/signup';
 
   const KAKAO_SDK_URL = `https://dapi.kakao.com/v2/maps/sdk.js?appkey=${process.env.NEXT_PUBLIC_KAKAO_MAP_API_KEY}&libraries=services&autoload=false`;
 
