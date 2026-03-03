@@ -1,3 +1,4 @@
+
 export interface AuthTabProps{
     isLogin: boolean
     setIsLogin: (value: boolean) => void
@@ -5,10 +6,12 @@ export interface AuthTabProps{
 
 
 export interface SignupFieldsProps{
+    name: string;
+    setName: (val: string) => void;
     email: string;
     setEmail: (val: string) => void;
-    emailStatus: 'idle' | 'checking' | 'available' | 'taken',
-    setEmailStatus: (status: 'idle' | 'checking' | 'available' | 'taken') => void;
+    emailStatus: 'idle' | 'invalid' | 'checking' | 'available' | 'taken',
+    setEmailStatus: (status: 'idle' | 'invalid' | 'checking' | 'available' | 'taken') => void;
     phone: string;
     setPhone: (val: string) => void;
     passwords: {
@@ -21,4 +24,16 @@ export interface SignupFieldsProps{
     }>>
     isMatch: boolean;
     handleEmailCheck: () => void;
+}
+
+export interface SignupFormProps{
+    role: 'user' | 'owner';
+    handleAuthAction?: (formData: FormData) => void | Promise<void>
+}
+
+export interface LoginFormProps{
+    email: string;
+    setEmail: (val: string) => void;
+    password: string;
+    setPassword: (val: string) => void;
 }

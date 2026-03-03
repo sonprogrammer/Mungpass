@@ -1,9 +1,9 @@
 
 import { useFormStatus } from 'react-dom';
 import { ArrowRight, Loader2 } from 'lucide-react';
-import { useRouter } from 'next/navigation';
 
-export function SubmitButton({ isLogin }: { isLogin: boolean }) {
+
+export function SubmitButton() {
   const { pending } = useFormStatus();
 
 
@@ -17,7 +17,7 @@ export function SubmitButton({ isLogin }: { isLogin: boolean }) {
         <Loader2 className="w-5 h-5 animate-spin" />
       ) : (
         <>
-          {isLogin ? '접속하기' : '가입 완료하기'}
+         <p>접속하기</p>
           <ArrowRight className="w-5 h-5" />
         </>
       )}

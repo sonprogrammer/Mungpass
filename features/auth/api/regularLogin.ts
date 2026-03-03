@@ -13,8 +13,15 @@ export async function regularLogin(formData:FormData){
     })
 
     if(error){
-        console.error('로그인 에러', error.message)
-        throw error
+        console.log('erorr', error.message)
+        let msg = '로그인 정보를 확인해주세요'
+        if(error.message.toLowerCase().includes('email not confirmed')){
+            msg ='이메일 인증을 완료해주세요. 메일함을 확인해주세요'
+        }else if(error.message.toLowerCase().includes('invalid login credentials')){
+            msg = '이메일 또는 비밀번호가 일치하지 않습니다'
+        }
+
+        throw new Error(msg)
     }
     return data
 }

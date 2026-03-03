@@ -5,9 +5,13 @@ export async function checkEmail(email: string){
 
     const { data, error} = await supabase.from('profiles').select('email').eq('email', email).maybeSingle()
 
+
+    
+
     if(error){
-        return false
+        console.log('db error', error)
+        throw error
     }
 
-    return !!data
+    return data ? 'taken' : 'available'
 }

@@ -1,10 +1,8 @@
 'use client'
 
 import { useAuthForm } from "@/features/auth/model/useAuthForm"
-import { AuthTab } from "@/features/auth/ui/AuthTab"
 import { LoginForm } from "@/features/auth/ui/LoginForm"
 import { RoleTab } from "@/features/auth/ui/RoleTab"
-import { SignupForm } from "@/features/auth/ui/SignupForm"
 import { SocialLogin } from "@/features/auth/ui/SocialLogin"
 import { SubmitButton } from "@/features/auth/ui/SubmitButton"
 import { BigLogo } from "@/shared/ui/BigLogo"
@@ -14,7 +12,8 @@ import { useState } from "react"
 
 export function AuthWidget() {
   const [isOwner, setIsOwner] = useState<boolean>(false)
-  const [isLogin, setIsLogin] = useState<boolean>(true)
+  const [email, setEmail] = useState<string>('')
+  const [password, setPasswords] = useState<string>('')
 
   const { handleAuthAction } = useAuthForm('login')
 
@@ -33,7 +32,7 @@ export function AuthWidget() {
           </h2>
           <p className="text-sm text-slate-400 font-bold">멍패스에 오신 것을 환영해요!</p>
         </div>
-        <div className={`flex justify-end ${!isLogin && 'hidden'}`}>
+        <div className={`flex justify-end`}>
           {/* //* 사용자 관리 */}
           <RoleTab isOwner={isOwner} setIsOwner={setIsOwner} />
         </div>
@@ -43,24 +42,19 @@ export function AuthWidget() {
 
 
           <form action={handleAuthAction} className="space-y-3 pt-4">
-            {isLogin ? (
-              <LoginForm />
-            ) : (
-              <SignupForm />
-            )}
-
+            <input type="hidden" name="role" value={isOwner ? 'owner' : 'user'} />
+            <LoginForm 
+              email={email}
+              setEmail={setEmail}
+              password={password}
+              setPassword={setPasswords}
+            />
 
             <div className="pt-2">
-              <SubmitButton isLogin={isLogin} />
+              <SubmitButton />
             </div>
 
-            {isLogin && (
-              <div>
-                <SocialLogin />
-              </div>
-
-            )}
-
+            <SocialLogin />
           </form>
 
           <div className="mt-6 text-center">
@@ -68,35 +62,33 @@ export function AuthWidget() {
               href='/signup'
               className="text-sm font-bold text-slate-400 hover:text-orange-500 transition-colors"
             >
-                아직 계정이 없으신가요? 
+              아직 계정이 없으신가요?
               <span className="text-orange-500 underline decoration-2 underline-offset-4 ml-1">
                 회원가입
               </span>
             </Link>
           </div>
 
-          {isLogin && (
 
-            <div className="mt-8 pt-6 border-t border-dashed border-orange-100">
-              <Link
-                href='signup'
-                className="group flex items-center justify-between p-4 bg-orange-50 rounded-2xl border border-orange-100 hover:bg-orange-100 transition-all duration-300"
-              >
-                <div className="flex items-center gap-3">
-                  <div className="bg-white p-2 rounded-xl shadow-sm group-hover:scale-110 transition-transform">
-                    <Store className="w-5 h-5 text-orange-500" />
-                  </div>
-                  <div>
-                    <p className="text-[13px] font-black text-slate-800">혹시 사장님이신가요?</p>
-                    <p className="text-[11px] font-bold text-orange-400">멍패스 파트너로 입점하고 고객을 만나보세요</p>
-                  </div>
+          <div className="mt-8 pt-6 border-t border-dashed border-orange-100">
+            <Link
+              href='signup/owner'
+              className="group flex items-center justify-between p-4 bg-orange-50 rounded-2xl border border-orange-100 hover:bg-orange-100 transition-all duration-300"
+            >
+              <div className="flex items-center gap-3">
+                <div className="bg-white p-2 rounded-xl shadow-sm group-hover:scale-110 transition-transform">
+                  <Store className="w-5 h-5 text-orange-500" />
                 </div>
-                <div className="text-orange-300 group-hover:text-orange-500 transition-colors">
-                  <span className="text-xs font-black">가입하기</span>
+                <div>
+                  <p className="text-[13px] font-black text-slate-800">혹시 사장님이신가요?</p>
+                  <p className="text-[11px] font-bold text-orange-400">멍패스 파트너로 입점하고 고객을 만나보세요</p>
                 </div>
-              </Link>
-            </div>
-          )}
+              </div>
+              <div className="text-orange-300 group-hover:text-orange-500 transition-colors">
+                <span className="text-xs font-black">가입하기</span>
+              </div>
+            </Link>
+          </div>
 
 
         </div>

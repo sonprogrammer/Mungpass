@@ -1,23 +1,23 @@
 'use client'
 
-import { useAuthForm } from "@/features/auth/model/useAuthForm";
+import { SignupFormProps } from "@/features/auth/model/types";
 import { useSignupForm } from "@/features/auth/model/useSignupForm";
 import { SignupFields } from "@/features/auth/ui/SignupFields";
 
-export function SignupForm() {
+export function SignupForm({role, handleAuthAction} :SignupFormProps) {
     const signupLogic = useSignupForm()
-    
-    const { handleAuthAction } = useAuthForm('signup')
+
 
 
     return (
         <form action={handleAuthAction}>
+            <input type="hidden" name="role" value={role} />
             <SignupFields {...signupLogic}/>
             <button 
                 type="submit"
-                className="w-full py-4 bg-slate-800 text-white rounded-2xl text-lg font-black mt-8 hover:bg-slate-900 shadow-xl shadow-slate-200 transition-all active:scale-[0.95]"
+                className="cursor-pointer w-full py-4 bg-slate-800 text-white rounded-2xl text-lg font-black mt-8 hover:bg-slate-900 shadow-xl shadow-slate-200 transition-all active:scale-[0.95]"
             >
-                가입하기
+                {role === 'owner' ? '파트너 가입하기' : '가입하기'}
             </button>
         </form>
     )

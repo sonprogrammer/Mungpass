@@ -1,12 +1,12 @@
 'use client'
 
 import { SignupFieldsProps } from "@/features/auth/model/types";
-import { CheckCircle2, Smartphone, User, Lock, Mail, Bone, Loader2, AlertCircle } from "lucide-react";
+import { CheckCircle2, Smartphone, User, Lock, Mail, Bone, Loader2, AlertCircle, ShieldX } from "lucide-react";
 
 
 
 export function SignupFields({
-    email, setEmail, emailStatus, setEmailStatus, phone, setPhone, passwords, setPasswords,
+    name, setName, email, setEmail, emailStatus, setEmailStatus, phone, setPhone, passwords, setPasswords,
     isMatch, handleEmailCheck
 }: SignupFieldsProps) {
     return (
@@ -16,7 +16,10 @@ export function SignupFields({
                 <label className="text-xs font-bold text-orange-400 ml-1">이름</label>
                 <div className="relative">
                     <User className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-orange-200" />
-                    <input name="name" type="text" placeholder="이름" required className="w-full pl-12 pr-4 py-4 bg-white border-2 border-orange-100 rounded-2xl focus:border-orange-500 focus:ring-0 outline-none font-medium text-sm transition-all" />
+                    <input name="name"
+                    value={name}
+                    onChange={(e) => setName(e.target.value)}
+                     type="text" placeholder="이름" required className="w-full pl-12 pr-4 py-4 bg-white border-2 border-orange-100 rounded-2xl focus:border-orange-500 focus:ring-0 outline-none font-medium text-sm transition-all" />
                 </div>
             </div>
 
@@ -52,8 +55,13 @@ export function SignupFields({
                         )}
                     </button>
                 </div>
+                {emailStatus === 'invalid' && (
+                    <p className="text-[11px] text-red-500  font-bold ml-1 flex items-center gap-1">
+                        <ShieldX className="w-3 h-3" />
+                        이메일 형식이 올바르지 않습니다</p>
+                )}
                 {emailStatus === 'taken' && (
-                    <p className="text-[11px] text-red-400 font-bold ml-1 flex items-center gap-1">
+                    <p className="text-[11px] text-red-500 font-bold ml-1 flex items-center gap-1">
                         <AlertCircle className="w-3 h-3" />
                         이미 사용 중인 이메일입니다.
                     </p>
