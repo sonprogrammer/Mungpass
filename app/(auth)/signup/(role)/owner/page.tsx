@@ -18,8 +18,6 @@ export default function OwnerSignupPage() {
     
     return (
         <div className="w-full px-6 py-4  h-full">
-            {/* //* 단계 표시 */}
-            <StepBar />
 
 
             <div className="mb-8">

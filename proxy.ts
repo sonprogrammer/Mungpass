@@ -16,7 +16,7 @@ export default async function proxy(req: NextRequest){
     }
 
     //* 로그인 안된상태에서 다른 페이지 이동할시, 랜딩페이지로 이동
-    const publicPath = ['/', '/signup', '/signup/user', '/signup/owner', '/signup/owner/store']
+    const publicPath = ['/', '/signup', '/signup/user', '/signup/owner', '/signup/owner/store', '/signup/owner/auth', '/signup/owner/complete']
 
     const isPublic = publicPath.includes(url.pathname)
 

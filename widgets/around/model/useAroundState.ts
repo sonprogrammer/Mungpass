@@ -13,7 +13,7 @@ export function useAroundState() {
   const [searchValue, setSearchValue] = useState<string>('')
   // * 범위(기본 2km)
   const [radius, setRadius] = useState<number>(2000)
-  // * 지도 드래그시 지도 중앙 위치
+  // * 지도 드래그시 지도 중앙 위치ㅈ
   const [mapCenter, setMapCenter] = useState<Bound | null>(null)
   // * 드래그시 카톡에 전송되는 값
   const [dragBound, setDragBound] = useState<Bound | null>(null)

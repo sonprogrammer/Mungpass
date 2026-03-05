@@ -37,3 +37,16 @@ export interface LoginFormProps{
     password: string;
     setPassword: (val: string) => void;
 }
+
+export interface StoreSearchWidgetProps{
+    setKeyword: (val: string) => void;
+    searchValue: string;
+    setSearchValue: (val: string) => void;
+}
+
+export interface StepStatusProps{
+    title: string;
+    desc: string;
+    done?: boolean;
+    active?: boolean
+}

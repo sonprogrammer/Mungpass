@@ -31,6 +31,7 @@ export function DogFormModal({ isOpen, onClose, profile }: DogFormModalProps) {
         }
     }
 
+
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault()
         if(!profile?.id){
