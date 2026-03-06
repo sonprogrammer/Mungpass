@@ -3,7 +3,7 @@
 import { DogFormModalProps, DogRegisterForm } from "@/features/dog/model/types"
 import { useRegisterDog } from "@/features/dog/model/useRegisterDog"
 import { DogFormFields } from "@/features/dog/ui/DogFormFields"
-import { Camera, X } from "lucide-react"
+import { X } from "lucide-react"
 import { useRef, useState } from "react"
 
 

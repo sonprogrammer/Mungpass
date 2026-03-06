@@ -28,5 +28,7 @@ export async function signup(formData: FormData){
         throw error
     }
 
+    await supabase.auth.signOut()
+
     return data
 }

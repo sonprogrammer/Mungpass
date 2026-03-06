@@ -21,7 +21,7 @@ export function StepBar() {
                 <div className="hidden"/>
             ) : (
 
-                <div className="flex gap-1 pb-6 px-6">
+                <div className="flex gap-1 py-2 px-6">
                     {[1, 2, 3].map((n) => (
                         <div
                             key={n}

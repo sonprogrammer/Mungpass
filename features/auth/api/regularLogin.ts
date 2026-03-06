@@ -5,7 +5,8 @@ export async function regularLogin(formData:FormData){
 
     const email = formData.get('email') as string
     const password = formData.get('password') as string
-    console.log('email', email, password)
+    const role = formData.get('role') as string
+    console.log('email', email, password, role)
 
     const { data, error} = await supabase.auth.signInWithPassword({
         email,
@@ -23,5 +24,18 @@ export async function regularLogin(formData:FormData){
 
         throw new Error(msg)
     }
+
+    const { data: profile, error: profileError} = await supabase.from('profiles').select('role').eq('id', data.user.id).single()
+
+    if(profileError || !profile){
+        await supabase.auth.signOut()
+        throw new Error('사용자 프로필을 찾df을 수 없습니다.')
+    }
+
+    if(profile.role !== role){
+        await supabase.auth.signOut()
+        throw new Error('선택한 회원 유형이 올바르지 않습니다.')
+    }
+    
     return data
 }

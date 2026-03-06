@@ -2,14 +2,28 @@
 
 import { useAuthForm } from "@/features/auth/model/useAuthForm"
 import { SignupForm } from "@/features/auth/ui/SignupForm"
+import { SignupSuccessModal } from "@/features/auth/ui/SignupSuccessModal"
+import { useRouter } from "next/navigation"
+import { useState } from "react"
 
 export default function UserSignupPage() {
+    const [showModal, setShowModal] = useState<boolean>(false)
+    const router = useRouter()
 
-    const { handleAuthAction } = useAuthForm('signup')
+    const { handleAuthAction } = useAuthForm('signup', () => {
+        setShowModal(true)
+        setTimeout(() => {
+            router.push('/')
+        }, 1000);
+    })
 
     return (
         <div className="w-full max-w-md px-6 pt-4 flex flex-col h-full">
 
+            {/* //* 성공모달 */}
+            {showModal && (
+                <SignupSuccessModal />
+            )}
 
             <div className="mb-8">
                 <h2 className="text-2xl font-black text-slate-800 leading-tight">

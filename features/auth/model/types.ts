@@ -1,3 +1,4 @@
+import { KakaoPlace } from "@/shared/model/map";
 
 export interface AuthTabProps{
     isLogin: boolean
@@ -49,4 +50,22 @@ export interface StepStatusProps{
     desc: string;
     done?: boolean;
     active?: boolean
+}
+
+export interface SkipConfirmModalProps{
+    isOpen: boolean;
+    onClose: () => void;
+    onConfirm: () => void;
+}
+
+export interface RegisterStoreCheckCardProps{
+    place_name?: string;
+    address_name?: string;
+    phone?: string;
+}
+
+export interface postOwnerDocsProps{
+    storeInfo: KakaoPlace
+    businessNumber: string;
+    DocsImg: File;
 }

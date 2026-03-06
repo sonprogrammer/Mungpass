@@ -16,7 +16,7 @@ export interface DogFormModalProps{
 export interface DogRegisterForm{
     name: string;
     breed: string;
-    weight:  number;
+    weight:  number | '';
     description: string;
     birth_date: string;
     image_url?: string;

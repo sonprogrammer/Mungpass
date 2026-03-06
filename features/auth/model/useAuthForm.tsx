@@ -29,10 +29,13 @@ export function useAuthForm(mode: 'login' | 'signup', OwnerSuccess?: () => void)
         //*사장이면 다음단계로 이동
         if(OwnerSuccess){
           OwnerSuccess()
-          alert("회원가입 완료! 다음 단계로 이동합니다.")
+          // TODO 성공모달 나옴 체크 해보기
+          // alert("회원가입 완료! 다음 단계로 이동합니다.")
         }else{
-          alert("회원가입 완료! 로그인창으로 이동합니다.")
-          router.push('/')
+          // TODO 성공모달 나옴 체크 해보기
+          // alert("회원가입 완료! 로그인창으로 이동합니다.")
+          //*지금 user/page.tsx 에서 settime으로 보내줌
+          // router.push('/')
         }
         
       } catch {

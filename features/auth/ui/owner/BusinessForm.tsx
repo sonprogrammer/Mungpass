@@ -2,17 +2,22 @@
 
 'use client'
 
+import { KakaoPlace } from "@/shared/model/map"
 import { Camera, CheckCircle2, FileText, Upload, X } from "lucide-react"
 import { useRouter } from "next/navigation"
 import { useRef, useState } from "react"
 
-export function BusinessForm({ storeId }: { storeId: string | null }) {
+export function BusinessForm({ storeInfo }: { storeInfo: KakaoPlace | null }) {
     const router = useRouter()
     const [businessNumber, setBusinessNumber] = useState<string>('')
     const [isLoading, setIsLoading] = useState<boolean>(false)
     const fileInputRef = useRef<HTMLInputElement>(null)
     const [file, setFile] = useState<File | null>(null)
     const [preview, setPreview] = useState<string | null>(null)
+
+
+    console.log('storeinfo from business', storeInfo)
+    
 
     const formatBusinessNumber = (val: string) => {
         const number = val.replace(/[^0-9]/g, '')
@@ -43,7 +48,8 @@ export function BusinessForm({ storeId }: { storeId: string | null }) {
 
     const handleVerify = async (e: React.FormEvent) => {
         e.preventDefault()
-        if (businessNumber.length !== 12) return
+        if (businessNumber.length !== 12) return alert('사업자 번호를 확인해주세요.')
+        if(!file) return alert('사업자 등록증을 첨부해주세요.')
 
         setIsLoading(true)
 
@@ -55,7 +61,7 @@ export function BusinessForm({ storeId }: { storeId: string | null }) {
     }
 
     return (
-        <form onSubmit={handleVerify} className="flex flex-col gap-6 mt-4">
+        <form onSubmit={handleVerify} className="flex flex-col gap-6 mt-4 pb-6">
             <section className="space-y-3">
                 <label className="text-sm font-bold ml-1 flex items-center gap-2">
                     <FileText className="w-4 h-4 text-orange-500" />
