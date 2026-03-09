@@ -10,14 +10,13 @@ import { useState } from "react"
 
 
 export default function OwnerSignupPage() {
-    const [step, setStep] = useState<number>(1)
     const [showModal, setShowModal] = useState<boolean>(false)
     const router = useRouter()
 
-    const { handleAuthAction } = useAuthForm('signup', () => {
+    const { handleAuthAction } = useAuthForm('signup', (id: string) => {
         setShowModal(true)
         setTimeout(() => {
-            router.push('/signup/owner/store')
+            router.push(`/signup/owner/store?id=${id}`)
         }, 1000);
     })
 

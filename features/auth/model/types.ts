@@ -65,6 +65,7 @@ export interface RegisterStoreCheckCardProps{
 }
 
 export interface postOwnerDocsProps{
+    ownerId: string;
     storeInfo: KakaoPlace
     businessNumber: string;
     DocsImg: File;

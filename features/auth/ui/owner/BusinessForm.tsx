@@ -2,21 +2,24 @@
 
 'use client'
 
+import { usePostOwnerDocs } from "@/features/auth/model/owner/usePostOwnerDocs"
 import { KakaoPlace } from "@/shared/model/map"
 import { Camera, CheckCircle2, FileText, Upload, X } from "lucide-react"
 import { useRouter } from "next/navigation"
 import { useRef, useState } from "react"
 
-export function BusinessForm({ storeInfo }: { storeInfo: KakaoPlace | null }) {
+export function BusinessForm({ storeInfo,ownerId }: { storeInfo: KakaoPlace | null, ownerId: string | null }) {
     const router = useRouter()
     const [businessNumber, setBusinessNumber] = useState<string>('')
-    const [isLoading, setIsLoading] = useState<boolean>(false)
     const fileInputRef = useRef<HTMLInputElement>(null)
     const [file, setFile] = useState<File | null>(null)
     const [preview, setPreview] = useState<string | null>(null)
 
 
     console.log('storeinfo from business', storeInfo)
+    console.log('storeinfo from business',ownerId)
+
+    const { mutate:postOwnerDocs, isPending} = usePostOwnerDocs()
     
 
     const formatBusinessNumber = (val: string) => {
@@ -48,16 +51,18 @@ export function BusinessForm({ storeInfo }: { storeInfo: KakaoPlace | null }) {
 
     const handleVerify = async (e: React.FormEvent) => {
         e.preventDefault()
+        if(!ownerId) return alert('회원 정보가 없습니다. - 이럴 순 없음')
+        if(!storeInfo) return alert('등록지점 정보가 없습니다. - 그럴수 없음 만약 그래도 auth/page에서 뒤로가기 진행시켜놈')
         if (businessNumber.length !== 12) return alert('사업자 번호를 확인해주세요.')
         if(!file) return alert('사업자 등록증을 첨부해주세요.')
 
-        setIsLoading(true)
 
-        // TODO 예시로 넘겼다 가정
-        setTimeout(() => {
-            setIsLoading(false)
-            router.push('/signup/owner/complete')
-        }, 2000);
+        postOwnerDocs({
+            ownerId,
+            storeInfo,
+            businessNumber,
+            DocsImg: file
+        })
     }
 
     return (
@@ -129,15 +134,15 @@ export function BusinessForm({ storeInfo }: { storeInfo: KakaoPlace | null }) {
             </div>
 
             <button
-                disabled={businessNumber.length !== 12 || !file}
+                disabled={businessNumber.length !== 12 || !file || isPending}
                 className={`w-full py-5 rounded-2xl font-black text-lg shadow-xl transition-all cursor-pointer
                         ${businessNumber.length === 12 && file
                         ? 'bg-slate-800 text-white active:scale-[0.98]'
                         : 'bg-slate-200 text-slate-400 pointer-events-none shadow-none'}
                             `}
-                onClick={() => router.push('/signup/owner/complete')}
+                type="submit"
             >
-                심사 요청하기
+                {isPending ? '처리중' : '심사 요청하기'}
             </button>
 
         </form>

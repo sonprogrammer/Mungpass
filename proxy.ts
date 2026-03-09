@@ -6,13 +6,22 @@ export default async function proxy(req: NextRequest){
 
     const { data: {user}} = await supabase.auth.getUser()
 
+    console.log('proxy uuuser', user)
+    
     const url = req.nextUrl.clone()
 
 
     // *로그인 된상태에서 랜딩페이지/회원가입에 접속 시
     if(user && url.pathname === '/' || url.pathname ==='signup'){
-        url.pathname = '/home'
-        return Response.redirect(url)
+        const restrictedPaths = ['/', '/signup']
+        const isRestricted = restrictedPaths.includes(url.pathname)
+
+        const isOwnerSignupStep = url.pathname.startsWith('/signup/owner')
+
+        if(isRestricted && ! isOwnerSignupStep){
+            url.pathname = '/home'
+            return Response.redirect(url)
+        }
     }
 
     //* 로그인 안된상태에서 다른 페이지 이동할시, 랜딩페이지로 이동
@@ -24,6 +33,21 @@ export default async function proxy(req: NextRequest){
         url.pathname = '/'
         return Response.redirect(url)
     }
+
+    //*관리자 로그인
+    if(user && url.pathname.startsWith('/admin')){
+        const { data: profile} = await supabase.from('profiles').select('role').eq('id', user.id).single()
+        console.log('proxy user', profile)
+
+        if(profile?.role !== 'admin'){
+            url.pathname = '/'
+            return Response.redirect(url)
+        }
+        
+    }
+    
+    
+    
     return res
 }
 

@@ -1,12 +1,13 @@
 'use client'
 
+import { cookieLogout } from "@/features/auth/api/logoutAction"
 import { useStoreRegistrationStore } from "@/features/auth/model/owner/useStoreRegistStore"
 import { SelectedStore } from "@/features/auth/ui/owner/SelectedStore"
 import { SkipConfirmModal } from "@/features/auth/ui/owner/SkipConfirmModal"
 import { StoreSearchWidget } from "@/features/auth/ui/owner/StoreSearchWidget"
 import { useAroundState } from "@/widgets/around/model/useAroundState"
 import { MapSection } from "@/widgets/around/ui/MapSection"
-import { useRouter } from "next/navigation"
+import { useRouter, useSearchParams } from "next/navigation"
 import { useState } from "react"
 
 export default function OwnerStoreRegisterPage() {
@@ -14,15 +15,19 @@ export default function OwnerStoreRegisterPage() {
     const setSelectedPlace = useStoreRegistrationStore(state => state.setSelectedPlace)
     const [skipModalOpen, setSkipModalOpen] = useState<boolean>(false)
     const router = useRouter()
-    
+    const searchParams = useSearchParams()
+
+    const ownerId = searchParams.get('id')
 
     const handleNextStep = () => {
         if (!state.selectedPlace) return
 
         setSelectedPlace(state.selectedPlace)
+        router.push(`/signup/owner/auth?ownerId=${ownerId}`)
+    }
 
-        const { id, place_name } = state.selectedPlace
-        router.push(`/signup/owner/auth?id=${id}&name=${encodeURIComponent(place_name)}`)
+    const handleSkipStep = async () => {
+        await cookieLogout()
     }
 
 
@@ -91,7 +96,7 @@ export default function OwnerStoreRegisterPage() {
             <SkipConfirmModal
                 isOpen={skipModalOpen}
                 onClose={() => setSkipModalOpen(false)}
-                onConfirm={() => router.push('/')}
+                onConfirm={() => handleSkipStep()}
             />
         </div>
     )

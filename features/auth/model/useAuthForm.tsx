@@ -3,14 +3,19 @@ import { signup } from "../api/signup";
 import { regularLogin } from "../api/regularLogin";
 import { useRouter } from "next/navigation";
 
-export function useAuthForm(mode: 'login' | 'signup', OwnerSuccess?: () => void) {
+export function useAuthForm(mode: 'login' | 'signup', OwnerSuccess?: (id: string) => void) {
   const router = useRouter();
 
   const handleAuthAction = async (formData: FormData) => {
     if (mode ==='login') {
       try {
-        await regularLogin(formData)
-        router.push('/home')
+        const user = await regularLogin(formData)
+        console.log('user', user)
+        if(user.actualRole === 'admin'){
+          router.push('/admin')
+        }else{
+          router.push('/home')
+        }
       } catch(error: unknown) {
         alert(error instanceof Error ? error.message : '로그인 중 에러가 발생하였습니다. 다시 시도해주세요')
       }
@@ -24,18 +29,12 @@ export function useAuthForm(mode: 'login' | 'signup', OwnerSuccess?: () => void)
       }
 
       try {
-        await signup(formData)
+        const user = await signup(formData)
+
 
         //*사장이면 다음단계로 이동
-        if(OwnerSuccess){
-          OwnerSuccess()
-          // TODO 성공모달 나옴 체크 해보기
-          // alert("회원가입 완료! 다음 단계로 이동합니다.")
-        }else{
-          // TODO 성공모달 나옴 체크 해보기
-          // alert("회원가입 완료! 로그인창으로 이동합니다.")
-          //*지금 user/page.tsx 에서 settime으로 보내줌
-          // router.push('/')
+        if(OwnerSuccess && user?.id){
+          OwnerSuccess(user.id)
         }
         
       } catch {

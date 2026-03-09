@@ -23,9 +23,7 @@ export default function OwnerAuthPage() {
         }
     }, [selectedPlace, router])
 
-    
-
-    const storeName = searchParams.get('name')
+    const ownerId = searchParams.get('ownerId')
 
     return (
         <div className="flex flex-col gap-8 px-6 py-4 animate-in fade-in slide-in-from-right-5 duration-500">
@@ -49,7 +47,7 @@ export default function OwnerAuthPage() {
                     <p className="text-sm text-slate-500">국세청에 등록된 정확한 정보를 입력해주세요.</p>
                 </div>
 
-                <BusinessForm storeInfo={selectedPlace} />
+                <BusinessForm storeInfo={selectedPlace} ownerId={ownerId}/>
             </div>
         </div>
     )

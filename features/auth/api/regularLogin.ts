@@ -27,15 +27,19 @@ export async function regularLogin(formData:FormData){
 
     const { data: profile, error: profileError} = await supabase.from('profiles').select('role').eq('id', data.user.id).single()
 
+    console.log('profiel', profile)
+
     if(profileError || !profile){
-        await supabase.auth.signOut()
         throw new Error('사용자 프로필을 찾df을 수 없습니다.')
     }
 
+    if(profile.role === 'admin'){
+        return{...data, actualRole: 'admin'}
+    }
+
     if(profile.role !== role){
-        await supabase.auth.signOut()
         throw new Error('선택한 회원 유형이 올바르지 않습니다.')
     }
     
-    return data
+    return { ...data, actualRole: profile.role }
 }

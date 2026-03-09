@@ -2,17 +2,9 @@ import { KakaoPlace } from "@/shared/model/map";
 import { create } from "zustand";
 import { persist, createJSONStorage } from 'zustand/middleware'
 
-// interface SelectedPlace{
-//     id: string;
-//     place_name: string;
-//     address_name: string;
-//     category_name: string; //"음식점 > 카페 > 테마카페 > 애견카페" 이런식으로 나옴
-//     phone: string;
-//     x: string;
-//     y: string;
-// }
 
 interface StoreRegisterState {
+    ownerId: string | null;
     selectedPlace: KakaoPlace | null;
     setSelectedPlace: (place: KakaoPlace | null) => void;
     reset: () => void;
@@ -21,6 +13,7 @@ interface StoreRegisterState {
 export const useStoreRegistrationStore = create<StoreRegisterState>()(
     persist(
         (set) => ({
+            ownerId: null,
             selectedPlace: null,
             setSelectedPlace: (place) => set({ selectedPlace: place }),
             reset: () => set({ selectedPlace: null }),
