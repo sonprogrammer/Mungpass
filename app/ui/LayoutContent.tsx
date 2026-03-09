@@ -18,9 +18,23 @@ dayjs.locale("ko");
 export default function LayoutContent({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
   const isAuthPage = pathname === "/" || pathname.includes('/signup')
+  const isAdminPage = pathname.includes('/admin')
 
   const KAKAO_SDK_URL = `https://dapi.kakao.com/v2/maps/sdk.js?appkey=${process.env.NEXT_PUBLIC_KAKAO_MAP_API_KEY}&libraries=services&autoload=false`;
 
+  if(isAdminPage){
+    return(
+      <AuthProvider>
+        <Script src={KAKAO_SDK_URL} strategy="afterInteractive" />
+        <main className="w-full h-screen bg-white overflow-y-auto">
+          {children}
+          <Toaster position='top-center' />
+        </main>
+      </AuthProvider>
+    )
+  }
+  
+  
   return (
     <AuthProvider>
 
@@ -45,7 +59,7 @@ export default function LayoutContent({ children }: { children: React.ReactNode 
             <Toaster position='top-center' reverseOrder={false} />
           </main>
 
-          {!isAuthPage &&
+          {!isAuthPage && 
             <div className="bg-[#FFFBEB] w-full shrink-0">
               <Navbar />
             </div>

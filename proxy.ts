@@ -5,8 +5,6 @@ export default async function proxy(req: NextRequest){
     const {supabase, res} = createClient(req)
 
     const { data: {user}} = await supabase.auth.getUser()
-
-    console.log('proxy uuuser', user)
     
     const url = req.nextUrl.clone()
 
@@ -37,7 +35,6 @@ export default async function proxy(req: NextRequest){
     //*관리자 로그인
     if(user && url.pathname.startsWith('/admin')){
         const { data: profile} = await supabase.from('profiles').select('role').eq('id', user.id).single()
-        console.log('proxy user', profile)
 
         if(profile?.role !== 'admin'){
             url.pathname = '/'
