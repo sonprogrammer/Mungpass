@@ -30,6 +30,7 @@ export async function regularLogin(formData:FormData){
     console.log('profiel', profile)
 
     if(profileError || !profile){
+        await supabase.auth.signOut()
         throw new Error('사용자 프로필을 찾df을 수 없습니다.')
     }
 
@@ -38,6 +39,7 @@ export async function regularLogin(formData:FormData){
     }
 
     if(profile.role !== role){
+        await supabase.auth.signOut()
         throw new Error('선택한 회원 유형이 올바르지 않습니다.')
     }
     

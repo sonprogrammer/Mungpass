@@ -3,7 +3,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import LayoutContent from "@/app/ui/LayoutContent";
 import { Provider } from "@/app/Provider";
-
+import { AntdRegistry } from '@ant-design/nextjs-registry'
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -34,7 +34,7 @@ export default function RootLayout({
       >
         <Provider>
           <LayoutContent>
-            {children}
+            <AntdRegistry>{children}</AntdRegistry>
             {modal}
           </LayoutContent>
         </Provider>
