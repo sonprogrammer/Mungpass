@@ -10,6 +10,7 @@ import "dayjs/locale/ko";
 import relativeTime from "dayjs/plugin/relativeTime";
 import isBetween from "dayjs/plugin/isBetween"; 
 import { Toaster} from 'react-hot-toast'
+import { RefineProvider } from "@/app/RefineProvider";
 
 
 dayjs.extend(relativeTime);
@@ -25,11 +26,14 @@ export default function LayoutContent({ children }: { children: React.ReactNode 
   if(isAdminPage){
     return(
       <AuthProvider>
+        <RefineProvider>
+
         <Script src={KAKAO_SDK_URL} strategy="afterInteractive" />
         <main className="w-full h-screen bg-white overflow-y-auto">
           {children}
           <Toaster position='top-center' />
         </main>
+        </RefineProvider>
       </AuthProvider>
     )
   }
@@ -37,6 +41,8 @@ export default function LayoutContent({ children }: { children: React.ReactNode 
   
   return (
     <AuthProvider>
+      <RefineProvider>
+
 
       <Script
         src={KAKAO_SDK_URL}
@@ -66,6 +72,7 @@ export default function LayoutContent({ children }: { children: React.ReactNode 
           }
         </div>
       </div>
+      </RefineProvider>
     </AuthProvider>
   );
 }

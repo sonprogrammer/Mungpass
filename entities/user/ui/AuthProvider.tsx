@@ -8,7 +8,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     const setProfile = useUserStore(state => state.setProfile);
 
     useEffect(() => {
-        const supabase = supabaseClient();
+        const supabase = supabaseClient;
 
         const { data: { subscription } } = supabase.auth.onAuthStateChange(async (event, session) => {
 
