@@ -2,7 +2,7 @@
 import { supabaseClient } from "@/shared/api/supabase/client";
 
 export async function signup(formData: FormData){
-    const supabase = supabaseClient()
+    const supabase = supabaseClient
 
     const email = (formData.get('email') as string).trim()
     const password = formData.get('password') as string
