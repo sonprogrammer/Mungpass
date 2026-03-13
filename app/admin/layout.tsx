@@ -1,7 +1,7 @@
 'use client'
 
 import { useState } from "react";
-import { Layout, ConfigProvider } from "antd";
+import { Layout, ConfigProvider, App } from "antd";
 import { AdminSidebar } from "@/widgets/around/admin/ui/AdminSideBar";
 import { AdminHeader } from "@/widgets/around/admin/ui/AdminHeader";
 
@@ -12,6 +12,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
 
   return (
     <ConfigProvider theme={{ token: { colorPrimary: "#f97316" } }}>
+      <App>
       <Layout style={{ minHeight: '100vh', transition: 'all 0.2s', marginLeft: collapsed ? '80px' : '240px' }}>
         <AdminSidebar collapsed={collapsed} />
         <Layout>
@@ -21,6 +22,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
           </Content>
         </Layout>
       </Layout>
+      </App>
     </ConfigProvider>
   );
 }

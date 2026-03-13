@@ -6,13 +6,16 @@ export async function regularLogin(formData:FormData){
     const email = formData.get('email') as string
     const password = formData.get('password') as string
     const role = formData.get('role') as string
-    console.log('email', email, password, role)
+
 
     const { data, error} = await supabase.auth.signInWithPassword({
         email,
         password
     })
 
+    console.log('data', data)
+    console.log('error', error)
+    
     if(error){
         console.log('erorr', error.message)
         let msg = '로그인 정보를 확인해주세요'
@@ -30,8 +33,9 @@ export async function regularLogin(formData:FormData){
     console.log('profiel', profile)
 
     if(profileError || !profile){
+        console.error('상세 에러 내역', profileError)
         await supabase.auth.signOut()
-        throw new Error('사용자 프로필을 찾df을 수 없습니다.')
+        throw new Error(`${profileError} : 사용자 프로필을 찾df을 수 없습니다.`)
     }
 
     if(profile.role === 'admin'){

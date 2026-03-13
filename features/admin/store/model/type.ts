@@ -1,5 +1,5 @@
 export interface ApproveStoreBtnProps{
-    storeId: string;
-    storeName: string;
+    registrationID: string;
+    registrationStoreName: string;
     onSuccess?: () => void
 }

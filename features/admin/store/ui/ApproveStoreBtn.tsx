@@ -1,53 +1,71 @@
 'use client'
 
-import { ApproveStoreBtnProps } from "@/features/admin/store/model/type"
-import { CheckCircleOutlined, CloseCircleOutlined } from "@ant-design/icons"
-import { useUpdate } from "@refinedev/core"
-import { Button, message, Modal, Space } from "antd"
+import { Modal, Input, Button, Space } from "antd";
+import { useState } from "react";
+import { useUpdate } from "@refinedev/core";
+import { ApproveStoreBtnProps } from "@/features/admin/store/model/type";
 
+export function ApproveStoreBtn({ registrationID, registrationStoreName, onSuccess }: ApproveStoreBtnProps) {
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    const [status, setStatus] = useState<'APPROVED' | 'REJECTED'>('APPROVED');
+    const [reason, setReason] = useState('');
+    const { mutate, mutation: { isPending } } = useUpdate();
 
-export function ApproveStoreBtn({storeId, storeName, onSuccess}: ApproveStoreBtnProps) {
-    const { mutate, mutation:{isPending}} = useUpdate()
-    
-    const handleUpdate = (status: 'APPROVED' | 'REJECTED') => {
-        Modal.confirm({
-            title: `'${storeName} 지점 심사`,
-            content: `${status === 'APPROVED' ? '승인' : '반려'} 처리하시겠습니까?`,
-            onOk: () => {
-                mutate({
-                    resource: 'store_registrations',
-                    id: storeId,
-                    values: {status}
-                },{
-                    onSuccess: () => {
-                        message.success('처리가 완료되었습니다.')
-                        onSuccess?.()
-                    }
-                }
-            )
+    const openModal = (s: 'APPROVED' | 'REJECTED') => {
+        setStatus(s)
+        setReason('')
+        setIsModalOpen(true)
+    }
+
+    const handleOk = () => {
+        mutate({
+            resource: 'store_registrations',
+            id: registrationID,
+            values: { status, rejection_reason: status === 'REJECTED' ? reason : undefined }
+        }, {
+            onSuccess: () => {
+                setIsModalOpen(false)
+                onSuccess?.()
             }
         })
     }
-    
-    return(
-        <Space>
-            <Button
-                type="primary"
-                icon={<CheckCircleOutlined />}
-                loading={isPending}
-                onClick={() => handleUpdate('APPROVED')}
-            >
-                승인
-            </Button>
-            <Button
-                danger
-                icon={<CloseCircleOutlined />}
-                loading={isPending}
-                onClick={() => handleUpdate('REJECTED')}
-            >
-                반려
-            </Button>
 
+
+    return (
+        <Space>
+            <Button type="primary" loading={isPending} onClick={() => openModal('APPROVED')}>승인</Button>
+            <Button danger loading={isPending} onClick={() => openModal('REJECTED')}>반려</Button>
+
+            <Modal
+                centered
+                open={isModalOpen}
+                onOk={handleOk}
+                onCancel={() => setIsModalOpen(false)}
+                okText={status === 'APPROVED' ? '승인' : '반려'}
+                cancelText="취소"
+                title={(
+                    <span
+                        className={`font-bold text-lg`}
+                    >
+                        {registrationStoreName} 지점 검사
+                    </span>
+                    )}
+            >
+                <p>
+                    <span className={`${status === 'APPROVED' ? 'text-green-500' : 'text-red-500'} font-bold underline underline-offset-2 text-lg`}>{status === 'APPROVED' ? '승인 ' : '반려 '}</span>
+                     처리하시겠습니까?
+                </p>
+                {status === 'REJECTED' && (
+                    <Input.TextArea
+                        rows={3}
+                        value={reason}
+                        onChange={(e) => setReason(e.target.value)}
+                        placeholder="반려 사유를 입력해주세요"
+                        style={{ resize: 'none', marginTop: 8 }}
+                        autoFocus
+                    />
+                )}
+            </Modal>
         </Space>
-    )
+    );
 }

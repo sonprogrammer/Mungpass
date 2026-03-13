@@ -8,46 +8,51 @@ export function MainCardFourData () {
     const today = new Date()
     today.setHours(0, 0,0,0)
 
-    // *심사 대기 데이터
-    const { result: {total:pendingTotal}, query: pendingQuery} = useList({
+    // * 누적 심사 대기
+    const { result: {total:pendingTotal}, query: {isLoading: pendingQuery}} = useList({
         resource: 'store_registrations',
         filters: [{field: 'status', operator: 'eq', value: 'PENDING'}]
     })
+
+    // console.log('resutl ', data)
     
     // *승인된 데이터, 업체수
-    const {result: { total: approvedDataTotal}, query: approvedQuery} = useList({
+    const {result: { total: approvedDataTotal}, query: {isLoading: approvedQuery}} = useList({
         resource: 'store_registrations',
         filters: [{field: 'status', operator: 'eq', value: 'APPROVED'}]
     })
 
     // * 신규 유저
-    const {result: {total: newUserTotal}, query: newUserQuery} = useList({
+    const {result: {total: newUserTotal}, query: {isLoading : newUserQuery}} = useList({
         resource: 'profiles',
         filters:[{field: 'join_date', operator: 'gte', value: today.toISOString().split("T")[0]}]
     })
 
     // * 누적 회원
-    const {result: {total: allUserTotal}, query: allUserQuery} = useList({
+    const {result: {total: allUserTotal}, query: {isLoading: allUserQuery}} = useList({
         resource: 'profiles'
     })
 
 
     // * 전일 대비
-    const {result : { data: statsData}, query: statsQuery} = useList({
+    const {result : { data: statsData}, query: {isLoading : statsQuery}} = useList({
         resource: 'daily_stats',
         pagination: { pageSize: 2},
         sorters: [{field: 'date', order: 'desc'}]
     })
 
-    const yesterdayStats = statsData?.[1]
+    const yesterdayStats = statsData?.[1] ? statsData?.[1] : statsData?.[0]
 
     const getDiff = (todayVal:number=0, yesterdayVal: number =0) => {
-        const diff = todayVal - yesterdayVal
+
+        const yVal = yesterdayVal || 0
+        
+        const diff = todayVal - yVal
         if(diff > 0) return `+${diff}`
         return `${diff}`
     }
     
-    const isLoading = [pendingQuery, approvedQuery, newUserQuery, allUserQuery, statsQuery].some(p => p.isPending)
+    const isLoading = [pendingQuery, approvedQuery, newUserQuery, allUserQuery, statsQuery].some(p => p)
 
     // TODO 스켈레톤으로 구현
     if(isLoading) {
@@ -74,7 +79,7 @@ export function MainCardFourData () {
             value: allUserTotal || 0,
             icon: <UserOutlined />,
             color: '#1677ff',
-            diff: getDiff(allUserTotal, yesterdayStats?.total_user_count)
+            diff: getDiff(newUserTotal, 0)
         },
         {
             title: '오늘 신규 유저', 
@@ -88,7 +93,7 @@ export function MainCardFourData () {
     return(
         <Row gutter={[24, 24]} className="mb-8">
             {summaryData.map((item,i) => {
-                const isUp = item.diff.startsWith('+')
+                const isUp = item.diff?.startsWith('+')
                 const isZero = item.diff === '0'
                 
                 return(
@@ -102,7 +107,7 @@ export function MainCardFourData () {
                         />
                         <div className='mt-2 flex items-center gap-2'>
                             <Tag color={isZero ? 'default' : isUp ? 'orange' : 'blue'} bordered={false} 
-                            icon={isUp ? <ArrowUpOutlined /> : <ArrowDownOutlined />}
+                            icon={isZero ? '' : isUp ? <ArrowUpOutlined /> : <ArrowDownOutlined />}
                             >
                                 {item.diff}
                             </Tag>

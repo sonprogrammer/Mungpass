@@ -9,6 +9,8 @@ import {
   LogoutOutlined,
   SettingOutlined
 } from "@ant-design/icons";
+import { handleLogout } from "@/features/auth/api/handleLogout";
+import { cookieLogout } from "@/features/auth/api/logoutAction";
 
 const { Header } = Layout;
 const { Text } = Typography;
@@ -19,13 +21,24 @@ interface AdminHeaderProps {
 }
 
 export function AdminHeader({ collapsed, setCollapsed }: AdminHeaderProps) {
+
+  const logout = async() => {
+
+    // TODO 서버 로그아웃 처리
+
+    await handleLogout()
+    await cookieLogout()
+    console.log('cliekc')
+
+}
   const userMenuItems = [
     { key: 'profile', icon: <UserOutlined />, label: '내 프로필' },
     { key: 'settings', icon: <SettingOutlined />, label: '설정' },
     { type: 'divider' as const },
-    { key: 'logout', icon: <LogoutOutlined />, label: '로그아웃', danger: true },
+    { key: 'logout', icon: <LogoutOutlined />, label: '로그아웃', danger: true, onClick: logout },
   ];
 
+  
   return (
     <Header 
       style={{ 
