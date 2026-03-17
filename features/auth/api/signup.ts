@@ -9,7 +9,6 @@ export async function signup(formData: FormData){
     const name = formData.get('name') as string
     const phone = formData.get('phone') as string
     const role = formData.get('role') as string
-    console.log('role', name, phone)
 
     const { data, error } = await supabase.auth.signUp({
         email,
@@ -24,8 +23,17 @@ export async function signup(formData: FormData){
     })
 
     if(error){
+
+        if (error.message.includes("at least 6 characters")) {
+            throw new Error("비밀번호는 최소 6자 이상이어야 합니다.");
+       }
+       
+       if(error.message.includes('already registered')){
+        throw new Error('이미 사용중인 이메일 입니다')
+       }
+       
         console.error('회원가입 에러', error.message)
-        throw error
+        throw new Error(error.message)
     }
 
     // await supabase.auth.signOut()

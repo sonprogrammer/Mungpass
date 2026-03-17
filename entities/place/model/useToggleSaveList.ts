@@ -8,7 +8,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query"
 
 
 export const useToggleSaveList = () => {
-    const supabase = supabaseClient()
+    const supabase = supabaseClient
     const queryClient = useQueryClient()
 
     return useMutation({

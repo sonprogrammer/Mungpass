@@ -100,7 +100,7 @@ export function SignupFields({
                     <input
                         name="password"
                         type="password"
-                        placeholder="비밀번호"
+                        placeholder="비밀번호 (6자 이상 입력해주세요)"
                         required
                         value={passwords.password}
                         onChange={(e) => setPasswords({ ...passwords, password: e.target.value })}

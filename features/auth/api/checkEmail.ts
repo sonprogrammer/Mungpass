@@ -6,7 +6,7 @@ export async function checkEmail(email: string){
     const { data, error} = await supabase.from('profiles').select('email').eq('email', email).maybeSingle()
 
 
-    
+    console.log('data', data)
 
     if(error){
         console.log('db error', error)

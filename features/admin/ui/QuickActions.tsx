@@ -14,7 +14,7 @@ export function QuickActions() {
                 <Divider style={{margin: '12px 0'}}/>
             </div>
 
-            {/* //TODO 공지 사항이나 그런거 추가 */}
+            {/* //TODO 공지 사항이나 그런거 추가 -> 일반 유저, 사장도 볼 수 있게 */}
         </Card>
     )
 }

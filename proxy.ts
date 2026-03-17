@@ -8,18 +8,28 @@ export default async function proxy(req: NextRequest){
     
     const url = req.nextUrl.clone()
 
+    const role = user?.app_metadata?.role
+    // console.log('user', user?.app_metadata?.role)
 
     // *로그인 된상태에서 랜딩페이지/회원가입에 접속 시
-    if(user && url.pathname === '/' || url.pathname ==='signup'){
-        const restrictedPaths = ['/', '/signup']
-        const isRestricted = restrictedPaths.includes(url.pathname)
+    if(user && (url.pathname === '/' || url.pathname ==='signup')){
 
         const isOwnerSignupStep = url.pathname.startsWith('/signup/owner')
 
-        if(isRestricted && ! isOwnerSignupStep){
-            url.pathname = '/home'
+        if(!isOwnerSignupStep){
+            // *관리자라면 관리자 페이지로 아니면 일반 홈으로
+            if(role === 'admin'){
+                url.pathname = '/admin'
+            }else{
+                url.pathname = '/home'
+            }
             return Response.redirect(url)
         }
+    }
+
+    if (user && role === 'admin' && url.pathname.startsWith('/home')) {
+        url.pathname = '/admin';
+        return Response.redirect(url);
     }
 
     //* 로그인 안된상태에서 다른 페이지 이동할시, 랜딩페이지로 이동
@@ -32,18 +42,13 @@ export default async function proxy(req: NextRequest){
         return Response.redirect(url)
     }
 
-    //*관리자 로그인
-    if(user && url.pathname.startsWith('/admin')){
-        const { data: profile} = await supabase.from('profiles').select('role').eq('id', user.id).single()
-
-        if(profile?.role !== 'admin'){
+    //*관리자 로그인 접근 권한 확인
+    if(url.pathname.startsWith('/admin')){
+        if(!user || role !== 'admin'){
             url.pathname = '/'
             return Response.redirect(url)
         }
-        
     }
-    
-    
     
     return res
 }

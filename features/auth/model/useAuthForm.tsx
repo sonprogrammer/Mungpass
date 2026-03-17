@@ -37,8 +37,9 @@ export function useAuthForm(mode: 'login' | 'signup', OwnerSuccess?: (id: string
           OwnerSuccess(user.id)
         }
         
-      } catch {
-        alert("회원가입 중 에러가 발생했습니다.")
+      } catch(error) {
+        const errorMessage = error instanceof Error ? error.message : '회원가입 중 오류가 발생했습니다.';
+        alert(errorMessage)
       }
     }
   };

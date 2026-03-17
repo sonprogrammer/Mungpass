@@ -6,7 +6,7 @@ import { useQuery } from "@tanstack/react-query"
 
 
 export const useGetSaveList = () => {
-    const supabase = supabaseClient()
+    const supabase = supabaseClient
 
     return useQuery({
         queryKey: ['favorites'],

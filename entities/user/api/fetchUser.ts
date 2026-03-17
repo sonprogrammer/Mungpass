@@ -2,7 +2,7 @@
 import { supabaseClient } from "@/shared/api/supabase/client";
 
 export const fetchUser = async() => {
-    const supabase = supabaseClient()
+    const supabase = supabaseClient
 
     const { data: {user}} = await supabase.auth.getUser()
     if(!user) return null

@@ -1,7 +1,7 @@
 import { supabaseClient } from "@/shared/api/supabase/client";
 
 export async function registerPrimaryDog({dogId, userId, currentPrimary}: {dogId: string, userId: string, currentPrimary: boolean}) {
-    const supabase = supabaseClient()
+    const supabase = supabaseClient
 
     // *우선 유저의 모든 애완견 대표 설정을 false로 만듦
     const {error: primaryError} = await supabase.from('dogs').update({is_primary: false}).eq('owner_id', userId)
