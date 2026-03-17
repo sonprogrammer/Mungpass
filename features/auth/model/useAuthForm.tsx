@@ -10,10 +10,14 @@ export function useAuthForm(mode: 'login' | 'signup', OwnerSuccess?: (id: string
     if (mode ==='login') {
       try {
         const user = await regularLogin(formData)
-        console.log('user', user)
-        if(user.actualRole === 'admin'){
+        const role = user.user.app_metadata.role
+        console.log('user from useAuthForm', role)
+        if(role === 'admin'){
           router.push('/admin')
-        }else{
+        }else if(role === 'owner'){
+          router.push('/owner')
+        }
+        else{
           router.push('/home')
         }
       } catch(error: unknown) {

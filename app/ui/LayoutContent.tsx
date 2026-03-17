@@ -11,6 +11,7 @@ import relativeTime from "dayjs/plugin/relativeTime";
 import isBetween from "dayjs/plugin/isBetween"; 
 import { Toaster} from 'react-hot-toast'
 import { RefineProvider } from "@/app/RefineProvider";
+import { OwnerNavbar } from "@/widgets/owner/ui/OwnerNavbar";
 
 
 
@@ -21,6 +22,7 @@ export default function LayoutContent({ children }: { children: React.ReactNode 
   const pathname = usePathname();
   const isAuthPage = pathname === "/" || pathname.includes('/signup')
   const isAdminPage = pathname.includes('/admin')
+  const isOwnerPage = pathname.includes('/owner')
 
   const KAKAO_SDK_URL = `https://dapi.kakao.com/v2/maps/sdk.js?appkey=${process.env.NEXT_PUBLIC_KAKAO_MAP_API_KEY}&libraries=services&autoload=false`;
 
@@ -68,7 +70,7 @@ export default function LayoutContent({ children }: { children: React.ReactNode 
 
           {!isAuthPage && 
             <div className="bg-[#FFFBEB] w-full shrink-0">
-              <Navbar />
+              {isOwnerPage ? <OwnerNavbar /> :<Navbar />}
             </div>
           }
         </div>
