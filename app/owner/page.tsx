@@ -3,6 +3,8 @@
 import { Card, Col, Row, Statistic, Table, Tag, Button, Empty, Typography, Space } from 'antd';
 import { PlayCircleOutlined, ThunderboltOutlined, UserOutlined } from '@ant-design/icons';
 import { useUserStore } from '@/entities/user/model/useUserStore';
+import { OwnerSumCards } from '@/widgets/owner/ui/OwnerSumCards';
+import { RealtimeUsageTable } from '@/widgets/owner/ui/RealtimeUsageTable';
 
 const { Title, Text } = Typography;
 
@@ -25,58 +27,12 @@ export default function OwnerDashboard() {
       <Row gutter={[24, 24]}>
         {/* //* 상단 요약 카드 */}
         <Col span={24}>
-          <Row gutter={16}>
-            <Col span={6}>
-              <Card  className="shadow-sm">
-                <Statistic title="현재 이용 중" value={currentUsers.length} suffix="마리" prefix={<PlayCircleOutlined className="text-blue-500" />} />
-              </Card>
-            </Col>
-            <Col span={6}>
-              <Card  className="shadow-sm">
-                <Statistic title="오늘 총 방문" value={15} suffix="마리" prefix={<UserOutlined />} />
-              </Card>
-            </Col>
-            <Col span={6}>
-              <Card  className="shadow-sm">
-                <Statistic title="평균 이용 시간" value={3.5} suffix="시간" />
-              </Card>
-            </Col>
-            <Col span={6}>
-              <Card  className="shadow-sm">
-                <Statistic title="오늘 예상 매출" value={245000} suffix="원" />
-              </Card>
-            </Col>
-          </Row>
+          <OwnerSumCards currentCount={currentUsers.length}/>
         </Col>
 
         {/*//* 메인: 현재 이용 현황 - 일반유저한테도 뿌려주게 */}
         <Col xs={24} lg={16}>
-          <Card 
-            title={<Space><ThunderboltOutlined className="text-orange-500"/> 실시간 입실 유저</Space>} 
-            className="shadow-sm border-orange-100"
-          >
-            {currentUsers.length > 0 ? (
-              <Table 
-                dataSource={currentUsers} 
-                pagination={false}
-                rowKey="id"
-                columns={[
-                  { title: '반려견명', dataIndex: 'petName', key: 'petName', render: (text, record) => (
-                    <Space>
-                      <Text strong>{text}</Text>
-                      <Text type="secondary" >({record.breed})</Text>
-                    </Space>
-                  )},
-                  { title: '입실 시간', dataIndex: 'startTime', key: 'startTime' },
-                  { title: '경과 시간', dataIndex: 'duration', key: 'duration', render: (time) => <Tag color="blue">{time}</Tag> },
-                  { title: '구분', dataIndex: 'type', key: 'type' },
-                  { title: '관리', key: 'action', render: () => <Button size="small" danger ghost>퇴실 처리</Button> }
-                ]}
-              />
-            ) : (
-              <Empty description="현재 이용 중인 강아지가 없습니다." />
-            )}
-          </Card>
+          <RealtimeUsageTable data={currentUsers}/>
         </Col>
 
         {/* //* 최근 퇴실 기록 */}

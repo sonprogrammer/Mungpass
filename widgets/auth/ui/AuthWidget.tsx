@@ -24,7 +24,7 @@ export function AuthWidget() {
 
 
 
-      <div className="w-full max-w-md bg-white rounded-4xl shadow-xl shadow-orange-200/40 border-4 border-orange-100 flex flex-col max-h-[80vh] relative overflow-hidden">
+      <div className="w-full max-w-120 bg-white rounded-4xl shadow-xl shadow-orange-200/40 border-4 border-orange-100 flex flex-col max-h-[80vh] relative overflow-hidden">
 
         <div className="p-6 flex flex-col text-center">
           <h2 className="text-2xl font-black text-slate-800">

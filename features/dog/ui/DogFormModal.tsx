@@ -55,7 +55,7 @@ export function DogFormModal({ isOpen, onClose, profile }: DogFormModalProps) {
             onClick={() => onClose()}
             >
             <div
-                className="w-full h-[80%] overflow-y-auto max-w-md bg-white rounded-2xl shadow-2xl animate-in fade-in zoom-in duration-200"
+                className="w-full h-[80%] overflow-y-auto max-w-120 bg-white rounded-2xl shadow-2xl animate-in fade-in zoom-in duration-200"
                 onClick={(e) => e.stopPropagation()}
             >
                 {/* //*헤더 */}

@@ -11,7 +11,7 @@ export default function AuthModal({ onClose, onAuthSuccess }: { onClose: () => v
 
   return (
     <div className="fixed inset-0 z-100 bg-slate-900/90 backdrop-blur-sm flex items-end sm:items-center justify-center">
-      <div className="bg-white w-full max-w-md rounded-t-[40px] sm:rounded-[40px] p-8 pb-12 animate-in slide-in-from-bottom duration-300 relative">
+      <div className="bg-white w-full max-w-120 rounded-t-[40px] sm:rounded-[40px] p-8 pb-12 animate-in slide-in-from-bottom duration-300 relative">
         <button onClick={onClose} className="absolute top-6 right-6 p-2 text-slate-300 hover:text-slate-500"><X /></button>
 
         {step === 'login' ? (

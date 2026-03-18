@@ -5,10 +5,14 @@ import Link from "next/link";
 import { useState } from "react";
 import NotificationDrawer from '@/features/notification/ui/NotificationDrawer'
 import { useUserStore } from "@/entities/user/model/useUserStore";
+import { useGetShopInfo } from "@/entities/owner/model/useGetShopInfo";
 
 export default function Header() {
   const profile = useUserStore(state => state.profile)
   const [isBellOpen, setIsBellOpen] = useState(false)
+
+  const { data: shopInfo, isPending } = useGetShopInfo()
+  console.log('data from header', shopInfo)
 
   const isOwner = profile?.role === 'owner'
   return (
@@ -48,12 +52,21 @@ export default function Header() {
           {!isOwner ? (
             <div className="bg-orange-50 px-3 py-1.5 rounded-full flex items-center gap-1.5 border border-orange-100">
               <Bone className="w-3.5 h-3.5 text-orange-500" />
+              {/* //TODO 수정 회원 등급임 */}
               <span className="text-[10px] font-black text-orange-600 uppercase">Puppy Grade</span>
             </div>
           ) : (
-            // TODO여기서 가게 이름 받아오기
-            <div className="bg-emerald-50 px-3 py-1.5 rounded-full flex items-center gap-1.5 border border-orange-100">
-              <span className="text-[10px] font-black text-emerald-600 uppercase">business </span>
+            <div className="bg-emerald-50 px-3 py-1.5 rounded-full border border-emerald-100/50 flex items-center gap-2">
+              {isPending ? (
+                <div className="w-16 h-3 bg-emerald-200 animate-pulse rounded" />
+              ) : (
+                <>
+                  <div className="w-1.5 h-1.5 bg-emerald-500 rounded-full animate-pulse" />
+                  <span className="text-[12px] font-black text-emerald-700 uppercase">
+                    {shopInfo?.name ?? "매장 등록 필요"}
+                  </span>
+                </>
+              )}
             </div>
           )}
 

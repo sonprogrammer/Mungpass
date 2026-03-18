@@ -5,7 +5,7 @@ import Link from "next/link"
 
 export function RoleSelection() {
     return(
-        <div className="w-full max-w-md px-6 py-8 ">
+        <div className="w-full max-w-120 px-6 py-8 ">
             <div className="mb-8 text-center">
                 <h2 className="text-2xl font-black">반가워요!</h2>
                 <p className="text-slate-500 font-bold mt-2">어떤 목적으로 멍패스를 이용하시나요?</p>

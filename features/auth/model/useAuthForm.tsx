@@ -16,8 +16,7 @@ export function useAuthForm(mode: 'login' | 'signup', OwnerSuccess?: (id: string
           router.push('/admin')
         }else if(role === 'owner'){
           router.push('/owner')
-        }
-        else{
+        }else{
           router.push('/home')
         }
       } catch(error: unknown) {

@@ -27,6 +27,7 @@ export default function RootLayout({
   children: React.ReactNode;
   modal: React.ReactNode
 }>) {
+  
   return (
     <html lang="en">
       <body
@@ -34,8 +35,10 @@ export default function RootLayout({
       >
         <Provider>
           <LayoutContent>
-            <AntdRegistry>{children}</AntdRegistry>
-            {modal}
+            <AntdRegistry>
+              {children}
+              {modal} 
+            </AntdRegistry>
           </LayoutContent>
         </Provider>
       </body>

@@ -23,14 +23,10 @@ interface AdminHeaderProps {
 export function AdminHeader({ collapsed, setCollapsed }: AdminHeaderProps) {
 
   const logout = async() => {
-
-    // TODO 서버 로그아웃 처리
-
     await handleLogout()
     await cookieLogout()
-    console.log('cliekc')
-
-}
+  }
+  
   const userMenuItems = [
     { key: 'profile', icon: <UserOutlined />, label: '내 프로필' },
     { key: 'settings', icon: <SettingOutlined />, label: '설정' },

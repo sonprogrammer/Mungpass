@@ -101,7 +101,7 @@ export function DogDetailModal({ isOpen, onClose, directEditMode }: DogDetailMod
         <div className="fixed h-screen inset-0 z-100 flex justify-center items-center bg-black/40 backdrop-blur-sm p-4"
             onClick={() => { onClose(); setIsEdit(false) }}
         >
-            <div className="w-full max-w-md bg-white rounded-[2.5rem] overflow-hidden animate-in fade-in zoom-in duration-200"
+            <div className="w-full max-w-120 bg-white rounded-[2.5rem] overflow-hidden animate-in fade-in zoom-in duration-200"
                 onClick={(e) => e.stopPropagation()}
             >
 

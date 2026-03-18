@@ -18,7 +18,7 @@ export default function UserSignupPage() {
     })
 
     return (
-        <div className="w-full max-w-md px-6 pt-4 flex flex-col h-full">
+        <div className="w-full max-w-120 px-6 pt-4 flex flex-col h-full">
 
             {/* //* 성공모달 */}
             {showModal && (
