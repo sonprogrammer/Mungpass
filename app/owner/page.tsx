@@ -5,21 +5,24 @@ import { PlayCircleOutlined, ThunderboltOutlined, UserOutlined } from '@ant-desi
 import { useUserStore } from '@/entities/user/model/useUserStore';
 import { OwnerSumCards } from '@/widgets/owner/ui/OwnerSumCards';
 import { RealtimeUsageTable } from '@/widgets/owner/ui/RealtimeUsageTable';
+import { RecentHistory } from '@/widgets/owner/ui/RecendtHistory';
+import { Tip } from '@/widgets/owner/ui/Tip';
 
-const { Title, Text } = Typography;
 
 export default function OwnerDashboard() {
     const profile = useUserStore(state => state.profile)
     console.log('전역변수 프로필', profile)
 
   const currentUsers = [
-    { id: 1, petName: '보리', breed: '시바견', startTime: '10:30', duration: '2시간 15분', type: '유치원' },
-    { id: 2, petName: '두부', breed: '말티즈', startTime: '11:45', duration: '1시간 00분', type: '호텔' },
+    { id: 1, petName: '보리', breed: '시바견', startTime: '15:30', duration: '2시간 15분', type: '유치원', petImage: 'https://images.unsplash.com/photo-1583511655857-d19b40a7a54e?q=80&w=200&auto=format&fit=crop' },
+    { id: 2, petName: '두부', breed: '말티즈', startTime: '11:45', duration: '1시간 00분', type: '호텔'},
+    { id: 2, petName: '두부', breed: '말티즈', startTime: '11:45', duration: '1시간 00분', type: '호텔'},
+
   ]
 
   // 오늘 완료된 내역
   const todayDone = [
-    { id: 101, petName: '초코', type: '유치원', totalTime: '4시간 30분', fee: '22,000원' },
+    { id: 101, petName: '초코', type: '유치원', totalTime: '4시간 30분', price: '22,000원' },
   ]
 
   return (
@@ -37,28 +40,7 @@ export default function OwnerDashboard() {
 
         {/* //* 최근 퇴실 기록 */}
         <Col xs={24} lg={8}>
-          <Card title="최근 완료 기록" className="shadow-sm">
-            <div className="flex flex-col gap-4">
-              {todayDone.map(item => (
-                <div key={item.id} className="flex justify-between items-center p-3 bg-gray-50 rounded-lg">
-                  <div>
-                    <Text strong>{item.petName}</Text>
-                    <br />
-                    <Text type="secondary" style={{ fontSize: '12px' }}>{item.totalTime} 이용</Text>
-                  </div>
-                  <Text strong className="text-green-600">{item.fee}</Text>
-                </div>
-              ))}
-              <Button block type="dashed">전체 기록 보기</Button>
-            </div>
-          </Card>
-
-          <Card className="mt-6 bg-orange-50 border-orange-200">
-            <Title level={5}>사장님 Tip</Title>
-            <Text type="secondary" >
-              유저가 QR을 찍으면 자동으로 목록에 추가됩니다.
-            </Text>
-          </Card>
+          <Tip />
         </Col>
       </Row>
     </div>

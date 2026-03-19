@@ -54,7 +54,7 @@ export default function HomePage() {
         {/* //*주변 애견카페  */}
         <NearByPlace />
       </main>
-
+ 
       <DogFormModal
         isOpen={dogPostModalOpen}
         onClose={() => setDogPostModalOpen(false)}
