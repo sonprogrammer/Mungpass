@@ -9,7 +9,7 @@ export default async function proxy(req: NextRequest){
     const url = req.nextUrl.clone()
 
     const role = user?.app_metadata?.role
-    console.log('usefdasfr', user)
+    // console.log('usefdasfr', user)
 
     const regularUserPage = ['/home', '/around','/history','/my-pets', '/save', 'mypage']
     // TODO더생기면 추가
