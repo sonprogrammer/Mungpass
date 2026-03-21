@@ -9,16 +9,41 @@ import {
     QrCode,
     Hotel,
     Gamepad2,
-    Dog
+    Dog,
+    ArrowLeft
 } from "lucide-react"
 import { NavItem } from "@/widgets/owner/ui/NavItem"
 import { Modal, Button, Typography } from 'antd'
 import { useState } from "react"
+import { QRCodeSVG } from "qrcode.react"
+import { useGetShopInfo } from "@/entities/owner/model/useGetShopInfo"
+
+//목업
+// TODO 이건 가게마다 상품이 다르니깐 그거에 맞게 수정해야함
+type QrProductType = '유치원' | '호텔' | '놀이방'
+
 
 export function OwnerNavbar() {
     const [isQrModalOpen, setIsQrModalOpen] = useState<boolean>(false)
+    const [selectedProduct, setSelectedProduct] = useState<QrProductType | null>(null)
     const pathname = usePathname()
+    const { data} = useGetShopInfo()
+    console.log('data', data)
+
+    const shopId = data.id
     const isQrActive = pathname === '/owner/qr'
+
+    const handleCloseQrModal = () => {
+        setIsQrModalOpen(false)
+        setSelectedProduct(null)
+    }
+
+    const handleSelectedProduct = (product: QrProductType) => {
+        setSelectedProduct(product)
+    }
+
+    // TODO 이건 가게마다 상품이 다르니깐 그거에 맞게 수정해야함
+    const qrValue = `${process.env.NEXT_PUBLIC_SITE_URL}/checkin?shopId=${shopId}=&productId=${selectedProduct}`
 
 
     return (
@@ -76,7 +101,7 @@ export function OwnerNavbar() {
 
             <Modal
                 open={isQrModalOpen}
-                onCancel={() => setIsQrModalOpen(false)}
+                onCancel={handleCloseQrModal}
                 footer={null}
                 centered
                 width={360}
@@ -84,35 +109,73 @@ export function OwnerNavbar() {
             >
 
                 {/* //TODO 여기는 사장이 적어논 상품들이 있어야함-store_products테이블 */}
-                <div className="flex flex-col gap-3 pt-2">
-                    <Typography.Text className="text-sm text-slate-500">
-                        이용 유형을 선택해주세요.
-                    </Typography.Text>
+                {!selectedProduct ? (
 
-                    <Button
-                        size="large"
-                        className="h-14 justify-start border-emerald-100! hover:border-emerald-300!"
-                        icon={<Dog size={18} />}
-                    >
-                        유치원
-                    </Button>
 
-                    <Button
-                        size="large"
-                        className="h-14 justify-start border-emerald-100! hover:border-emerald-300!"
-                        icon={<Hotel size={18} />}
-                    >
-                        호텔
-                    </Button>
+                    <div className="flex flex-col gap-3 pt-2">
+                        <Typography.Text className="text-sm text-slate-500">
+                            이용 유형을 선택해주세요.
+                        </Typography.Text>
 
-                    <Button
-                        size="large"
-                        className="h-14 justify-start border-emerald-100! hover:border-emerald-300!"
-                        icon={<Gamepad2 size={18} />}
-                    >
-                        놀이방
-                    </Button>
-                </div>
+                        <Button
+                            size="large"
+                            className="h-14 justify-start border-emerald-100! hover:border-emerald-300!"
+                            icon={<Dog size={18} />}
+                            onClick={() => handleSelectedProduct('유치원')}
+                        >
+                            유치원
+                        </Button>
+
+                        <Button
+                            size="large"
+                            className="h-14 justify-start border-emerald-100! hover:border-emerald-300!"
+                            icon={<Hotel size={18} />}
+                            onClick={() => handleSelectedProduct('호텔')}
+                        >
+                            호텔
+                        </Button>
+
+                        <Button
+                            size="large"
+                            className="h-14 justify-start border-emerald-100! hover:border-emerald-300!"
+                            icon={<Gamepad2 size={18} />}
+                            onClick={() => handleSelectedProduct('놀이방')}
+                        >
+                            놀이방
+                        </Button>
+                    </div>
+                ) : (
+                    <div className="flex flex-col items-center gap-4 pt-2">
+                        <div className="flex w-full items-center">
+
+                            <Button
+                                type="text"
+                                icon={<ArrowLeft size={16}/>}
+                                onClick={() => setSelectedProduct(null)}
+                            >
+                                뒤로가기
+                            </Button>
+                            <Typography.Text className="text-sm text-slate-500">
+                                선택된 상품 : {' '}
+                                <span className="text-orange-500 font-black">{selectedProduct}</span>
+                            </Typography.Text>
+                        </div>
+
+                        <div className="rounded-2xl border border-slate-200 bg-white p-4 shadow-sm">
+                            <QRCodeSVG 
+                                value={qrValue}
+                                size={220}
+                                marginSize={5}
+                            />
+                        </div>
+                        <Typography.Text className="text-center text-sm text-slate-500">
+                            보호자가 이 QR 코드를 스캔하면 {" "}
+                            <span className="underline text-orange-500 font-black">{selectedProduct}</span>
+                            {" "}체크인이 진행됩니다
+                        </Typography.Text>
+                    </div>
+                )
+                }
             </Modal>
 
         </>
