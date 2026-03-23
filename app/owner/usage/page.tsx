@@ -8,8 +8,7 @@ import { CurrentLogList } from "@/widgets/owner/ui/CurrentLogList";
 import { useState } from "react";
 
 export default function UsagePage() {
-  // TODO deafult로 current해줘야함
-    const [tab, setTab]= useState<'current' | 'checkout'>('checkout')
+    const [tab, setTab]= useState<'current' | 'checkout'>('current')
 
     // *실시간 유저
     const { data: currentLogs=[] } = useGetCurrentUsageLogs()

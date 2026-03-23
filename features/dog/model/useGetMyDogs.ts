@@ -1,8 +1,11 @@
 import { fetchDogs } from "@/entities/dog/api/fetchDogs";
+import { useUserStore } from "@/entities/user/model/useUserStore";
 import { useQuery } from "@tanstack/react-query";
 
 
-export const useGetMyDogs = (userId: string | null | undefined) => {
+export const useGetMyDogs = () => {
+    const profile = useUserStore(state => state.profile)
+    const userId = profile?.id
     return useQuery({
         queryKey: ['my-dogs', userId],
         queryFn: () => fetchDogs(userId!),

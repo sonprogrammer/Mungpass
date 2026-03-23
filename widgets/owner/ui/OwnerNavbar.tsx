@@ -30,7 +30,7 @@ export function OwnerNavbar() {
     const { data} = useGetShopInfo()
     console.log('data', data)
 
-    const shopId = data.id
+    const shopId = data?.id
     const isQrActive = pathname === '/owner/qr'
 
     const handleCloseQrModal = () => {
@@ -43,7 +43,7 @@ export function OwnerNavbar() {
     }
 
     // TODO 이건 가게마다 상품이 다르니깐 그거에 맞게 수정해야함
-    const qrValue = `${process.env.NEXT_PUBLIC_SITE_URL}/checkin?shopId=${shopId}=&productId=${selectedProduct}`
+    const qrValue = `${process.env.NEXT_PUBLIC_SITE_URL}/user?modal=checkin&shopId=${shopId}&productId=${selectedProduct}`
 
 
     return (

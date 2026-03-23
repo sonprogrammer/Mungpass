@@ -1,4 +1,4 @@
-'use client';
+'use client'
 
 import { useDogStore } from "@/entities/dog/model/types";
 import { useUserStore } from "@/entities/user/model/useUserStore";
@@ -10,6 +10,8 @@ import { DogDetailModal } from "@/widgets/dog/ui/DogDetailModal";
 import { MyDogWidget } from "@/widgets/home/dog/ui/MyDogWidget";
 import { GreetMessage, QrCheckIn, Menu, NearByPlace } from "@/widgets/home/ui";
 import { HomeSkeleton } from "@/widgets/home/ui/HomeSkeleton";
+import { useSearchParams } from "next/navigation";
+import { useRouter } from "next/router";
 import { useState } from "react";
 
 
@@ -17,7 +19,18 @@ import { useState } from "react";
 export default function HomePage() {
   const { profile, isLoading } = useUserStore()
   const { data: dogs } = useGetMyDogs(profile?.id)
-  // console.log('dafasd', dogs)
+  const searchParams = useSearchParams()
+  const router = useRouter()
+
+  const modal = searchParams.get('modal')
+  const shopId = searchParams.get('shopId')
+  const productId = searchParams.get('productId')
+
+  const isCheckInOpen = modal === 'checkin' && !!shopId && !!
+  
+  const handleCloseModal = () => {
+    router.replace('/home')
+  }
 
   const [dogPostModalOpen, setDogPostModalOpen] = useState<boolean>(false)
   const [dogViewModalOpen, setDogViewModalOpen] = useState<boolean>(false)

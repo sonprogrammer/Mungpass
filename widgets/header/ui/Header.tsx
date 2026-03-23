@@ -12,7 +12,6 @@ export default function Header() {
   const [isBellOpen, setIsBellOpen] = useState(false)
 
   const { data: shopInfo, isPending } = useGetShopInfo()
-  console.log('data from header', shopInfo)
 
   const isOwner = profile?.role === 'owner'
   return (
@@ -63,6 +62,8 @@ export default function Header() {
                 <>
                   <div className="w-1.5 h-1.5 bg-emerald-500 rounded-full animate-pulse" />
                   <span className="text-[12px] font-black text-emerald-700 uppercase">
+                    {/* //TODO 여기는 제출서류 완료 한상태이면 심사 대기중이라고 뜨기 */}
+                    {/* //TODO 여기는 심사 성공하고 가게문 닫은 상태면 잠자는 모양으로 해놓기 아님 이거를 스위치로 만들어서 관리하던가 */}
                     {shopInfo?.name ?? "매장 등록 필요"}
                   </span>
                 </>
