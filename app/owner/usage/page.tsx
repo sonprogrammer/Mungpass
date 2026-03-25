@@ -21,7 +21,7 @@ export default function UsagePage() {
    
     
     return(
-        <div className="h-full flex flex-col"> 
+        <div className="h-full flex flex-col p-6"> 
             <UsageTabs activeTab={tab} onChange={setTab} currentCount={currentLogs.length} checkoutCount={checkoutLogs.length}/>
             <div className="flex-1 overflow-hidden mt-3">
               {tab === 'current' ? (

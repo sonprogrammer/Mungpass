@@ -6,8 +6,8 @@ import { Button, Tag, Modal, Input, Form, message, Switch, Divider } from 'antd'
 
 export function StoreNoticeCard() {
   const [isModalOpen, setIsModalOpen] = useState(false)
-  const [form] = Form.useForm() 
-  
+  const [form] = Form.useForm()
+
   // 목업
   const [notice, setNotice] = useState({
     title: '이번 주 운영 안내',
@@ -16,9 +16,9 @@ export function StoreNoticeCard() {
     updatedAt: '2026.03.23'
   })
 
-//   TODO 수정해줘야함
+  //   TODO 수정해줘야함
   const handleSave = (values: any) => {
-    setNotice({ ...values, updatedAt: '2026.03.23' }) 
+    setNotice({ ...values, updatedAt: '2026.03.23' })
     message.success('공지사항이 안전하게 게시되었습니다.')
     setIsModalOpen(false)
   }
@@ -41,11 +41,11 @@ export function StoreNoticeCard() {
               <p className="text-xs text-gray-400">최근 업데이트: {notice.updatedAt}</p>
             </div>
           </div>
-          
-          <Button 
-            type="text" 
+
+          <Button
+            type="text"
             onClick={() => setIsModalOpen(true)}
-            className="text-gray-400 hover:text-blue-500"
+            className=" hover:text-blue-500!"
             icon={<Edit3 size={14} />}
           >
             <span className="ml-1 text-sm font-medium">수정</span>
@@ -54,7 +54,7 @@ export function StoreNoticeCard() {
 
 
         <div className="mt-4">
-          <div 
+          <div
             onClick={() => setIsModalOpen(true)}
             className="cursor-pointer rounded-2xl bg-gray-50 p-5 transition-all hover:bg-gray-100 active:scale-[0.99]"
           >
@@ -62,14 +62,14 @@ export function StoreNoticeCard() {
               <AlertCircle size={16} className={notice.isUrgent ? 'text-rose-500' : 'text-gray-400'} />
               <h3 className="text-sm font-bold text-gray-900">{notice.title}</h3>
             </div>
-            
+
             <div className="pl-4 border-l-2 border-blue-200">
               <p className="whitespace-pre-line text-sm leading-7 text-gray-600 font-medium">
                 {notice.content}
               </p>
             </div>
           </div>
-          
+
           <div className="mt-3 flex items-center justify-between">
             <p className="flex items-center gap-1.5 text-[11px] text-gray-400">
               <Calendar size={12} />
@@ -83,12 +83,11 @@ export function StoreNoticeCard() {
         title={
           <div className="pb-2">
             <h2 className="text-xl font-bold text-gray-900">공지사항 수정</h2>
-            <p className="text-xs font-medium text-gray-400 mt-1 uppercase tracking-wider">Edit Store Notice</p>
           </div>
         }
         open={isModalOpen}
         onCancel={() => setIsModalOpen(false)}
-        footer={null} 
+        footer={null}
         centered
         width={500}
         closeIcon={<X size={20} className="text-gray-400" />}
@@ -99,7 +98,7 @@ export function StoreNoticeCard() {
           layout="vertical"
           initialValues={notice}
           onFinish={handleSave}
-          className="mt-4"
+          className="mt-4!"
         >
           <div className="space-y-5">
             <div className="flex items-center justify-between rounded-2xl bg-rose-50/50 p-4 border border-rose-100/50">
@@ -107,32 +106,32 @@ export function StoreNoticeCard() {
                 <p className="text-sm font-bold text-gray-900">중요 공지로 설정</p>
                 <p className="text-xs text-gray-500 mt-0.5">앱 상단에 강조 표시되며 팝업으로 노출될 수 있습니다.</p>
               </div>
-              <Form.Item name="isUrgent" valuePropName="checked" className="m-0">
-                <Switch 
-                  checkedChildren="ON" 
-                  unCheckedChildren="OFF" 
+              <Form.Item name="isUrgent" valuePropName="checked" className="m-0!">
+                <Switch
+                  checkedChildren="ON"
+                  unCheckedChildren="OFF"
                   className="bg-gray-200"
                 />
               </Form.Item>
             </div>
 
-            <Form.Item 
-              label={<span className="font-bold text-gray-700">공지 제목</span>} 
-              name="title" 
+            <Form.Item
+              label={<span className="font-bold text-gray-700">공지 제목</span>}
+              name="title"
               rules={[{ required: true, message: '공지 제목을 입력해주세요' }]}
             >
               <Input placeholder="예: 이번 주 운영 안내" className="h-12 rounded-xl border-gray-200" />
             </Form.Item>
 
-            <Form.Item 
-              label={<span className="font-bold text-gray-700">공지 내용</span>} 
-              name="content" 
+            <Form.Item
+              label={<span className="font-bold text-gray-700">공지 내용</span>}
+              name="content"
               rules={[{ required: true, message: '내용을 입력해주세요' }]}
             >
-              <Input.TextArea 
-                placeholder="보호자님들께 전달할 상세 내용을 입력하세요." 
-                rows={6} 
-                className="rounded-xl border-gray-200 p-4"
+              <Input.TextArea
+                placeholder="보호자님들께 전달할 상세 내용을 입력하세요."
+                rows={6}
+                className="rounded-xl! border-gray-200! p-4! resize-none!"
               />
             </Form.Item>
           </div>
@@ -140,19 +139,19 @@ export function StoreNoticeCard() {
           <Divider className="my-6" />
 
           <div className="flex gap-3">
-            <Button 
-              size="large" 
-              className="flex-1 h-12 rounded-xl font-bold border-gray-200 text-gray-500"
+            <Button
+              size="large"
+              className="flex-1! h-12! rounded-xl! font-bold! border-gray-200! "
               onClick={() => setIsModalOpen(false)}
             >
               취소
             </Button>
-            <Button 
-              type="primary" 
-              htmlType="submit" 
-              size="large" 
+            <Button
+              type="primary"
+              htmlType="submit"
+              size="large"
               icon={<Save size={18} />}
-              className="flex- h-12 rounded-xl bg-blue-600 font-bold hover:bg-blue-700! flex items-center justify-center gap-2"
+              className="flex-1! h-12! rounded-xl! bg-emerald-500! font-bold! hover:bg-emerald-700!"
             >
               공지사항 저장하기
             </Button>

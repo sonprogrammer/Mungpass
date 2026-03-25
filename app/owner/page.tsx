@@ -18,7 +18,7 @@ export default function OwnerDashboard() {
   const { data: currentLogs = [] } = useGetCurrentUsageLogs()
 
   return (
-    <div className="mx-auto">
+    <div className="mx-auto p-6">
       <Row gutter={[24, 24]}>
         {/* //* 상단 요약 카드 */}
         <Col span={24}>

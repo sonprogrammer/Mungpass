@@ -11,7 +11,7 @@ export default function OwnerLayout({ children }: { children: React.ReactNode })
       <div className="w-full max-w-120 bg-white h-screen flex flex-col relative shadow-2xl">
         <Header />
 
-        <main className={`flex-1 bg-[#fafafa] overflow-y-auto p-6`}>
+        <main className={`flex-1 bg-[#fafafa] overflow-y-auto `}>
           {children}
         </main>
 

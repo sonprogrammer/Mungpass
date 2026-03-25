@@ -11,14 +11,14 @@ import { MyDogWidget } from "@/widgets/home/dog/ui/MyDogWidget";
 import { GreetMessage, QrCheckIn, Menu, NearByPlace } from "@/widgets/home/ui";
 import { HomeSkeleton } from "@/widgets/home/ui/HomeSkeleton";
 import { useSearchParams } from "next/navigation";
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 
 
 
 export default function HomePage() {
   const { profile, isLoading } = useUserStore()
-  const { data: dogs } = useGetMyDogs(profile?.id)
+  const { data: dogs } = useGetMyDogs()
   const searchParams = useSearchParams()
   const router = useRouter()
 
@@ -26,7 +26,7 @@ export default function HomePage() {
   const shopId = searchParams.get('shopId')
   const productId = searchParams.get('productId')
 
-  const isCheckInOpen = modal === 'checkin' && !!shopId && !!
+  const isCheckInOpen = modal === 'checkin' && !!shopId && !!productId
   
   const handleCloseModal = () => {
     router.replace('/home')

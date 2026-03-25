@@ -7,7 +7,7 @@ import {
 } from 'lucide-react'
 import { 
   Button, Modal, Badge, Empty, Divider, 
-  Form, Input, Select, message, ConfigProvider 
+  Form, Input, Select, message
 } from 'antd'
 
 // 목업
@@ -57,11 +57,7 @@ export function StoreInquiryCard() {
   }
 
   return (
-    <ConfigProvider
-      theme={{
-        token: { colorPrimary: '#f97316' }, 
-      }}
-    >
+    <>
       <article className="rounded-3xl border border-gray-100 bg-white p-5 shadow-sm transition-all hover:shadow-md">
         <div className="flex items-center justify-between border-b border-gray-50 pb-4">
           <div className="flex items-center gap-2.5">
@@ -78,7 +74,7 @@ export function StoreInquiryCard() {
           <Button 
             type="primary" 
             onClick={() => setIsWriteOpen(true)}
-            className="h-9 rounded-xl font-bold border-none shadow-none bg-orange-500"
+            className="rounded-xl! font-bold! border-none! bg-emerald-500! hover:bg-emerald-700! transition-all! py-2!"
             icon={<MessageSquarePlus size={16} />}
           >
             새 문의 등록
@@ -129,27 +125,27 @@ export function StoreInquiryCard() {
         width={480}
         closeIcon={<X size={20} className="text-gray-400" />}
       >
-        <Form form={form} layout="vertical" onFinish={onFinishInquiry} className="mt-4">
+        <Form form={form} layout="vertical" onFinish={onFinishInquiry} className="mt-4!">
           <Form.Item label="문의 유형" name="category" rules={[{ required: true }]}>
             <Select 
               placeholder="분류를 선택해주세요"
               options={[
                   { value: 'policy', label: '운영 정책/승인' },
-                { value: 'system', label: '시스템 오류' },
+                  { value: 'system', label: '시스템 오류' },
                   { value: 'etc', label: '기타 문의' },
               ]}
-              className="h-11 custom-select"
+              className="h-11! custom-select"
             />
           </Form.Item>
           <Form.Item label="제목" name="title" rules={[{ required: true }]}>
-            <Input placeholder="요약된 제목을 입력하세요" className="h-11 rounded-xl" />
+            <Input placeholder="요약된 제목을 입력하세요" className="h-11! rounded-xl!" />
           </Form.Item>
           <Form.Item label="문의 내용" name="content" rules={[{ required: true }]}>
-            <Input.TextArea placeholder="상세 내용을 입력하세요" rows={5} className="rounded-xl p-4" />
+            <Input.TextArea placeholder="상세 내용을 입력하세요" rows={5} className="rounded-xl! p-4! resize-none!" />
           </Form.Item>
           <div className="flex gap-3 mt-8">
             <Button size="large" className="flex-1 rounded-xl border-gray-200" onClick={() => setIsWriteOpen(false)}>취소</Button>
-            <Button type="primary" htmlType="submit" size="large" className="flex- rounded-xl bg-orange-500 font-bold">접수하기</Button>
+            <Button type="primary" htmlType="submit" size="large" className="flex-1 rounded-xl bg-emerald-500! font-bold! hover:bg-emerald-700!">접수하기</Button>
           </div>
         </Form>
       </Modal>
@@ -158,7 +154,7 @@ export function StoreInquiryCard() {
         title={<span className="text-lg font-bold text-gray-900">상담 히스토리</span>}
         open={isDetailOpen}
         onCancel={() => setIsDetailOpen(false)}
-        footer={<Button block size="large" onClick={() => setIsDetailOpen(false)} className="rounded-xl font-bold bg-gray-900 text-white hover:text-white!">확인</Button>}
+        footer={<Button block size="large" onClick={() => setIsDetailOpen(false)} className="rounded-xl! font-bold! text-white! bg-emerald-500! hover:bg-emerald-700!">확인</Button>}
         centered
         width={520}
       >
@@ -180,7 +176,7 @@ export function StoreInquiryCard() {
               </div>
             </div>
 
-            <Divider className="my-2 border-gray-50" />
+            <Divider  />
 
             <div className="flex gap-3">
               <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-blue-50 text-blue-500 shadow-sm border border-blue-100">
@@ -214,6 +210,6 @@ export function StoreInquiryCard() {
           </div>
         )}
       </Modal>
-    </ConfigProvider>
+    </>
   )
 }
