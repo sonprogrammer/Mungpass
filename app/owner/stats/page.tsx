@@ -7,10 +7,16 @@ import { CircleDollarSign, Dog, QrCode, TrendingUp } from 'lucide-react'
 import { useState } from 'react'
 import { DailyChart } from '@/features/owner/stats/ui/DailyChart'
 import { InsightCard } from '@/features/owner/stats/ui/InsitghtCard'
+import { useGetDailySalesData } from '@/entities/owner/model/useGetDailySalesData'
+import { useGetShopInfo } from '@/entities/owner/model/useGetShopInfo'
 
 export default function StatsPage() {
     const [openSummary, setOpenSummary] = useState(false)
-    
+    const { data: shopInfo } = useGetShopInfo()
+    const shopId = shopInfo?.id
+    const { data: dailySalesData =[] } = useGetDailySalesData(shopId)
+    console.log('dailySalesData', dailySalesData)
+    if (!dailySalesData) return <div>Loading...</div>
     // 목업
     const summaryCards = [
         {
@@ -72,7 +78,7 @@ export default function StatsPage() {
 
                 {openSummary && <SummaryCard summaryCards={summaryCards} topDays={topDays}/>}
 
-                <DailyChart chartData={chartData} />
+                <DailyChart chartData={dailySalesData} />
 
                 <InsightCard title="Insight" 
                     value="주말 체크인 수가 평일보다 확실히 높고, 금요일 이후 매출 상승폭이 크게 나타나고 있어요." 

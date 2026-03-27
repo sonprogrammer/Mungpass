@@ -3,9 +3,9 @@
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts'
 import { motion } from 'framer-motion'
 import { useMemo, useState } from 'react';
-import { subDays, addDays, format, startOfDay, isWithinInterval, endOfDay } from 'date-fns';
+import { subDays, addDays, format } from 'date-fns';
 
-const CustomTooltip = ({ active, payload }: { active?: boolean; payload?: any }) => {
+const CustomTooltip = ({ active, payload }: { active?: boolean; payload?: { payload: { date: string, sales: number, visits: number } }[] }) => {
 
     if (active && payload && payload.length) {
 
@@ -14,10 +14,10 @@ const CustomTooltip = ({ active, payload }: { active?: boolean; payload?: any })
         return (
             <div className="rounded-2xl border border-gray-100 bg-white p-3 shadow-xl">
                 <p className="text-[10px] font-bold text-gray-400 mb-1">
-                    {data.payload?.day}
+                    {data.payload?.date}
                 </p>
                 <p className="text-sm font-black text-gray-900">
-                    {data.value?.toLocaleString()}원
+                    {data.payload?.sales?.toLocaleString()}원
                 </p>
                 <p className="text-[11px] font-medium text-orange-500">
                     {data.payload?.visits}건의 체크인
@@ -29,25 +29,24 @@ const CustomTooltip = ({ active, payload }: { active?: boolean; payload?: any })
 };
 
 
-export function DailyChart({ chartData }: { chartData: { day: string, sales: number, visits: number }[] }) {
+export function DailyChart({ chartData }: { chartData: { date: string,  sales: number, visits: number }[] }) {
     const [defaultDate, setDefaultDate] = useState(new Date())
 
-    console.log('default', defaultDate)
 
     const filteredData = useMemo(() => {
         const days = []
-        
+
         for (let i = 6; i >= 0; i--) {
             const date = subDays(defaultDate, i);
             const dateStr = format(date, 'yyyy-MM-dd');
-            
-            const existingData = chartData.find(d => d.day === dateStr)
-            
-            days.push(existingData || { day: dateStr, sales: 0, visits: 0 })
+
+            const existingData = chartData.find(d => d.date === dateStr)
+
+            days.push(existingData || { date: dateStr, stats: { sales: 0, visits: 0 } })
         }
         return days
     }, [defaultDate, chartData])
-    
+
     const handlePrevWeek = () => {
         setDefaultDate(prev => subDays(prev, 7))
     }
@@ -84,7 +83,7 @@ export function DailyChart({ chartData }: { chartData: { day: string, sales: num
                         <BarChart data={filteredData} margin={{ top: 0, right: 0, left: -10, bottom: 0 }}>
                             <CartesianGrid strokeDasharray="5 3" vertical={false} stroke="#e5e7" />
                             <XAxis
-                                dataKey="day"
+                                dataKey="date"
                                 axisLine={false}
                                 tickLine={false}
                                 tick={{ fontSize: 11, fontWeight: 600, fill: '#6b7280' }}
@@ -129,7 +128,10 @@ export function DailyChart({ chartData }: { chartData: { day: string, sales: num
                 <div className="mt-6 flex justify-between items-center bg-gray-50 rounded-2xl p-4">
                     <p className="text-[12px] font-medium text-gray-500">가장 매출이 높았던 날</p>
                     <p className="text-[12px] font-bold text-gray-900">
-                        {chartData.reduce((prev, curr) => prev.sales > curr.sales ? prev : curr).day}
+                        {chartData && chartData.length > 0
+                            ? chartData.reduce((prev, curr) => prev.sales > curr.sales ? prev : curr).date
+                            : "데이터 없음"
+                        }
                     </p>
                 </div>
 
