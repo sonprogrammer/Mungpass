@@ -1,7 +1,7 @@
 import { Card, Col, Row, Statistic } from 'antd';
 import { ClockCircleOutlined, PlayCircleOutlined, UserOutlined } from '@ant-design/icons';
 
-export function OwnerSumCards({currentCount, todayVisitCount}: {currentCount: number, todayVisitCount?: number}) {
+export function OwnerSumCards({currentCount, todayVisitCount, avgTime, expectedSales}: {currentCount: number, todayVisitCount?: number, avgTime?: number, expectedSales?: number}) {
     return(
         <Row gutter={[12,12]}>
             <Col xs={12} >
@@ -23,15 +23,15 @@ export function OwnerSumCards({currentCount, todayVisitCount}: {currentCount: nu
             <Col xs={12}>
               <Card  className="shadow-sm">
                 <Statistic title="평균 이용 시간" 
-                  value={3.5} 
-                  suffix={<span className="text-xs">시간</span>}
+                  value={avgTime} 
+                  suffix={<span className="text-xs">분</span>}
                   prefix={<ClockCircleOutlined className='text-orange-400! '/>}/>
               </Card>
             </Col>
             <Col xs={12}>
               <Card  className="shadow-sm h-full">
                 <Statistic title="오늘 예상 매출" 
-                  value={2450000} 
+                  value={expectedSales} 
                   suffix={<span className="text-xs">원</span>}
                   />
               </Card>
