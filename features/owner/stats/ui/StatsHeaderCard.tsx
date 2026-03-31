@@ -1,8 +1,15 @@
 'use client'
 
-import { BarChart3, CalendarDays, ChevronDown } from "lucide-react"
+import { StatsHeaderCardProps } from "@/features/owner/stats/model/types"
+import { Button, Select } from "antd"
+import { BarChart3, CalendarDays } from "lucide-react"
 
-export function StatsHeaderCard({toggle, open}: {toggle: ()=> void, open: boolean}) {
+export function StatsHeaderCard({ toggle, openSummary, months, selectedMonth, setSelectedMonth }:StatsHeaderCardProps) {
+    const options = months.map(m => {
+        const [year, month] = m.split('-')
+        return { value: m, label: `${year}년 ${month}월` }
+    })
+    
     return (
         <section className="rounded-3xl border border-gray-100 bg-white p-6 shadow-sm">
             <div className="flex flex-col gap-4 ">
@@ -18,23 +25,23 @@ export function StatsHeaderCard({toggle, open}: {toggle: ()=> void, open: boolea
                 </div>
 
                 <div className="flex flex-wrap items-center gap-3">
-                    <button
-                        type="button"
-                        className="inline-flex items-center gap-2 rounded-xl border border-gray-200 bg-white px-4 py-2 text-sm font-medium text-gray-700 transition hover:bg-gray-50"
-                    >
-                        <CalendarDays size={16} />
-                        {/* //TODO 디비에 있는 월이 나와야함 */}
-                        2026년 3월
-                        <ChevronDown size={16} />
-                    </button>
+                    <Select 
+                        value={selectedMonth}
+                        onChange={setSelectedMonth}
+                        options={options}
+                        prefix={<CalendarDays size={16} className="text-blue-500"/>}
+                        variant="filled"
+                    />
 
-                    <button
-                        type="button"
-                        className="cursor-pointer rounded-xl bg-emerald-500 px-4 py-2 text-sm font-medium text-white transition hover:bg-emerald-700"
-                        onClick={toggle}
-                    >
-                        {open ? '리포트 숨기기' : '리포트 보기'}
-                    </button>
+                    <Button 
+                            type={openSummary ? "default" : "primary"}
+                            size="large"
+                            onClick={toggle}
+                            className={openSummary ? "border-gray-200" : "bg-emerald-500! hover:bg-emerald-600!"}
+                            style={{ borderRadius: '12px', fontWeight: 500 }}
+                        >
+                        {openSummary ? '리포트 숨기기' : '리포트 보기'}
+                    </Button>
                 </div>
             </div>
         </section>

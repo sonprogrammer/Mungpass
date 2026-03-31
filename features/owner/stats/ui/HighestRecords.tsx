@@ -1,7 +1,8 @@
+import { HighestRecordsProps } from "@/features/owner/stats/model/types";
 
 
 
-export function HighestRecords({topDays}: any) {
+export function HighestRecords({topDays}: HighestRecordsProps) {
     return (
         <article className="relative overflow-hidden rounded-4xl border border-gray-100 bg-white p-2 shadow-sm transition-all hover:shadow-md">
 

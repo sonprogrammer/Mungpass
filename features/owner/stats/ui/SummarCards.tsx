@@ -3,16 +3,15 @@
 import { HighestRecords } from '@/features/owner/stats/ui/HighestRecords'
 import { ArrowUpRight, ArrowDownRight } from 'lucide-react'
 import { motion } from 'framer-motion'
+import { SummaryCardProps } from '@/features/owner/stats/model/types'
 
-export function SummaryCard({ summaryCards, topDays }: { summaryCards: { id: number, title: string, value: string, change: string, icon: any[] }, topDays: any[] }) {
+export function SummaryCard({ summaryCards, topDays }: SummaryCardProps) {
 
-    const nextDelay = summaryCards?.length * 0.1 
     
     return (
         <section className="grid grid-cols-2 gap-4 ">
             {summaryCards?.map((card) => {
                 const Icon = card.icon
-                // TODO + 면 앞에 +해주기 나중에 실제 데이터들엉올 때 바ㅜ꿔주어ㅑㅎ마
                 const isPositive = card.change.includes('+')
 
                 return (
@@ -39,9 +38,9 @@ export function SummaryCard({ summaryCards, topDays }: { summaryCards: { id: num
                         </div>
 
                         <div className="mt-4 flex items-center gap-1.5">
-                            <div className={`flex items-center rounded-lg px-2 py-0.5 text-[11px] font-bold ${
-                                isPositive ? 'bg-emerald-50 text-emerald-600' : 'bg-rose-50 text-rose-600'
-                            }`}>
+                            <div className={`flex items-center rounded-lg px-2 py-0.5 text-[11px] font-bold 
+                            ${isPositive ? 'bg-emerald-50 text-emerald-600' : 'bg-rose-50 text-rose-600'}
+                                `}>
                                 {isPositive ? <ArrowUpRight size={12} className="mr-0.5" /> : <ArrowDownRight size={12} className="mr-0.5" />}
                                 {card.change}
                             </div>
@@ -55,7 +54,7 @@ export function SummaryCard({ summaryCards, topDays }: { summaryCards: { id: num
             <motion.div
                 initial={{opacity: 0, y: 10}}
                 animate={{opacity: 1, y: 0}}
-                transition={{duration: 0.3, delay: nextDelay}}
+                transition={{duration: 0.3, delay: 0.4}}
                  
             >
 

@@ -31,14 +31,17 @@ export interface CurrentLogDetailModalProps{
     onCheckout?: (item: CurrentUsageLog) => void;
 }
 
+export interface StatsDataFromServer{
+        avg_visits: number;
+        prev_avg_visits: number;
+        prev_sales: number;
+        prev_visits: number;
+        total_sales: number;
+        total_visits: number;
+}
 
-//curretnlog
-// id: '2',
-// petName: '보리',
-// petImage: '',
-// breed: '말티즈',
-// type: '호텔' as const,
-// startTime: '09:40',
-// duration: '3시간 00분',
-// status: '이용중' as const,
-// ownerName: '이민수',
+export interface DailySalesData{
+    date: string;
+    sales: number;
+    visits: number;
+}

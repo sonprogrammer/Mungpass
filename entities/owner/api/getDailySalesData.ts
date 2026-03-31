@@ -1,7 +1,11 @@
 import { supabaseClient } from "@/shared/api/supabase/client"
-import { format, parseISO } from "date-fns"
+import { endOfMonth, format, parseISO, startOfMonth } from "date-fns"
 
-export const getDailySalesData = async (shopId: string) => {
+export const getDailySalesData = async (shopId: string, selectedMonth: string) => {
+
+    const baseDate = parseISO(`${selectedMonth}-01`)
+    const startDate = format(startOfMonth(baseDate), 'yyyy-MM-dd 00:00:00')
+    const endDate = format(endOfMonth(baseDate), 'yyyy-MM-dd 23:59:59')
     const { data, error } = await supabaseClient.from('usage_logs')
         .select(`
                                             started_at,
@@ -11,6 +15,8 @@ export const getDailySalesData = async (shopId: string) => {
                                             )
                                         `)
         .eq('shop_id', shopId)
+        .gte('started_at', startDate)
+        .lte('started_at', endDate)
         .order('started_at', { ascending: true })
 
     if (error || !data) {
@@ -18,12 +24,11 @@ export const getDailySalesData = async (shopId: string) => {
         return []
     }
 
-    console.log('data from getDailySalesData:', data)
 
-    const salesMap = data?.reduce((acc: Record<string, { sales: number, visits: number }>, log) => {
-        const productInfo = Array.isArray(log.product) ? log.product[0] : log.product
-        if (log.status === 'completed' && productInfo) {
-            const dateKey = format(parseISO(log.started_at), 'yyyy-MM-dd')
+    const salesMap = data?.reduce((acc: Record<string, { sales: number, visits: number }>, cur) => {
+        const productInfo = Array.isArray(cur.product) ? cur.product[0] : cur.product
+        if (cur.status === 'completed' && productInfo) {
+            const dateKey = format(parseISO(cur.started_at), 'yyyy-MM-dd')
 
             if (!acc[dateKey]) {
                 acc[dateKey] = { sales: 0, visits: 0 }
