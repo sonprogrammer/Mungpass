@@ -1,5 +1,6 @@
 
 
+import { DailySalesData, MonthlySalesData } from '@/entities/owner/model/types';
 import { LucideIcon } from 'lucide-react';
 
 export interface StatsHeaderCardProps {
@@ -35,4 +36,16 @@ export interface SummaryCardProps {
 
 export interface HighestRecordsProps{
     topDays: TopDays[]
+}
+
+export interface DailyChartProps{
+    dailyData: DailySalesData[]
+    monthlyData: MonthlySalesData[]
+    tab: 'daily' | 'monthly';
+    setTab: (tab: 'daily' | 'monthly') => void;
+    handleNext: () => void;
+    handlePrev: () => void;
+    isPending: boolean;
+    dateRange: string;
+    isNextDisabled: boolean;
 }

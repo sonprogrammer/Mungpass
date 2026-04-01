@@ -1,6 +1,9 @@
 'use client'
 
+import { useGetShopInfo } from "@/entities/owner/model/useGetShopInfo";
+import { useGetRegisData } from "@/entities/owner/my-shop/model/useGetRegisData";
 import { useUserStore } from "@/entities/user/model/useUserStore";
+import { useRestrictedAction } from "@/features/owner/my-store/lib/useRestrictedAction";
 import { InquiryBottomSheet } from "@/features/owner/my-store/ui/InquiryBottomSheet";
 import { NoticeBottomSheet } from "@/features/owner/my-store/ui/NoticeBottomSheet";
 
@@ -17,14 +20,27 @@ export default function MyStorePage() {
     const [activeDrawer, setActiveDrawer] = useState<null | string>(null)
     const profile = useUserStore(state => state.profile)
 
+    const { data: shopInfo, isPending: isShopPending } = useGetShopInfo()
+    const { data: regisData, isPending: isRegisPending} = useGetRegisData()
+
+    const { handleAction, contextHolder} = useRestrictedAction(regisData.status)
+
+    if (!shopInfo) return <div className="p-6 animate-pulse bg-gray-100 rounded-3xl h-24" />
+    if (isShopPending || isRegisPending) {
+        return (
+            <div className="p-6 space-y-6">
+                <div className="animate-pulse bg-gray-100 rounded-3xl h-32 w-full" />
+                <div className="animate-pulse bg-gray-100 rounded-2xl h-64 w-full" />
+            </div>
+        )
+    }
     return (
         <>
+        {contextHolder}
         <div className="min-h-screen pb-12 p-6">
             <div className="mx-auto flex flex-col gap-8">
 
-                <MyStoreHeader />
-
-                {/* //TODO 아래 이용은 매장 승인 완료 후 이용 가능하다고 하고 클릭 막아놓기 */}
+                <MyStoreHeader regisData={regisData}/>
 
                 <div className="grid grid-cols-1 gap-8">
 
@@ -38,7 +54,7 @@ export default function MyStorePage() {
 
                                     <MenuItem
                                         icon={<Clock className="w-5 h-5 text-orange-500 bg-orange-50!" />} title="영업 시간 관리"
-                                        onClick={() => setActiveDrawer('time')}
+                                        onClick={() => handleAction(() => setActiveDrawer('time'))}
                                         // TODO 현재 영업상황에 따라 변경
                                         status="현재 영업 중"
                                     />
@@ -47,7 +63,7 @@ export default function MyStorePage() {
 
                                     <MenuItem
                                         icon={<ShoppingBag className="w-5 h-5 text-rose-500" />} title="가게 상품 관리"
-                                        onClick={() => setActiveDrawer('product')}
+                                        onClick={() => handleAction(() => setActiveDrawer('product'))}
                                         // TODO 현재 공지사항에 따라 변경 아님 삭제 하던가
                                         status="new"
                                     />
@@ -56,13 +72,12 @@ export default function MyStorePage() {
 
                                     <MenuItem
                                         icon={<Megaphone className="w-5 h-5 text-blue-500" />} title="가게 공지 사항"
-                                        onClick={() => setActiveDrawer('notice')}
+                                        onClick={() => handleAction(() =>setActiveDrawer('notice'))}
                                         // TODO 현재 공지사항에 따라 변경 아님 삭제 하던가
                                         status="new"
                                     />
                                 </div>
 
-                                {/* <StoreInquiryCard /> */}
                             </div>
                         </section>
                     </div>

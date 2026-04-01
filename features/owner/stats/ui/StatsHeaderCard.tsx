@@ -5,6 +5,7 @@ import { Button, Select } from "antd"
 import { BarChart3, CalendarDays } from "lucide-react"
 
 export function StatsHeaderCard({ toggle, openSummary, months, selectedMonth, setSelectedMonth }:StatsHeaderCardProps) {
+
     const options = months.map(m => {
         const [year, month] = m.split('-')
         return { value: m, label: `${year}년 ${month}월` }

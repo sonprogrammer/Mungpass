@@ -45,3 +45,9 @@ export interface DailySalesData{
     sales: number;
     visits: number;
 }
+
+export interface MonthlySalesData{
+    month: string;
+    sales: number;
+    visits: number;
+}
