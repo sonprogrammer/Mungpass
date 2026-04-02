@@ -12,6 +12,7 @@ import { SaveScheduleFormData } from '@/features/owner/my-store/model/types'
 import { format } from 'date-fns'
 import { getCurrentStoreStatus } from '@/features/owner/my-store/lib/getCurrentStoraStatus'
 import { useGetVacation } from '@/features/owner/my-store/model/useGetVacation'
+import { useGetTodayTempStatus } from '@/features/owner/my-store/model/useGetTodayTempStatus'
 
 
 
@@ -28,12 +29,14 @@ export function StoreTimeCard({ shopId }: { shopId: string }) {
 
     // * 휴가 정보 가져오기
     const { data: vacation, isPending: isVacationPending} = useGetVacation(shopId)
+    // *조기 , 즉시 휴무 처리 정보 가져오기 되어있으면
+    const { data: tempStatus} = useGetTodayTempStatus(shopId)
 
     console.log('schedules', schedules)
     console.log('vacation', vacation)
 
     // *오늘 휴무면 휴무, 시간이 지났으면 영업종료, 운영중이면 영업중
-    const currentStoreStatus = getCurrentStoreStatus(schedules || [], vacation || [])
+    const currentStoreStatus = getCurrentStoreStatus(schedules || [], vacation || [], tempStatus ||[])
     console.log('currentStoreStatus',currentStoreStatus)
 
 

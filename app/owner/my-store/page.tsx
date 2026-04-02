@@ -12,6 +12,7 @@ import { MyPageFooter } from "@/widgets/mypage/ui/MyPageFooter";
 import { MyStoreHeader } from "@/widgets/owner/my-store/ui/MyStoreHeader";
 import { Clock, ShoppingBag, Megaphone, Headphones } from "lucide-react";
 import { useState } from "react";
+import { useShopStatus } from "@/features/owner/my-store/model/useGetShopStatus";
 
 
 export default function MyStorePage() {
@@ -19,8 +20,15 @@ export default function MyStorePage() {
     // TODO 영업시간관리 카드에서 현재 영업중인지아닌지 표시
     const [storeStatus, setStoreStatus] = useState(false)
     const profile = useUserStore(state => state.profile)
-
+    
+    // * 매장 승인 신청정보(store_registratian table)
     const { data: regisData, isPending: isRegisPending} = useGetRegisData()
+    
+    console.log('regis', regisData)
+    const shopId = regisData?.store_id
+    // *현재 매장 운영여부
+    const shopStatus = useShopStatus(shopId)
+    console.log('shopstatus', shopStatus)
     
     
     const { handleAction, contextHolder} = useRestrictedAction(regisData?.status)
@@ -55,7 +63,7 @@ export default function MyStorePage() {
                                         icon={<Clock className="w-5 h-5 text-orange-500 bg-orange-50!" />} title="영업 시간 관리"
                                         onClick={() => handleAction(() => setActiveDrawer('time'))}
                                         // TODO 현재 영업상황에 따라 변경
-                                        status="현재 영업 중"
+                                        status={shopStatus.status}
                                     />
                                 </div>
                                 <div className="group">

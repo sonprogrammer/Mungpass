@@ -12,7 +12,9 @@ export function useUpdateSchedules() {
             message.success('영업 시간이 성공적으로 저장되었습니다')
         },
         onError: (error) => {
+            console.log('영업시간 저장 중 에러 발생', error)
             message.error(`저장 실패 ${error.message}`)
+            
         }
     })
 }

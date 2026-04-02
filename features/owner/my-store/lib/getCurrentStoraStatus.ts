@@ -1,10 +1,20 @@
 import { ScheduleRow, VacationSubmitData } from "@/features/owner/my-store/model/types";
 import { endOfDay, isBefore, isWithinInterval, parse, startOfDay } from "date-fns";
 
-export const getCurrentStoreStatus =(schedules: ScheduleRow[], vacation?: VacationSubmitData) => {
+export const getCurrentStoreStatus =(schedules: ScheduleRow[], vacation?: VacationSubmitData, tempStatus?: { status_type: 'SHUTDOWN' | 'EARLY_CLOSE', reason?: string}) => {
     const now = new Date()
     const todayNum = now.getDay()
     // console.log(todayNum)
+
+    if (tempStatus?.status_type === 'SHUTDOWN') {
+        return {
+            status: '오늘 즉시 휴무',
+            schedule: undefined,
+            reason: tempStatus.reason || '개인사정으로 휴무하게 되었습니다'
+        };
+    }
+
+    
 
     if(vacation && vacation.start_date && vacation.end_date){
         const vacationStart = startOfDay(new Date(vacation.start_date))
@@ -23,6 +33,13 @@ export const getCurrentStoreStatus =(schedules: ScheduleRow[], vacation?: Vacati
 
     const todaySchedule = schedules.find(s => s.day_of_week === todayNum)
 
+    if (tempStatus?.status_type === 'EARLY_CLOSE') {
+        return {
+            status: '조기 마감',
+            schedule: todaySchedule, 
+            reason: tempStatus.reason || '개인사정으로 조기 마감되었습니다.'
+        }
+    }
     // console.log('todaySchedule',todaySchedule)
 
     if(!todaySchedule)return {status: '정보 없음', schedule: undefined}

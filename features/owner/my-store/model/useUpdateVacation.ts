@@ -16,6 +16,7 @@ export function useUpdateVacation() {
             message.success('장기 휴가 설정이 저장되었습니다')
         },
         onError: (error) => {
+            console.log('저장 중 오류 발생', error)
             message.error('저장 중 오류가 발생했습니다. 다시 시도해주세요')
         }
     })
