@@ -1,32 +1,31 @@
 'use client'
 
-import { useGetShopInfo } from "@/entities/owner/model/useGetShopInfo";
 import { useGetRegisData } from "@/entities/owner/my-shop/model/useGetRegisData";
 import { useUserStore } from "@/entities/user/model/useUserStore";
 import { useRestrictedAction } from "@/features/owner/my-store/lib/useRestrictedAction";
-import { InquiryBottomSheet } from "@/features/owner/my-store/ui/InquiryBottomSheet";
-import { NoticeBottomSheet } from "@/features/owner/my-store/ui/NoticeBottomSheet";
-
-import { ProductManageBottomSheet } from "@/features/owner/my-store/ui/ProductManageBottomSheet";
-import { StoreTimeBottomSheet } from "@/features/owner/my-store/ui/StoreTimeBottomSheet";
+import { StoreTimeBottomSheet } from '@/widgets/mypage/ui/StoreTimeBottomSheet'
+import { InquiryBottomSheet } from '@/widgets/mypage/ui/InquiryBottomSheet'
+import { NoticeBottomSheet } from '@/widgets/mypage/ui/NoticeBottomSheet'
+import { ProductManageBottomSheet } from '@/widgets/mypage/ui/ProductManageBottomSheet'
 import { MenuItem } from "@/shared/ui/MenuItem";
 import { MyPageFooter } from "@/widgets/mypage/ui/MyPageFooter";
 import { MyStoreHeader } from "@/widgets/owner/my-store/ui/MyStoreHeader";
-
 import { Clock, ShoppingBag, Megaphone, Headphones } from "lucide-react";
 import { useState } from "react";
 
+
 export default function MyStorePage() {
     const [activeDrawer, setActiveDrawer] = useState<null | string>(null)
+    // TODO 영업시간관리 카드에서 현재 영업중인지아닌지 표시
+    const [storeStatus, setStoreStatus] = useState(false)
     const profile = useUserStore(state => state.profile)
 
-    const { data: shopInfo, isPending: isShopPending } = useGetShopInfo()
     const { data: regisData, isPending: isRegisPending} = useGetRegisData()
+    
+    
+    const { handleAction, contextHolder} = useRestrictedAction(regisData?.status)
 
-    const { handleAction, contextHolder} = useRestrictedAction(regisData.status)
-
-    if (!shopInfo) return <div className="p-6 animate-pulse bg-gray-100 rounded-3xl h-24" />
-    if (isShopPending || isRegisPending) {
+    if (isRegisPending) {
         return (
             <div className="p-6 space-y-6">
                 <div className="animate-pulse bg-gray-100 rounded-3xl h-32 w-full" />
