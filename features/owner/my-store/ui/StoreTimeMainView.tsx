@@ -1,7 +1,7 @@
 'use client'
 
 import { Clock3, Edit3, Power, AlertCircle, Timer, Plane, Info, XCircle } from 'lucide-react'
-import { App, Popconfirm, Tag } from 'antd'
+import { Popconfirm, Tag } from 'antd'
 import { StoreTimeMainViewProps, VacationSubmitData } from '@/features/owner/my-store/model/types'
 import { useState } from 'react'
 import { VacationModal } from '@/features/owner/my-store/ui/VacationModal'

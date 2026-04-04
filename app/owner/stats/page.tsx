@@ -116,10 +116,10 @@ export default function StatsPage() {
         setOpenSummary((prev) => !prev)
     }
 
-    // TODO 로딩 상태 바꿔주기 다른 ui로 
+    // TODO 로딩 상태 바꿔주기 다른 ui로  요론식으로 가도 괜찮음
     if (!shopId || isDailyPending) {
         return (
-            <div className="flex min-h-screen items-center justify-center bg-gray-50">
+            <div className="flex h-full items-center justify-center bg-gray-50">
                 <p className="text-sm font-medium text-gray-500 animate-pulse">데이터를 불러오는 중입니다...</p>
             </div>
         )

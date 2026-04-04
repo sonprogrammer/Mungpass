@@ -1,3 +1,5 @@
+import { Dispatch, SetStateAction } from "react";
+
 export interface ScheduleRow{
     shop_id: string;
     day_of_week: number; //0~6까지 일~토
@@ -46,4 +48,13 @@ export interface UpdateVacationToServer {
     start_date: string;
     end_date: string;
     reason: string;
+}
+
+export interface EarlyCloseConfirmModalProps{
+    tempType: 'SHUTDOWN' | 'EARLY_CLOSE' | null
+    open: boolean
+    onClose: () => void
+    onConfirm: () => void 
+    reason: string; 
+    setReason: Dispatch<SetStateAction<string>>
 }

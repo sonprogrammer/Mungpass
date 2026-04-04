@@ -127,6 +127,7 @@ export default function MyStorePage() {
          <ProductManageBottomSheet 
             isOpen={activeDrawer === 'product'}
             onClose={() => setActiveDrawer(null)}
+            shopId={shopId}
          />
          {/* //* 가게 공지 사항 */}
          <NoticeBottomSheet 

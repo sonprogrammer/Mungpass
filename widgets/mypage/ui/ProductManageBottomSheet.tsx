@@ -2,36 +2,54 @@
 import { useState } from 'react';
 import { BottomSheet } from "@/shared/ui/place/BottomSheet";
 
-import { Button, Form, Input, InputNumber, Divider } from 'antd';
-import { ChevronLeft, HelpCircle, Plus, Save, Sparkles } from 'lucide-react';
+import { Button, Form } from 'antd';
+import {  Plus } from 'lucide-react';
 import { ProductList } from '@/entities/owner/product/ui/ProductList';
-import { AddProduct } from '@/features/owner/my-store/ui/AddProduct';
+import { AddProduct } from '@/features/owner/my-store/product/ui/AddProduct'
+import { useGetProducts } from '@/features/owner/my-store/product/model/useGetProducts';
+import { ProductSubmitData } from '@/features/owner/my-store/product/model/types';
+import { usePostProduct } from '@/features/owner/my-store/product/model/usePostProduct';
+import { useDeleteProduct } from '@/features/owner/my-store/product/model/useDeleteProduct';
 
-export function ProductManageBottomSheet({ isOpen, onClose }: { isOpen: boolean, onClose: () => void }) {
+export function ProductManageBottomSheet({ isOpen, onClose, shopId }: { isOpen: boolean, onClose: () => void, shopId: string }) {
     const [form] = Form.useForm()
     const [addModal, setAddModal] = useState(false)
-    const [products, setProducts] = useState([
-        { id: '1', name: '유치원 6시간', duration: 360, price: 35000, extraMinute: 10, extraPrice: 1000 },
-    ])
 
-    const handleAdd = (values: any) => {
-        setProducts([...products, { ...values, id: Date.now().toString() }]);
-        form.resetFields();
-    };
+
+    //* 가져온 상품 데이터
+    const {data : productsData =[]} = useGetProducts(shopId)
+    console.log('products', productsData)
+    // * 상품 등록
+    const { mutate : addProduct} = usePostProduct()
+    // * 상품 삭제
+    const { mutate: deleteProduct} = useDeleteProduct()
+
+    const handleAdd = (product: ProductSubmitData) => {
+        addProduct({shopId, productData: product}, {
+            onSuccess: () => {
+                setAddModal(false)
+            }
+        })
+        form.resetFields()
+    }
+
+    const handleDelete = (productId: string) => {
+        deleteProduct({productId: productId, shopId})
+    }
 
     return (
         <BottomSheet isOpen={isOpen} onClose={() => {
             onClose()
              setAddModal(false)}}>
-            <div className="flex flex-col  pb-10">
+            <div className="flex flex-col h-full pb-6">
                 <header className="px-1 flex items-center justify-between mb-4">
                     <div>
 
                         <h2 className="text-2xl font-black text-slate-800">
-                            {addModal? '새 상품 등록' : '가게 상품 관리'}
+                            {addModal? '새 이용권 등록' : '가게 이용권 관리'}
                         </h2>
                         <p className="text-sm text-slate-400 font-medium mt-1">
-                            {addModal ? '새로운 이용 상품 정보를 입력해주세요' : '운영중인 상품을 확인하고 관리하세요'}
+                            {addModal ? '새로운 이용권 정보를 입력해주세요' : '운영중인 이용권을 확인하고 관리하세요'}
                         </p>
                     </div>
                     {!addModal && (
@@ -45,16 +63,16 @@ export function ProductManageBottomSheet({ isOpen, onClose }: { isOpen: boolean,
                     )}
                 </header>
 
-                <div className="flex-1 overflow-y-auto">
+                <div className="flex-1 min-h-0">
                     {addModal ? (
-                        <div className="animate-in fade-in slide-in-from-bottom-4 duration-300">
-                            <AddProduct add={handleAdd} setAddModal={setAddModal} />
+                        <div className="animate-in fade-in slide-in-from-bottom-4 duration-300 h-full">
+                            <AddProduct form={form} add={handleAdd} setAddModal={setAddModal} shopId={shopId} />
                         </div>
                     ) : (
                         <div className="animate-in fade-in duration-300 pb-10">
                             <ProductList
-                                products={products}
-                                onDelete={(id) => setProducts(products.filter(p => p.id !== id))}
+                                products={productsData}
+                                onDelete={handleDelete}
                             />
                         </div>
                     )}

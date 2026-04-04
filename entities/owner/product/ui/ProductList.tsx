@@ -1,9 +1,10 @@
 'use client'
 
 import { ProductCard } from "@/entities/owner/product/ui/ProductCard"
+import { Product } from "@/features/owner/my-store/product/model/types"
 import { Empty } from "antd"
 
-export function ProductList({products, onDelete}: {products: any[], onDelete: (id: string) => void}) {
+export function ProductList({products, onDelete}: {products: Product[], onDelete: (productId: string) => void}) {
     if(products.length === 0) {
         return(
             <div className="py-20">
