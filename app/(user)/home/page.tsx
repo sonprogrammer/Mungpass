@@ -10,27 +10,14 @@ import { DogDetailModal } from "@/widgets/dog/ui/DogDetailModal";
 import { MyDogWidget } from "@/widgets/home/dog/ui/MyDogWidget";
 import { GreetMessage, QrCheckIn, Menu, NearByPlace } from "@/widgets/home/ui";
 import { HomeSkeleton } from "@/widgets/home/ui/HomeSkeleton";
-import { useSearchParams } from "next/navigation";
-import { useRouter } from "next/navigation";
 import { useState } from "react";
 
 
 
 export default function HomePage() {
   const { profile, isLoading } = useUserStore()
-  const { data: dogs } = useGetMyDogs()
-  const searchParams = useSearchParams()
-  const router = useRouter()
-
-  const modal = searchParams.get('modal')
-  const shopId = searchParams.get('shopId')
-  const productId = searchParams.get('productId')
-
-  const isCheckInOpen = modal === 'checkin' && !!shopId && !!productId
-  
-  const handleCloseModal = () => {
-    router.replace('/home')
-  }
+  const { data: dogs=[], isPending: isDogsPending } = useGetMyDogs()
+  const userId = profile?.id
 
   const [dogPostModalOpen, setDogPostModalOpen] = useState<boolean>(false)
   const [dogViewModalOpen, setDogViewModalOpen] = useState<boolean>(false)
@@ -38,9 +25,7 @@ export default function HomePage() {
   const selectedDog = useDogStore(state => state.selectedDog)
 
 
-  if (isLoading) return <HomeSkeleton />;
-  // const userData = { name: "홍길동", myCoupons: 2, visitCount: 12 };
-  // const myDog = { name: "초코", status: "집에서 쉬는 중" };
+  if (isLoading || !userId) return <HomeSkeleton />;
 
 
   return (
@@ -59,7 +44,7 @@ export default function HomePage() {
 
 
         {/* //*QR  */}
-        <QrCheckIn />
+        <QrCheckIn dogs={dogs} isDogsPending={isDogsPending} userId={userId}/>
 
         {/* //* 퀵메뉴 */}
         <Menu />

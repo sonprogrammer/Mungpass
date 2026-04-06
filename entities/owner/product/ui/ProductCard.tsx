@@ -1,11 +1,11 @@
 'use client'
 
-import { Product } from "@/features/owner/my-store/product/model/types";
+import { ProductWithCategory } from "@/features/owner/my-store/product/model/types";
 import { Button, Tag } from "antd";
 import { Banknote, Clock, Trash2 } from "lucide-react";
 
 
-export function ProductCard({product, onDelete}: {product: Product, onDelete: (productId: string) => void}) {
+export function ProductCard({product, onDelete}: {product: ProductWithCategory, onDelete: (productId: string) => void}) {
     return(
         <div className="group bg-white border border-slate-100 p-5 rounded-4xl shadow-sm hover:border-orange-200 transition-all">
             <div className="flex justify-between items-start">
@@ -13,11 +13,11 @@ export function ProductCard({product, onDelete}: {product: Product, onDelete: (p
                     <div className="flex items-center gap-2">
                         <span className="font-extrabold text-slate-800 text-base">{product.name}</span>
                         <Tag color="orange" className="m-0 border-none rounded-lg text-[10px] px-2 font-bold">
-                            {Math.floor(product.duration_minutes / 60)}시간
+                            {product.product_categories?.name}
                         </Tag>
                     </div>
                     <div className="flex items-center gap-4 text-xs text-slate-400 font-medium">
-                        <span className="flex items-center gap-1"><Clock size={12}/> {product.duration_minutes}분</span>
+                        <span className="flex items-center gap-1"><Clock size={12}/> {Math.floor(product.duration_minutes/60)}시간</span>
                         <span className="flex items-center gap-1 font-bold text-slate-600"><Banknote size={12}/> {product.price.toLocaleString()}원</span>
                     </div>
                     {product.overtime_unit_mins && (

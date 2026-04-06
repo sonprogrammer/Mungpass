@@ -5,7 +5,7 @@ export const getCurrentUsageLogs = async(myShopId: string, statuses: UsageLogSta
     const supabase = supabaseClient
 
     const { data, error} = await supabase.from('usage_logs').select(`*, 
-            dog: dog_id(
+            dog: dogs(
                 name,
                 image_url,
                 breed,
@@ -13,10 +13,10 @@ export const getCurrentUsageLogs = async(myShopId: string, statuses: UsageLogSta
                 birth_date,
                 description
             ),
-            owner: user_id(
+            owner: profiles(
             name, phone_number
             ),
-            product: product_id(
+            product: store_products(
             name,
             duration_minutes,
             price

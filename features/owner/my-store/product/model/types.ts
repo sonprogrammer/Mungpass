@@ -22,7 +22,6 @@ export interface Product{
     overtime_unit_mins: number;
     overtime_unit_price: number;
     grace_period_mins: number;
-
     created_at: string;
 
 }
@@ -37,4 +36,8 @@ export interface ProductSubmitData{
     overtime_unit_price: number;   
     grace_period_mins: number;
     is_active?: boolean //미리 상품을 만들어놓은걸 수도 있으니깐 나중에 상품등록을 위해 남겨논거
+}
+
+export interface ProductWithCategory extends Product{
+    product_categories: {name: string} | null
 }

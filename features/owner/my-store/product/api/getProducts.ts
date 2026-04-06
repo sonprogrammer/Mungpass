@@ -1,7 +1,7 @@
-import { Product } from '@/features/owner/my-store/product/model/types';
+import { ProductWithCategory } from '@/features/owner/my-store/product/model/types';
 import { supabaseClient } from '@/shared/api/supabase/client';
 
-export const getProducts = async(shopId: string):Promise<Product[]> => {
+export const getProducts = async(shopId: string):Promise<ProductWithCategory[]> => {
     const { data, error} = await supabaseClient.from('store_products').select(` *, product_categories( name)`)
                                                 .eq('store_id', shopId)
                                                 .order('created_at', { ascending: false})
@@ -10,5 +10,5 @@ export const getProducts = async(shopId: string):Promise<Product[]> => {
         throw error
     }
 
-    return (data || []) as Product[]
+    return (data || []) as ProductWithCategory[]
 }

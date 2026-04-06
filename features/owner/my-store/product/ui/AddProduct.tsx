@@ -8,7 +8,7 @@ import { App, Button, Divider, Form, FormInstance, Input, InputNumber, Modal, Se
 import { HelpCircle, AlarmClockCheck, Save, ChevronLeft, CircleDollarSign, LayoutGrid, Plus, X  } from "lucide-react";
 import { useState } from "react";
 
-export function AddProduct({ add, setAddModal, form, shopId }: { add: (product: ProductSubmitData) => void; setAddModal: (isOpen: boolean) => void, form: FormInstance, shopId: string }) {
+export function AddProduct({ add, setAddModal, form, shopId, isPostPending }: { add: (product: ProductSubmitData) => void; setAddModal: (isOpen: boolean) => void, form: FormInstance, shopId: string, isPostPending:boolean }) {
     const [newCategoryName, setNewCategoryName] = useState('')
 
     const { message } = App.useApp()
@@ -22,16 +22,18 @@ export function AddProduct({ add, setAddModal, form, shopId }: { add: (product: 
 
     const handleAddCategory = (e: React.MouseEvent<HTMLButtonElement | HTMLAnchorElement>) => {
         e.preventDefault()
-        if (newCategoryName.trim()) return message.warning('카테고리 이름을 입력해주세요')
+        if (!newCategoryName.trim()) return message.warning('카테고리 이름을 입력해주세요')
 
-        postCategory({ shopId, categoryName: newCategoryName }, {
-            onSuccess: (newCategory) => {
+            console.log('categrosssy', newCategoryName)
+            postCategory({ shopId, categoryName: newCategoryName }, {
+                onSuccess: (newCategory) => {
                 setNewCategoryName('')
                 form.setFieldValue('category_id', newCategory.id)
             }
         })
     }
 
+    // console.log('categroy', newCategoryName)
     const handleDeleteCategory = (e: React.MouseEvent, categoryId: string) => {
         e.stopPropagation();
 
@@ -55,7 +57,7 @@ export function AddProduct({ add, setAddModal, form, shopId }: { add: (product: 
     }
 
     return (
-        <Form form={form} layout="vertical" onFinish={add} className="flex flex-col h-full">
+        <Form form={form} layout="vertical" onFinish={add} onFinishFailed={(error) => console.log('검증 실패:', error)} className="flex flex-col h-full">
             <section className="space-y-2 flex-1 overflow-y-auto pb-4 ">
                 <Form.Item
                     name="category_id"
@@ -90,7 +92,8 @@ export function AddProduct({ add, setAddModal, form, shopId }: { add: (product: 
                                         placeholder="새 카테고리"
                                         value={newCategoryName}
                                         onChange={(e) => setNewCategoryName(e.target.value)}
-
+                                        onClick={(e) => e.stopPropagation()}
+                                        onMouseDown={(e) => e.stopPropagation()}
                                         onKeyDown={(e) => e.stopPropagation()}
                                         className="h-10! rounded-l-xl! border-slate-200!"
                                     />
@@ -173,6 +176,7 @@ export function AddProduct({ add, setAddModal, form, shopId }: { add: (product: 
                 </Button>
                 <Button
                     type="primary"
+                    loading={isPostPending}
                     htmlType="submit"
                     className="h-14! flex-1! rounded-3xl! bg-emerald-500! border-none! font-black! text-white! shadow-xl! shadow-slate-200! hover:bg-emerald-700! transition-all"
                 >

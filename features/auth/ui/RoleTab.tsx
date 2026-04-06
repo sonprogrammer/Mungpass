@@ -5,7 +5,7 @@ export function RoleTab({isOwner, setIsOwner}: {isOwner: boolean, setIsOwner: (o
                 <button
                     onClick={() => setIsOwner(false)}
                     className={`flex-1 py-2 text-xs font-black rounded-xl transition-all
-                                ${!isOwner ? 'bg-white text-slate-800 shadow-md' : 'text-slate-400'}
+                                ${!isOwner ? 'bg-orange-500 text-white shadow-md' : 'text-slate-400'}
                         `}
                 >
                     일반 유저
@@ -13,7 +13,7 @@ export function RoleTab({isOwner, setIsOwner}: {isOwner: boolean, setIsOwner: (o
                 <button
                     onClick={() => setIsOwner(true)}
                     className={`flex-1 py-2 text-xs font-black rounded-xl transition-all
-                            ${isOwner ? 'bg-orange-500 text-white shadow-md' : 'text-slate-400'}
+                            ${isOwner ? 'bg-emerald-500 text-white shadow-md' : 'text-slate-400'}
                         `}
                 >
                     멍패스 사장님

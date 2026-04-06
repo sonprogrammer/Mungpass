@@ -13,12 +13,11 @@ import { DogDetailModal } from "@/widgets/dog/ui/DogDetailModal";
 
 import { useDeleteDog } from "@/features/dog/model/useDeleteDog";
 
-
 export default function MyPetsPage() {
     const profile = useUserStore(state => state.profile)
     const setSelectedDog = useDogStore(state => state.setSelectedDog)
     const selectedDog = useDogStore(state => state.selectedDog)
-    const { data: dogs, isPending } = useGetMyDogs(profile?.id)
+    const { data: dogs, isPending } = useGetMyDogs()
     const router = useRouter();
     const [isEdit, setIsEdit] = useState<boolean>(false)
     const [dogPostModalOpen, setDogPostModalOpen] = useState<boolean>(false)
@@ -30,6 +29,7 @@ export default function MyPetsPage() {
     const primaryDogStatus = !!dogs?.find(dog => dog.is_primary)
 
 
+    // TODO 삭제 확인 로직 짜기
     const handleDelete = () => {
         if (!profile || !dogs || !selectedDog) return null
 
@@ -39,7 +39,7 @@ export default function MyPetsPage() {
         })
         setSelectedDog(null)
         setIsEdit(false)
-        // TODO alert주기
+        // TODO message.error해주기
     }
 
     const handleViewDetail = (dog: Dog) => {
@@ -55,7 +55,7 @@ export default function MyPetsPage() {
     }
 
     return (
-        <main className="h-screen bg-[#FFFAF0] p-6 ">
+        <main className="h-screen p-6 ">
             <header className="flex justify-between items-center mb-10">
                 <button onClick={() => router.back()}
                     className="p-3 bg-white rounded-2xl shadow-sm hover:shadow-md acitve: scale-95 transition-all -ml-2 cursor-pointer"

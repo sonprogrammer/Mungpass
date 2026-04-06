@@ -20,17 +20,19 @@ export function ProductManageBottomSheet({ isOpen, onClose, shopId }: { isOpen: 
     const {data : productsData =[]} = useGetProducts(shopId)
     console.log('products', productsData)
     // * 상품 등록
-    const { mutate : addProduct} = usePostProduct()
+    const { mutate : addProduct, isPending: isPostPending} = usePostProduct()
     // * 상품 삭제
     const { mutate: deleteProduct} = useDeleteProduct()
 
+    
     const handleAdd = (product: ProductSubmitData) => {
+        console.log('product from add button', product)
         addProduct({shopId, productData: product}, {
             onSuccess: () => {
                 setAddModal(false)
+                form.resetFields()
             }
         })
-        form.resetFields()
     }
 
     const handleDelete = (productId: string) => {
@@ -66,7 +68,7 @@ export function ProductManageBottomSheet({ isOpen, onClose, shopId }: { isOpen: 
                 <div className="flex-1 min-h-0">
                     {addModal ? (
                         <div className="animate-in fade-in slide-in-from-bottom-4 duration-300 h-full">
-                            <AddProduct form={form} add={handleAdd} setAddModal={setAddModal} shopId={shopId} />
+                            <AddProduct form={form} isPostPending={isPostPending} add={handleAdd} setAddModal={setAddModal} shopId={shopId} />
                         </div>
                     ) : (
                         <div className="animate-in fade-in duration-300 pb-10">

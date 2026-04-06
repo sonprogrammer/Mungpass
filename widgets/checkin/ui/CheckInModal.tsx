@@ -1,3 +1,5 @@
+//! 안쓰는 파일
+
 'use client'
 
 import { DogSelectStep } from "@/features/user-checkin/ui/DogSelectStep";

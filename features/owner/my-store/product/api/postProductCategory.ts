@@ -1,4 +1,4 @@
-import { ProductCategory, ProductCategorySubmitData } from "@/features/owner/my-store/product/model/types";
+import { ProductCategory } from "@/features/owner/my-store/product/model/types";
 import { supabaseClient } from "@/shared/api/supabase/client";
 
 export const postProductCategory = async({categoryName, shopId} : {categoryName: string, shopId: string}): Promise<ProductCategory> => {
