@@ -12,22 +12,37 @@ import { DogFormModal } from "@/features/dog/ui/DogFormModal";
 import { DogDetailModal } from "@/widgets/dog/ui/DogDetailModal";
 
 import { useDeleteDog } from "@/features/dog/model/useDeleteDog";
+import { useGetMyPetUsage } from "@/features/qr/model/useGetMyPetUsage";
+import { LiveUsageWidget } from "@/widgets/dog/ui/LiveUsageWidget";
+import { LiveUsageCard } from "@/widgets/dog/ui/LiveUsageCard";
+import { StoryTimer } from "@/entities/check-in/ui/StoryTimer";
+import { UsageStoryList } from "@/entities/check-in/ui/UsageStoryList";
+import { MyPetUsageAllInfo } from "@/features/qr/model/types";
 
 export default function MyPetsPage() {
     const profile = useUserStore(state => state.profile)
     const setSelectedDog = useDogStore(state => state.setSelectedDog)
     const selectedDog = useDogStore(state => state.selectedDog)
-    const { data: dogs, isPending } = useGetMyDogs()
-    const router = useRouter();
+
     const [isEdit, setIsEdit] = useState<boolean>(false)
+    // * 강아지 등록 모달
     const [dogPostModalOpen, setDogPostModalOpen] = useState<boolean>(false)
+    // *강아지 상세 모달
     const [dogViewModalOpen, setDogViewModalOpen] = useState<boolean>(false)
+    // * 체크인한 강아지 상세모달
+    const [activeDogModalOpen, setActiveDogModalOpen] = useState(false)
+    // * 체크인한 강아지 상세모달에 보낼 강아지 데이터
+    const [selectedDogUsage, setSelectedDogUsage] = useState<MyPetUsageAllInfo | null>(null)
+    // * 바로 수정 하기
     const [isDirectEdit, setIsDirectEdit] = useState<boolean>(false)
 
+    const { data: dogs, isPending } = useGetMyDogs()
     const { mutate: deleteMutate } = useDeleteDog()
+    const { data: activeDogs = [] } = useGetMyPetUsage({ statuses: ['staying'] })
 
     const primaryDogStatus = !!dogs?.find(dog => dog.is_primary)
 
+    console.log(' activedog', activeDogs)
 
     // TODO 삭제 확인 로직 짜기
     const handleDelete = () => {
@@ -54,27 +69,43 @@ export default function MyPetsPage() {
         setDogViewModalOpen(true)
     }
 
+    const handleDogClick = (usageDog: MyPetUsageAllInfo) => {
+        setSelectedDogUsage(usageDog)
+        setActiveDogModalOpen(true)
+    }
+
     return (
-        <main className="h-screen p-6 ">
-            <header className="flex justify-between items-center mb-10">
-                <button onClick={() => router.back()}
-                    className="p-3 bg-white rounded-2xl shadow-sm hover:shadow-md acitve: scale-95 transition-all -ml-2 cursor-pointer"
-                >
-                    <ChevronLeft className="w-6 h-6 text-slate-600" />
-                </button>
+        <main className="h-screen p-6 w-full space-y-2 relative">
+            <header className="flex justify-center items-center ">
                 <h1 className="text-2xl font-black  text-slate-800 tracking-tight">MY PETS</h1>
 
-                    <button
+                <button
                     onClick={() => setIsEdit(!isEdit)}
-                    className={`p-3 rounded-2xl transition-all active:scale-95 cursor-pointer 
+                    className={`absolute right-5 top-5 p-3 rounded-2xl transition-all active:scale-95 cursor-pointer 
                         ${dogs && dogs?.length > 0 ? '' : 'opacity-0 pointer-events-none'}
                         ${isEdit ? 'bg-orange-500 text-white shadow-lg shadow-orange-200'
                             : 'bg-white text-slate-400 shadow-sm hover:text-slate-600'
-                            }`}
-                            >
+                        }`}
+                >
                     {isEdit ? <X className="w-5 h-5" /> : <Settings2 className="w-5 h-5" />}
                 </button>
             </header>
+
+            {activeDogs.length > 0 && (
+                <section className="border-b-2 border-slate-200">
+                    <h2 className="text-xs font-black text-slate-400 mb-1 px-2 tracking-widest uppercase">Checked-In</h2>
+                    <div className="flex gap-4 overflow-x-auto py-2 px-2 no-scrollbar scroll-smooth">
+                        {activeDogs.map(usage => (
+                            <UsageStoryList
+                                key={usage.id}
+                                usageDog={usage}
+                                onClick={() => handleDogClick(usage)}
+                            />
+                        ))}
+                    </div>
+                </section>
+            )}
+
             {!primaryDogStatus && dogs && dogs.length > 0 && (
                 <div className="mb-4 flex items-center justify-end gap-2 text-orange-400">
                     <AlertCircle className="w-4 h-4" />

@@ -1,4 +1,4 @@
-
+// *사장 전용임 
 import { getCurrentUsageLogs } from "@/entities/check-in/api/getCurrentUsageLogs";
 import { useGetShopInfo } from "@/entities/owner/model/useGetShopInfo";
 import { useQuery } from "@tanstack/react-query";
