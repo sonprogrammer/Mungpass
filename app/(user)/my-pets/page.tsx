@@ -90,7 +90,7 @@ export default function MyPetsPage() {
                     {isEdit ? <X className="w-5 h-5" /> : <Settings2 className="w-5 h-5" />}
                 </button>
             </header>
-
+ 
             {activeDogs.length > 0 && (
                 <section className="border-b-2 border-slate-200">
                     <h2 className="text-xs font-black text-slate-400 mb-1 px-2 tracking-widest uppercase">Checked-In</h2>
