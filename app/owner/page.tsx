@@ -11,25 +11,23 @@ import { useGetShopInfo } from '@/entities/owner/model/useGetShopInfo';
 import { useGetExpectedSales } from '@/entities/owner/model/useGetExpectedSales';
 
 
-// TODO 오늘 예상 매출, 평균 이용시간 api연결
-
 export default function OwnerDashboard() {
 
-  const {data: shopInfo} = useGetShopInfo()
+  const {data: shopInfo, isPending: isShopInfoPending} = useGetShopInfo()
 
   // * 오늘 방뭄수
-  const { data: todayVisitCount } = useGetTodayVisitCount()
+  const { data: todayVisitCount, isPending: isTodayVisitPedning } = useGetTodayVisitCount()
 
   // * 현재 이용중인 반려견수
-  const { data: currentLogs = [] } = useGetCurrentUsageLogs()
+  const { data: currentLogs = [], isPending: isCurrentLogsPending } = useGetCurrentUsageLogs()
 
   // * 평균 이용 시간
-  const { data : avgTime } = useGetAvgTime(shopInfo?.id || '')
-  console.log('avgTime', avgTime)
+  const { data : avgTime, isPending: isAvgTimePending } = useGetAvgTime(shopInfo?.id || '')
 
   //* 오늘 예상 매출
-  const { data: expectedSales } = useGetExpectedSales(shopInfo?.id || '')
-  console.log('expectedSales', expectedSales)
+  const { data: expectedSales, isPending: isExpectedSalesPending } = useGetExpectedSales(shopInfo?.id || '')
+
+  const isSummaryLoading = isTodayVisitPedning || isAvgTimePending || isExpectedSalesPending || isShopInfoPending;
 
   return (
     <div className="mx-auto p-6">
@@ -41,12 +39,13 @@ export default function OwnerDashboard() {
               todayVisitCount={todayVisitCount} 
               avgTime={avgTime}
               expectedSales={expectedSales}
+              loading={isSummaryLoading}
           />
         </Col>
 
         {/*//* 메인: 현재 이용 현황 - 일반유저한테도 뿌려주게 */}
         <Col xs={24}>
-          <RealtimeUsageTable items={currentLogs} />
+          <RealtimeUsageTable items={currentLogs} loading={isCurrentLogsPending}/>
         </Col>
 
         {/* //* 최근 퇴실 기록 */}

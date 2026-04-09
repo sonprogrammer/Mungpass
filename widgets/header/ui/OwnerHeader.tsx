@@ -4,14 +4,47 @@ import { Bell, Store } from "lucide-react";
 import Link from "next/link";
 import { useState } from "react";
 import NotificationDrawer from '@/features/notification/ui/NotificationDrawer'
-import { useUserStore } from "@/entities/user/model/useUserStore";
 import { useGetShopInfo } from "@/entities/owner/model/useGetShopInfo";
+import { useNotificationStore } from "@/features/notification/model/useNotificationStore";
 
 export default function OwnerHeader() {
-  const profile = useUserStore(state => state.profile)
   const [isBellOpen, setIsBellOpen] = useState(false)
 
   const { data: shopInfo, isPending } = useGetShopInfo()
+  const status = shopInfo?.status || 'none'
+
+  const notifications = useNotificationStore((state) => state.notifications)
+  const hasUnread = notifications.some(n => !n.isRead)
+
+
+  const STATUS_CONFIG = {
+    pending: {
+      container: "bg-blue-50 border-blue-100",
+      dot: "bg-amber-500",
+      text: "text-blue-700",
+      label: "심사 대기 중"
+    },
+    rejected: {
+      container: "bg-red-50 border-red-100",
+      dot: "bg-red-500",
+      text: "text-red-700",
+      label: "심사 반려 (관리자문의 필요)"
+    },
+    verified: {
+      container: "bg-emerald-50 border-emerald-100/50",
+      dot: "bg-emerald-500",
+      text: "text-emerald-700",
+      label: shopInfo?.name
+    },
+    none: {
+      container: "bg-slate-50 border-slate-100",
+      dot: "bg-slate-400",
+      text: "text-slate-600",
+      label: "매장 등록 필요"
+    }
+  }
+
+  const current = STATUS_CONFIG[status as keyof typeof STATUS_CONFIG]
 
   return (
     <>
@@ -22,35 +55,33 @@ export default function OwnerHeader() {
           <div className={`
             p-1.5 rounded-xl group-active:scale-95 transition-all bg-emerald-600
           `}>
-              <Store className="w-5 h-5 text-white" />
+            <Store className="w-5 h-5 text-white" />
           </div>
 
           <div className="flex flex-col -gap-1">
             <h1 className="text-xl font-black text-slate-900 tracking-tighter leading-none">
               멍 <span className="text-emerald-600">패스</span>
             </h1>
-              <span className="text-[9px] font-black text-emerald-600/70 tracking-widest uppercase ml-0.5">
-                Partner
-              </span>
+            <span className="text-[9px] font-black text-emerald-600/70 tracking-widest uppercase ml-0.5">
+              Partner
+            </span>
           </div>
         </Link>
 
         <div className="flex items-center gap-3">
-          
-            <div className="bg-emerald-50 px-3 py-1.5 rounded-full border border-emerald-100/50 flex items-center gap-2">
-              {isPending ? (
-                <div className="w-16 h-3 bg-emerald-200 animate-pulse rounded" />
-              ) : (
-                <>
-                  <div className="w-1.5 h-1.5 bg-emerald-500 rounded-full animate-pulse" />
-                  <span className="text-[12px] font-black text-emerald-700 uppercase">
-                    {/* //TODO 여기는 제출서류 완료 한상태이면 심사 대기중이라고 뜨기 */}
-                    {/* //TODO 여기는 심사 성공하고 가게문 닫은 상태면 잠자는 모양으로 해놓기 아님 이거를 스위치로 만들어서 관리하던가 */}
-                    {shopInfo?.name ?? "매장 등록 필요"}
-                  </span>
-                </>
-              )}
-            </div>
+
+          <div className="bg-emerald-50 px-3 py-1.5 rounded-full border border-emerald-100/50 flex items-center gap-2">
+            {isPending ? (
+              <div className="w-16 h-3 bg-emerald-200 animate-pulse rounded" />
+            ) : (
+              <>
+                <div className={`w-1.5 h-1.5 rounded-full animate-pulse ${current.dot}`} />
+                <span className={`text-[12px] font-black uppercase ${current.text}`}>
+                  {current.label}
+                </span>
+              </>
+            )}
+          </div>
 
 
           <button
@@ -59,8 +90,9 @@ export default function OwnerHeader() {
               relative p-2 rounded-full transition-all cursor-pointer text-slate-500 hover:bg-emerald-50 hover:text-emerald-600
             `}          >
             <Bell className="w-5 h-5" />
-            {/* //* 알림 배지 알림 있으면 주황점 있고 없으면 없게 */}
-            <span className="absolute top-1 right-1.5 w-3 h-3 bg-red-500 rounded-full animate-pulse border-2 border-white"></span>
+            {hasUnread && (
+              <span className="absolute top-1.5 right-1.5 w-2.5 h-2.5 bg-red-500 rounded-full animate-pulse border-2 border-white" />
+            )}
           </button>
         </div>
       </header>

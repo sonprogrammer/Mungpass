@@ -11,7 +11,7 @@ import { ProductSubmitData } from '@/features/owner/my-store/product/model/types
 import { usePostProduct } from '@/features/owner/my-store/product/model/usePostProduct';
 import { useDeleteProduct } from '@/features/owner/my-store/product/model/useDeleteProduct';
 
-export function ProductManageBottomSheet({ isOpen, onClose, shopId }: { isOpen: boolean, onClose: () => void, shopId: string }) {
+export function ProductManageBottomSheet({ open, onClose, shopId }: { open: boolean, onClose: () => void, shopId: string }) {
     const [form] = Form.useForm()
     const [addModal, setAddModal] = useState(false)
 
@@ -40,7 +40,7 @@ export function ProductManageBottomSheet({ isOpen, onClose, shopId }: { isOpen: 
     }
 
     return (
-        <BottomSheet isOpen={isOpen} onClose={() => {
+        <BottomSheet isOpen={open} onClose={() => {
             onClose()
              setAddModal(false)}}>
             <div className="flex flex-col h-full pb-6">

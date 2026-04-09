@@ -8,7 +8,6 @@ import { CurrentLogDetailModal } from "@/entities/owner/ui/CurrentLogDetailModal
 import { ConfirmModal } from "@/shared/ui/ConfirmModal"
 import { CurrentUsageLog } from "@/entities/check-in/model/types"
 import { usePostCheckout } from "@/features/qr/owner/model/usePostCheckout"
-import { formatMinsToTime } from "@/shared/utils/formatMinsToTime"
 
 
 export function CurrentLogList({ data, tab }: {data: CurrentUsageLog[], tab: 'current' | 'checkout'}) {
@@ -33,10 +32,9 @@ export function CurrentLogList({ data, tab }: {data: CurrentUsageLog[], tab: 'cu
     const handleConfirmCheckout = () =>{
         if(!checkoutItem) return
         checkoutMutate(checkoutItem.id)
-        console.log('checkout confrim')
         setCheckoutItem(null)
     }
-console.log('checkoutitem', checkoutItem)
+
 
     if (data.length === 0) {
         return (

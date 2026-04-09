@@ -9,6 +9,7 @@ import {
   Empty,
   Badge,
   List,
+  Spin,
 } from 'antd';
 import {
   ThunderboltOutlined,
@@ -20,16 +21,17 @@ import { useState } from 'react';
 import { CurrentLogDetailModal } from '@/entities/owner/ui/CurrentLogDetailModal';
 import { ConfirmModal } from '@/shared/ui/ConfirmModal';
 import { CurrentUsageLog } from '@/entities/check-in/model/types';
+import { usePostCheckout } from '@/features/qr/owner/model/usePostCheckout';
 
 
-dayjs.extend(customParseFormat);
+dayjs.extend(customParseFormat)
 
-export function RealtimeUsageTable({ items }: {items: CurrentUsageLog[]}) {
+export function RealtimeUsageTable({ items, loading }: { items: CurrentUsageLog[], loading: boolean }) {
   const [detailItem, setDetailItem] = useState<CurrentUsageLog | null>(null)
   const [checkoutItem, setCheckoutItem] = useState<CurrentUsageLog | null>(null)
 
-  console.log('item', items)
-  
+  const { mutate: checkoutMutate} = usePostCheckout()
+
   const showViewAll = items.length >= 4
 
   const sortedData = [...items].sort((a, b) => {
@@ -44,20 +46,19 @@ export function RealtimeUsageTable({ items }: {items: CurrentUsageLog[]}) {
   const handleCheckout = (item: CurrentUsageLog) => {
     setCheckoutItem(item)
   }
-  
-  //  TODO 퇴실처리하는 거 해야함 - api요청으로 훅을 만들면됨 
-  // *모달안에서 퇴실하기를 누를때 반응하는거임
+
   const handleConfirmCheckout = () => {
-    if(!checkoutItem) return
-    console.log('checkout')
-    
+    if (!checkoutItem) return
+    checkoutMutate(checkoutItem.id)
+    setCheckoutItem(null)
+
   }
 
   return (
     <>
       <Card
         title={
-          <div className="flex min-w-0 items-center justify-between gap-2">
+          <div className="flex min-w-0 items-center justify-between gap-2 ">
             <Space size={8} className="min-w-0">
               <ThunderboltOutlined className="text-orange-500!" />
               <span className="font-bold truncate">실시간 입실 유저</span>
@@ -73,30 +74,26 @@ export function RealtimeUsageTable({ items }: {items: CurrentUsageLog[]}) {
             )}
           </div>
         }
-        className="w-full max-w-120 shadow-sm border-orange-100!"
-        styles={{ body: { padding: 12 } }}
+        className="w-full max-w-120 shadow-sm border-orange-100! overflow-y-auto!"
+        styles={{ body: { padding: 12, minHeight: 200 } }}
       >
-        {sortedData.length > 0 ? (
-          <List
-            dataSource={sortedData}
-            split={false}
-            className="w-full!"
-            renderItem={(item) => (
-              <List.Item className="px-0! py-2!">
-                <CurrentLogItem item={item} onClick={setDetailItem} onCheckout={handleCheckout} />
-              </List.Item>
-            )}
-          />
-        ) : (
-          <Empty
-            image={Empty.PRESENTED_IMAGE_SIMPLE}
-            description={
-              <Typography.Text type="secondary">
-                현재 입실 중인 유저가 없습니다.
-              </Typography.Text>
-            }
-          />
-        )}
+        <Spin spinning={loading} tip="데이터 갱신 중..." style={{marginTop: '60px'}}>
+          {sortedData.length > 0 ? (
+            <List
+              dataSource={sortedData}
+              renderItem={(item) => (
+                <List.Item className="px-0! py-2!">
+                  <CurrentLogItem item={item} onClick={setDetailItem} onCheckout={handleCheckout} />
+                </List.Item>
+              )}
+            />
+          ) : !loading && (
+            <Empty
+              image={Empty.PRESENTED_IMAGE_SIMPLE}
+              description={<Typography.Text type="secondary">현재 입실 중인 유저가 없습니다.</Typography.Text>}
+            />
+          )}
+        </Spin>
 
         {showViewAll && (
           <div className="mt-3 border-t border-orange-100 pt-3">
