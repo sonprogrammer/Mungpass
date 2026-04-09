@@ -8,7 +8,7 @@ export function UsageStoryList({usageDog, onClick}: {usageDog: MyPetUsageAllInfo
     const { progress, isOverTime} = useTimer(usageDog.started_at, usageDog.expected_ended_at, usageDog.ended_at)
 
     return(
-        <div className="flex flex-col items-center gap-1 cursor-pointer shrink-0"
+        <div className="flex flex-col items-center cursor-pointer shrink-0"
             onClick={onClick}
         >
             <StoryTimer 

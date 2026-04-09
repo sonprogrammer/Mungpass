@@ -2,12 +2,18 @@
 import { Avatar, Button, Modal, Tag, Typography } from 'antd'
 import { ClockArrowUp, Dog, ClockArrowDown } from 'lucide-react'
 import { CurrentLogDetailModalProps } from '@/entities/owner/model/types'
+import { getElapsedTime } from '@/shared/utils/getElapsedTime'
+import { formatTime } from '@/shared/utils/formatDate'
 
 export function CurrentLogDetailModal({ open, item, onClose, onCheckout }: CurrentLogDetailModalProps) {
     const isStaying = item?.status === 'staying'
     const isCompleted = item?.status === 'completed'
     const isCancelled = item?.status === 'cancelled'
 
+    const checkedInTime = item?.started_at
+    const checkOutTime = item?.ended_at
+    // * 경과 시간
+    const pastTime = getElapsedTime(checkedInTime, checkOutTime)
 
     return (
         <Modal
@@ -38,8 +44,11 @@ export function CurrentLogDetailModal({ open, item, onClose, onCheckout }: Curre
                                 </Tag>
 
 
-                                <span className="inline-flex items-center rounded-full bg-emerald-50 px-2 py-0.5 text-[11px] font-semibold text-emerald-600">
-                                    {isCompleted ? '퇴실 완료' : '취소'}
+                                <span className={`inline-flex items-center rounded-full px-2 py-0.5 text-[11px] font-semibold 
+                                        ${isStaying ? 'bg-orange-50 text-orange-500' :
+                                        isCompleted ? 'bg-emerald-50 text-emerald-600' :
+                                            'bg-slate-100 text-red-500'}`}>
+                                        {isStaying ? '이용 중' : isCompleted ? '퇴실 완료' : '취소됨'}
                                 </span>
                             </div>
 
@@ -58,28 +67,24 @@ export function CurrentLogDetailModal({ open, item, onClose, onCheckout }: Curre
                     <div className="rounded-2xl border border-slate-100 bg-slate-50 px-4 py-3">
                         {!isCancelled && (
                             <div className="flex flex-col gap-1.5">
-                                
+
                                 <div className="flex items-center gap-2 text-sm text-slate-600">
                                     <ClockArrowUp size={14} className="text-emerald-500" />
-                                    <span>{item.started_at} 입실</span>
+                                    <span>{formatTime(item.started_at)} 입실</span>
                                 </div>
 
                                 {/* //*퇴실 시간*/}
                                 {isCompleted && (
                                     <div className="flex items-center gap-2 text-sm text-slate-600">
                                         <ClockArrowDown size={14} className="text-red-400" />
-                                        <span>{item.ended_at} 퇴실</span>
+                                        <span>{formatTime(item.ended_at)} 퇴실</span>
                                     </div>
                                 )}
 
                                 {/* //*경과 시간 및 완료시간 */}
                                 <Typography.Text className="mt-1 block text-sm! text-blue-500! font-semibold">
-                                    {/* //TODO: 실시간으로 데이터 처리 지금은 상품 시간이 적혀있음*/}
                                     <span>
-                                        {isCompleted
-                                            ? `총 ${item.product?.duration_minutes}분 이용 완료`
-                                            : `${item.product?.duration_minutes}분 경과 중`
-                                        }
+                                        {pastTime}
                                     </span>
                                 </Typography.Text>
                             </div>

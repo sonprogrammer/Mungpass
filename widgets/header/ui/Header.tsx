@@ -4,10 +4,13 @@ import { Bone, Bell } from "lucide-react";
 import Link from "next/link";
 import { useState } from "react";
 import NotificationDrawer from '@/features/notification/ui/NotificationDrawer'
+import { useNotificationStore } from "@/features/notification/model/useNotificationStore";
 
 export default function Header() {
   const [isBellOpen, setIsBellOpen] = useState(false)
 
+  const notifications = useNotificationStore((state) => state.notifications)
+  const hasUnread = notifications.some(n => !n.isRead)
 
   return (
     <>
@@ -46,7 +49,9 @@ export default function Header() {
             `} >
             <Bell className="w-5 h-5" />
             {/* //* 알림 배지 알림 있으면 주황점 있고 없으면 없게 */}
-            <span className="absolute top-1 right-1.5 w-3 h-3 bg-red-500 rounded-full animate-pulse border-2 border-white"></span>
+            {hasUnread && (
+              <span className="absolute top-2 right-2 w-2.5 h-2.5 bg-red-500 rounded-full animate-pulse border-2 border-white" />
+            )}
           </button>
         </div>
       </header>

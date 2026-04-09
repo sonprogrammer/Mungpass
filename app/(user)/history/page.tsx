@@ -1,47 +1,17 @@
+'use client'
+
+import { useGetMyPetUsage } from "@/features/qr/model/useGetMyPetUsage";
 import { BackBtn } from "@/shared/ui/BackBtn";
 import { MenuPageListCard } from "@/widgets/home-menu/ui/MenuPageListCard";
-import { PawPrint, Store } from "lucide-react";
+import { format, parseISO } from "date-fns";
+import { PawPrint } from "lucide-react";
 
 
 export default function HistoryPage() {
-    const historyList = [
-        {
-            id: 1,
-            title: '가까이 그리고 가만히',
-            description: '호텔 이용',
-            date: '2024.12.23',
-        },
-        {
-            id: 2,
-            title: '멍멍 데이케어',
-            description: '데이케어 이용',
-            date: '2024.12.20',
-        },
-        {
-            id: 3,
-            title: '멍멍 데이케어',
-            description: '데이케어 이용',
-            date: '2024.12.20',
-        },
-        {
-            id: 4,
-            title: '멍멍 데이케어',
-            description: '데이케어 이용',
-            date: '2024.12.20',
-        },
-        {
-            id: 5,
-            title: '멍멍 데이케어',
-            description: '데이케어 이용',
-            date: '2024.12.20',
-        },
-        {
-            id: 6,
-            title: '멍멍 데이케어',
-            description: '데이케어 이용',
-            date: '2024.12.20',
-        },
-    ]
+    const { data: historyList = [], isPending } = useGetMyPetUsage({ statuses: ['completed'] }) //*이용완료된 기록만 보임
+
+
+
 
 
     return (
@@ -61,17 +31,31 @@ export default function HistoryPage() {
 
             <div className="flex-1 min-h-0 overflow-y-auto w-full max-w-120 mx-auto">
                 <div className="p-6 space-y-4 pb-24">
+                    {isPending ? (
+                        <div className="p-6 space-y-6">
+                            <div className="animate-pulse bg-gray-50 rounded-3xl h-22 w-full" />
+                            <div className="animate-pulse bg-gray-50 rounded-2xl h-22 w-full" />
+                        </div>
+                    ) : historyList.length > 0 ? (
 
-                    {historyList.map((item) => (
-                        <MenuPageListCard
-                            key={item.id}
-                            icon={<PawPrint className="w-5 h-5 text-orange-500" />}
-                            title={item.title}
-                            description={item.description}
-                            subText={item.date}
-                        />
-                    ))}
+                        historyList.map((item) => (
+                            <MenuPageListCard
+                                key={item.id}
+                                icon={<PawPrint className="w-5 h-5 text-orange-500" />}
+                                title={item.shop.name}
+                                description={item.product.name}
+                                subText={format(parseISO(item.created_at), 'yy-MM-dd')}
+                            />
+                        ))
 
+                    ) :
+                        (
+                            <div className="text-center py-20">
+                                <PawPrint className="w-12 h-12 text-slate-200 mx-auto mb-4" />
+                                <p className="text-slate-400">아직 이용 기록이 없어요.</p>
+                            </div>
+                        )
+                    }
                 </div>
             </div>
 

@@ -1,37 +1,25 @@
+
+
 'use client'
 
+
+
 import { DogCard } from "@/entities/dog/ui/DogCard"
-import { Dog, useDogStore } from "@/entities/dog/model/types"
-import { useEffect, useState } from "react"
+import { useDogStore } from "@/entities/dog/model/types"
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Pagination } from 'swiper/modules';
 import 'swiper/css';
 import 'swiper/css/pagination';
-import { useRouter } from "next/navigation"
-import { useUserStore } from "@/entities/user/model/useUserStore"
 import { useGetMyDogs } from "@/features/dog/model/useGetMyDogs"
 import { MyDogWidgetProps } from "@/widgets/home/model/types";
 
 
 export function MyDogWidget({dogPostModal, dogViewModal}:MyDogWidgetProps) {
-    const router = useRouter()
-    const profile = useUserStore(state => state.profile)
     const setSelectedDog = useDogStore(state => state.setSelectedDog)
 
-    const { data: dogs, isPending} = useGetMyDogs(profile?.id)
+    const { data: dogs, isPending} = useGetMyDogs()
 
 
-    //TODO handleEdit 이건 이제 필요가 없음, 우선 확인해보기 
-    // const handleEdit = () => {
-    //     //* 애견을 등록한게 있으면 마이펫페이지로 이동(수정, 확인 가능), 등록한적이 없으면 모달
-    //     if(dogs && dogs.length > 0){
-    //         router.push('/my-pets')
-    //     }else{
-    //         dogPostModal()
-
-    //     }
-    //     console.log('수정 버튼 클릭')
-    // }
 
     if (isPending) return <div className="h-24 animate-pulse bg-slate-100 rounded-[2.5rem]" />
     

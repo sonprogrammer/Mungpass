@@ -27,4 +27,5 @@ export interface MyPetUsageAllInfo{
     expected_ended_at: string;
     created_at: string;
     product: Product
+    shop: { name : string}
 }

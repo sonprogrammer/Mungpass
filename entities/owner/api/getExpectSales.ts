@@ -4,19 +4,11 @@ import { differenceInMinutes, endOfDay, startOfDay } from "date-fns"
 export const getExpectSales = async (shopId: string) => {
     const todayStart = startOfDay(new Date()).toISOString()
     const todayEnd = endOfDay(new Date()).toISOString()
-
+console.log('shopid from expect', shopId)
     const { data, error } = await supabaseClient.from('usage_logs')
         .select(`
-            started_at,
-            ended_at,
-            expected_ended_at,
-            store_products!product_id(
-                price,
-                duration_minutes,
-                overtime_unit_mins,
-                overtime_unit_price,
-                grace_period_mins
-                )
+            *,
+            product: store_products(*)
             `)
         .eq('shop_id', shopId)
         .gte('started_at', todayStart)

@@ -28,6 +28,8 @@ export function RealtimeUsageTable({ items }: {items: CurrentUsageLog[]}) {
   const [detailItem, setDetailItem] = useState<CurrentUsageLog | null>(null)
   const [checkoutItem, setCheckoutItem] = useState<CurrentUsageLog | null>(null)
 
+  console.log('item', items)
+  
   const showViewAll = items.length >= 4
 
   const sortedData = [...items].sort((a, b) => {

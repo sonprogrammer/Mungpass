@@ -1,6 +1,8 @@
 'use client'
 
 import { CurrentLogItemProps } from "@/entities/owner/model/types";
+import { formatTime } from "@/shared/utils/formatDate";
+import { getElapsedTime } from "@/shared/utils/getElapsedTime";
 import { ClockCircleOutlined } from "@ant-design/icons";
 import { Avatar, Button, Tag, Typography } from "antd";
 import { Dog } from "lucide-react";
@@ -11,6 +13,10 @@ export function CurrentLogItem({ item, onCheckout, onClick }: CurrentLogItemProp
     const isStaying = item.status === 'staying'
     const isCompleted = item.status === 'completed'
 
+    const checkedInTime = item.started_at
+    const checkOutTime = item.ended_at
+    // * 경과 시간
+    const pastTime = getElapsedTime(checkedInTime, checkOutTime)
 
     return (
         <article
@@ -35,7 +41,6 @@ export function CurrentLogItem({ item, onCheckout, onClick }: CurrentLogItemProp
                                     {item.dog?.name}
                                 </Typography.Text>
 
-                                {/* TODO 상품에 따라 색상 다르게  */}
                                 <Tag color="green" className="m-0! rounded-full px-2 py-0 text-[11px]!">
                                     {item.product?.name}
                                 </Tag>
@@ -65,18 +70,15 @@ export function CurrentLogItem({ item, onCheckout, onClick }: CurrentLogItemProp
                                         <ClockCircleOutlined className="text-[11px]" />
                                         <span>
                                             {isStaying
-                                                ? `${item.started_at} 입실`
-                                                : item.ended_at === null ? '' :`${item.ended_at} 퇴실`}
+                                                ? `${formatTime(item.started_at)} 입실`
+                                                : item.ended_at === null ? '' :`${formatTime(item.ended_at)} 퇴실`}
                                             
                                         </span>
                                     </div>
 
-                                    <span className="hidden sm:inline text-[10px]">|</span>
-
                                     <span className="font-semibold text-blue-500">
-                                        {/* //TODO 여기도 실시간으로 변경해줘야함  계산하는 로직으로 */}
-                                        {/* TODO 현재는 그냥 상품 시간 적혀있ㅇ므 */}
-                                        {item.product?.duration_minutes} 경과
+
+                                        {pastTime}
                                     </span>
                                 </div>
                             </div>

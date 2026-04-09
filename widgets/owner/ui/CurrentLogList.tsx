@@ -7,14 +7,18 @@ import { useState } from "react"
 import { CurrentLogDetailModal } from "@/entities/owner/ui/CurrentLogDetailModal"
 import { ConfirmModal } from "@/shared/ui/ConfirmModal"
 import { CurrentUsageLog } from "@/entities/check-in/model/types"
+import { usePostCheckout } from "@/features/qr/owner/model/usePostCheckout"
+import { formatMinsToTime } from "@/shared/utils/formatMinsToTime"
 
 
 export function CurrentLogList({ data, tab }: {data: CurrentUsageLog[], tab: 'current' | 'checkout'}) {
     const [checkoutItem, setCheckoutItem] = useState<CurrentUsageLog | null>(null)
     const [detailItem, setDetailItem] = useState<CurrentUsageLog | null>(null)
 
+    const { mutate: checkoutMutate} = usePostCheckout()
+    
     // TODO 상품에 따라 정렬도 가능하게 하기
-
+    
 
     const emptyMsgs = {
         current: '현재 이용 중인 반려견이 없습니다.',
@@ -28,8 +32,7 @@ export function CurrentLogList({ data, tab }: {data: CurrentUsageLog[], tab: 'cu
 
     const handleConfirmCheckout = () =>{
         if(!checkoutItem) return
-
-        // TODO  Api호출
+        checkoutMutate(checkoutItem.id)
         console.log('checkout confrim')
         setCheckoutItem(null)
     }

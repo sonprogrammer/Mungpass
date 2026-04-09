@@ -25,7 +25,7 @@ export function LiveUsageCard({dogUsage} : {dogUsage: MyPetUsageAllInfo}) {
                         <img 
                             src={dogUsage.dog.image_url} 
                             className="w-16 h-16 rounded-[2rem] object-cover ring-4 ring-white shadow-md" 
-                            alt={dogUsage.dog.name} 
+                            alt="강아지 프로필 사진"
                         />
                         <div className="absolute -bottom-1 -right-1 w-5 h-5 bg-green-500 border-4 border-white rounded-full" />
                     </div>

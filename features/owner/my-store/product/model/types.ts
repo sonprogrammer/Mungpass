@@ -23,7 +23,6 @@ export interface Product{
     overtime_unit_price: number;
     grace_period_mins: number;
     created_at: string;
-
 }
 
 //* 디비에 새로 저장할테이터

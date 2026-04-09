@@ -14,7 +14,7 @@ export default function UserLayout({ children }: { children: React.ReactNode }) 
                         {children}
                     </main>
 
-                    <div className="absolute bottom-20 left-0 right-0 z-40 px-4 pointer-events-none">
+                    <div className="absolute bottom-24 left-0 right-0 z-40 px-4 pointer-events-none">
                         <div className="pointer-events-auto">
                            <GlobalLiveUsage />
                         </div>

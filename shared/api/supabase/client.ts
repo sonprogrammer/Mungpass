@@ -10,6 +10,11 @@ export const supabaseClient = createBrowserClient(url, key, {
     persistSession: true, 
     autoRefreshToken: true,  
     detectSessionInUrl: true, 
+  },
+  realtime: {
+    params: {
+      eventPerSecond: 10
+    }
   }
 });
 

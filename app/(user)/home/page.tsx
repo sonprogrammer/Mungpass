@@ -5,6 +5,7 @@ import { useUserStore } from "@/entities/user/model/useUserStore";
 import { useGetMyDogs } from "@/features/dog/model/useGetMyDogs";
 
 import { DogFormModal } from "@/features/dog/ui/DogFormModal";
+import { useGetMyPetUsage } from "@/features/qr/model/useGetMyPetUsage";
 import { DogDetailModal } from "@/widgets/dog/ui/DogDetailModal";
 
 import { MyDogWidget } from "@/widgets/home/dog/ui/MyDogWidget";
@@ -19,13 +20,15 @@ export default function HomePage() {
   const { data: dogs=[], isPending: isDogsPending } = useGetMyDogs()
   const userId = profile?.id
 
+  // console.log('now', Date.now())
+
   const [dogPostModalOpen, setDogPostModalOpen] = useState<boolean>(false)
   const [dogViewModalOpen, setDogViewModalOpen] = useState<boolean>(false)
 
   const selectedDog = useDogStore(state => state.selectedDog)
 
 
-  if (isLoading || !userId) return <HomeSkeleton />;
+  if (isLoading || !userId) return <HomeSkeleton />
 
 
   return (

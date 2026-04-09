@@ -54,7 +54,7 @@ export function PlaceDetailSheet({ place }: { place: KakaoPlace }) {
                         console.log('clicekd')
                         toggleSave(place)
                     }} 
-                     className={`shrink-0 w-14 h-14 flex items-center justify-center rounded-2xl transitian-all shadow-lg bg-pink-200/50`}>
+                     className={`cursor-pointer shrink-0 w-14 h-14 flex items-center justify-center rounded-2xl transitian-all shadow-lg bg-pink-200/50`}>
                     <Heart className={`w-6 h-6 ${isLiked ? 'fill-pink-500 text-pink-500' : ''}`}/>
                 </button>
             </div>

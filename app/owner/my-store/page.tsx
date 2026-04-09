@@ -33,6 +33,7 @@ export default function MyStorePage() {
     
     const { handleAction, contextHolder} = useRestrictedAction(regisData?.status)
 
+    // TODO 이거 수정 컨테이너 수에 맞게
     if (isRegisPending) {
         return (
             <div className="p-6 space-y-6">

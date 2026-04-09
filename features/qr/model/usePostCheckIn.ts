@@ -14,6 +14,7 @@ export function usePostCheckIn() {
 
             queryClient.invalidateQueries({queryKey:['checkIn_logs', userId]})
             queryClient.invalidateQueries({queryKey:['checkIn_logs', userId, data.dog_id]})
+            queryClient.invalidateQueries({queryKey:['myPet-checkIn', userId]})
         },
         onError: (error)=> {
             console.error('checkin hooks error',error)

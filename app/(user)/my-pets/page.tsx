@@ -1,7 +1,6 @@
 'use client'
 
-import { AlertCircle, ChevronLeft, X, Pencil, Plus, Settings2, Trash2 } from "lucide-react";
-import { useRouter } from "next/navigation";
+import { AlertCircle, X, Pencil, Plus, Settings2, Trash2 } from "lucide-react";
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { DogProfileCard } from "@/entities/dog/ui/DogProfileCard";
@@ -13,9 +12,7 @@ import { DogDetailModal } from "@/widgets/dog/ui/DogDetailModal";
 
 import { useDeleteDog } from "@/features/dog/model/useDeleteDog";
 import { useGetMyPetUsage } from "@/features/qr/model/useGetMyPetUsage";
-import { LiveUsageWidget } from "@/widgets/dog/ui/LiveUsageWidget";
 import { LiveUsageCard } from "@/widgets/dog/ui/LiveUsageCard";
-import { StoryTimer } from "@/entities/check-in/ui/StoryTimer";
 import { UsageStoryList } from "@/entities/check-in/ui/UsageStoryList";
 import { MyPetUsageAllInfo } from "@/features/qr/model/types";
 
@@ -76,7 +73,7 @@ export default function MyPetsPage() {
 
     return (
         <main className="h-screen p-6 w-full space-y-2 relative">
-            <header className="flex justify-center items-center ">
+            <header className={`flex justify-center items-center ${activeDogs.length > 0 ? '' : 'mb-10'}`}>
                 <h1 className="text-2xl font-black  text-slate-800 tracking-tight">MY PETS</h1>
 
                 <button
@@ -112,7 +109,7 @@ export default function MyPetsPage() {
                     <span className="text-xs font-bold tracking-tight">대표 강아지를 등록해 주세요</span>
                 </div>
             )}
-            <div className="grid grid-cols-2 gap-3">
+            <div className="grid grid-cols-2 gap-3 ">
                 <AnimatePresence mode="popLayout">
                     {dogs && dogs.map((dog, index) => (
                         <motion.div
@@ -184,6 +181,33 @@ export default function MyPetsPage() {
                 </div>
             )}
 
+            {/* //* 현재 이용중인 강아지 스로리에서 강아지 클릭시 디테일 데이토ㅓ  */}
+            <AnimatePresence>
+                {activeDogModalOpen && selectedDogUsage && (
+                    <div 
+                        className="fixed inset-0 z-2000 flex items-end justify-center bg-black/60 backdrop-blur-sm p-4"
+                        onClick={() => setActiveDogModalOpen(false)} 
+                    >
+                        <motion.div 
+                            initial={{ y: "100%" }}
+                            animate={{ y: 0 }}
+                            exit={{ y: "100%" }}
+                            transition={{ type: "spring", damping: 25, stiffness: 200 }}
+                            className="w-full max-w-120 mb-10 pointer-events-auto"
+                            onClick={(e) => e.stopPropagation()} 
+                        >
+                            <LiveUsageCard dogUsage={selectedDogUsage} />
+                            
+                            <button 
+                                onClick={() => setActiveDogModalOpen(false)}
+                                className="mt-4 w-full py-4 bg-white/20 text-white font-black rounded-3xl border border-white/30 backdrop-blur-md"
+                            >
+                                닫기
+                            </button>
+                        </motion.div>
+                    </div>
+                )}
+            </AnimatePresence>
 
             <DogFormModal
                 isOpen={dogPostModalOpen}
