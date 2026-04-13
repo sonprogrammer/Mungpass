@@ -14,6 +14,7 @@ export function useRealTimeNotification() {
     }
     fetchNoti()
 
+
     const channel = supabaseClient
       .channel('schema-db-changes')
       .on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'notifications' }, 

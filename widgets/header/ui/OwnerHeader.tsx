@@ -1,17 +1,20 @@
 'use client'
 
-import { Bell, Store } from "lucide-react";
+import { Bell, Store, Monitor } from "lucide-react";
 import Link from "next/link";
 import { useState } from "react";
 import NotificationDrawer from '@/features/notification/ui/NotificationDrawer'
 import { useGetShopInfo } from "@/entities/owner/model/useGetShopInfo";
 import { useNotificationStore } from "@/features/notification/model/useNotificationStore";
+import { useRouter } from "next/navigation";
 
 export default function OwnerHeader() {
+  const router = useRouter()
   const [isBellOpen, setIsBellOpen] = useState(false)
 
   const { data: shopInfo, isPending } = useGetShopInfo()
   const status = shopInfo?.status || 'none'
+  const shopId = shopInfo?.id
 
   const notifications = useNotificationStore((state) => state.notifications)
   const hasUnread = notifications.some(n => !n.isRead)
@@ -69,6 +72,16 @@ export default function OwnerHeader() {
         </Link>
 
         <div className="flex items-center gap-3">
+
+          {!isPending && status === 'verified' && (
+            <button
+              onClick={() => router.push(`/kiosk/${shopId}`)}
+              className="p-2 text-slate-400 cursor-pointer hover:text-emerald-600 hover:bg-emerald-50 rounded-full transition-all active:scale-95"
+              title="키오스크 모드"
+            >
+              <Monitor className="w-5 h-5" />
+            </button>
+          )}
 
           <div className="bg-emerald-50 px-3 py-1.5 rounded-full border border-emerald-100/50 flex items-center gap-2">
             {isPending ? (

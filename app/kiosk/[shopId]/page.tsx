@@ -3,86 +3,56 @@
 import { ProductCategory, ProductWithCategory } from "@/features/owner/my-store/product/model/types"
 import { useGetProductCategories } from "@/features/owner/my-store/product/model/useGetProductCategories"
 import { useGetProducts } from "@/features/owner/my-store/product/model/useGetProducts"
-import { Button, Empty } from "antd"
+import { Empty } from "antd"
 import { useParams } from "next/navigation"
-import { useEffect, useMemo, useState } from "react"
-import { AlertCircle, ChevronLeft, QrCode } from "lucide-react"
-import { KioskCategorySkeleton } from "@/features/owner/kiosk/ui/KioskCategorySkeloton"
+import { useMemo, useState } from "react"
 import { KioskProductSkeleton } from "@/features/owner/kiosk/ui/KioskProductSkeleton"
 import { ProductListItem } from "@/entities/owner/kiosk/ui/ProductListItem"
-import { QRCodeSVG } from "qrcode.react"
+import { KioskHeader } from "@/widgets/owner/kiosk/ui/KioskHeader"
+import { KioskCategoryNav } from "@/widgets/owner/kiosk/ui/KioskCategoryNav"
+import { KioskQrSection } from "@/widgets/owner/kiosk/ui/KioskQrSection"
+import { Key } from "lucide-react"
+import { useRouter } from "next/navigation"
+import { KioskAuthModal } from "@/features/owner/kiosk/ui/KioskAuthModal"
 
 
 export default function KioskPage() {
     const [step, setStep] = useState<'product' | 'qr'>('product')
     const [selectedCategory, setSelectedCategory] = useState<ProductCategory | null>(null)
     const [selectedProduct, setSelectedProduct] = useState<ProductWithCategory | null>(null)
-
+    const [isAuthOpen, setIsAuthOpen] = useState(false)
+    
+    const router = useRouter()
     const params = useParams()
     const shopId = params.shopId as string
 
     const { data: products = [], isPending: isProductPending } = useGetProducts(shopId)
     const { data: categories = [], isPending: isCategoryPending } = useGetProductCategories(shopId)
 
-    console.log('products', products)
-    // console.log('categories', categories)
-    // console.log('selectedCategory', selectedCategory)
 
     const currentCategory = selectedCategory ?? categories[0] ?? null
 
     const filteredProducts = useMemo(() => {
         if (!currentCategory || !products.length) return []
         return products.filter(p => String(p.category_id) === String(currentCategory.id))
-    }, [products, currentCategory, categories])
+    }, [products, currentCategory])
 
-    // console.log('currentCategory', currentCategory)
-    // console.log('filteredProducts', filteredProducts)
 
-    const handleBack = () => {
-        if (step === 'qr') setStep('product')
-    }
     const qrValue = `${process.env.NEXT_PUBLIC_SITE_URL}/user?modal=checkin&shopId=${shopId}&productId=${selectedProduct?.id}`
     return (
-        <div className='h-full flex flex-col'>
-            <header className="p-8 border-b flex items-center justify-center relative">
-                <div className="flex flex-col items-center font-black absolute left-10">
-                    <div className="flex gap-1 text-[16px]">
-                        <h1 className="text-emerald-500 font-black">멍</h1>
-                        <h1>PASS</h1>
-                    </div>
-                    <div className="uppercase text-[10px] -m-1.25">
-                        kiosk
-                    </div>
-                </div>
-                <h1 className="text-3xl font-bold text-center">체크인 키오스크</h1>
-            </header>
+        <div className='h-full flex flex-col relative'>
+            <KioskHeader />
 
             {/* //* 카테고리 선택 창 */}
-            <section>
-                {isCategoryPending && (
-                    <KioskCategorySkeleton />
-                )}
-                <div className="grid grid-cols-3 w-full">
-                    {categories.map((c) => {
-                        const isActive = currentCategory?.id === c.id
-                        return (
-                            <Button
-                                key={c.id}
-                                onClick={() => {
-                                    setSelectedCategory(c)
-                                    setStep('product')
-                                }}
-                                className={`py-10! text-2xl! font-bold! rounded-3xl shadow-md! hover:bg-slate-50! hover:text-orange-500! transition-transform! ${isActive ? 'bg-orange-400! text-white! shadow-lg!' : ''}`}
-                            >
-                                {c.name}
-                            </Button>
-                        )
-                    })}
-                    {categories.length === 0 && <p>등록된 카테고리가 없습니다.</p>}
-                </div>
-                <div>
-                </div>
-            </section>
+            <KioskCategoryNav
+                categories={categories}
+                currentCategoryId={currentCategory?.id}
+                isPending={isCategoryPending}
+                onSelect={(c) => {
+                    setSelectedCategory(c)
+                    setStep('product')
+                }}
+             />
 
             {/* //* 상품 선택 화면  */}
             <main className="flex-1 p-6">
@@ -116,38 +86,41 @@ export default function KioskPage() {
                         </div>
                     ) : (
                         // * 큐알
-                        <div className="flex items-center py-6 animate-in zoom-in-95 duration-500">
-                            <div className="bg-white p-12 rounded-[4rem] shadow-2xl flex flex-col items-center gap-8 border-2 border-emerald-100">
-                                <Button
-                                    block
-                                    className=" rounded-full! text-2xl! font-black! bg-slate-500! text-white! border-none! shadow-2xl! active:scale-95 transition-all"
-                                    onClick={() => { setStep('product'); setSelectedCategory(null); }}
-                                >
-                                    <ChevronLeft className="h-6 w-6"/>
-                                </Button>
-                                <div className="text-center space-y-2">
-                                    <h2 className="text-4xl font-black text-slate-900">{selectedProduct?.name}</h2>
-                                    <p className="text-2xl font-bold text-emerald-500">{selectedProduct?.price.toLocaleString()}원</p>
-                                </div>
-
-                                <div className="p-6 bg-slate-50 rounded-[2.5rem] border-4 border-emerald-500/20">
-                                    <QRCodeSVG value={qrValue} size={300} level="H" includeMargin={true} />
-                                </div>
-
-                                <div className="bg-amber-50 p-6 rounded-4xl border border-amber-100 flex gap-4 max-w-sm">
-                                    <AlertCircle className="w-6 h-6 text-amber-500 shrink-0" />
-                                    <p className="text-amber-900 font-medium leading-relaxed">
-                                        보호자 앱에서 위 QR을 스캔하면<br />
-                                        <span className="font-black text-amber-600">입실 처리와 결제</span>가 진행됩니다.
-                                    </p>
-                                </div>
-                            </div>
-
-
-                        </div>
+                        selectedProduct && (
+                            <KioskQrSection 
+                                product={selectedProduct}
+                                qrValue={qrValue}
+                                onBack={() => {
+                                    setStep('product')
+                                    setSelectedCategory(null)
+                                }}
+                            />
+                        )
                     )}
                 </div>
             </main>
+
+            {/* //*관리자 페이지로 복귀하는 버튼 */}
+            <button
+                title='관리자 페이지로 이동'
+                type='button'
+                className="fixed bottom-6 left-6 w-8 h-8 cursor-pointer flex items-center justify-center bg-slate-400 text-slate-200 rounded-full hover:bg-slate-800 hover:text-white transition-all shadow-sm active:scale-95"
+                onClick={() => setIsAuthOpen(true)}
+            >
+                <Key size={20} />
+            </button>
+            
+            {/* //* 비밀번호 확인후 사장페이지로 이동가능 */}
+            <KioskAuthModal 
+                shopId={shopId}
+                isOpen={isAuthOpen}
+                onClose={() => setIsAuthOpen(false)}
+                onSuccess={ () => {
+                    setIsAuthOpen(false)
+                    router.push('/owner')
+                }}
+            />
+            
         </div>
     )
 }

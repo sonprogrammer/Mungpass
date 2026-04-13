@@ -4,7 +4,7 @@ import { ArrowRight, Loader2 } from 'lucide-react';
 
 
 export function SubmitButton() {
-  const { pending } = useFormStatus();
+  const { pending } = useFormStatus()
 
 
   return (

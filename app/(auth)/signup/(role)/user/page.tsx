@@ -14,7 +14,7 @@ export default function UserSignupPage() {
         setShowModal(true)
         setTimeout(() => {
             router.push('/')
-        }, 1000);
+        }, 1000)
     })
 
     return (

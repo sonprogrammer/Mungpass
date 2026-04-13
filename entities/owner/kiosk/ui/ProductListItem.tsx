@@ -12,17 +12,17 @@ export function ProductListItem({ product, onClick }: ProductListItem) {
     return (
         <div
             onClick={() => onClick(product)}
-            className="group relative flex flex-col justify-between p-8 px-10 rounded-[3rem] bg-white shadow-xl hover:shadow-2xl hover:translate-x-3 transition-all duration-300 cursor-pointer border-2 border-transparent hover:border-emerald-500/30"
+            className="group relative flex flex-col gap-3 justify-between p-8 px-10 rounded-[3rem] bg-white shadow-xl hover:shadow-2xl hover:translate-x-3 transition-all duration-300 cursor-pointer border-2 border-transparent hover:border-emerald-500/30"
         >
             <div className="flex justify-between items-start">
                 <div className="space-y-1">
                     <div className="flex items-center gap-3">
                         <h3 className="text-3xl font-black text-slate-900 tracking-tight">{product.name}</h3>
-                        <span className="bg-emerald-50 text-emerald-600 px-3 py-1 rounded-full text-sm font-black">
+                        {/* <span className="bg-emerald-50 text-emerald-600 px-3 py-1 rounded-full text-sm font-black">
                             {product.duration_minutes / 60}시간 기준
-                        </span>
+                        </span> */}
                     </div>
-                    <p className="text-slate-400 text-lg font-medium">기본 이용 {product.duration_minutes}분 제공</p>
+                    <p className="text-slate-400 text-lg font-medium">기본 이용 {product.duration_minutes / 60}시간</p>
                 </div>
 
                 <div className="text-right">
@@ -31,7 +31,8 @@ export function ProductListItem({ product, onClick }: ProductListItem) {
                     </div>
                 </div>
             </div>
-
+            
+            {/* //* 유예시간 및 초과금 */}
             <div className="flex items-center gap-6 py-4 px-6 bg-slate-50 rounded-3xl group-hover:bg-emerald-50/50 transition-colors">
                 <div className="flex items-center gap-2 text-slate-500">
                     <Clock className="w-5 h-5 text-slate-400" />
@@ -50,9 +51,9 @@ export function ProductListItem({ product, onClick }: ProductListItem) {
                 </div>
 
 
-                <div className="ml-auto">
+                {/* <div className="ml-auto">
                     <ChevronRight className="w-6 h-6 text-slate-300 group-hover:text-emerald-500 group-hover:translate-x-1 transition-all" />
-                </div>
+                </div> */}
             </div>
         </div>
     )

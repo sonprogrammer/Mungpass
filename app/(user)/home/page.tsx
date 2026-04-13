@@ -5,7 +5,6 @@ import { useUserStore } from "@/entities/user/model/useUserStore";
 import { useGetMyDogs } from "@/features/dog/model/useGetMyDogs";
 
 import { DogFormModal } from "@/features/dog/ui/DogFormModal";
-import { useGetMyPetUsage } from "@/features/qr/model/useGetMyPetUsage";
 import { DogDetailModal } from "@/widgets/dog/ui/DogDetailModal";
 
 import { MyDogWidget } from "@/widgets/home/dog/ui/MyDogWidget";

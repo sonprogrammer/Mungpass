@@ -7,7 +7,6 @@ interface OvertimePolicy {
 
 export const useTimer = (startedAt: string, expectedEndAt: string, endedAt?: string | null, overtimePolicy?: OvertimePolicy) => {
     const [now, setNow] = useState(new Date())
-    console.log('data', startedAt, expectedEndAt, endedAt)
 
     useEffect(() => {
         if(endedAt) return
