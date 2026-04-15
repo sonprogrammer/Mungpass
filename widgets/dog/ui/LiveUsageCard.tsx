@@ -2,6 +2,7 @@
 
 import { useTimer } from "@/entities/check-in/lib/useTimer"
 import { MyPetUsageAllInfo } from "@/features/qr/model/types"
+import { format } from "date-fns"
 import { motion } from "framer-motion"
 import { AlertCircle, Clock, Wallet } from "lucide-react"
 
@@ -21,6 +22,12 @@ export function LiveUsageCard({ dogUsage }: { dogUsage: MyPetUsageAllInfo }) {
             unitPrice: dogUsage.product.overtime_unit_price
         }
     })
+
+    const startTime = format(dogUsage.started_at, 'HH:mm')
+    const endTime = format(dogUsage.expected_ended_at, 'HH:mm')
+
+    
+    
     return (
         <motion.div
             layout
@@ -70,20 +77,44 @@ export function LiveUsageCard({ dogUsage }: { dogUsage: MyPetUsageAllInfo }) {
                         ${isOverTime ? 'text-red-600' : 'text-slate-400'}`}>m</span>
                 </div>
 
+                {!isOverTime && displayMins > 0 && (
+                    <div className="mt-2 px-3 py-1 bg-orange-100 rounded-full">
+                        <p className="text-[10px] font-black text-orange-600">
+                            ✨ 유예 시간 {gracePeriodMins}분 적용 중
+                        </p>
+                    </div>
+                )}
+
                 <div className="w-full mt-6 h-3 bg-slate-100 rounded-full overflow-hidden relative">
                     <motion.div
                         initial={{ width: 0 }}
                         animate={{ width: `${progress * 100}%` }}
                         transition={{ duration: 0.5, ease: "easeOut" }}
-                        className={`h-full rounded-full ${isOverTime ? 'bg-red-500' : 'bg-orange-500 shadow-[0_0_12px_rgba(249,115,22,0.4)]'}`}
+                        className={`h-full rounded-full ${isOverTime ? 'bg-red-500' : 'bg-green-500 shadow-[0_0_12px_rgba(249,115,22,0.4)]'}`}
                     />
                 </div>
-                <div className="w-full flex justify-between mt-2 px-1">
-                    <span className="text-[10px] font-bold text-slate-400">START</span>
-                    <span className={`text-[10px] font-black ${isOverTime ? 'text-red-500' : 'text-orange-500'}`}>
-                        {isOverTime ? 'LIMIT OVER' : 'EXPECTED END'}
-                    </span>
+
+                <div className="w-full flex justify-between mt-3 px-1">
+                    <div className="flex flex-col items-start">
+                        <span className="text-[9px] font-bold text-slate-300 uppercase leading-none">Check-in</span>
+                        <span className="text-[12px] font-black text-slate-500">{startTime}</span>
+                    </div>
+                    
+                    <div className="flex flex-col items-center">
+                        <span className="text-[9px] font-bold text-slate-300 uppercase leading-none text-center">유예시간</span>
+                        <span className="text-[11px] font-black text-slate-400">{gracePeriodMins}m</span>
+                    </div>
+
+                    <div className="flex flex-col items-end">
+                        <span className={`text-[9px] font-bold uppercase leading-none ${isOverTime ? 'text-red-300' : 'text-slate-300'}`}>
+                            {isOverTime ? 'LIMIT OVER' : 'CHECK-OUT'}
+                        </span>
+                        <span className={`text-[12px] font-black ${isOverTime ? 'text-red-500' : 'text-orange-500'}`}>
+                            {endTime}
+                        </span>
+                    </div>
                 </div>
+                
             </div>
 
 

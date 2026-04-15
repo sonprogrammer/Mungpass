@@ -32,10 +32,10 @@ export function MyPetPageSkeleton() {
                         key={i} 
                         className="aspect-4/5 bg-white rounded-[2.5rem] p-6 flex flex-col justify-between shadow-sm border border-slate-100/50"
                     >
-                        <Skeleton.Button 
+                        <Skeleton.Avatar 
                             active 
-                            block 
-                            style={{ height: '100px', borderRadius: '1.8rem' }} 
+                            size={160}
+                            shape="circle"
                         />
                         <div className="space-y-2">
                             <Skeleton.Input active style={{ width: '80%', height: 20 }} />
