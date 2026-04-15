@@ -42,11 +42,15 @@ export const checkout = async(usageId: string) => {
         extraCharge = extraUnits * unitPrice
     }
 
-    // * 체크아웃 변경
+    const totalPrice = (product.price || 0) + extraCharge
+
+    // * 체크아웃
     const { data: updateDate, error: updateError} = await supabaseClient.from('usage_logs')
                                                         .update({
                                                             ended_at: now.toISOString(),
-                                                            status: 'completed'
+                                                            status: 'completed',
+                                                            extra_charge: extraCharge,
+                                                            total_price: totalPrice
                                                         })
                                                         .eq('id', usageId)
                                                         .select()

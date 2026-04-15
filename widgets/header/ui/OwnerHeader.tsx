@@ -7,6 +7,7 @@ import NotificationDrawer from '@/features/notification/ui/NotificationDrawer'
 import { useGetShopInfo } from "@/entities/owner/model/useGetShopInfo";
 import { useNotificationStore } from "@/features/notification/model/useNotificationStore";
 import { useRouter } from "next/navigation";
+import { useRealTimeNotification } from "@/features/notification/model/useRealTimeNotification";
 
 export default function OwnerHeader() {
   const router = useRouter()
@@ -16,8 +17,11 @@ export default function OwnerHeader() {
   const status = shopInfo?.status || 'none'
   const shopId = shopInfo?.id
 
+  useRealTimeNotification({ shopId })
+
+
   const notifications = useNotificationStore((state) => state.notifications)
-  const hasUnread = notifications.some(n => !n.isRead)
+  const hasUnread = notifications.some(n => !n.is_read)
 
 
   const STATUS_CONFIG = {
@@ -109,10 +113,16 @@ export default function OwnerHeader() {
           </button>
         </div>
       </header>
-      <NotificationDrawer
-        isOpen={isBellOpen}
-        onClose={() => setIsBellOpen(false)}
-      />
+
+      {shopId && (
+        <NotificationDrawer
+          isOpen={isBellOpen}
+          onClose={() => setIsBellOpen(false)}
+          shopId={shopId}
+        />
+      )}
+
+
     </>
 
   );

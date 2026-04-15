@@ -3,24 +3,54 @@ import { useNotificationStore } from "@/features/notification/model/useNotificat
 import { supabaseClient } from "@/shared/api/supabase/client";
 import { useEffect} from "react";
 
-export function useRealTimeNotification() {
-  const { setNotifications, addNotification } = useNotificationStore()
 
+
+export function useRealTimeNotification({userId, shopId}: useRealTimeNotificationProps) {
+  const { setNotifications, addNotification } = useNotificationStore()
+  
   useEffect(() => {
+    if(!userId && !shopId) return
 
     const fetchNoti = async () => {
-      const { data } = await supabaseClient.from('notifications').select('*').order('created_at', {ascending: false}).limit(20)
+      let query = supabaseClient.from('notifications').select('*')
+      // * 가게 알림용
+      if(shopId){
+        query = query.eq('shop_id', shopId).like('type', 'shop_%')
+
+      }else if(userId){ //* 손님 알림용
+        query = query.eq('user_id', userId).not('type', 'like', 'shop_%')
+      }
+      const { data } = await query.order('created_at', {ascending: false}).limit(20)
       if (data) setNotifications(data)
     }
     fetchNoti()
 
+    const filter = shopId ? `shop_id=eq.${shopId}` : `user_id=eq.${userId}`
+    const channelName = shopId ? `shop-${shopId}` : `user-${userId}`
+
 
     const channel = supabaseClient
-      .channel('schema-db-changes')
-      .on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'notifications' }, 
-        (payload) => addNotification(payload.new as Notification)
+      .channel(channelName)
+      .on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'notifications', filter: filter }, 
+        (payload) => {
+          const newNoti = payload.new as Notification
+
+          if(shopId){
+            if(newNoti.type.startsWith('shop_')){
+              addNotification(newNoti)
+            }
+            return
+          }
+          if(userId){
+            if(!newNoti.type.startsWith('shop_')){
+              addNotification(newNoti)
+            }
+            return
+          }
+          
+        }
       ).subscribe()
 
     return () => { supabaseClient.removeChannel(channel)}
-  }, [addNotification, setNotifications])
+  }, [userId, shopId ,addNotification, setNotifications])
 }

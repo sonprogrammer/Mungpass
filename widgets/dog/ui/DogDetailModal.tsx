@@ -1,6 +1,6 @@
 'use client'
 
-import { useDogStore } from "@/entities/dog/model/types"
+import { Dog, useDogStore } from "@/entities/dog/model/types"
 import { useUserStore } from "@/entities/user/model/useUserStore"
 import { useImageUpload } from "@/features/dog/lib/useImageUpload"
 import { DogDetailModalProps, DogRegisterForm } from "@/features/dog/model/types"
@@ -13,15 +13,19 @@ import { getDogAge } from "@/entities/dog/lib/getDogAge"
 import { useDeleteDog } from "@/features/dog/model/useDeleteDog"
 import { useRegisterPrimaryDog } from "@/features/dog/model/useRegisterPrimaryDog"
 import { useGetMyDogs } from "@/features/dog/model/useGetMyDogs"
+import { ConfirmModal } from "@/shared/ui/ConfirmModal"
 
 export function DogDetailModal({ isOpen, onClose, directEditMode }: DogDetailModalProps) {
     const [isEdit, setIsEdit] = useState<boolean>(!!directEditMode)
     const [isDropdownOpen, setIsDropdownOpen] = useState<boolean>(false)
+    // * 삭제 획인 모달
+        const [isDeleteModalOpen, setIsDeleteModalOpen] = useState<boolean>(false)
     
         const profile = useUserStore(state => state.profile)
     
     const selectedDog = useDogStore(state => state.selectedDog)
-    const { data : dogs} = useGetMyDogs(profile?.id)
+    const setSelectedDog = useDogStore(state => state.setSelectedDog)
+    const { data : dogs} = useGetMyDogs()
     const dog = dogs?.find(dog => dog.id === selectedDog?.id)
     const [localFormData, setLocalFormData] = useState<DogRegisterForm | null>(dog ? {
                                                                                     name: dog.name,
@@ -34,27 +38,10 @@ export function DogDetailModal({ isOpen, onClose, directEditMode }: DogDetailMod
 
     const { imagePreview, imageFile, fileInputRef, handleImageChange } = useImageUpload(dog?.image_url)
     const { mutate: updatedMutate } = useUpdateMyDogs()
-    const { mutate: deleteMutate } = useDeleteDog()
+    const { mutate: deleteMutate, isPending: isDeleting } = useDeleteDog()
     const { mutate: primaryMutate } = useRegisterPrimaryDog(profile?.id || '')
 
-
-    // useEffect(() => {
-    //     if(isOpen && dog){
-    //         setIsEdit(!!directEditMode)
-
-    //         resetImage()
-    //         setLocalFormData({
-    //             name: dog.name,
-    //             breed: dog.breed,
-    //             weight: dog.weight,
-    //             description: dog.description || "",
-    //             birth_date: dog.birth_date,
-    //             image_url: dog.image_url
-    //         })
-    //     }
-    // },[isOpen,dog, directEditMode])
     
-     console.log('local', localFormData)
     if (!isOpen || !localFormData) return null
 
     const handleEdit = () => {
@@ -73,13 +60,12 @@ export function DogDetailModal({ isOpen, onClose, directEditMode }: DogDetailMod
              userId: profile?.id
         })
 
-        // if (imagePreview) {
-        //     setSelectedDog({
-        //         ...dog,
-        //         image_url: imagePreview
-        //     })
-        // }
     }
+
+    const handleCheckDelete = () => {
+            setIsDropdownOpen(false)
+            setIsDeleteModalOpen(true)
+        }
 
     const handleDelete = () => {
         if (!dog || !profile) return null
@@ -138,7 +124,7 @@ export function DogDetailModal({ isOpen, onClose, directEditMode }: DogDetailMod
                                         </button>
                                         <button
                                             onClick={() => {
-                                                handleDelete()
+                                                handleCheckDelete()
                                             }}
                                             className="w-full px-4 py-2 text-left text-sm font-bold text-red-500 hover:bg-red-50 transition-colors"
                                         >
@@ -259,6 +245,18 @@ export function DogDetailModal({ isOpen, onClose, directEditMode }: DogDetailMod
 
 
             </div>
+
+            <ConfirmModal 
+                            open={isDeleteModalOpen}
+                            title='정보 삭제'
+                            description={`${selectedDog?.name}의 모든 기록을 삭제 하시겠습니까?`}
+                            confirmText='삭제'
+                            cancelText='취소'
+                            confirmDanger={true}
+                            isLoading={isDeleting}
+                            onConfirm={handleDelete}
+                            onCancel={() => setIsDeleteModalOpen(false)}
+                        />
 
         </div >
     )

@@ -7,14 +7,14 @@ import { KakaoPlace } from "@/shared/model/map"
 import { NoResult } from "@/shared/ui/NoResultUI"
 import { BottomSheet } from "@/shared/ui/place/BottomSheet"
 import { MenuPageListCard } from "@/widgets/home-menu/ui/MenuPageListCard"
-import { Heart, Info, Loader2 } from "lucide-react"
+import { Heart } from "lucide-react"
 import { useState } from "react"
 
 
 export function SaveList() {
     const [selectedPlace, setSelectedPlace] = useState<KakaoPlace | null>(null)
     const { data: saveList, isPending } = useGetSaveList()
-    
+
 
     const handleMenuClick = (place: Favorites): KakaoPlace => {
         const placeData = {
@@ -31,8 +31,9 @@ export function SaveList() {
 
     if (isPending) {
         return (
-            <div className="flex justify-center py-20 mt-10">
-                <Loader2 className="w-8 h-8 text-orange-400 animate-spin" />
+            <div className="p-6 space-y-6">
+                <div className="animate-pulse bg-gray-50 rounded-3xl h-22 w-full" />
+                <div className="animate-pulse bg-gray-50 rounded-2xl h-22 w-full" />
             </div>
         )
     }
@@ -40,7 +41,7 @@ export function SaveList() {
     if (!saveList || saveList.length === 0) {
         return (
             <div className="p-6">
-                <NoResult title="아직 찜한 장소가 없어요" description="마음에 드는 가게에 하트를 눌러보세요"/>
+                <NoResult title="아직 찜한 장소가 없어요" description="마음에 드는 가게에 하트를 눌러보세요" />
             </div>
 
         )

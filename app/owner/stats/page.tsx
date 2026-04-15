@@ -43,8 +43,8 @@ export default function StatsPage() {
     const { data: monthlySalesData = []} = useGetMonthlySalesData(shopId)
     // *일별 데이터(일별 그래프 용)
     const { data: dailyChartData = [], isPending: isDailyCharPending} = useGetDailyChart(shopId, startDateStr, endDateStr)
-    console.log('monthly', monthlySalesData)
-    console.log('dailyChartData', dailyChartData)
+    // console.log('monthly', monthlySalesData)
+    // console.log('dailyChartData', dailyChartData)
     
 
     // *선택달 전일 대비 데이터 - 리프트용

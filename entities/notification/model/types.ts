@@ -1,13 +1,14 @@
 export type NotificationType = 'checkin' | 'checkout' | 'info'
 
 export interface Notification{
-    id: number | string;
+    id: string;
     type: NotificationType
     title: string;
     message: string;
     time: string;
-    isRead: boolean
+    is_read: boolean
+    created_at: string
+
 
     // userId: string
-    // createdAt: string
 }

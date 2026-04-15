@@ -6,6 +6,7 @@ interface NotificationStore {
   setNotifications: (notifications: Notification[]) => void
   addNotification: (notification: Notification) => void
   markAllAsRead: () => void
+  markAsRead: (id: string) => void
 }
 
 export const useNotificationStore = create<NotificationStore>((set) => ({
@@ -15,6 +16,9 @@ export const useNotificationStore = create<NotificationStore>((set) => ({
     set((state) => ({ notifications: [notification, ...state.notifications] })),
   markAllAsRead: () => 
     set((state) => ({
-      notifications: state.notifications.map(n => ({ ...n, isRead: true }))
+      notifications: state.notifications.map(n => ({ ...n, is_read: true }))
     })),
+  markAsRead: (id) => set((state) => ({
+    notifications: state.notifications.map((n) => n.id === id ? {...n, is_read: true} : n)
+  }))
 }));

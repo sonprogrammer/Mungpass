@@ -6,15 +6,23 @@ import { motion } from "framer-motion"
 import { AlertCircle, Clock, Wallet } from "lucide-react"
 
 
-export function LiveUsageCard({dogUsage} : {dogUsage: MyPetUsageAllInfo}) {
-    console.log('dogusage from card' , dogUsage)
-    
-    const { displayMins, isOverTime, progress, extraCharge}= useTimer(
-            dogUsage.started_at, dogUsage.expected_ended_at , dogUsage.ended_at,
-            { unitMins: dogUsage.product.overtime_unit_mins, unitPrice: dogUsage.product.overtime_unit_price}
-        )
-    return(
-        <motion.div 
+export function LiveUsageCard({ dogUsage }: { dogUsage: MyPetUsageAllInfo }) {
+    // console.log('dogusage from card', dogUsage)
+
+    const gracePeriodMins = dogUsage.product.grace_period_mins
+
+    const { displayMins, isOverTime, progress, extraCharge } = useTimer({
+        startedAt: dogUsage.started_at,
+        expectedEndAt: dogUsage.expected_ended_at,
+        endedAt: dogUsage.ended_at,
+        gracePeriodMins: gracePeriodMins,
+        overtimePolicy: {
+            unitMins: dogUsage.product.overtime_unit_mins,
+            unitPrice: dogUsage.product.overtime_unit_price
+        }
+    })
+    return (
+        <motion.div
             layout
             className={`relative overflow-hidden p-6 rounded-[2.5rem] bg-white shadow-2xl shadow-slate-200/50 border-2 transition-all duration-500 
                 ${isOverTime ? 'border-red-500 bg-red-50/30' : 'border-orange-100'}`}
@@ -22,9 +30,9 @@ export function LiveUsageCard({dogUsage} : {dogUsage: MyPetUsageAllInfo}) {
             <div className="flex justify-between items-start mb-8">
                 <div className="flex gap-4">
                     <div className="relative">
-                        <img 
-                            src={dogUsage.dog.image_url} 
-                            className="w-16 h-16 rounded-[2rem] object-cover ring-4 ring-white shadow-md" 
+                        <img
+                            src={dogUsage.dog.image_url}
+                            className="w-16 h-16 rounded-[2rem] object-cover ring-4 ring-white shadow-md"
                             alt="강아지 프로필 사진"
                         />
                         <div className="absolute -bottom-1 -right-1 w-5 h-5 bg-green-500 border-4 border-white rounded-full" />
@@ -38,10 +46,17 @@ export function LiveUsageCard({dogUsage} : {dogUsage: MyPetUsageAllInfo}) {
                     </div>
                 </div>
 
-                <div className={`flex items-center gap-1.5 px-4 py-2 rounded-2xl font-black text-xs shadow-sm
-                    ${isOverTime ? 'bg-red-500 text-white' : 'bg-orange-100 text-orange-600'}`}>
-                    {isOverTime ? <AlertCircle className="w-3 h-3" /> : <Clock className="w-3 h-3" />}
-                    {isOverTime ? '시간 초과' : '이용 중'}
+                <div>
+
+
+                    <div className={`flex items-center gap-2 px-4 py-2 rounded-2xl font-black text-xs shadow-sm
+                    ${isOverTime ? 'bg-red-100 text-red-500' : 'bg-green-100 text-green-600'}`}>
+                        {isOverTime ? <AlertCircle className="w-3 h-3" /> : <Clock className="w-3 h-3" />}
+                        <p className="flex flex-col justify-center items-center">
+                            <p className="underline">{dogUsage.shop.name}</p>
+                            {isOverTime ? '시간 초과' : '이용 중'}
+                        </p>
+                    </div>
                 </div>
             </div>
 
@@ -56,7 +71,7 @@ export function LiveUsageCard({dogUsage} : {dogUsage: MyPetUsageAllInfo}) {
                 </div>
 
                 <div className="w-full mt-6 h-3 bg-slate-100 rounded-full overflow-hidden relative">
-                    <motion.div 
+                    <motion.div
                         initial={{ width: 0 }}
                         animate={{ width: `${progress * 100}%` }}
                         transition={{ duration: 0.5, ease: "easeOut" }}
@@ -87,15 +102,13 @@ export function LiveUsageCard({dogUsage} : {dogUsage: MyPetUsageAllInfo}) {
                         </span>
                     </div>
                 </div>
-                
-                {isOverTime ? (
-                    <div className="text-right flex flex-col items-end">
-                         <span className="text-[9px] font-bold opacity-60 uppercase">Unit Price</span>
-                         <span className="text-[11px] font-black tracking-tight">{dogUsage.product.overtime_unit_mins}분 / {dogUsage.product.overtime_unit_price.toLocaleString()}원</span>
-                    </div>
-                ) : (
-                    <span className="text-[10px] font-bold text-slate-400 italic">No extra charge</span>
-                )}
+
+
+                <div className="text-right flex flex-col items-end">
+                    <span className="text-[9px] font-bold opacity-60 uppercase">Unit Price</span>
+                    <span className="text-[11px] font-black tracking-tight">{dogUsage.product.overtime_unit_mins}분 / {dogUsage.product.overtime_unit_price.toLocaleString()}원</span>
+                </div>
+
             </div>
         </motion.div>
     )

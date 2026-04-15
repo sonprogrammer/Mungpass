@@ -1,7 +1,7 @@
 import { supabaseClient } from "@/shared/api/supabase/client";
 
 export async function deleteDog({userId, dogId}: {userId: string, dogId: string} ) {
-    const supabase = supabaseClient()
+    const supabase = supabaseClient
 
     if(!userId) throw new Error('login first')
 

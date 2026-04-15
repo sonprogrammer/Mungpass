@@ -3,19 +3,20 @@
 import { DogFormModalProps, DogRegisterForm } from "@/features/dog/model/types"
 import { useRegisterDog } from "@/features/dog/model/useRegisterDog"
 import { DogFormFields } from "@/features/dog/ui/DogFormFields"
+import { App } from "antd"
 import { X } from "lucide-react"
 import { useRef, useState } from "react"
 
 
 export function DogFormModal({ isOpen, onClose, profile }: DogFormModalProps) {
-    const [formData, setFormData] = useState<DogRegisterForm>({ name: '', breed: '', weight: '', description: '', birth_date: '' })
+    const [formData, setFormData] = useState<DogRegisterForm>({ name: '', breed: '', weight: Number(''), description: '', birth_date: '' })
     const [imagePreview, setImagePreview] = useState<string | null>(null)
     const [imageFile, setImageFile] = useState<File | null>(null)
     const fileInputRef = useRef<HTMLInputElement>(null)
 
-    // console.log('profile', profile)
     const { mutate, isPending } = useRegisterDog()
 
+    const { message} = App.useApp()
 
     if (!isOpen) {
         return null
@@ -35,14 +36,14 @@ export function DogFormModal({ isOpen, onClose, profile }: DogFormModalProps) {
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault()
         if(!profile?.id){
-            alert('로그인 정보가 없습니다. 다시 로그인해주세요. from dogRegisterModal.tsx')
+            message.error('로그인 정보가 없습니다. 다시 로그인해주세요.')
             return
         }
         mutate({ formData: {...formData, weight: Number(formData.weight)}, image: imageFile, userId: profile.id }, {
             onSuccess: () => {
-                alert('등록 성공')
+                message.success(`${formData.name}이 등록되었습니다`)
                 onClose()
-                setFormData({ name: '', breed: '', weight: '', description: '', birth_date: '' })
+                setFormData({ name: '', breed: '', weight: Number(''), description: '', birth_date: '' })
                 setImageFile(null)
                 setImagePreview(null)
             }

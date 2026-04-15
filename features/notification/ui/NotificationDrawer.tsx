@@ -1,22 +1,62 @@
 'use client';
 
+import { readAllNotifications } from '@/features/notification/api/readAllNotifications';
+import { readNotification } from '@/features/notification/api/readNotification';
 import { useNotificationStore } from '@/features/notification/model/useNotificationStore';
+import { formatTime } from '@/shared/utils/formatDate';
 import { X, Clock, Calendar, Info } from 'lucide-react';
 
 
 interface NotificationDrawerProps {
   isOpen: boolean;
   onClose: () => void;
+  userId?: string
+  shopId?: string
 }
 
-export default function NotificationDrawer({ isOpen, onClose }: NotificationDrawerProps) {
+export default function NotificationDrawer({ isOpen, onClose, userId, shopId }: NotificationDrawerProps) {
 
-  const { notifications, markAllAsRead } = useNotificationStore()
+  const { notifications, markAllAsRead, markAsRead } = useNotificationStore()
+  
+  const handleAllRead = async() => {
+    const unReadIds = notifications.filter(n => !n.is_read).map(n => n.id)
+    if(unReadIds.length === 0) return
+
+    const targetId = shopId || userId
+    
+    if(!targetId){
+      console.error('cant not find id')
+      return
+    }
+    
+    
+    try {
+      const res = await readAllNotifications(targetId)
+      if(res.error){
+        throw res.error
+      }
+      markAllAsRead()
+    } catch (error) {
+      console.error('전체 읽음 처리 실패', error)
+    }
+  }
+
+  const handleRead = async(notiId: string) => {
+    try {
+      const res = await readNotification(notiId)
+      if(res.error){
+        throw res.error
+      }
+      markAsRead(notiId)
+    } catch (error) {
+      console.error('개별 읽음 처리 실패',error)
+    }
+  }
 
   if (!isOpen) return null
 
 
-  const unreadCount = notifications.filter(n => !n.isRead).length
+  const unreadCount = notifications.filter(n => !n.is_read).length
 
   return (
 
@@ -59,7 +99,8 @@ export default function NotificationDrawer({ isOpen, onClose }: NotificationDraw
               notifications.map((noti) => (
                 <div
                   key={noti.id}
-                  className={`p-5 rounded-4xl border transition-all active:scale-[0.98] cursor-pointer ${noti.isRead ? 'bg-white border-slate-100 opacity-60' : 'bg-orange-50/50 border-orange-100 shadow-sm'
+                  onClick={() => handleRead(noti.id)}
+                  className={`p-5 rounded-4xl border transition-all active:scale-[0.98] cursor-pointer ${noti.is_read ? 'bg-white border-slate-100 opacity-60' : 'bg-orange-50/50 border-orange-100 shadow-sm'
                     }`}
                 >
                   <div className="flex justify-between items-start mb-2">
@@ -70,7 +111,7 @@ export default function NotificationDrawer({ isOpen, onClose }: NotificationDraw
                         noti.type === 'checkout' ? <Clock className="w-4 h-4 text-green-600" /> :
                           <Calendar className="w-4 h-4 text-blue-600" />}
                     </div>
-                    <span className="text-[10px] font-bold text-slate-300">{noti.time}</span>
+                    <span className="text-[10px] font-bold text-slate-300">{formatTime(noti.created_at)}</span>
                   </div>
                   <h4 className="text-sm font-black text-slate-800 mb-1">{noti.title}</h4>
                   <p className="text-[12px] font-medium text-slate-500 leading-relaxed">
@@ -89,8 +130,8 @@ export default function NotificationDrawer({ isOpen, onClose }: NotificationDraw
 
           <div className="p-6 bg-slate-50 rounded-tl-[3rem]">
             <button
-              onClick={markAllAsRead}
-              className="w-full py-4 bg-white border border-slate-200 rounded-2xl text-xs font-bold text-slate-400 hover:text-orange-500 hover:border-orange-200 transition-all shadow-sm active:bg-orange-50"
+              onClick={handleAllRead}
+              className="w-full py-4 cursor-pointer bg-white border border-slate-200 rounded-2xl text-xs font-bold text-slate-400 hover:text-orange-500 hover:border-orange-200 transition-all shadow-sm active:bg-orange-50"
             >              
               모든 알림 읽음 처리
             </button>

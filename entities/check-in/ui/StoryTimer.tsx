@@ -13,7 +13,8 @@ export function StoryTimer ({ progress, imageUrl, isOverTime }: { progress: numb
                 <circle cx="40" cy="40" r={radius} stroke="#f1f5f9" strokeWidth="4" fill="transparent" />
                 <circle 
                     cx="40" cy="40" r={radius} 
-                    stroke={isOverTime ? "#ef4444" : "#f97316"} 
+                    className={`${isOverTime ? "text-red-500" : "text-green-500"} transition-colors duration-300`}
+                    stroke="currentColor"
                     strokeWidth="4" fill="transparent"
                     strokeDasharray={circumference}
                     style={{ strokeDashoffset, transition: 'stroke-dashoffset 0.5s ease' }}

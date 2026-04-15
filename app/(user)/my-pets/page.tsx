@@ -1,7 +1,7 @@
 'use client'
 
 import { AlertCircle, X, Pencil, Plus, Settings2, Trash2 } from "lucide-react";
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { DogProfileCard } from "@/entities/dog/ui/DogProfileCard";
 import { useGetMyDogs } from "@/features/dog/model/useGetMyDogs";
@@ -15,6 +15,9 @@ import { useGetMyPetUsage } from "@/features/qr/model/useGetMyPetUsage";
 import { LiveUsageCard } from "@/widgets/dog/ui/LiveUsageCard";
 import { UsageStoryList } from "@/entities/check-in/ui/UsageStoryList";
 import { MyPetUsageAllInfo } from "@/features/qr/model/types";
+import { ConfirmModal } from "@/shared/ui/ConfirmModal";
+import { App } from "antd";
+import { MyPetPageSkeleton } from "@/widgets/owner/my-store/ui/MyPetPageSkeleton";
 
 export default function MyPetsPage() {
     const profile = useUserStore(state => state.profile)
@@ -32,26 +35,36 @@ export default function MyPetsPage() {
     const [selectedDogUsage, setSelectedDogUsage] = useState<MyPetUsageAllInfo | null>(null)
     // * 바로 수정 하기
     const [isDirectEdit, setIsDirectEdit] = useState<boolean>(false)
+    // * 삭제 획인 모달
+    const [isDeleteModalOpen, setIsDeleteModalOpen] = useState<boolean>(false)
 
-    const { data: dogs, isPending } = useGetMyDogs()
-    const { mutate: deleteMutate } = useDeleteDog()
-    const { data: activeDogs = [] } = useGetMyPetUsage({ statuses: ['staying'] })
+    const { data: dogs, isPending: isDogPending } = useGetMyDogs()
+    const { mutate: deleteMutate, isPending: isDeleting } = useDeleteDog()
+    const { data: activeDogs = [], isPending: isActiveDogLoading } = useGetMyPetUsage({ statuses: ['staying'] })
 
-    const primaryDogStatus = !!dogs?.find(dog => dog.is_primary)
+    const { message } = App.useApp()
+    
+    const primaryDogStatus = useMemo(() => !!dogs?.find(dog => dog.is_primary),[dogs])
 
-    console.log(' activedog', activeDogs)
+    const handleCheckDelete = (dog: Dog) => {
+        setSelectedDog(dog)
+        setIsDeleteModalOpen(true)
+    }
 
-    // TODO 삭제 확인 로직 짜기
+
     const handleDelete = () => {
         if (!profile || !dogs || !selectedDog) return null
 
         deleteMutate({
             dogId: selectedDog.id,
             userId: profile.id
-        })
-        setSelectedDog(null)
-        setIsEdit(false)
-        // TODO message.error해주기
+        },{ onSuccess: () => {
+            setIsDeleteModalOpen(false)
+            setSelectedDog(null)
+            setIsEdit(false)
+            message.success(`${selectedDog.name}이 삭제되었습니다.`) 
+        }})
+
     }
 
     const handleViewDetail = (dog: Dog) => {
@@ -69,6 +82,10 @@ export default function MyPetsPage() {
     const handleDogClick = (usageDog: MyPetUsageAllInfo) => {
         setSelectedDogUsage(usageDog)
         setActiveDogModalOpen(true)
+    }
+
+    if(isDogPending || isActiveDogLoading){
+        return <MyPetPageSkeleton />
     }
 
     return (
@@ -118,7 +135,7 @@ export default function MyPetsPage() {
                             initial={{ opacity: 0, y: 20 }}
                             animate={{ opacity: 1, y: 0 }}
                             transition={{ delay: index * 0.1 }}
-                            className="relative group"
+                            className="relative group cursor-pointer"
                             onClick={() => handleViewDetail(dog)}
                         >
                             <DogProfileCard dog={dog} />
@@ -139,7 +156,7 @@ export default function MyPetsPage() {
                                             <Pencil className="w-6 h-6" />
                                         </button>
                                         <button
-                                            onClick={handleDelete}
+                                            onClick={() => handleCheckDelete(dog)}
                                             className="w-12 h-12 bg-red-500 text-white rounded-full shadow-lg hover:bg-red-600 transition-colors flex items-center justify-center">
                                             <Trash2 className="w-6 h-6" />
                                         </button>
@@ -166,7 +183,7 @@ export default function MyPetsPage() {
             </div>
 
             {/* //* 데이터 없을 시  */}
-            {dogs?.length === 0 && !isPending && (
+            {dogs?.length === 0 && !isDogPending && (
                 <div className="flex flex-col items-center justify-center py-20 bg-white rounded-[3rem] shadow-sm border border-orange-50">
                     <div className="w-16 h-16 bg-orange-50 rounded-full flex items-center justify-center mb-4">
                         <AlertCircle className="w-8 h-8 text-orange-200" />
@@ -200,7 +217,7 @@ export default function MyPetsPage() {
                             
                             <button 
                                 onClick={() => setActiveDogModalOpen(false)}
-                                className="mt-4 w-full py-4 bg-white/20 text-white font-black rounded-3xl border border-white/30 backdrop-blur-md"
+                                className="mt-4 cursor-pointer w-full py-4 bg-white/20 text-white font-black rounded-3xl border border-white/30 backdrop-blur-md"
                             >
                                 닫기
                             </button>
@@ -223,6 +240,21 @@ export default function MyPetsPage() {
                     directEditMode={isDirectEdit}
                 />
             )}
+
+
+            <ConfirmModal 
+                open={isDeleteModalOpen}
+                title='정보 삭제'
+                description={`${selectedDog?.name}의 모든 기록을 삭제 하시겠습니까?`}
+                confirmText='삭제'
+                cancelText='취소'
+                confirmDanger={true}
+                isLoading={isDeleting}
+                onConfirm={handleDelete}
+                onCancel={() => setIsDeleteModalOpen(false)}
+            />
+
+            
         </main>
     )
 }

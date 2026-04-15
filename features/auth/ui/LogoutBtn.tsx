@@ -2,27 +2,55 @@
 
 import { handleLogout } from "@/features/auth/api/handleLogout"
 import { cookieLogout } from "@/features/auth/api/logoutAction"
+import { ConfirmModal } from "@/shared/ui/ConfirmModal"
 import { LogOut } from "lucide-react"
+import { useState } from "react"
 
-export function LogoutBtn(){
+export function LogoutBtn() {
 
-    const logout = async() => {
+    const [isLogoutModalOpen, setIsLogoutModalOpen] = useState<boolean>(false)
+    const [isLoggingOut, setIsLoggingOut] = useState<boolean>(false)
 
-        // TODO 서버 로그아웃 처리
+    const handleCheckLogout = () => {
+        setIsLogoutModalOpen(true)
+    }
 
-        await handleLogout()
-        await cookieLogout()
-        console.log('cliekc')
+    const logout = async () => {
+        try {
+            setIsLoggingOut(true)
+            await handleLogout()
+            await cookieLogout()
+            setIsLogoutModalOpen(false)
+        } catch (error) {
+            console.error('로그아웃 실패',error)
+            setIsLoggingOut(false)
+        }finally{
+            setIsLoggingOut(false)
+        }
 
     }
-    
-    return(
-        <button 
-            onClick={logout}
-            className="flex items-center gap-2 text-slate-400 font-black text-sm hover:text-red-500 transition-colors py-2 px-6 rounded-full border border-slate-200"
-          >
-            <LogOut className="w-4 h-4" />
-            로그아웃
-          </button>
+
+    return (
+        <>
+            <button
+                onClick={handleCheckLogout}
+                className="flex items-center gap-2 text-slate-400 font-black text-sm hover:text-red-500 transition-colors py-2 px-6 rounded-full border border-slate-200"
+            >
+                <LogOut className="w-4 h-4" />
+                로그아웃
+            </button>
+
+            <ConfirmModal 
+                open={isLogoutModalOpen}
+                title="로그아웃"
+                description='정말 로그아웃 하시겠습니까?'
+                onConfirm={logout}
+                onCancel={() => setIsLogoutModalOpen(false)}
+                confirmText='로그아웃'
+                isLoading={isLoggingOut}
+                confirmDanger={true}
+                cancelText="취소"
+            />
+        </>
     )
 }

@@ -5,7 +5,10 @@ import { StoryTimer } from "@/entities/check-in/ui/StoryTimer"
 import { MyPetUsageAllInfo } from "@/features/qr/model/types"
 
 export function UsageStoryList({usageDog, onClick}: {usageDog: MyPetUsageAllInfo, onClick: () => void}){
-    const { progress, isOverTime} = useTimer(usageDog.started_at, usageDog.expected_ended_at, usageDog.ended_at)
+    const { progress, isOverTime} = useTimer({
+        startedAt: usageDog.started_at,
+        expectedEndAt: usageDog.expected_ended_at,
+        endedAt: usageDog.ended_at})
 
     return(
         <div className="flex flex-col items-center cursor-pointer shrink-0"

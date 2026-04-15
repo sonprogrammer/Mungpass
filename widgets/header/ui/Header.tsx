@@ -5,12 +5,20 @@ import Link from "next/link";
 import { useState } from "react";
 import NotificationDrawer from '@/features/notification/ui/NotificationDrawer'
 import { useNotificationStore } from "@/features/notification/model/useNotificationStore";
+import { useUserStore } from "@/entities/user/model/useUserStore";
+import { useRealTimeNotification } from "@/features/notification/model/useRealTimeNotification";
 
 export default function Header() {
   const [isBellOpen, setIsBellOpen] = useState(false)
+  const profile = useUserStore(state => state.profile)
+
+  const userId = profile?.id
+
+  useRealTimeNotification({ userId })
+
 
   const notifications = useNotificationStore((state) => state.notifications)
-  const hasUnread = notifications.some(n => !n.isRead)
+  const hasUnread = notifications.some(n => !n.is_read)
 
   return (
     <>
@@ -22,25 +30,25 @@ export default function Header() {
             p-1.5 rounded-xl group-active:scale-95 transition-all
             bg-orange-500
           `}>
-              <Bone className="w-5 h-5 text-white rotate-45" />
+            <Bone className="w-5 h-5 text-white rotate-45" />
           </div>
 
           <div className="flex flex-col -gap-1">
             <h1 className="text-xl font-black text-slate-900 tracking-tighter leading-none">
               멍 <span className="text-orange-500">패스</span>
             </h1>
-            
+
           </div>
         </Link>
 
         <div className="flex items-center gap-3">
-  
-            <div className="bg-orange-50 px-3 py-1.5 rounded-full flex items-center gap-1.5 border border-orange-100">
-              <Bone className="w-3.5 h-3.5 text-orange-500" />
-              {/* //TODO 수정 회원 등급임 */}
-              <span className="text-[10px] font-black text-orange-600 uppercase">Puppy Grade</span>
-            </div>
-          
+
+            {/* //TODO 수정 회원 등급임 추후 추가*/}
+          {/* <div className="bg-orange-50 px-3 py-1.5 rounded-full flex items-center gap-1.5 border border-orange-100">
+            <Bone className="w-3.5 h-3.5 text-orange-500" />
+            <span className="text-[10px] font-black text-orange-600 uppercase">Puppy Grade</span>
+          </div> */}
+
 
           <button
             onClick={() => setIsBellOpen(true)}
@@ -55,10 +63,15 @@ export default function Header() {
           </button>
         </div>
       </header>
-      <NotificationDrawer
-        isOpen={isBellOpen}
-        onClose={() => setIsBellOpen(false)}
-      />
+
+      {userId && (
+        <NotificationDrawer
+          isOpen={isBellOpen}
+          onClose={() => setIsBellOpen(false)}
+          userId={userId}
+        />
+      )}
+      
     </>
 
   );

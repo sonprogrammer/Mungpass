@@ -5,7 +5,19 @@ interface OvertimePolicy {
     unitPrice: number; 
 }
 
-export const useTimer = (startedAt: string, expectedEndAt: string, endedAt?: string | null, overtimePolicy?: OvertimePolicy) => {
+export const useTimer = ({
+    startedAt,
+    expectedEndAt,
+    endedAt,
+    gracePeriodMins = 0,
+    overtimePolicy
+}: {
+    startedAt: string;
+    expectedEndAt: string;
+    endedAt?: string | null;
+    gracePeriodMins?: number;
+    overtimePolicy?: OvertimePolicy;
+}) => {
     const [now, setNow] = useState(new Date())
 
     useEffect(() => {
@@ -27,12 +39,21 @@ export const useTimer = (startedAt: string, expectedEndAt: string, endedAt?: str
     // * 상품 이용 시간
     const productDuration = expectedEnd - start
 
+    // *현재 시간 - 예정된 시간 --> 양수면 초과 음수면 아직 초과아님
+    const diffMs = current - expectedEnd
+    // *실제 초과된 시간 계산
+    const totalOverMins = diffMs > 0 ? Math.floor(diffMs / 60000) : 0
+
+    const diffMins = Math.floor(Math.abs(diffMs) / 60000)
+    
+    // 
+    
     // *초과 여부
-    const isOverTime = current >= expectedEnd
+    const isOverTime = totalOverMins > gracePeriodMins
 
     
     let progress = 0
-    if(isOverTime){
+    if(diffMs > 0){
         const overTimePassed = current - expectedEnd
         progress = Math.min(overTimePassed / productDuration, 1)
     }else{
@@ -40,14 +61,13 @@ export const useTimer = (startedAt: string, expectedEndAt: string, endedAt?: str
         progress = Math.min(passed /productDuration, 1)
     }
 
-    // *남은시간 / 초과 시간
-    const diffMins = Math.floor(Math.abs(current - expectedEnd) / 60000)
-   
 
     // * 초과시 추가 요금
     let extraCharge = 0
     if(isOverTime && overtimePolicy){
-        const units = Math.ceil(diffMins / overtimePolicy.unitMins)
+        const chargeableMins = totalOverMins - gracePeriodMins
+        console.log('과금대상분:', chargeableMins)
+        const units = Math.ceil(chargeableMins / overtimePolicy.unitMins)
         extraCharge = units * overtimePolicy.unitPrice
     }
     

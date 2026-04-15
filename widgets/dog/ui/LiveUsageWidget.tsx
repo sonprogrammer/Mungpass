@@ -56,7 +56,7 @@ export function LiveUsageWidget({ activeDogs, dogCount }: { activeDogs: MyPetUsa
                     exit={{ y: 50, opacity: 0, scale: 0.95 }}
                     className="relative w-[80%] group"
                 >
-                    <div className="relative overflow-hidden shadow-2xl rounded-3xl bg-white">
+                    <div className="relative overflow-hidden">
                         <motion.div
                             className="flex"
                             animate={{ x: `-${currentIndex * 100}%` }}
