@@ -36,7 +36,6 @@ export function NearByPlace() {
                 isPending={isPending}
                 places={places}
                 onPlaceClick={(place) => {
-                    console.log('list info', place)
                     setSelectedPlace(place)
                 }}
             />

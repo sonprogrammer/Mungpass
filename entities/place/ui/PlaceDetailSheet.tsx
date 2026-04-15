@@ -11,7 +11,6 @@ export function PlaceDetailSheet({ place }: { place: KakaoPlace }) {
     const {mutate: toggleSave } = useToggleSaveList()
 
     const isLiked = saveLists?.some(list => String(list.shop_id) === String(place.id))
-    console.log('islikec',saveLists)
     
     return (
         
@@ -51,7 +50,6 @@ export function PlaceDetailSheet({ place }: { place: KakaoPlace }) {
                 <button
                      onClick={(e) => {
                         e.preventDefault()
-                        console.log('clicekd')
                         toggleSave(place)
                     }} 
                      className={`cursor-pointer shrink-0 w-14 h-14 flex items-center justify-center rounded-2xl transitian-all shadow-lg bg-pink-200/50`}>

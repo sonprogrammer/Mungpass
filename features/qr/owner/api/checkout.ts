@@ -4,7 +4,6 @@ import { addMinutes, differenceInMinutes, isAfter, parseISO } from "date-fns";
 export const checkout = async(usageId: string) => {
     const now = new Date()
 
-    console.log('usageId from api' , usageId)
 
     //* 해당 이용id에 대한 이용 내역 가져오기 
     const { data: usage, error} = await supabaseClient.from('usage_logs')
@@ -20,7 +19,6 @@ export const checkout = async(usageId: string) => {
         throw new Error('가게 이용 기록 가져오기 실패')
     }
 
-    console.log('usage api ', usage)
 
     const { product} = usage
 
@@ -60,7 +58,6 @@ export const checkout = async(usageId: string) => {
         throw new Error('체크 아웃 실패, 다시 시도 해주세요')
     }
 
-    console.log('updateDate api ',updateDate)
 
     return {
         success: true,

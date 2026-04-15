@@ -26,7 +26,6 @@ export function QrCheckIn({dogs, isDogsPending, userId}: {dogs: Dog[], isDogsPen
      // //*QR 스캔 성공 시 (입실 로직)
     const handleScanSuccess = (data: string) => {
         if(!selectedDog || isCheckInPending) return
-        console.log('qr success data' , data)
 
         const url = new URL(data.startsWith('http') ? data : `http://${data}`)
         const params = new URLSearchParams(url.search)

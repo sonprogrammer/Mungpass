@@ -13,7 +13,6 @@ export const postProduct = async({shopId, productData}:{shopId: string, productD
         throw error
     }
 
-    console.log('data from postproduct', data)
 
     return data as Product
                                             

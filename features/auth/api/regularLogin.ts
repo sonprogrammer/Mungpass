@@ -13,8 +13,6 @@ export async function regularLogin(formData:FormData){
         password
     })
 
-    console.log('data', data)
-    console.log('error', error)
     
     if(error){
         console.log('erorr', error.message)
@@ -30,7 +28,6 @@ export async function regularLogin(formData:FormData){
 
     const { data: profile, error: profileError} = await supabase.from('profiles').select('role').eq('id', data.user.id).single()
 
-    console.log('profiel', profile)
 
     if(profileError || !profile){
         console.error('상세 에러 내역', profileError)

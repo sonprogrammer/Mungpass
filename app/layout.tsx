@@ -27,19 +27,19 @@ export default function RootLayout({
   children: React.ReactNode;
   modal: React.ReactNode
 }>) {
-  
+
   return (
     <html lang="en">
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
         <Provider>
-          <LayoutContent>
-            <AntdRegistry>
+          <AntdRegistry>
+            <LayoutContent>
               {children}
-              {modal} 
-            </AntdRegistry>
-          </LayoutContent>
+              {modal}
+            </LayoutContent>
+          </AntdRegistry>
         </Provider>
       </body>
     </html>

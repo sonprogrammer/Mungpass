@@ -18,7 +18,6 @@ export function StoreTimeMainView({ shopStatus, onEditClick, shopId }: StoreTime
     const [tempType, setTempType] = useState<'SHUTDOWN' | 'EARLY_CLOSE' | null>(null)
     const [reason, setReason] = useState('')
 
-    console.log('shpasfasd', shopStatus)
 
     // * 휴가 설정
     const { mutate: updateVacation } = useUpdateVacation()

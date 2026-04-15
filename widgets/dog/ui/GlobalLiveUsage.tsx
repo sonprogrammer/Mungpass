@@ -9,8 +9,6 @@ import { usePathname } from "next/navigation"
 export function GlobalLiveUsage() {
     const pathname = usePathname()
     const { data: activeDogs =[]} = useGetMyPetUsage({statuses: ['staying']})
-
-    console.log('activdog from global', activeDogs)
     
     if(pathname === '/my-pets' || !activeDogs.length) return null
 

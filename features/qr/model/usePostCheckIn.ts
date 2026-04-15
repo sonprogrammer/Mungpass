@@ -10,7 +10,6 @@ export function usePostCheckIn() {
     return useMutation({
         mutationFn: userCheckIn,
         onSuccess: (data) => {
-            console.log('usePostCheckIn hooks data', data)
 
             queryClient.invalidateQueries({queryKey:['checkIn_logs', userId]})
             queryClient.invalidateQueries({queryKey:['checkIn_logs', userId, data.dog_id]})

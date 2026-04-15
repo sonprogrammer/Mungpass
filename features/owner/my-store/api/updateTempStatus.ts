@@ -21,7 +21,6 @@ export const updateTempStatus = async({shopId, type, reason}:{shopId: string, ty
         throw error
     }
 
-    console.log('dataf from update temp ', data)
                    
     return data
 }

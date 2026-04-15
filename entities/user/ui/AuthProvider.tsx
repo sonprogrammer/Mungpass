@@ -5,10 +5,10 @@ import { useUserStore } from "@/entities/user/model/useUserStore";
 import { supabaseClient } from "@/shared/api/supabase/client";
 
 export function AuthProvider({ children }: { children: React.ReactNode }) {
-    const setProfile = useUserStore(state => state.setProfile);
+    const setProfile = useUserStore(state => state.setProfile)
 
     useEffect(() => {
-        const supabase = supabaseClient;
+        const supabase = supabaseClient
 
         const { data: { subscription } } = supabase.auth.onAuthStateChange(async (event, session) => {
 
@@ -17,23 +17,22 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
                     .from('profiles')
                     .select('*')
                     .eq('id', session.user.id)
-                    .maybeSingle();
+                    .maybeSingle()
 
                 if (error) {
-                    console.error(error.message);
+                    console.error(error.message)
                 } else {
-                    console.log(profile);
-                    setProfile(profile);
+                    setProfile(profile)
                 }
             } else {
-                setProfile(null);
+                setProfile(null)
             }
         });
 
         return () => {
-            subscription.unsubscribe();
+            subscription.unsubscribe()
         };
-    }, [setProfile]);
+    }, [setProfile])
 
-    return <>{children}</>;
+    return <>{children}</>
 }

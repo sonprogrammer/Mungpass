@@ -13,7 +13,6 @@ export async function postOwnerDocs({ownerId, storeInfo, businessNumber, DocsImg
     let storagePath = null
 
     if(DocsImg){
-        console.log('docsImg', DocsImg)
         const fileExt = DocsImg.name.split('.').pop()
         const fileName = `${Math.random()}.${fileExt}`
         const filePath = `${ownerId}/${fileName}`

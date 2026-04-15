@@ -16,9 +16,6 @@ export function BusinessForm({ storeInfo,ownerId }: { storeInfo: KakaoPlace | nu
     const [preview, setPreview] = useState<string | null>(null)
 
 
-    console.log('storeinfo from business', storeInfo)
-    console.log('storeinfo from business',ownerId)
-
     const { mutate:postOwnerDocs, isPending} = usePostOwnerDocs()
     
 

@@ -6,7 +6,7 @@ import { RoleTab } from "@/features/auth/ui/RoleTab"
 import { SocialLogin } from "@/features/auth/ui/SocialLogin"
 import { SubmitButton } from "@/features/auth/ui/SubmitButton"
 import { BigLogo } from "@/shared/ui/BigLogo"
-import { Store } from "lucide-react"
+import { ChevronDown, Store } from "lucide-react"
 import Link from "next/link"
 import { useState } from "react"
 
@@ -43,7 +43,7 @@ export function AuthWidget() {
 
           <form action={handleAuthAction} className="space-y-3 pt-4">
             <input type="hidden" name="role" value={isOwner ? 'owner' : 'user'} />
-            <LoginForm 
+            <LoginForm
               email={email}
               setEmail={setEmail}
               password={password}
@@ -53,8 +53,10 @@ export function AuthWidget() {
             <div className="pt-2">
               <SubmitButton />
             </div>
+            {!isOwner && (
 
-            <SocialLogin />
+              <SocialLogin />
+            )}
           </form>
 
           <div className="mt-6 text-center">
@@ -67,6 +69,10 @@ export function AuthWidget() {
                 회원가입
               </span>
             </Link>
+          </div>
+          <div className="flex flex-col items-center gap-1 mt-4 animate-pulse text-orange-300">
+            <span className="text-[10px] font-black tracking-widest uppercase">Scroll Down</span>
+            <ChevronDown className="w-5 h-5" />
           </div>
 
 

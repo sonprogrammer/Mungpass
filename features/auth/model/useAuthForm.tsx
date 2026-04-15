@@ -11,7 +11,7 @@ export function useAuthForm(mode: 'login' | 'signup', OwnerSuccess?: (id: string
       try {
         const user = await regularLogin(formData)
         const role = user.user.app_metadata.role
-        console.log('user from useAuthForm', role)
+
         
         if(role === 'admin'){
           router.push('/admin')

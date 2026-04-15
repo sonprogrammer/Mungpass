@@ -51,7 +51,6 @@ export function DogDetailModal({ isOpen, onClose, directEditMode }: DogDetailMod
             alert("데이터를 불러오는 중입니다.");
             return;
         }
-        console.log('localformdata', localFormData)
         updatedMutate({
             dogId: dog?.id, imageFile, formData: {
                 ...localFormData, 

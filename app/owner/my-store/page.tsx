@@ -14,6 +14,7 @@ import { Clock, ShoppingBag, Megaphone, Headphones, Monitor } from "lucide-react
 import { useState } from "react";
 import { useShopStatus } from "@/features/owner/my-store/model/useGetShopStatus";
 import { KioskSettingBottomSheet } from "@/widgets/owner/my-store/ui/KioskSettingBottomSheet";
+import { App } from "antd";
 
 
 export default function MyStorePage() {
@@ -24,12 +25,11 @@ export default function MyStorePage() {
     // * 매장 승인 신청정보(store_registratian table)
     const { data: regisData, isPending: isRegisPending } = useGetRegisData()
 
-    console.log('regis', regisData)
     const shopId = regisData?.store_id
     // *현재 매장 운영여부
     const shopStatus = useShopStatus(shopId)
-    console.log('shopstatus', shopStatus)
 
+    const { message} = App.useApp()
 
     const { handleAction, contextHolder } = useRestrictedAction(regisData?.status)
 
@@ -43,6 +43,10 @@ export default function MyStorePage() {
                 <div className="animate-pulse bg-gray-100 rounded-2xl h-20 w-full" />
             </div>
         )
+    }
+
+    const handleClick = () => {
+        message.error('개발 중입니다')
     }
     return (
         <>
@@ -89,7 +93,11 @@ export default function MyStorePage() {
 
                                         <MenuItem
                                             icon={<Megaphone className="w-5 h-5 text-blue-500" />} title="가게 공지 사항"
-                                            onClick={() => handleAction(() => setActiveDrawer('notice'))}
+                                            onClick={() => {
+                                                handleAction(() => setActiveDrawer('notice'))
+                                                handleClick()
+                                            }}
+                                            
                                             // TODO 현재 공지사항에 따라 변경 아님 삭제 하던가
                                             status="new"
                                         />
@@ -109,7 +117,10 @@ export default function MyStorePage() {
 
                                     <MenuItem
                                         icon={<Headphones className="w-5 h-5 text-orange-500" />} title="관리자 문의"
-                                        onClick={() => setActiveDrawer('inquiry')}
+                                        onClick={() => {
+                                            setActiveDrawer('inquiry')
+                                            handleClick()
+                                        }}
                                         // TODO 문의자가 답변한 내용이 있으면 New로
                                         status="new"
                                     />

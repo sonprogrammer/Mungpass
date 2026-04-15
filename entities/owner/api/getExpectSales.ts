@@ -1,5 +1,5 @@
 import { supabaseClient } from "@/shared/api/supabase/client"
-import { differenceInMinutes, endOfDay, parseISO, startOfDay } from "date-fns"
+import { endOfDay, parseISO, startOfDay } from "date-fns"
 
 export const getExpectSales = async (shopId: string) => {
     const todayStart = startOfDay(new Date()).toISOString()
@@ -23,9 +23,13 @@ export const getExpectSales = async (shopId: string) => {
         return 0
     }
 
-    console.log('data from getExpectSales:', data)
 
     const totalSales = data.reduce((acc, log) => {
+        // * 퇴실 완료된 데이터
+        if(log.ended_at){
+            return acc + (log.total_price || 0)
+        }
+        // * 아직 이용중
         const product = log.product
         if(!product) return acc
         const price = product.price || 0 // 가격
@@ -34,22 +38,25 @@ export const getExpectSales = async (shopId: string) => {
         const gracePeriodMins = product.grace_period_mins || 0 //상품 유예 시간(분)
 
         
+        const now =new Date()
+        
         //* 끝나야하는 시간(=상품시간)
         const expectedEnd = parseISO(log.expected_ended_at) 
-        // * 실제 퇴실 시간
-        const realEndTime = product.ended_at ? parseISO(product.ended_at) : new Date()
 
-        // * 실제 이용시간이랑 상품 기본 시간이랑 차이 -> 초과이면 추가 요금을 위함임
-        const diffMins = differenceInMinutes(realEndTime, expectedEnd)
+        // *초과 시간 
+        const diffMs = now.getTime() - expectedEnd.getTime()
+        const diffMins = Math.floor(diffMs / 60000)
 
         
-        // * 유예 시간 안에 끝났을 때
-        if (diffMins <= gracePeriodMins) {
-            return acc + price
-        } else {
-            const overtimeUnits = Math.ceil(diffMins / overtimeUnitMins)
-            return acc + price + (overtimeUnits * overtimePrice)
-        }
+        // * 유예 시간 
+        if (diffMs > 0 && diffMins > gracePeriodMins) {
+            const chargeMins = diffMins - gracePeriodMins
+            const overTimeUnits = Math.ceil(chargeMins / overtimeUnitMins)
+            const extraCharge = overTimeUnits * overtimePrice
+
+            return acc + price + extraCharge
+        } 
+        return acc + price
     }, 0)
     return totalSales
 }

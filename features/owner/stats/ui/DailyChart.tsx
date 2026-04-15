@@ -45,7 +45,6 @@ export function DailyChart({ dailyData, monthlyData, tab, setTab, handleNext, ha
         }))
     }, [tab, dailyData, monthlyData])
 
-    console.log('chartData', chartData)
 
 
     const topRecordDate = useMemo(() => {

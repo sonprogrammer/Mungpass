@@ -11,7 +11,6 @@ export const getMonths = async(shopId: string): Promise<string[]>=> {
         throw error
     }
 
-    console.log('data from getMonths', data)
 
     //* db에서 가져온 월 리스트 
     const dbMonths = data?.map((item: {month: string}) => item.month) || []

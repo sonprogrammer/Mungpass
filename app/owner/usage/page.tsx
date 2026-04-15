@@ -11,9 +11,9 @@ export default function UsagePage() {
     const [tab, setTab]= useState<'current' | 'checkout'>('current')
 
     // *실시간 유저
-    const { data: currentLogs=[] } = useGetCurrentUsageLogs()
+    const { data: currentLogs=[], isPending: isCurrentPending} = useGetCurrentUsageLogs()
     // *퇴실한 유저
-    const { data:checkoutLogs=[]} = useGetFinishedUsageLogs()
+    const { data:checkoutLogs=[], isPending: isFinishedPending} = useGetFinishedUsageLogs()
 
 
     
@@ -22,10 +22,10 @@ export default function UsagePage() {
             <UsageTabs activeTab={tab} onChange={setTab} currentCount={currentLogs.length} checkoutCount={checkoutLogs.length}/>
             <div className="flex-1 overflow-hidden mt-3">
               {tab === 'current' ? (
-                <CurrentLogList data={currentLogs} tab={tab}/>
+                <CurrentLogList data={currentLogs} tab={tab} isPending={isCurrentPending}/>
 
               ): (
-                <CurrentLogList data={checkoutLogs} tab={tab}/>
+                <CurrentLogList data={checkoutLogs} tab={tab} isPending={isFinishedPending}/>
               )}
             </div>
         </div>

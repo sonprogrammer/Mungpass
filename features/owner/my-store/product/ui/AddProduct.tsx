@@ -24,7 +24,6 @@ export function AddProduct({ add, setAddModal, form, shopId, isPostPending }: { 
         e.preventDefault()
         if (!newCategoryName.trim()) return message.warning('카테고리 이름을 입력해주세요')
 
-            console.log('categrosssy', newCategoryName)
             postCategory({ shopId, categoryName: newCategoryName }, {
                 onSuccess: (newCategory) => {
                 setNewCategoryName('')
@@ -33,7 +32,6 @@ export function AddProduct({ add, setAddModal, form, shopId, isPostPending }: { 
         })
     }
 
-    // console.log('categroy', newCategoryName)
     const handleDeleteCategory = (e: React.MouseEvent, categoryId: string) => {
         e.stopPropagation();
 

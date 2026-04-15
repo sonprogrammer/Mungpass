@@ -66,7 +66,6 @@ export const useTimer = ({
     let extraCharge = 0
     if(isOverTime && overtimePolicy){
         const chargeableMins = totalOverMins - gracePeriodMins
-        console.log('과금대상분:', chargeableMins)
         const units = Math.ceil(chargeableMins / overtimePolicy.unitMins)
         extraCharge = units * overtimePolicy.unitPrice
     }

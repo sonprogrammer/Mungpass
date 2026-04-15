@@ -17,6 +17,5 @@ export const getVacation = async(shopId: string) => {
         throw error
     }
 
-    console.log('get vacation', data)
     return data
 }

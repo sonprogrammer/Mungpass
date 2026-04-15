@@ -19,9 +19,8 @@ export function StoreRegistTable() {
         sorters: { initial: [{ field: 'created_at', order: 'desc' }] },
 
     })
-    // console.log('tatlbv', tableProps)
-    // console.log('render')
-    console.count("StoreRegistTable render")
+
+
     const handleOpenDocs = async (path: string) => {
 
         const url = await getAdminUrl(path)

@@ -13,8 +13,6 @@ export default function OwnerAuthPage() {
     const searchParams = useSearchParams()
     const selectedPlace = useStoreRegistrationStore(state=> state.selectedPlace)
     const router = useRouter()
-
-    console.log('selected', selectedPlace)
     
     useEffect(() => {
         if(!selectedPlace){

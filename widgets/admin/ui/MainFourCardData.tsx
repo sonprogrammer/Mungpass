@@ -14,7 +14,6 @@ export function MainCardFourData() {
         filters: [{ field: 'status', operator: 'eq', value: 'PENDING' }]
     })
 
-    // console.log('resutl ', data)
 
     // *승인된 데이터, 업체수
     const { result: { total: approvedDataTotal }, query: { isLoading: approvedQuery } } = useList({

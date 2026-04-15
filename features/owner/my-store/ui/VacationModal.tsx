@@ -14,14 +14,12 @@ export function VacationModal({ open, onClose, onSubmit }: VacationModalProps) {
     const handleSubmit = async () => {
         try {
             const values = await form.validateFields()
-            console.log('value', values)
             
             const formattedValues = {
                 start_date: values.dates[0].format('YYYY-MM-DD'),
                 end_date: values.dates[1].format('YYYY-MM-DD'),
                 reason: values.reason,
             }
-            console.log('최종 변환 데이터:', formattedValues)
             onSubmit(formattedValues)
             form.resetFields()
             onClose()

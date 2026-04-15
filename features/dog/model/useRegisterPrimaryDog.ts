@@ -26,7 +26,6 @@ export const useRegisterPrimaryDog =(userId: string) => {
             const targetDog = userDogs?.find((dog) => dog.id === variables.dogId)
             const targetName = targetDog?.name || ''
 
-            console.log('dogInfo', targetDog)
             const toggle = variables.currentPrimary ? '취소' : '등록'
             alert(`${targetName} 대표 강아지 ${toggle}`)
         },

@@ -11,7 +11,5 @@ export const updateVacation = async(vacationData:UpdateVacationToServer) => {
         throw error
     }
 
-    console.log('data from update' ,data)
-
     return data
 }

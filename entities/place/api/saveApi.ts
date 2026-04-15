@@ -25,7 +25,6 @@ export const saveApi = {
         const supabase = supabaseClient
 
         if(isExist){
-            console.log('❌ 삭제');
             const {error} = await supabase.from('favorites')
                                           .delete()
                                           .eq('user_id', userId)
@@ -35,7 +34,6 @@ export const saveApi = {
                 throw error
             }
         }else{
-            console.log('✅ 추가');
             const {error} = await supabase.from('favorites')
                                           .insert({
                 user_id: userId,

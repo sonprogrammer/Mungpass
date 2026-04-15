@@ -33,8 +33,8 @@ export default function LayoutContent({ children }: { children: React.ReactNode 
           onLoad={() => {
             if (window.kakao) {
               window.kakao.maps.load(() => {
-                console.log("카카오 맵 로드 완료!");
-              });
+                console.log("카카오 맵 로드 완료!")
+              })
             }
           }}
         />

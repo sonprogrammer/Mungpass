@@ -19,7 +19,6 @@ export default function HomePage() {
   const { data: dogs=[], isPending: isDogsPending } = useGetMyDogs()
   const userId = profile?.id
 
-  // console.log('now', Date.now())
 
   const [dogPostModalOpen, setDogPostModalOpen] = useState<boolean>(false)
   const [dogViewModalOpen, setDogViewModalOpen] = useState<boolean>(false)

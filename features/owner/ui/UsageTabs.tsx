@@ -94,9 +94,10 @@ export function UsageTabs({ activeTab, onChange, currentCount, checkoutCount }: 
                             </span>
                         </div>
 
-                        <p className="mt-1 text-xs text-slate-400">
+                        {/* //TODO 오늘 기준으로 할지 아니면 전체 보여줄지 고민 */}
+                        {/* <p className="mt-1 text-xs text-slate-400">
                             오늘 기준 퇴실 내역
-                        </p>
+                        </p> */}
                     </div>
                 </button>
             </div>

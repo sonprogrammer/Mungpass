@@ -24,7 +24,6 @@ export const getDailySalesData = async (shopId: string, selectedMonth: string) =
         return []
     }
 
-    console.log('data from sales', data)
 
 
     const salesMap = data?.reduce((acc: Record<string, { sales: number, visits: number }>, cur) => {

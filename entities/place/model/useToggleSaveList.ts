@@ -14,7 +14,6 @@ export const useToggleSaveList = () => {
     return useMutation({
         mutationFn: async (place: KakaoPlace) => {
             const { data: { user } } = await supabase.auth.getUser()
-            console.log('user', user)
             if (!user) throw new Error('you need to login first')
 
             const { data: existing } = await supabase
@@ -27,7 +26,6 @@ export const useToggleSaveList = () => {
             const isExist = !!existing
             
             const result = await saveApi.toggleSave(user.id, place, isExist)
-            console.log('result', result)
             return result
             
         },

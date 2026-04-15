@@ -16,6 +16,7 @@ import { calCulateTopRecord } from '@/entities/owner/lib/calCulateTopRecord'
 import { useGetMonths } from '@/entities/owner/model/useGetMonths'
 import { useGetMonthlySalesData } from '@/entities/owner/model/useGetMonthlySalesData'
 import { useGetDailyChart } from '@/entities/owner/model/useGetDailyChart'
+import { StatsPageSkeleton } from '@/widgets/owner/stats/ui/StatsPageSkeleton'
 
 
 export default function StatsPage() {
@@ -43,8 +44,6 @@ export default function StatsPage() {
     const { data: monthlySalesData = []} = useGetMonthlySalesData(shopId)
     // *일별 데이터(일별 그래프 용)
     const { data: dailyChartData = [], isPending: isDailyCharPending} = useGetDailyChart(shopId, startDateStr, endDateStr)
-    // console.log('monthly', monthlySalesData)
-    // console.log('dailyChartData', dailyChartData)
     
 
     // *선택달 전일 대비 데이터 - 리프트용
@@ -116,12 +115,9 @@ export default function StatsPage() {
         setOpenSummary((prev) => !prev)
     }
 
-    // TODO 로딩 상태 바꿔주기 다른 ui로  요론식으로 가도 괜찮음
     if (!shopId || isDailyPending) {
         return (
-            <div className="flex h-full items-center justify-center bg-gray-50">
-                <p className="text-sm font-medium text-gray-500 animate-pulse">데이터를 불러오는 중입니다...</p>
-            </div>
+            <StatsPageSkeleton />
         )
     }
 

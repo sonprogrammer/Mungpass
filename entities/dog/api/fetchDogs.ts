@@ -9,7 +9,6 @@ export async function fetchDogs (userId: string): Promise<Dog[]> {
     const {data, error} = await supabase.from('dogs').select('*').eq('owner_id', userId).order('created_at', {ascending: true})
 
     if(error) throw error
-    console.log('data from get hooks', data)
 
     return data.map(dog => ({
         ...dog,

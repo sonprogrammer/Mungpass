@@ -18,7 +18,6 @@ export function ProductManageBottomSheet({ open, onClose, shopId }: { open: bool
 
     //* 가져온 상품 데이터
     const {data : productsData =[]} = useGetProducts(shopId)
-    console.log('products', productsData)
     // * 상품 등록
     const { mutate : addProduct, isPending: isPostPending} = usePostProduct()
     // * 상품 삭제
@@ -26,7 +25,6 @@ export function ProductManageBottomSheet({ open, onClose, shopId }: { open: bool
 
     
     const handleAdd = (product: ProductSubmitData) => {
-        console.log('product from add button', product)
         addProduct({shopId, productData: product}, {
             onSuccess: () => {
                 setAddModal(false)

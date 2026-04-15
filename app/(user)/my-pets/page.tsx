@@ -151,7 +151,7 @@ export default function MyPetsPage() {
                                         onClick={(e) => e.stopPropagation()}
                                     >
                                         <button
-                                            onClick={() => { handleEdit(dog); console.log('hi') }}
+                                            onClick={() => { handleEdit(dog);}}
                                             className="w-12 h-12 bg-slate-500 text-white rounded-full shadow-lg hover:bg-red-600 transition-colors flex items-center justify-center">
                                             <Pencil className="w-6 h-6" />
                                         </button>

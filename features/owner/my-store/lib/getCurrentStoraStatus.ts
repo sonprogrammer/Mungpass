@@ -4,7 +4,6 @@ import { endOfDay, isBefore, isWithinInterval, parse, startOfDay } from "date-fn
 export const getCurrentStoreStatus =(schedules: ScheduleRow[], vacation?: VacationSubmitData, tempStatus?: { status_type: 'SHUTDOWN' | 'EARLY_CLOSE', reason?: string}) => {
     const now = new Date()
     const todayNum = now.getDay()
-    // console.log(todayNum)
 
     if (tempStatus?.status_type === 'SHUTDOWN') {
         return {
@@ -40,7 +39,6 @@ export const getCurrentStoreStatus =(schedules: ScheduleRow[], vacation?: Vacati
             reason: tempStatus.reason || '개인사정으로 조기 마감되었습니다.'
         }
     }
-    // console.log('todaySchedule',todaySchedule)
 
     if(!todaySchedule)return {status: '정보 없음', schedule: undefined}
     if(todaySchedule.is_closed) return {status: '휴무', schedule: todaySchedule}
@@ -49,7 +47,6 @@ export const getCurrentStoreStatus =(schedules: ScheduleRow[], vacation?: Vacati
     const openTime = parse(todaySchedule.open_time, 'HH:mm:ss', now)
     const closeTime = parse(todaySchedule.close_time, 'HH:mm:ss', now)
 
-    // console.log('opentime',openTime)
     let status = '영업 종료'
     if(isBefore(now, openTime)){
         status = '영업 전'

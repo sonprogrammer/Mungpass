@@ -8,7 +8,6 @@ import { AlertCircle, Clock, Wallet } from "lucide-react"
 
 
 export function LiveUsageCard({ dogUsage }: { dogUsage: MyPetUsageAllInfo }) {
-    // console.log('dogusage from card', dogUsage)
 
     const gracePeriodMins = dogUsage.product.grace_period_mins
 

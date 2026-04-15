@@ -11,7 +11,6 @@ export const getDailySalesForChart = async(shopId: string, start: string, end: s
         console.error('일별 차트데이터 실패', error)
         throw error
     }
-    console.log('chart data', data)
 
     return data
 }

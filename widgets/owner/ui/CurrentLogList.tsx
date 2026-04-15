@@ -8,9 +8,10 @@ import { CurrentLogDetailModal } from "@/entities/owner/ui/CurrentLogDetailModal
 import { ConfirmModal } from "@/shared/ui/ConfirmModal"
 import { CurrentUsageLog } from "@/entities/check-in/model/types"
 import { usePostCheckout } from "@/features/qr/owner/model/usePostCheckout"
+import { CurrentLogSkeleton } from "@/widgets/owner/ui/CurrentLogSkeleton"
 
 
-export function CurrentLogList({ data, tab }: {data: CurrentUsageLog[], tab: 'current' | 'checkout'}) {
+export function CurrentLogList({ data, tab, isPending }: {data: CurrentUsageLog[], tab: 'current' | 'checkout', isPending: boolean}) {
     const [checkoutItem, setCheckoutItem] = useState<CurrentUsageLog | null>(null)
     const [detailItem, setDetailItem] = useState<CurrentUsageLog | null>(null)
 
@@ -35,6 +36,12 @@ export function CurrentLogList({ data, tab }: {data: CurrentUsageLog[], tab: 'cu
         setCheckoutItem(null)
     }
 
+    if(isPending){
+        return(
+            <CurrentLogSkeleton />
+        )
+    }
+    
 
     if (data.length === 0) {
         return (
