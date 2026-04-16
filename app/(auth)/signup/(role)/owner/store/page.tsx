@@ -14,10 +14,12 @@ export default function OwnerStoreRegisterPage() {
     const { state, actions } = useAroundState()
     const setSelectedPlace = useStoreRegistrationStore(state => state.setSelectedPlace)
     const [skipModalOpen, setSkipModalOpen] = useState<boolean>(false)
+    
     const router = useRouter()
     const searchParams = useSearchParams()
 
     const ownerId = searchParams.get('id')
+    
 
     const handleNextStep = () => {
         if (!state.selectedPlace) return
@@ -32,7 +34,7 @@ export default function OwnerStoreRegisterPage() {
 
 
     return (
-        <div className="flex flex-col h-full">
+        <div className="flex flex-col h-full relative">
 
 
             <div className="py-4 px-6 flex justify-between w-full relative">

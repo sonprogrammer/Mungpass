@@ -1,6 +1,13 @@
+'use client'
+
+import { useCheckStoreExists } from "@/features/auth/model/owner/useCheckStoreExists";
 import { KakaoPlace } from "@/shared/model/map";
+import { Loader2 } from "lucide-react";
 
 export function SelectedStore({place, onNext}: {place: KakaoPlace, onNext: () => void}) {
+
+    const {data: isAlreadyIn, isPending} = useCheckStoreExists(place.id)
+    
     return (
         <div className="px-6 z-30 animate-in slide-in-from-bottom-10">
             <div className="bg-white rounded-4xl shadow-2xl p-6 ">
@@ -15,10 +22,32 @@ export function SelectedStore({place, onNext}: {place: KakaoPlace, onNext: () =>
 
                     <button
                         onClick={onNext}
-                        className="w-full bg-orange-500 text-white py-3 rounded-2xl font-black text-lg shadow-orange-200 shadow-lg active:scale-95 transition-transform cursor-pointer"
+                        disabled={isPending || isAlreadyIn}
+                        className={`
+                            w-full py-4 rounded-2xl font-black text-lg transition-all
+                            ${isAlreadyIn 
+                                ? "bg-slate-100 text-slate-400 cursor-not-allowed" 
+                                : "bg-orange-500 text-white shadow-orange-200 shadow-lg active:scale-95 cursor-pointer"
+                            }
+                        `}
                     >
-                        이 장소로 등록 시작하기
+                        {isPending ? (
+                            <div className="flex items-center justify-center gap-2">
+                                <Loader2 className="animate-spin" size={20} />
+                                <span>확인 중...</span>
+                            </div>
+                        ) : isAlreadyIn ? (
+                            "이미 등록된 매장입니다"
+                        ) : (
+                            "이 장소로 등록 시작하기"
+                        )}
                     </button>
+
+                    {isAlreadyIn && (
+                        <p className="text-[11px] text-slate-400 text-center font-medium">
+                            본인의 매장인데 등록이 안 된다면 고객센터로 문의해주세요.
+                        </p>
+                    )}
                 </div>
             </div>
         </div>

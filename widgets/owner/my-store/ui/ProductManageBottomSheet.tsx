@@ -69,7 +69,7 @@ export function ProductManageBottomSheet({ open, onClose, shopId }: { open: bool
                             <AddProduct form={form} isPostPending={isPostPending} add={handleAdd} setAddModal={setAddModal} shopId={shopId} />
                         </div>
                     ) : (
-                        <div className="animate-in fade-in duration-300 pb-10">
+                        <div className="animate-in fade-in duration-300 pb-5 h-full">
                             <ProductList
                                 products={productsData}
                                 onDelete={handleDelete}

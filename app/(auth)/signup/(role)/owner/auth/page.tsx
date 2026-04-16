@@ -3,8 +3,7 @@
 import { useStoreRegistrationStore } from "@/features/auth/model/owner/useStoreRegistStore"
 import { BusinessForm } from "@/features/auth/ui/owner/BusinessForm"
 import { RegisterStoreCheckCard } from "@/features/auth/ui/owner/RegisterStoreCheckCard"
-import { useAroundState } from "@/widgets/around/model/useAroundState"
-import { Phone } from "lucide-react"
+import { App } from "antd"
 import { useRouter, useSearchParams } from "next/navigation"
 import { useEffect } from "react"
 
@@ -13,13 +12,14 @@ export default function OwnerAuthPage() {
     const searchParams = useSearchParams()
     const selectedPlace = useStoreRegistrationStore(state=> state.selectedPlace)
     const router = useRouter()
+    const { message } = App.useApp()
     
     useEffect(() => {
         if(!selectedPlace){
-            alert('선택된 매장이 없습니다. 다시 선택해주세요')
+            message.error('선택된 매장이 없습니다. 다시 선택해주세요')
             router.back()
         }
-    }, [selectedPlace, router])
+    }, [selectedPlace, router, message])
 
     const ownerId = searchParams.get('ownerId')
 

@@ -33,7 +33,7 @@ export function ProductCard({product, onDelete}: {product: ProductWithCategory, 
                         shape="circle"
                         icon={<Trash2 size={18} />} 
                         onClick={() => onDelete(product.id)}
-                        className="opacity-0 group-hover:opacity-100 transition-opacity bg-rose-50 hover:bg-rose-100!"
+                        className=" bg-rose-50 hover:bg-rose-100!"
                     />
                 )}
             </div>

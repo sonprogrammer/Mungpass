@@ -16,8 +16,8 @@ export default function OwnerSignupPage() {
     const { handleAuthAction } = useAuthForm('signup', (id: string) => {
         setShowModal(true)
         setTimeout(() => {
-            router.push(`/signup/owner/store?id=${id}`)
-        }, 1000);
+            router.replace(`/signup/owner/store?id=${id}`)
+        }, 1000)
     })
 
     
