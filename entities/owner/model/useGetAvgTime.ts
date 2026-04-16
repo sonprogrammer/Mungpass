@@ -1,12 +1,13 @@
 import { getAvgUsingTime } from "@/entities/owner/api/getAvgUsingTime";
+import { useOwnerStoreStatus } from "@/entities/owner/model/useOwnerStoreStatus";
 import { useQuery } from "@tanstack/react-query";
 
 export function useGetAvgTime(shopId: string) {
-    
+    const isVerified = useOwnerStoreStatus(state => state.isVerified)
     return useQuery({
         queryKey: ['avgUsingTime', shopId],
         queryFn: () => getAvgUsingTime(shopId!),
-        enabled: !!shopId,
+        enabled: !!shopId && isVerified,
         staleTime: 1000 * 60 * 5
     })
 }

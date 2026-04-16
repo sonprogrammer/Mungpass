@@ -25,6 +25,8 @@ export default function MyStorePage() {
     // * 매장 승인 신청정보(store_registratian table)
     const { data: regisData, isPending: isRegisPending } = useGetRegisData()
 
+    console.log('regisData', regisData)
+    
     const shopId = regisData?.store_id
     // *현재 매장 운영여부
     const shopStatus = useShopStatus(shopId)

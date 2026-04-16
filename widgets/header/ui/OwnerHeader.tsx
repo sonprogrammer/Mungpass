@@ -4,18 +4,30 @@ import { Bell, Store, Monitor } from "lucide-react";
 import Link from "next/link";
 import { useState } from "react";
 import NotificationDrawer from '@/features/notification/ui/NotificationDrawer'
-import { useGetShopInfo } from "@/entities/owner/model/useGetShopInfo";
+// import { useGetShopInfo } from "@/entities/owner/model/useGetShopInfo";
 import { useNotificationStore } from "@/features/notification/model/useNotificationStore";
 import { useRouter } from "next/navigation";
 import { useRealTimeNotification } from "@/features/notification/model/useRealTimeNotification";
+import { useUserStore } from "@/entities/user/model/useUserStore";
+import { useGetOwnerHasStoreStatus } from "@/features/owner/model/useGetOwnerHasStoreStatus";
 
 export default function OwnerHeader() {
   const router = useRouter()
   const [isBellOpen, setIsBellOpen] = useState(false)
 
-  const { data: shopInfo, isPending } = useGetShopInfo()
-  const status = shopInfo?.status || 'none'
-  const shopId = shopInfo?.id
+  // const { data: shopInfo, isPending } = useGetShopInfo()
+  // const status = shopInfo?.status || 'none'
+  // const shopId = shopInfo?.id
+
+  const profile = useUserStore(state => state.profile)
+  const { data: storeStatusInfo, isPending } = useGetOwnerHasStoreStatus(profile?.id || '')
+
+  const origin = storeStatusInfo?.origin
+  const isVerifiedShop = origin === 'shops'
+  
+  const shopId = isVerifiedShop ? storeStatusInfo?.id : null
+  const shopName =  storeStatusInfo?.name || '확인 중'
+  const status = storeStatusInfo?.status
 
   useRealTimeNotification({ shopId })
 
@@ -27,7 +39,7 @@ export default function OwnerHeader() {
   const STATUS_CONFIG = {
     pending: {
       container: "bg-blue-50 border-blue-100",
-      dot: "bg-amber-500",
+      dot: "bg-blue-500",
       text: "text-blue-700",
       label: "심사 대기 중"
     },
@@ -41,7 +53,7 @@ export default function OwnerHeader() {
       container: "bg-emerald-50 border-emerald-100/50",
       dot: "bg-emerald-500",
       text: "text-emerald-700",
-      label: shopInfo?.name
+      label: shopName
     },
     none: {
       container: "bg-slate-50 border-slate-100",
@@ -51,8 +63,14 @@ export default function OwnerHeader() {
     }
   }
 
-  const current = STATUS_CONFIG[status as keyof typeof STATUS_CONFIG]
+  const current = STATUS_CONFIG[(!storeStatusInfo ? 'none' : storeStatusInfo.status) as keyof typeof STATUS_CONFIG]
 
+  const handleStartKiosk = () => {
+    if (document.documentElement.requestFullscreen) {
+            document.documentElement.requestFullscreen()
+        }
+        router.replace(`/kiosk/${shopId}`)
+  }
   return (
     <>
       <header className={`
@@ -79,7 +97,7 @@ export default function OwnerHeader() {
 
           {!isPending && status === 'verified' && (
             <button
-              onClick={() => router.push(`/kiosk/${shopId}`)}
+              onClick={() => handleStartKiosk()}
               className="p-2 text-slate-400 cursor-pointer hover:text-emerald-600 hover:bg-emerald-50 rounded-full transition-all active:scale-95"
               title="키오스크 모드"
             >
@@ -87,7 +105,7 @@ export default function OwnerHeader() {
             </button>
           )}
 
-          <div className="bg-emerald-50 px-3 py-1.5 rounded-full border border-emerald-100/50 flex items-center gap-2">
+          <div className={`px-3 py-1.5 rounded-full border flex items-center gap-2 ${current.container}`}>
             {isPending ? (
               <div className="w-16 h-3 bg-emerald-200 animate-pulse rounded" />
             ) : (

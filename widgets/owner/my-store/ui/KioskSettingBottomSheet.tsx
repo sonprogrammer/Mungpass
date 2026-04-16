@@ -44,7 +44,7 @@ export function KioskSettingBottomSheet({ open, onClose, shopId }: { open: boole
         if (document.documentElement.requestFullscreen) {
             document.documentElement.requestFullscreen()
         }
-        router.push(`/kiosk/${shopId}`)
+        router.replace(`/kiosk/${shopId}`)
         onClose()
     }
 

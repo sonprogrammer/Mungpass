@@ -10,12 +10,14 @@ export function useAuthForm(mode: 'login' | 'signup', OwnerSuccess?: (id: string
     if (mode ==='login') {
       try {
         const user = await regularLogin(formData)
-        const role = user.user.app_metadata.role
-
+        const role = user.actualRole
+        
+        console.log('role user', role)
         
         if(role === 'admin'){
           router.push('/admin')
         }else if(role === 'owner'){
+          console.log('owner 실행됨')
           router.push('/owner')
         }else{
           router.push('/home')

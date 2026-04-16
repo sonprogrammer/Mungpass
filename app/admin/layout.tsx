@@ -26,14 +26,3 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
     </ConfigProvider>
   );
 }
-
-{/* <AuthProvider>
-        <RefineProvider>
-
-        <Script src={KAKAO_SDK_URL} strategy="afterInteractive" />
-        <main className="w-full h-screen bg-white overflow-y-auto">
-          {children}
-          <Toaster position='top-center' />
-        </main>
-        </RefineProvider>
-      </AuthProvider> */}

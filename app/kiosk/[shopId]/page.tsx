@@ -3,9 +3,9 @@
 import { ProductCategory, ProductWithCategory } from "@/features/owner/my-store/product/model/types"
 import { useGetProductCategories } from "@/features/owner/my-store/product/model/useGetProductCategories"
 import { useGetProducts } from "@/features/owner/my-store/product/model/useGetProducts"
-import { Empty } from "antd"
+import { App, Empty } from "antd"
 import { useParams } from "next/navigation"
-import { useMemo, useState } from "react"
+import { useEffect, useMemo, useState } from "react"
 import { KioskProductSkeleton } from "@/features/owner/kiosk/ui/KioskProductSkeleton"
 import { ProductListItem } from "@/entities/owner/kiosk/ui/ProductListItem"
 import { KioskHeader } from "@/widgets/owner/kiosk/ui/KioskHeader"
@@ -29,6 +29,7 @@ export default function KioskPage() {
     const { data: products = [], isPending: isProductPending } = useGetProducts(shopId)
     const { data: categories = [], isPending: isCategoryPending } = useGetProductCategories(shopId)
 
+    const { message} = App.useApp()
 
     const currentCategory = selectedCategory ?? categories[0] ?? null
 
@@ -39,6 +40,20 @@ export default function KioskPage() {
 
 
     const qrValue = `${process.env.NEXT_PUBLIC_SITE_URL}/user?modal=checkin&shopId=${shopId}&productId=${selectedProduct?.id}`
+
+    useEffect(() => {
+        window.history.pushState(null, '', window.location.href)
+
+        const handlePopState = () => {
+            window.history.pushState(null, '', window.location.href)
+            message.error('키오스크에서 뒤로가기를 사용할 수 없습니다')
+        }
+        window.addEventListener('popstate', handlePopState)
+
+        return () => {
+            window.removeEventListener('popstate', handlePopState)
+        }
+    }, [])
     return (
         <div className='h-full flex flex-col relative'>
             <KioskHeader />
@@ -117,7 +132,7 @@ export default function KioskPage() {
                 onClose={() => setIsAuthOpen(false)}
                 onSuccess={ () => {
                     setIsAuthOpen(false)
-                    router.push('/owner')
+                    router.replace('/owner')
                 }}
             />
             
