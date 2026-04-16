@@ -4,12 +4,12 @@
 
 import { usePostOwnerDocs } from "@/features/auth/model/owner/usePostOwnerDocs"
 import { KakaoPlace } from "@/shared/model/map"
+import { App } from "antd"
 import { Camera, CheckCircle2, FileText, Upload, X } from "lucide-react"
-import { useRouter } from "next/navigation"
 import { useRef, useState } from "react"
 
 export function BusinessForm({ storeInfo,ownerId }: { storeInfo: KakaoPlace | null, ownerId: string | null }) {
-    const router = useRouter()
+
     const [businessNumber, setBusinessNumber] = useState<string>('')
     const fileInputRef = useRef<HTMLInputElement>(null)
     const [file, setFile] = useState<File | null>(null)
@@ -18,6 +18,7 @@ export function BusinessForm({ storeInfo,ownerId }: { storeInfo: KakaoPlace | nu
 
     const { mutate:postOwnerDocs, isPending} = usePostOwnerDocs()
     
+    const { message } = App.useApp()
 
     const formatBusinessNumber = (val: string) => {
         const number = val.replace(/[^0-9]/g, '')
@@ -48,10 +49,10 @@ export function BusinessForm({ storeInfo,ownerId }: { storeInfo: KakaoPlace | nu
 
     const handleVerify = async (e: React.FormEvent) => {
         e.preventDefault()
-        if(!ownerId) return alert('회원 정보가 없습니다. - 이럴 순 없음')
-        if(!storeInfo) return alert('등록지점 정보가 없습니다. - 그럴수 없음 만약 그래도 auth/page에서 뒤로가기 진행시켜놈')
-        if (businessNumber.length !== 12) return alert('사업자 번호를 확인해주세요.')
-        if(!file) return alert('사업자 등록증을 첨부해주세요.')
+        if(!ownerId) return message.error('회원 정보가 없습니다. - 이럴 순 없음')
+        if(!storeInfo) return message.error('등록지점 정보가 없습니다. - 그럴수 없음 만약 그래도 auth/page에서 뒤로가기 진행시켜놈')
+        if (businessNumber.length !== 12) return message.error('사업자 번호를 확인해주세요.')
+        if(!file) return message.error('사업자 등록증을 첨부해주세요.')
 
 
         postOwnerDocs({

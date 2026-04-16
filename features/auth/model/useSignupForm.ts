@@ -1,6 +1,7 @@
 'use client'
 
 import { checkEmail } from "@/features/auth/api/checkEmail";
+import { App } from "antd";
 import { useState } from "react";
 
 export function useSignupForm() {
@@ -13,9 +14,12 @@ export function useSignupForm() {
     const [passwords, setPasswords] = useState({ password: '', confirm: '' })
     const isMatch = passwords.password !== '' && passwords.password === passwords.confirm
 
+    const { message } = App.useApp()
+    
+
     const handleEmailCheck = async () => {
         if (!email || !email.includes('@')) {
-            alert('이메일을 확인해주세요')
+            message.error('이메일을 확인해주세요')
             setEmailStatus('invalid')
             return
         }

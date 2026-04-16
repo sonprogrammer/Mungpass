@@ -5,11 +5,13 @@ import { Favorites } from "@/entities/place/model/types"
 import { supabaseClient } from "@/shared/api/supabase/client"
 import { KakaoPlace } from "@/shared/model/map"
 import { useMutation, useQueryClient } from "@tanstack/react-query"
+import { App } from "antd"
 
 
 export const useToggleSaveList = () => {
     const supabase = supabaseClient
     const queryClient = useQueryClient()
+    const {message} = App.useApp()
 
     return useMutation({
         mutationFn: async (place: KakaoPlace) => {
@@ -60,7 +62,7 @@ export const useToggleSaveList = () => {
         },
         onError: (err, _, context) => {
             queryClient.setQueryData(['favorites'], context?.previousSave)
-            alert(err.message)
+            message.error(err.message)
         },
         
         onSettled: () => {

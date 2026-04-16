@@ -1,10 +1,12 @@
 import { registerPrimaryDog } from "@/entities/dog/api/registerPrimaryDog";
 import { Dog } from "@/entities/dog/model/types";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { App } from "antd";
 
 export const useRegisterPrimaryDog =(userId: string) => {
     const queryClient = useQueryClient()
 
+    const {message} = App.useApp()
     
     return useMutation({
         mutationFn: registerPrimaryDog,
@@ -27,13 +29,13 @@ export const useRegisterPrimaryDog =(userId: string) => {
             const targetName = targetDog?.name || ''
 
             const toggle = variables.currentPrimary ? '취소' : '등록'
-            alert(`${targetName} 대표 강아지 ${toggle}`)
+            message.success(`${targetName} 대표 강아지 ${toggle}`)
         },
         onError: (err, _, context) => {
             if(context?.previousDogs){
                 queryClient.setQueryData(['my-dogs', userId], context.previousDogs)
             }
-            alert('오류가 발생하였습니다')
+            message.error('오류가 발생하였습니다')
         },
         onSettled: () => {
             queryClient.invalidateQueries({queryKey: ['my-dogs', userId]})

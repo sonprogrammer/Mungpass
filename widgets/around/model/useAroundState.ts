@@ -1,3 +1,4 @@
+import { App, message } from 'antd';
 'use client'
 
 import { Bound, Coords, KakaoPlace } from "@/shared/model/map";
@@ -22,6 +23,7 @@ export function useAroundState() {
 
   const { displayCenter, displayShops, isPending, isSearchEmpty } = useAroundLogic(keyword, radius, dragBound)
 
+  const { message} = App.useApp()
 
   useEffect(() => {
     if(!isPending && displayShops.length === 0){
@@ -45,7 +47,7 @@ export function useAroundState() {
 
   const handleToggleMap = () => {
     if (isSearchEmpty) {
-      alert('검색 결과가 없어 현재 위치를 기반으로 멍패스 샵 보여드립니다.')
+      message.warning('검색 결과가 없어 현재 위치를 기반으로 멍패스 샵 보여드립니다.')
       setKeyword('')
       setSearchValue('')
       setShowMap(true)

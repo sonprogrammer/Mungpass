@@ -2,9 +2,12 @@
 import { signup } from "../api/signup";
 import { regularLogin } from "../api/regularLogin";
 import { useRouter } from "next/navigation";
+import { App } from "antd";
 
 export function useAuthForm(mode: 'login' | 'signup', OwnerSuccess?: (id: string) => void) {
-  const router = useRouter();
+  const router = useRouter()
+
+  const { message } = App.useApp()
 
   const handleAuthAction = async (formData: FormData) => {
     if (mode ==='login') {
@@ -23,14 +26,14 @@ export function useAuthForm(mode: 'login' | 'signup', OwnerSuccess?: (id: string
           router.push('/home')
         }
       } catch(error: unknown) {
-        alert(error instanceof Error ? error.message : '로그인 중 에러가 발생하였습니다. 다시 시도해주세요')
+        message.error(error instanceof Error ? error.message : '로그인 중 에러가 발생하였습니다. 다시 시도해주세요')
       }
     } else {
       const pw = formData.get('password')
       const pwConfirm = formData.get('passwordConfirm')
 
       if (pw !== pwConfirm) {
-        alert("비밀번호가 일치하지 않습니다.")
+        message.error("비밀번호가 일치하지 않습니다.")
         return
       }
 
@@ -45,7 +48,7 @@ export function useAuthForm(mode: 'login' | 'signup', OwnerSuccess?: (id: string
         
       } catch(error) {
         const errorMessage = error instanceof Error ? error.message : '회원가입 중 오류가 발생했습니다.';
-        alert(errorMessage)
+        message.error(errorMessage)
       }
     }
   };
