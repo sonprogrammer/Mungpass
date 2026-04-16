@@ -11,8 +11,9 @@ import { format } from 'date-fns'
 import { useUpdateTempStatus } from '@/features/owner/my-store/model/useUpdataeTempStatus'
 import { useDeleteTodayStatus } from '@/features/owner/my-store/model/useDeleteTodayStatus'
 import { EarlyCloseConfirmModal } from '@/features/owner/my-store/ui/EarlyCloseConfirmModal'
+import { StoreVacationStatus } from '@/features/owner/my-store/ui/StoreVacationStatus'
 
-export function StoreTimeMainView({ shopStatus, onEditClick, shopId }: StoreTimeMainViewProps) {
+export function StoreTimeMainView({ shopStatus, onEditClick, shopId, vacation }: StoreTimeMainViewProps) {
     const [isVacationModal, setIsVacationModal] = useState(false)
     const [isReasonModalOpen, setIsReasonModalOpen] = useState(false)
     const [tempType, setTempType] = useState<'SHUTDOWN' | 'EARLY_CLOSE' | null>(null)
@@ -29,6 +30,7 @@ export function StoreTimeMainView({ shopStatus, onEditClick, shopId }: StoreTime
     // * 즉시 휴무 or  조기 마감 취소
     const { mutate: deleteTodayStatus } = useDeleteTodayStatus()
 
+    // * 당일 용임
     const isVacation = shopStatus.status === '휴가 중'
     const isShutdown = shopStatus.status === '오늘 휴무' || shopStatus.status === '오늘 즉시 휴무'
     const isEarlyClose = shopStatus.status === '조기 마감'
@@ -36,11 +38,14 @@ export function StoreTimeMainView({ shopStatus, onEditClick, shopId }: StoreTime
     const handleVacationSubmit = async (data: VacationSubmitData) => {
         const formData = {
             shop_id: shopId,
-            ...data
+            ...data,
+            updated_at: new Date().toISOString()
         }
         updateVacation(formData)
 
     }
+
+    console.log('vacation', vacation)
 
 
 
@@ -66,9 +71,15 @@ export function StoreTimeMainView({ shopStatus, onEditClick, shopId }: StoreTime
         setReason('')
     }
 
+    const handleDeleteVacation = () => {
+        if(!shopId) return
+        console.log('clciekc')
+        deleteVacation(shopId)
+    }
+
     return (
         <>
-            <div className="flex flex-col gap-6 animate-in fade-in duration-500">
+            <div className="flex flex-col gap-6 animate-in fade-in duration-500 overflow-y-auto h-full">
 
                 <header className="flex items-center justify-between">
                     <div className="flex items-center gap-3">
@@ -100,7 +111,7 @@ export function StoreTimeMainView({ shopStatus, onEditClick, shopId }: StoreTime
                             <Popconfirm
                                 title="휴가 일정을 취소하시겠습니까?"
                                 description="취소 즉시 정상 영업 스케줄로 복귀합니다."
-                                onConfirm={() => deleteVacation(shopId)}
+                                onConfirm={handleDeleteVacation}
                                 okText="네, 취소합니다"
                                 cancelText="아니오"
                                 okButtonProps={{ danger: true }}
@@ -213,6 +224,11 @@ export function StoreTimeMainView({ shopStatus, onEditClick, shopId }: StoreTime
                         </button>
                     </div>
                 </section>
+
+
+                {!isVacation && vacation && (
+                    <StoreVacationStatus vacation={vacation} onDelete={handleDeleteVacation}/>
+                )}
 
                 <footer className="rounded-2xl bg-slate-50 p-4 border border-slate-100">
                     <p className="text-[11px] leading-relaxed text-slate-500">

@@ -44,8 +44,8 @@ export const getCurrentStoreStatus =(schedules: ScheduleRow[], vacation?: Vacati
     if(todaySchedule.is_closed) return {status: '휴무', schedule: todaySchedule}
 
     // * date형태로 만들기
-    const openTime = parse(todaySchedule.open_time, 'HH:mm:ss', now)
-    const closeTime = parse(todaySchedule.close_time, 'HH:mm:ss', now)
+    const openTime = parse(todaySchedule.open_time, 'HH:mm', now)
+    const closeTime = parse(todaySchedule.close_time, 'HH:mm', now)
 
     let status = '영업 종료'
     if(isBefore(now, openTime)){

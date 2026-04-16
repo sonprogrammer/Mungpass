@@ -1,9 +1,11 @@
 import { updateTempStatus } from "@/features/owner/my-store/api/updateTempStatus";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { message } from "antd";
+import { App } from "antd";
 
 export function useUpdateTempStatus() {
     const queryClient = useQueryClient()
+
+    const {message} = App.useApp()
 
     return useMutation({
         mutationFn: ({shopId, type, reason}:{shopId: string, type: 'SHUTDOWN'|'EARLY_CLOSE', reason: string}) =>  updateTempStatus({shopId, type, reason}),

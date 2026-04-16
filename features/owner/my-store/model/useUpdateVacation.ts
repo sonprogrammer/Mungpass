@@ -1,10 +1,12 @@
 import { updateVacation } from "@/features/owner/my-store/api/updateVacation";
 import { UpdateVacationToServer } from "@/features/owner/my-store/model/types";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { message } from "antd";
+import { App } from "antd";
 
 export function useUpdateVacation() {
     const queryClient = useQueryClient()
+
+    const {message} = App.useApp()
 
     return useMutation({
         mutationFn: (vacationData:UpdateVacationToServer ) => updateVacation(vacationData),

@@ -1,10 +1,12 @@
 import { updateSchedule } from "@/features/owner/my-store/api/updateSchedule";
 import { ScheduleRow } from "@/features/owner/my-store/model/types";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { message } from "antd";
+import { App} from "antd";
 
 export function useUpdateSchedules() {
     const queryClient = useQueryClient()
+
+    const {message} = App.useApp()
     return useMutation({
         mutationFn: ( {shopId,schedules} :{schedules:ScheduleRow | ScheduleRow [], shopId: string}) => updateSchedule({shopId, schedules}),
         onSuccess: (_, {shopId}) => {

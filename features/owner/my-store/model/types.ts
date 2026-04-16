@@ -26,16 +26,27 @@ export interface CurrentStoreStatus {
     end_date?: string;
 }
 
+export interface VactationFromDB{
+    id: string;
+    reason: string;
+    shop_id: string;
+    start_date: string;
+    end_date: string;
+    updaated_at: string;
+}
+
 export interface StoreTimeMainViewProps{
     shopStatus: CurrentStoreStatus
     onEditClick: () => void
     shopId: string
+    vacation: VactationFromDB
 }
 
 export interface VacationSubmitData {
     start_date: string;
     end_date: string;
     reason: string;
+    updated_at: string;
 }
 export interface VacationModalProps {
     open: boolean;
@@ -48,6 +59,7 @@ export interface UpdateVacationToServer {
     start_date: string;
     end_date: string;
     reason: string;
+    updated_at: string;
 }
 
 export interface EarlyCloseConfirmModalProps{

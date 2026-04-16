@@ -29,6 +29,7 @@ export function StoreTimeCard({ shopId }: { shopId: string }) {
 
     // * 휴가 정보 가져오기
     const { data: vacation, isPending: isVacationPending} = useGetVacation(shopId)
+
     // *조기 , 즉시 휴무 처리 정보 가져오기 되어있으면
     const { data: tempStatus} = useGetTodayTempStatus(shopId)
 
@@ -111,6 +112,7 @@ export function StoreTimeCard({ shopId }: { shopId: string }) {
                     onEditClick={handleEditClick}
                     shopStatus={currentStoreStatus}
                     shopId={shopId}
+                    vacation={vacation}
                 />
             ) : (
                 <StoreTimeEditView

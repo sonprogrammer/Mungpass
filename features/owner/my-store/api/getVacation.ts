@@ -8,7 +8,6 @@ export const getVacation = async(shopId: string) => {
     
     const { data, error} = await supabaseClient.from('shop_vacations').select('*')
                                         .eq('shop_id', shopId)
-                                        .lte('start_date', today)
                                         .gte('end_date', today)
                                         .maybeSingle()
     
@@ -16,6 +15,8 @@ export const getVacation = async(shopId: string) => {
         console.error('휴가 정보 에러 ', error)
         throw error
     }
+
+    console.log('vacation from api', data)
 
     return data
 }

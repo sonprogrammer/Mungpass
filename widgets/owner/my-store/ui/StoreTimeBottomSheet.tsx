@@ -22,7 +22,9 @@ export function StoreTimeBottomSheet({ open, onClose }: { open: boolean, onClose
                     <Skeleton active paragraph={{ rows: 3 }} />
                 </div>
             ) : shopId ? (
-                <StoreTimeCard shopId={shopId} />
+                <div className="h-full pb-10">
+                    <StoreTimeCard shopId={shopId} />
+                </div>
             ) : (
                 <div className="p-8 text-center text-gray-400 text-sm">
                     매장 정보를 불러올 수 없습니다.

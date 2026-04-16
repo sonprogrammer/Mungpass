@@ -19,6 +19,7 @@ export function VacationModal({ open, onClose, onSubmit }: VacationModalProps) {
                 start_date: values.dates[0].format('YYYY-MM-DD'),
                 end_date: values.dates[1].format('YYYY-MM-DD'),
                 reason: values.reason,
+                updated_at: new Date().toISOString()
             }
             onSubmit(formattedValues)
             form.resetFields()
@@ -68,6 +69,7 @@ export function VacationModal({ open, onClose, onSubmit }: VacationModalProps) {
                         <Input.TextArea 
                             placeholder="예: 내부 수리 공사로 인해 쉽니다. 8월 5일에 만나요!" 
                             rows={3} 
+                            className='resize-none!'
                         />
                     </Form.Item>
                 </Form>
