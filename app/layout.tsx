@@ -4,6 +4,8 @@ import "./globals.css";
 import LayoutContent from "@/app/ui/LayoutContent";
 import { Provider } from "@/app/Provider";
 import { AntdRegistry } from '@ant-design/nextjs-registry'
+import { App } from "antd";
+
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -35,10 +37,12 @@ export default function RootLayout({
       >
         <Provider>
           <AntdRegistry>
-            <LayoutContent>
-              {children}
-              {modal}
-            </LayoutContent>
+            <App>
+              <LayoutContent>
+                {children}
+                {modal}
+              </LayoutContent>
+            </App>
           </AntdRegistry>
         </Provider>
       </body>
