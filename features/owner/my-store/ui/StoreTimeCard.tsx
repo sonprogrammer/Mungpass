@@ -33,6 +33,7 @@ export function StoreTimeCard({ shopId }: { shopId: string }) {
     // *조기 , 즉시 휴무 처리 정보 가져오기 되어있으면
     const { data: tempStatus} = useGetTodayTempStatus(shopId)
 
+    console.log('skeducles', schedules)
 
 
     // *오늘 휴무면 휴무, 시간이 지났으면 영업종료, 운영중이면 영업중

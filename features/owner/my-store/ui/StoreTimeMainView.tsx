@@ -30,6 +30,8 @@ export function StoreTimeMainView({ shopStatus, onEditClick, shopId, vacation }:
     // * 즉시 휴무 or  조기 마감 취소
     const { mutate: deleteTodayStatus } = useDeleteTodayStatus()
 
+    console.log('shopStatus', shopStatus)
+    
     // * 당일 용임
     const isVacation = shopStatus.status === '휴가 중'
     const isShutdown = shopStatus.status === '오늘 휴무' || shopStatus.status === '오늘 즉시 휴무'
@@ -44,9 +46,6 @@ export function StoreTimeMainView({ shopStatus, onEditClick, shopId, vacation }:
         updateVacation(formData)
 
     }
-
-    console.log('vacation', vacation)
-
 
 
     const handleUpdateTodayStatus = (type: 'SHUTDOWN' | 'EARLY_CLOSE') => {
