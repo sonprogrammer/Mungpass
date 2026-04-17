@@ -16,7 +16,7 @@ export function ProductList({ products, onDelete }: { products: ProductWithCateg
         )
     }
     const categories = ['전체', ...new Set(products.map(p => p.product_categories?.name).filter(Boolean))]
-    console.log('categories', categories)
+
 
     const filteredProducts = selectedCategory === '전체' ? products : products.filter(p => p.product_categories?.name === selectedCategory)
     return (

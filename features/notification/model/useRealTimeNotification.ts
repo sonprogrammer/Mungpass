@@ -6,7 +6,7 @@ import { useEffect} from "react";
 
 
 export function useRealTimeNotification({userId, shopId}: useRealTimeNotificationProps) {
-  const { setNotifications, addNotification } = useNotificationStore()
+  const { setNotifications, addNotification, removeNotification } = useNotificationStore()
   
   useEffect(() => {
     if(!userId && !shopId) return
@@ -49,8 +49,16 @@ export function useRealTimeNotification({userId, shopId}: useRealTimeNotificatio
           }
           
         }
-      ).subscribe()
+      )
+      .on('postgres_changes', { event: 'DELETE', schema: 'public', table: 'notifications', filter: filter},
+        (payload) => {
+          if(payload.old && payload.old.id){
+            removeNotification(payload.old.id)
+          }
+        }
+      )
+      .subscribe()
 
     return () => { supabaseClient.removeChannel(channel)}
-  }, [userId, shopId ,addNotification, setNotifications])
+  }, [userId, shopId ,addNotification, setNotifications, removeNotification])
 }
