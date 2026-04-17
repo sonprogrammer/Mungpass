@@ -10,7 +10,7 @@ export function BottomSheet({ isOpen, onClose, children }: BottomSheetProps) {
 
     useEffect(() => {
         const timeout = setTimeout(() => {
-            setMounted(true);
+            setMounted(true)
         }, 0)
         if(isOpen) {
             document.body.style.overflow = 'hidden';

@@ -3,18 +3,18 @@
 import { useGetRegisData } from "@/entities/owner/my-shop/model/useGetRegisData";
 import { useUserStore } from "@/entities/user/model/useUserStore";
 import { useRestrictedAction } from "@/features/owner/my-store/lib/useRestrictedAction";
-import { StoreTimeBottomSheet } from '@/widgets/owner/my-store/ui/StoreTimeBottomSheet'
-import { InquiryBottomSheet } from '@/widgets/owner/my-store/ui/InquiryBottomSheet'
-import { NoticeBottomSheet } from '@/widgets/owner/my-store/ui/NoticeBottomSheet'
-import { ProductManageBottomSheet } from '@/widgets/owner/my-store/ui/ProductManageBottomSheet'
 import { MenuItem } from "@/shared/ui/MenuItem";
 import { MyPageFooter } from "@/widgets/mypage/ui/MyPageFooter";
 import { MyStoreHeader } from "@/widgets/owner/my-store/ui/MyStoreHeader";
 import { Clock, ShoppingBag, Megaphone, Headphones, Monitor } from "lucide-react";
 import { useState } from "react";
 import { useShopStatus } from "@/features/owner/my-store/model/useGetShopStatus";
-import { KioskSettingBottomSheet } from "@/widgets/owner/my-store/ui/KioskSettingBottomSheet";
 import { App } from "antd";
+import { StoreTimeBottomSheet } from "@/features/owner/my-store/ui/StoreTimeBottomSheet";
+import { NoticeBottomSheet } from "@/features/owner/my-store/ui/NoticeBottomSheet";
+import { InquiryBottomSheet } from "@/features/owner/my-store/ui/InquiryBottomSheet";
+import { ProductManageBottomSheet } from "@/features/owner/my-store/product/ui/ProductManageBottomSheet";
+import { KioskSettingBottomSheet } from "@/features/owner/kiosk/ui/KioskSettingBottomSheet";
 
 
 export default function MyStorePage() {

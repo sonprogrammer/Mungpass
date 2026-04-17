@@ -172,18 +172,21 @@ export default function NotificationDrawer({ isOpen, onClose, userId, shopId }: 
             <div className="flex flex-col">
               <button
                 onClick={handleAllRead}
-                className="w-full cursor-pointer py-4 cursor-pointer bg-white border border-slate-200 rounded-2xl text-xs font-bold text-slate-400 hover:text-orange-500 hover:border-orange-200 transition-all shadow-sm active:bg-orange-50"
+                className="w-full cursor-pointer py-4 bg-white border border-slate-200 rounded-2xl text-xs font-bold text-slate-400 hover:text-orange-500 hover:border-orange-200 transition-all shadow-sm active:bg-orange-50"
               >
                 모든 알림 읽음 처리
               </button>
-              <button
-                onClick={handleAllDeleteNoti}
-                disabled={notifications.length === 0}
-                className="flex items-center justify-center cursor-pointer gap-2 w-full py-3 text-[11px] font-bold text-slate-400 hover:text-red-400 transition-colors disabled:opacity-0"
-              >
-                <Trash2 className="w-3.5 h-3.5" />
-                전체 알림 삭제
-              </button>
+
+              {notifications.length > 0 && (
+                <button
+                  onClick={handleAllDeleteNoti}
+                  disabled={notifications.length === 0}
+                  className="flex items-center justify-center cursor-pointer gap-2 w-full py-3 text-[11px] font-bold text-slate-400 hover:text-red-400 transition-colors disabled:opacity-0"
+                >
+                  <Trash2 className="w-3.5 h-3.5" />
+                  전체 알림 삭제
+                </button>
+              )}
             </div>
           </div>
         </div>

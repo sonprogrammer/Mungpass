@@ -41,7 +41,8 @@ export const saveApi = {
                 shop_name: place.place_name,
                 category_name: place.category_name,
                 address: place.address_name,
-                place_url: place.place_url
+                place_url: place.place_url,
+                phone: place.phone,
             })
             if(error) {
                 console.log('toggleSave Error', error)

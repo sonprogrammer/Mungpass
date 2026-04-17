@@ -1,11 +1,9 @@
 import { ScheduleRow, VacationSubmitData } from "@/features/owner/my-store/model/types";
 import { endOfDay, isBefore, isWithinInterval, parse, startOfDay } from "date-fns";
 
-export const getCurrentStoreStatus =(schedules: ScheduleRow[], vacation?: VacationSubmitData, tempStatus?: { status_type: 'SHUTDOWN' | 'EARLY_CLOSE', reason?: string}) => {
-    const now = new Date()
-    const todayNum = now.getDay()
+export const getCurrentStoreStatus =(schedules: ScheduleRow[], vacation?: VacationSubmitData, tempStatus?: { status_type: 'SHUTDOWN' | 'EARLY_CLOSE', reason?: string}, now: Date = new Date()) => {
 
-    console.log('todaynum', todayNum)
+    const todayNum = now.getDay()
     
 
     if (tempStatus?.status_type === 'SHUTDOWN') {

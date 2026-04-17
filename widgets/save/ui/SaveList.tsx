@@ -2,10 +2,9 @@
 
 import { Favorites } from "@/entities/place/model/types"
 import { useGetSaveList } from "@/entities/place/model/useGetSaveList"
-import { PlaceDetailSheet } from "@/entities/place/ui/PlaceDetailSheet"
+import { StoreDetailBottomSheet } from "@/features/user/shopInfo/ui/StoreDetailBottomSheet"
 import { KakaoPlace } from "@/shared/model/map"
 import { NoResult } from "@/shared/ui/NoResultUI"
-import { BottomSheet } from "@/shared/ui/place/BottomSheet"
 import { MenuPageListCard } from "@/widgets/home-menu/ui/MenuPageListCard"
 import { Heart } from "lucide-react"
 import { useState } from "react"
@@ -61,12 +60,10 @@ export function SaveList() {
                 ))}
 
             </div>
-            <BottomSheet
-                isOpen={selectedPlace !== null}
+            <StoreDetailBottomSheet 
+                selectedPlace={selectedPlace}
                 onClose={() => setSelectedPlace(null)}
-            >
-                {selectedPlace && <PlaceDetailSheet place={selectedPlace} />}
-            </BottomSheet>
+            />
         </>
     )
 }

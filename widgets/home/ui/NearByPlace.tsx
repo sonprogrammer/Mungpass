@@ -1,11 +1,10 @@
 'use client'
 
 import { DEFAULT_RADIUS } from "@/entities/place/model/constants";
-import { PlaceDetailSheet } from "@/entities/place/ui/PlaceDetailSheet";
 import { PlaceListState } from "@/entities/place/ui/PlaceListState";
 import { useGetNearByShops } from "@/features/search-shop/model/useGetNearByShops";
+import { StoreDetailBottomSheet } from "@/features/user/shopInfo/ui/StoreDetailBottomSheet";
 import { KakaoPlace } from "@/shared/model/map";
-import { BottomSheet } from "@/shared/ui/place/BottomSheet";
 import { MapPin } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
@@ -41,12 +40,10 @@ export function NearByPlace() {
             />
 
             <div className="-mx-6">
-                <BottomSheet
-                    isOpen={selectedPlace !== null}
+                <StoreDetailBottomSheet
+                    selectedPlace={selectedPlace}
                     onClose={() => setSelectedPlace(null)}
-                >
-                    {selectedPlace && <PlaceDetailSheet place={selectedPlace} />}
-                </BottomSheet>
+                 />
             </div>
 
         </section>

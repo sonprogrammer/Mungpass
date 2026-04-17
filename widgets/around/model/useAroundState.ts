@@ -1,5 +1,5 @@
-import { App, message } from 'antd';
 'use client'
+import { App } from 'antd';
 
 import { Bound, Coords, KakaoPlace } from "@/shared/model/map";
 import { useAroundLogic } from "@/widgets/around/model/useAroundLogic";

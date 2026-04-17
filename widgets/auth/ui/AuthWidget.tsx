@@ -62,7 +62,7 @@ export function AuthWidget() {
           <div className="mt-6 text-center">
             <Link
               href='/signup'
-              className="text-sm font-bold text-slate-400 hover:text-orange-500 transition-colors"
+              className="text-sm font-bold text-slate-500! hover:text-orange-500! transition-colors!"
             >
               아직 계정이 없으신가요?
               <span className="text-orange-500 underline decoration-2 underline-offset-4 ml-1">
@@ -87,7 +87,7 @@ export function AuthWidget() {
                 </div>
                 <div>
                   <p className="text-[13px] font-black text-slate-800">혹시 사장님이신가요?</p>
-                  <p className="text-[11px] font-bold text-orange-400">멍패스 파트너로 입점하고 고객을 만나보세요</p>
+                  <p className="text-[11px] font-bold text-orange-400">멍패스 파트너로 입점하고,<br/> 효율적인 매장 관리를 시작해보세요</p>
                 </div>
               </div>
               <div className="text-orange-300 group-hover:text-orange-500 transition-colors">
