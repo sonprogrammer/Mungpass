@@ -61,6 +61,7 @@ export function SaveList() {
 
             </div>
             <StoreDetailBottomSheet 
+                key={selectedPlace?.id}
                 selectedPlace={selectedPlace}
                 onClose={() => setSelectedPlace(null)}
             />

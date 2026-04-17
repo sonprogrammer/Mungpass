@@ -4,8 +4,8 @@ import { useQuery } from "@tanstack/react-query";
 export function useGetShopIdByKakaoId(kakaoId: string) {
     return useQuery({
         queryKey: ['shopIdByKakaoId', kakaoId],
-        queryFn: () => getShopIdByKakaoId(kakaoId!),
-        enabled: !!kakaoId,
+        queryFn: () => getShopIdByKakaoId(kakaoId),
+        enabled: !!kakaoId && kakaoId !== "undefined" && kakaoId !== "null",
         staleTime: 1000 * 60 * 60
     })
 }

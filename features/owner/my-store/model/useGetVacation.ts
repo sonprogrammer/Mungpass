@@ -6,6 +6,6 @@ export function useGetVacation(shopId: string) {
         queryKey: ['vacations', shopId],
         queryFn: () => getVacation(shopId),
         enabled: !!shopId,
-        staleTime: 1000 * 60 * 60
+        staleTime: 1000 * 60 * 10
     })
 }

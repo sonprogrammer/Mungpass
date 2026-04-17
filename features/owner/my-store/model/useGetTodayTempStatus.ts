@@ -6,6 +6,6 @@ export function useGetTodayTempStatus(shopId: string) {
         queryKey: ['todayTemp', shopId],
         queryFn: () => getTodayTempStatus(shopId),
         enabled: !!shopId,
-        staleTime: 1000 * 60 * 30
+        staleTime: 1000 * 60 * 5
     })
 }

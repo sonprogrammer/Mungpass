@@ -9,5 +9,5 @@ export const getShopIdByKakaoId = async(kakaoId: string) => {
         throw new Error('매장 정보를 가져오는데 실패했습니다')
     }
 
-    return data
+    return data || null
 }

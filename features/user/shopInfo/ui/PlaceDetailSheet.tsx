@@ -21,14 +21,15 @@ export function PlaceDetailSheet({ place }: { place: KakaoPlace }) {
     // *카카오id로 매장 uuid값 가져오기(멍패스에 등록되어있는 매장한임)
     const { data: shop } = useGetShopIdByKakaoId(place?.id)
 
-    // console.log('place detail', place)
+    // console.log('place detail', place.id)
     // console.log('place shop', shop)
 
+    
 
-
+    
     const shopId = shop?.id
-    // console.log('shopid', shopId)
     // console.log('shopId', shopId)
+    // console.log('shopid', shopId)
     const isMungPassPartner = !!shopId
 
 
@@ -111,7 +112,6 @@ export function PlaceDetailSheet({ place }: { place: KakaoPlace }) {
             <AnimatePresence>
 
                 {isScheduleOpen && (
-                    <div onClick={() => setIsScheduleOpen(false)}>
 
                         <StoreScheduleInfo
                             onClose={() => setIsScheduleOpen(false)}
@@ -119,7 +119,6 @@ export function PlaceDetailSheet({ place }: { place: KakaoPlace }) {
                             vacation={shopVacation}
                             todayShopStatus={todayShopStatus}
                         />
-                    </div>
                 )}
             </AnimatePresence>
 
