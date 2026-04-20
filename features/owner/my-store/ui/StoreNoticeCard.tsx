@@ -17,7 +17,7 @@ export function StoreNoticeCard() {
   })
 
   //   TODO 수정해줘야함
-  const handleSave = (values: any) => {
+  const handleSave = (values: {isUrgent: boolean, title: string, content: string}) => {
     setNotice({ ...values, updatedAt: '2026.03.23' })
     message.success('공지사항이 안전하게 게시되었습니다.')
     setIsModalOpen(false)

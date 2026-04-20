@@ -37,21 +37,35 @@ const MOCK_HISTORY = [
   }
 ]
 
+interface MockTypes{
+  id: number;
+  category: string;
+  categoryLabel: string;
+  title: string;
+  content: string;
+  status: string;
+  createdAt: string;
+  answer: {
+    content: string;
+    answeredAt: string;
+  } | null
+}
+
 export function StoreInquiryCard() {
   const [form] = Form.useForm()
   const [isWriteOpen, setIsWriteOpen] = useState(false)
   const [isDetailOpen, setIsDetailOpen] = useState(false)
-  const [selectedInquiry, setSelectedInquiry] = useState<any>(null)
+  const [selectedInquiry, setSelectedInquiry] = useState<MockTypes | null>(null)
 
   // TODO api연동
-  const onFinishInquiry = (values: any) => {
+  const onFinishInquiry = (values: {category: string,title: string, content: string}) => {
     console.log('문의 데이터 전송:', values)
     message.success('문의가 접수되었습니다. 담당자 확인 후 답변 드릴게요.')
     setIsWriteOpen(false)
     form.resetFields()
   }
 
-  const handleOpenDetail = (item: any) => {
+  const handleOpenDetail = (item: MockTypes) => {
     setSelectedInquiry(item)
     setIsDetailOpen(true)
   }
