@@ -30,7 +30,6 @@ export function StoreTimeMainView({ shopStatus, onEditClick, shopId, vacation }:
     // * 즉시 휴무 or  조기 마감 취소
     const { mutate: deleteTodayStatus } = useDeleteTodayStatus()
 
-    console.log('shopStatus', shopStatus)
     
     // * 당일 용임
     const isVacation = shopStatus.status === '휴가 중'
@@ -72,7 +71,6 @@ export function StoreTimeMainView({ shopStatus, onEditClick, shopId, vacation }:
 
     const handleDeleteVacation = () => {
         if(!shopId) return
-        console.log('clciekc')
         deleteVacation(shopId)
     }
 

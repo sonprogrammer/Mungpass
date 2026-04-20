@@ -16,7 +16,6 @@ export const useToggleSaveList = () => {
 
     return useMutation({
         mutationFn: async (place: KakaoPlace) => {
-            console.log('userIdddd', userId)
             
             
             const result = await saveApi.toggleSave(userId!, place)
@@ -27,7 +26,6 @@ export const useToggleSaveList = () => {
         // * 낙관적 업데이틀
         onMutate: async (place) => {
             await queryClient.cancelQueries({ queryKey: ['favorites'] })
-            console.log('onmutate 반응 중',place)
 
             const previousSave = queryClient.getQueryData<Favorites[]>(['favorites'])
 

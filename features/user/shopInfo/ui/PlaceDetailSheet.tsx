@@ -21,13 +21,12 @@ export function PlaceDetailSheet({ place }: { place: KakaoPlace }) {
     // *카카오id로 매장 uuid값 가져오기(멍패스에 등록되어있는 매장한임) 아닌 것들은 null을 반환
     const { data: shop } = useGetShopIdByKakaoId(place?.id)
 
-    console.log('place detailㅇㅁㄴㄹㅁㅇㄴㄹㅁㅇㄴ', place)
 
     
 
     
     const shopId = shop?.id
-    console.log('shopId', shopId)
+
 
     const isMungPassPartner = !!shopId
 
@@ -39,11 +38,6 @@ export function PlaceDetailSheet({ place }: { place: KakaoPlace }) {
 
     // * 선택된 가게 현재 상태(오늘이 정기 휴일인지, 휴가인지, 갑자기 닫은건지) 가져오기
     const todayShopStatus = useShopStatus(shopId)
-
-
-    // console.log('shopVacation', shopVacation)
-    console.log('shopScedules', shopScedules)
-    // console.log('shopStatus', todayShopStatus)
 
     const isOpen = todayShopStatus.status === '영업 중'
 

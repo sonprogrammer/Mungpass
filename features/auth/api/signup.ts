@@ -10,8 +10,6 @@ export async function signup(formData: FormData){
     const phone = formData.get('phone') as string
     const role = formData.get('role') as string
 
-    console.log('adsfasd', email, name, phone, role)
-
     const { data, error } = await supabase.auth.signUp({
         email,
         password,

@@ -14,7 +14,6 @@ export function SaveList() {
     const [selectedPlace, setSelectedPlace] = useState<KakaoPlace | null>(null)
     const { data: saveList, isPending } = useGetSaveList()
 
-console.log('svaelist', saveList)
     const handleMenuClick = (place: Favorites): KakaoPlace => {
         const placeData = {
             id: place.kakao_place_id,
@@ -24,7 +23,6 @@ console.log('svaelist', saveList)
             place_url: place.place_url,
             phone: place.phone
         }
-        console.log('placedata', placeData)
         return placeData
     }
 

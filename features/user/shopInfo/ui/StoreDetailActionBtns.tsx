@@ -54,7 +54,6 @@ export function StoreDetailActionBtns({
                 onClick={(e) => {
                     e.preventDefault()
                     toggleSave(place)
-                    console.log('place form action btn', place)
                 }}
                 className={`cursor-pointer shrink-0 w-14 h-14 flex items-center justify-center rounded-2xl transitian-all shadow-lg bg-pink-200/50`}>
                 <Heart className={`w-6 h-6 ${isLiked ? 'fill-pink-500 text-pink-500' : ''}`} />

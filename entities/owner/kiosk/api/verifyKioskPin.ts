@@ -1,7 +1,6 @@
 import { supabaseClient } from "@/shared/api/supabase/client";
 
 export const verifyKioskPin = async(shopId: string, pin: string) => {
-    console.log('shopid', shopId)
     
     const { data,error} = await supabaseClient.from('shops').select('kiosk_pin').eq('id', shopId).single()
 

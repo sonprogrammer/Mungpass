@@ -20,6 +20,9 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   title: "멍패스",
   description: "애견과 함께",
+  other: {
+    "Content-Security-Policy": "upgrade-insecure-requests",
+  },
 };
 
 export default function RootLayout({
