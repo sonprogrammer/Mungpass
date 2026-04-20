@@ -1,14 +1,16 @@
 'use client'
 
+export const dynamic = 'force-dynamic'
+
 import { useStoreRegistrationStore } from "@/features/auth/model/owner/useStoreRegistStore"
 import { BusinessForm } from "@/features/auth/ui/owner/BusinessForm"
 import { RegisterStoreCheckCard } from "@/features/auth/ui/owner/RegisterStoreCheckCard"
 import { App } from "antd"
 import { useRouter, useSearchParams } from "next/navigation"
-import { useEffect } from "react"
+import { Suspense, useEffect } from "react"
 
 
-export default function OwnerAuthPage() {
+export function AuthContent() {
     const searchParams = useSearchParams()
     const selectedPlace = useStoreRegistrationStore(state=> state.selectedPlace)
     const router = useRouter()
@@ -48,5 +50,13 @@ export default function OwnerAuthPage() {
                 <BusinessForm storeInfo={selectedPlace} ownerId={ownerId}/>
             </div>
         </div>
+    )
+}
+
+export default function OwnerAuthPage() {
+    return(
+        <Suspense fallback={<div>인증 정보를 불러오는 중입니다...</div>}>
+            <AuthContent />
+        </Suspense>
     )
 }

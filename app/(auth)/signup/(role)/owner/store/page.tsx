@@ -1,5 +1,7 @@
 'use client'
 
+export const dynamic = 'force-dynamic'
+
 import { cookieLogout } from "@/features/auth/api/logoutAction"
 import { useStoreRegistrationStore } from "@/features/auth/model/owner/useStoreRegistStore"
 import { SelectedStore } from "@/features/auth/ui/owner/SelectedStore"
@@ -8,9 +10,9 @@ import { StoreSearchWidget } from "@/features/auth/ui/owner/StoreSearchWidget"
 import { useAroundState } from "@/widgets/around/model/useAroundState"
 import { MapSection } from "@/widgets/around/ui/MapSection"
 import { useRouter, useSearchParams } from "next/navigation"
-import { useState } from "react"
+import { Suspense, useState } from "react"
 
-export default function OwnerStoreRegisterPage() {
+export function RegisterContent() {
     const { state, actions } = useAroundState()
     const setSelectedPlace = useStoreRegistrationStore(state => state.setSelectedPlace)
     const [skipModalOpen, setSkipModalOpen] = useState<boolean>(false)
@@ -34,6 +36,7 @@ export default function OwnerStoreRegisterPage() {
 
 
     return (
+
         <div className="flex flex-col h-full relative">
 
 
@@ -101,5 +104,14 @@ export default function OwnerStoreRegisterPage() {
                 onConfirm={() => handleSkipStep()}
             />
         </div>
+
+    )
+}
+
+export default function OwnerStoreRegisterPage() {
+    return (
+        <Suspense fallback={<div className="p-10 text-center">지도를 로딩 중입니다...</div>}>
+            <RegisterContent />
+        </Suspense>
     )
 }
