@@ -21,15 +21,11 @@ export function PlaceDetailSheet({ place }: { place: KakaoPlace }) {
     // *카카오id로 매장 uuid값 가져오기(멍패스에 등록되어있는 매장한임) 아닌 것들은 null을 반환
     const { data: shop } = useGetShopIdByKakaoId(place?.id)
 
-
-    
-
-    
     const shopId = shop?.id
-
-
+    
     const isMungPassPartner = !!shopId
 
+    const secureKakaoUrl = place.place_url?.replace('http://', 'https://')
 
     // * 선택된 가게 일주일 스케줄 가져오기
     const { data: shopScedules } = useGetSchedule(shopId)
@@ -73,7 +69,7 @@ export function PlaceDetailSheet({ place }: { place: KakaoPlace }) {
 
             <div className="w-full flex-1 rounded-2xl overflow-hidden border border-slate-100">
                 <iframe
-                    src={place.place_url}
+                    src={secureKakaoUrl}
                     className="w-full h-full"
                     title="카카오맵 상세정보"
                 />
