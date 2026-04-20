@@ -2,32 +2,24 @@
 
 import { saveApi } from "@/entities/place/api/saveApi"
 import { Favorites } from "@/entities/place/model/types"
-import { supabaseClient } from "@/shared/api/supabase/client"
+import { useUserStore } from "@/entities/user/model/useUserStore"
 import { KakaoPlace } from "@/shared/model/map"
 import { useMutation, useQueryClient } from "@tanstack/react-query"
 import { App } from "antd"
 
 
 export const useToggleSaveList = () => {
-    const supabase = supabaseClient
     const queryClient = useQueryClient()
+    const profile = useUserStore(state=> state.profile)
+    const userId = profile?.id
     const {message} = App.useApp()
 
     return useMutation({
         mutationFn: async (place: KakaoPlace) => {
-            const { data: { user } } = await supabase.auth.getUser()
-            if (!user) throw new Error('you need to login first')
-
-            const { data: existing } = await supabase
-                .from('favorites')
-                .select('id')
-                .eq('user_id', user.id)
-                .eq('shop_id', place.id)
-                .maybeSingle()
-
-            const isExist = !!existing
+            console.log('userIdddd', userId)
             
-            const result = await saveApi.toggleSave(user.id, place, isExist)
+            
+            const result = await saveApi.toggleSave(userId!, place)
             return result
             
         },
@@ -35,21 +27,22 @@ export const useToggleSaveList = () => {
         // * 낙관적 업데이틀
         onMutate: async (place) => {
             await queryClient.cancelQueries({ queryKey: ['favorites'] })
+            console.log('onmutate 반응 중',place)
 
             const previousSave = queryClient.getQueryData<Favorites[]>(['favorites'])
 
             queryClient.setQueryData<Favorites[]>(['favorites'], (old) => {
                 if(!old) return []
-                const isExist = old.some(list => list.shop_id === place.id)
+                const isExist = old.some(list => list.kakao_place_id === place.id)
                 if (isExist) {
-                    return old.filter(list => list.shop_id !== place.id)
+                    return old.filter(list => list.kakao_place_id !== place.id)
                 }
 
                 // * 낙관적 업데이트를위한 중요 데이터 제외, 임시데이터 삽입
                 return [...old, {
                     id: Date.now().toString(),
                     user_id: 'user',
-                    shop_id: place.id,
+                    kakao_place_id: place.id,
                     shop_name: place.place_name,
                     category_name: place.category_name,
                     address: place.address_name,

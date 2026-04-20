@@ -17,11 +17,11 @@ export function useAuthForm(mode: 'login' | 'signup', OwnerSuccess?: (id: string
         
         
         if(role === 'admin'){
-          router.push('/admin')
+          router.replace('/admin')
         }else if(role === 'owner'){
-          router.push('/owner')
+          router.replace('/owner')
         }else{
-          router.push('/home')
+          router.replace('/home')
         }
       } catch(error: unknown) {
         message.error(error instanceof Error ? error.message : '로그인 중 에러가 발생하였습니다. 다시 시도해주세요')

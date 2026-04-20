@@ -8,7 +8,7 @@ export function StoreDetailBottomSheet({selectedPlace, onClose} : StoreDetailWid
             isOpen={selectedPlace !== null}
             onClose={onClose}
         >
-            {selectedPlace && <PlaceDetailSheet place={selectedPlace} />}
+            {selectedPlace && <PlaceDetailSheet place={selectedPlace} key={selectedPlace.id}/>}
         </BottomSheet>
     )
 }

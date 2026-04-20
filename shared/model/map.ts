@@ -10,6 +10,11 @@ export interface Bound{
     ne: Coords
 }
 
+// export interface KakaoPlaceInfo{
+
+// }
+
+
 export interface KakaoPlace{
     id: string;
     place_name: string;

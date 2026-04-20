@@ -1,7 +1,7 @@
 import { supabaseClient } from "@/shared/api/supabase/client";
 
 export const getShopIdByKakaoId = async(kakaoId: string) => {
-    console.log('kakaoid', kakaoId)
+    console.log('kakaoid dfadsf', kakaoId)
     const { data, error} = await supabaseClient.from('shops').select('id').eq('kakao_place_id', kakaoId).maybeSingle()
 
     if(error){

@@ -14,16 +14,17 @@ export function SaveList() {
     const [selectedPlace, setSelectedPlace] = useState<KakaoPlace | null>(null)
     const { data: saveList, isPending } = useGetSaveList()
 
-
+console.log('svaelist', saveList)
     const handleMenuClick = (place: Favorites): KakaoPlace => {
         const placeData = {
-            id: place.shop_id,
+            id: place.kakao_place_id,
             place_name: place.shop_name,
             address_name: place.address,
             category_name: place.category_name,
             place_url: place.place_url,
             phone: place.phone
         }
+        console.log('placedata', placeData)
         return placeData
     }
 

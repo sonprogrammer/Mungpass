@@ -18,18 +18,17 @@ export function PlaceDetailSheet({ place }: { place: KakaoPlace }) {
     const { data: saveLists } = useGetSaveList()
     const { mutate: toggleSave } = useToggleSaveList()
 
-    // *카카오id로 매장 uuid값 가져오기(멍패스에 등록되어있는 매장한임)
+    // *카카오id로 매장 uuid값 가져오기(멍패스에 등록되어있는 매장한임) 아닌 것들은 null을 반환
     const { data: shop } = useGetShopIdByKakaoId(place?.id)
 
-    // console.log('place detail', place.id)
-    // console.log('place shop', shop)
+    console.log('place detailㅇㅁㄴㄹㅁㅇㄴㄹㅁㅇㄴ', place)
 
     
 
     
     const shopId = shop?.id
-    // console.log('shopId', shopId)
-    // console.log('shopid', shopId)
+    console.log('shopId', shopId)
+
     const isMungPassPartner = !!shopId
 
 
@@ -43,16 +42,13 @@ export function PlaceDetailSheet({ place }: { place: KakaoPlace }) {
 
 
     // console.log('shopVacation', shopVacation)
-    // console.log('shopScedules', shopScedules)
+    console.log('shopScedules', shopScedules)
     // console.log('shopStatus', todayShopStatus)
 
     const isOpen = todayShopStatus.status === '영업 중'
-    // const statusLabel = todayShopStatus.status
-
-    // console.log('shopid', place)
 
 
-    const isLiked = saveLists?.some(list => String(list.shop_id) === String(place.id))
+    const isLiked = saveLists?.some(list => list.kakao_place_id === place.id)
 
 
     return (

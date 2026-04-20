@@ -18,7 +18,7 @@ export interface AroundHeaderProps{
 export interface Favorites {
     id: string;
     user_id: string;
-    shop_id: string;
+    kakao_place_id: string;
     shop_name: string;
     category_name: string;
     address: string;
