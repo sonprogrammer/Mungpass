@@ -38,8 +38,16 @@ export default function KioskPage() {
         return products.filter(p => String(p.category_id) === String(currentCategory.id))
     }, [products, currentCategory])
 
+    // * 배포환경, 개발 환경 다르게 
+    const getBaseUrl = () => {
+        if(typeof window !== 'undefined'){
+            return window.location.origin
+        }
+        return process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost'
+    }
 
-    const qrValue = `${process.env.NEXT_PUBLIC_SITE_URL}/user?modal=checkin&shopId=${shopId}&productId=${selectedProduct?.id}`
+
+    const qrValue = `${getBaseUrl()}/user?modal=checkin&shopId=${shopId}&productId=${selectedProduct?.id}`
 
     useEffect(() => {
         window.history.pushState(null, '', window.location.href)

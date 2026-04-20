@@ -39,9 +39,15 @@ export function OwnerNavbar() {
         setSelectedProductId(product)
     }
 
+    // * 배포환경, 개발 환경 다르게 
+    const getBaseUrl = () => {
+        if(typeof window !== 'undefined'){
+            return window.location.origin
+        }
+        return process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost'
+    }
 
-
-    const qrValue = `${process.env.NEXT_PUBLIC_SITE_URL}/user?modal=checkin&shopId=${shopId}&productId=${selectedProductId}`
+    const qrValue = `${getBaseUrl()}/user?modal=checkin&shopId=${shopId}&productId=${selectedProductId}`
 
 
 
