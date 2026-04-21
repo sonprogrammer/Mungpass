@@ -38,11 +38,6 @@ export const metadata: Metadata = {
   },
   other: {
     "Content-Security-Policy": "upgrade-insecure-requests",
-  },
-  icons: {
-
-    icon: "/favicon-icon.png?v=1",
-    apple: "/favicon-icon.png?v=1",
   }
 };
 
