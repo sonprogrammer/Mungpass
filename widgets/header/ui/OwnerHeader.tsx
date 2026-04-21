@@ -1,32 +1,29 @@
 'use client'
 
-import { Bell, Store, Monitor } from "lucide-react";
+import { Bell, Monitor } from "lucide-react";
 import Link from "next/link";
 import { useState } from "react";
 import NotificationDrawer from '@/features/notification/ui/NotificationDrawer'
-// import { useGetShopInfo } from "@/entities/owner/model/useGetShopInfo";
 import { useNotificationStore } from "@/features/notification/model/useNotificationStore";
 import { useRouter } from "next/navigation";
 import { useRealTimeNotification } from "@/features/notification/model/useRealTimeNotification";
 import { useUserStore } from "@/entities/user/model/useUserStore";
 import { useGetOwnerHasStoreStatus } from "@/features/owner/model/useGetOwnerHasStoreStatus";
+import Image from "next/image";
+
 
 export default function OwnerHeader() {
   const router = useRouter()
   const [isBellOpen, setIsBellOpen] = useState(false)
-
-  // const { data: shopInfo, isPending } = useGetShopInfo()
-  // const status = shopInfo?.status || 'none'
-  // const shopId = shopInfo?.id
 
   const profile = useUserStore(state => state.profile)
   const { data: storeStatusInfo, isPending } = useGetOwnerHasStoreStatus(profile?.id || '')
 
   const origin = storeStatusInfo?.origin
   const isVerifiedShop = origin === 'shops'
-  
+
   const shopId = isVerifiedShop ? storeStatusInfo?.id : null
-  const shopName =  storeStatusInfo?.name || '확인 중'
+  const shopName = storeStatusInfo?.name || '확인 중'
   const status = storeStatusInfo?.status
 
   useRealTimeNotification({ shopId })
@@ -67,9 +64,9 @@ export default function OwnerHeader() {
 
   const handleStartKiosk = () => {
     if (document.documentElement.requestFullscreen) {
-            document.documentElement.requestFullscreen()
-        }
-        router.replace(`/kiosk/${shopId}`)
+      document.documentElement.requestFullscreen()
+    }
+    router.replace(`/kiosk/${shopId}`)
   }
   return (
     <>
@@ -78,9 +75,15 @@ export default function OwnerHeader() {
       `}>
         <Link href={'/owner'} className="flex items-center gap-2 group">
           <div className={`
-            p-1.5 rounded-xl group-active:scale-95 transition-all bg-emerald-600
+             group-active:scale-95 transition-all
           `}>
-            <Store className="w-5 h-5 text-white" />
+            <Image
+              src="/o.png"
+              alt="로고"
+              width={50}
+              height={50}
+              className="rounded-xl bg-emerald-50 border border-emerald-100"
+            />
           </div>
 
           <div className="flex flex-col -gap-1">

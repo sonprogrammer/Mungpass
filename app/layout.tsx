@@ -18,11 +18,32 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "멍패스",
-  description: "애견과 함께",
+  title: "멍패스 | 반려견을 위한 완벽한 솔루션",
+  description: "견주와 애견카페 사장님을 연결하는 가장 스마트한 방법, 멍패스",
+  openGraph: {
+    title: '멍패스',
+    description: 'QR 체크인부터 이용 내역 관리까지 멍패스 하나로 끝내세요.',
+    url: 'landingpage url',
+    siteName: 'MungPass',
+    images: [
+      {
+        url: '/m.png',
+        width: 1200,
+        height: 630,
+        alt: '멍패스 로고'
+      }
+    ],
+    locale: 'ko_KR',
+    type: 'website'
+  },
   other: {
     "Content-Security-Policy": "upgrade-insecure-requests",
   },
+  icons: {
+
+    icon: "/favicon-icon.png",
+    apple: "/favicon-icon.png",
+  }
 };
 
 export default function RootLayout({

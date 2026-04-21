@@ -1,12 +1,13 @@
 'use client'
 
-import { Bone, Bell } from "lucide-react";
+import { Bell } from "lucide-react";
 import Link from "next/link";
 import { useState } from "react";
 import NotificationDrawer from '@/features/notification/ui/NotificationDrawer'
 import { useNotificationStore } from "@/features/notification/model/useNotificationStore";
 import { useUserStore } from "@/entities/user/model/useUserStore";
 import { useRealTimeNotification } from "@/features/notification/model/useRealTimeNotification";
+import Image from "next/image";
 
 export default function Header() {
   const [isBellOpen, setIsBellOpen] = useState(false)
@@ -27,10 +28,15 @@ export default function Header() {
      `}>
         <Link href={'/home'} className="flex items-center gap-2 group">
           <div className={`
-            p-1.5 rounded-xl group-active:scale-95 transition-all
-            bg-orange-500
+             group-active:scale-95 transition-all
           `}>
-            <Bone className="w-5 h-5 text-white rotate-45" />
+            <Image
+              src="/m.png"
+              alt="로고"
+              width={50}
+              height={50}
+              className="rounded-xl bg-orange-50 border border-orange-100"
+            />
           </div>
 
           <div className="flex flex-col -gap-1">

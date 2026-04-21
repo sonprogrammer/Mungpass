@@ -10,7 +10,9 @@ import { StoreDetailActionBtns } from "@/features/user/shopInfo/ui/StoreDetailAc
 import { StoreScheduleInfo } from "@/features/user/shopInfo/ui/StoreScheduleInfo";
 import { KakaoPlace } from "@/shared/model/map";
 import { AnimatePresence } from "framer-motion";
+import Image from "next/image";
 import { useState } from "react";
+
 
 
 export function PlaceDetailSheet({ place }: { place: KakaoPlace }) {
@@ -22,7 +24,7 @@ export function PlaceDetailSheet({ place }: { place: KakaoPlace }) {
     const { data: shop } = useGetShopIdByKakaoId(place?.id)
 
     const shopId = shop?.id
-    
+
     const isMungPassPartner = !!shopId
 
     const secureKakaoUrl = place.place_url?.replace('http://', 'https://')
@@ -45,14 +47,17 @@ export function PlaceDetailSheet({ place }: { place: KakaoPlace }) {
 
         <div className="relative space-y-6 h-full flex flex-col pb-8 w-full">
 
-            {/* TODO 멍패스 아이콘 만들어서 체크 표시 해두기 뱃지로*/}
             {isMungPassPartner && (
                 <button
                     title="멍패스 제휴 매장입니다"
                     className="absolute flex items-center gap-1.5 px-3 py-1.5 bg-orange-50 rounded-full border border-orange-100"
                 >
-                    <span className="text-sm">🐾</span>
-                    <span className="text-[10px] font-black text-orange-600 uppercase tracking-tight">Partner</span>
+                    <Image src={'/m.png'}
+                        alt="로고"
+                        width={28}
+                        height={28}
+                    />
+                        <span className="text-[10px] font-black text-orange-600 uppercase tracking-tight">Partner</span>
                 </button>
             )}
 
@@ -99,12 +104,12 @@ export function PlaceDetailSheet({ place }: { place: KakaoPlace }) {
 
                 {isScheduleOpen && (
 
-                        <StoreScheduleInfo
-                            onClose={() => setIsScheduleOpen(false)}
-                            schedules={shopScedules}
-                            vacation={shopVacation}
-                            todayShopStatus={todayShopStatus}
-                        />
+                    <StoreScheduleInfo
+                        onClose={() => setIsScheduleOpen(false)}
+                        schedules={shopScedules}
+                        vacation={shopVacation}
+                        todayShopStatus={todayShopStatus}
+                    />
                 )}
             </AnimatePresence>
 
