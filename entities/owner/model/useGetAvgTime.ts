@@ -8,6 +8,7 @@ export function useGetAvgTime(shopId: string) {
         queryKey: ['avgUsingTime', shopId],
         queryFn: () => getAvgUsingTime(shopId!),
         enabled: !!shopId && isVerified,
-        staleTime: 1000 * 60 * 5
+        staleTime: 1000 * 60 * 5,
+        refetchInterval: 1000 * 60
     })
 }

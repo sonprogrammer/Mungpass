@@ -98,7 +98,7 @@ export default function MyStorePage() {
                                                 handleClick()
                                             }}
                                             
-                                            // TODO 현재 공지사항에 따라 변경 아님 삭제 하던가
+                                            // TODO 현재 공지사항 유무에 따라 new 또는 공지사항 없음으로 변경
                                             status="new"
                                         />
                                     </div>

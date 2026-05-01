@@ -32,6 +32,7 @@ export interface TopDays {
 export interface SummaryCardProps {
     summaryCards: SummaryCards[]
     topDays: TopDays[]
+    selectedMonth: string;
 }
 
 export interface HighestRecordsProps{

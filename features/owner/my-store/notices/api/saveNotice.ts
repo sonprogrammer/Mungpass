@@ -1,0 +1,22 @@
+import { supabaseClient } from "@/shared/api/supabase/client";
+import { PostNotice } from "../model/types";
+
+
+export const saveNotice = async({shopId, noticeId, postData}: PostNotice) => {
+
+    const { data, error} = await supabaseClient.from('shop_notices')
+                                               .upsert({
+                                                    ...(noticeId ? {id: noticeId} : {}),
+                                                    shop_id: shopId,
+                                                    title: postData.title,
+                                                    content: postData.content,
+                                                    is_show: postData.is_show,
+                                                    updated_at: new Date().toISOString()
+                                                }).select().single()
+    if(error){
+        console.error('공지사항 저장 에러 api', error)
+        throw new Error('공지 사항 저장 중  에러 발생')
+    }
+
+    return data
+}

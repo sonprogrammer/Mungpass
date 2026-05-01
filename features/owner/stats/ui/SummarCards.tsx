@@ -4,15 +4,16 @@ import { HighestRecords } from '@/features/owner/stats/ui/HighestRecords'
 import { ArrowUpRight, ArrowDownRight } from 'lucide-react'
 import { motion } from 'framer-motion'
 import { SummaryCardProps } from '@/features/owner/stats/model/types'
+import { format } from 'date-fns'
 
-export function SummaryCard({ summaryCards, topDays }: SummaryCardProps) {
-
-    
+export function SummaryCard({ summaryCards, topDays, selectedMonth }: SummaryCardProps) {
+    const thisMonth = format(new Date(), 'yyyy-MM')
     return (
         <section className="grid grid-cols-2 gap-4 ">
             {summaryCards?.map((card) => {
                 const Icon = card.icon
                 const isPositive = card.change.includes('+')
+                const month = selectedMonth.split('-')[1]
 
                 return (
                     <motion.article
@@ -27,7 +28,9 @@ export function SummaryCard({ summaryCards, topDays }: SummaryCardProps) {
                                 <div className="rounded-xl bg-orange-50 p-2 text-orange-500 transition-colors group-hover:bg-orange-100">
                                     <Icon size={18} strokeWidth={2.5} />
                                 </div>
-                                <p className="text-[13px] font-semibold text-gray-500">{card.title}</p>
+                                <p className="text-[13px] font-semibold text-gray-500">
+                                    {(selectedMonth === thisMonth ? '이번 달 ' : `${month}월 `) + card.title}
+                                </p>
                             </div>
                         </div>
 

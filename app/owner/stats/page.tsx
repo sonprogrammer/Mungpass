@@ -85,14 +85,14 @@ export default function StatsPage() {
         return [
             {
                 id: 1,
-                title: '이번 달 총 매출',
+                title: ' 총 매출',
                 value: `${(diffData.total_sales || 0).toLocaleString()}원`,
                 change: calculateChange(diffData.total_sales, diffData.prev_sales),
                 icon: CircleDollarSign,
             },
             {
                 id: 2,
-                title: '이번 달 총 체크인',
+                title: ' 총 체크인',
                 value: `${diffData.total_visits}건`,
                 change: calculateChange(diffData.total_visits, diffData.prev_visits),
                 icon: QrCode,
@@ -132,7 +132,7 @@ export default function StatsPage() {
                     setSelectedMonth={handlePeriodClick}
                 />
 
-                {openSummary && <SummaryCard summaryCards={summaryCards} topDays={topDays}/>}
+                {openSummary && <SummaryCard summaryCards={summaryCards} selectedMonth={selectedMonth} topDays={topDays}/>}
 
                 <DailyChart 
                     dailyData={dailyChartData} 

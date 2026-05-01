@@ -1,6 +1,7 @@
 'use client'
 
 import { CurrentLogItemProps } from "@/entities/owner/model/types";
+import { useElapsedTimeByMins } from "@/shared/model/useElapsedTimeByMins";
 import { formatTime } from "@/shared/utils/formatDate";
 import { getElapsedTime } from "@/shared/utils/getElapsedTime";
 import { ClockCircleOutlined } from "@ant-design/icons";
@@ -16,8 +17,7 @@ export function CurrentLogItem({ item, onCheckout, onClick }: CurrentLogItemProp
     const checkedInTime = item.started_at
     const checkOutTime = item.ended_at
     // * 경과 시간
-    const pastTime = getElapsedTime(checkedInTime, checkOutTime)
-
+    const pastTime = useElapsedTimeByMins(checkedInTime, checkOutTime)
     return (
         <article
             className="rounded-3xl border border-emerald-100 bg-white p-4 w-full shadow-sm transition-all duration-200 hover:border-emerald-200 hover:shadow-md"

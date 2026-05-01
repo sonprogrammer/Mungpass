@@ -1,0 +1,14 @@
+import { supabaseClient } from "@/shared/api/supabase/client";
+
+export const getNotices = async(shopId: string) => {
+    const { data, error} = await supabaseClient.from('shop_notices').select('*').eq('shop_id', shopId)
+                                                    .order('created_at', {ascending: false})
+
+    if(error){
+        console.error('공지사항 가져오기 에러 api error', error)
+        throw error
+    }                                                    
+
+    return data
+    
+}
