@@ -30,6 +30,10 @@ export interface ProductInfo {
   name: string
   duration_minutes: number
   price: number
+  category: {
+    name: string;
+    id: string;
+  }
 }
 
 export interface CurrentUsageLog extends UsageLogBase  {

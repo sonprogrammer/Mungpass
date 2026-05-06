@@ -59,6 +59,10 @@ export function CurrentLogList({ data, tab, isPending }: {data: CurrentUsageLog[
     }
     return (
         <>
+            {/* //* tab이 체크아웃일시 */}
+            {tab === 'checkout' && 
+                <div>hi</div>
+            }
             <div className="flex flex-col gap-2 h-full overflow-y-auto px-2">
                 {data.map(item => (
                     <CurrentLogItem

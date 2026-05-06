@@ -16,7 +16,8 @@ export function CurrentLogItem({ item, onCheckout, onClick }: CurrentLogItemProp
 
     const checkedInTime = item.started_at
     const checkOutTime = item.ended_at
-    // * 경과 시간
+    
+    // * 경과 시간 1분마다 갱신
     const pastTime = useElapsedTimeByMins(checkedInTime, checkOutTime)
     return (
         <article

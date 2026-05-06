@@ -39,11 +39,8 @@ export function UsageTabs({ activeTab, onChange, currentCount, checkoutCount }: 
                             </span>
 
                             <span
-                                className={`inline-flex min-w-5.5 items-center justify-center rounded-full px-2 py-0.5 text-[11px] font-bold
-                                ${activeTab === 'current'
-                                        ? 'bg-emerald-500 text-white'
-                                        : 'bg-slate-100 text-slate-500'
-                                }`}
+                                className={`inline-flex bg-emerald-500 text-white min-w-5.5 items-center justify-center rounded-full px-2 py-0.5 text-[11px] font-bold
+                                `}
                             >
                                 {currentCount}
                             </span>
@@ -84,20 +81,13 @@ export function UsageTabs({ activeTab, onChange, currentCount, checkoutCount }: 
                             </span>
 
                             <span
-                                className={`inline-flex min-w-5.5 items-center justify-center rounded-full px-2 py-0.5 text-[11px] font-bold
-                                ${activeTab === 'checkout'
-                                        ? 'bg-red-500 text-white'
-                                        : 'bg-slate-100 text-slate-500'
-                                }`}
+                                className={`inline-flex bg-red-500 text-white min-w-5.5 items-center justify-center rounded-full px-2 py-0.5 text-[11px] font-bold
+                                `}
                             >
                                 {checkoutCount}
                             </span>
                         </div>
 
-                        {/* //TODO 오늘 기준으로 할지 아니면 전체 보여줄지 고민 */}
-                        {/* <p className="mt-1 text-xs text-slate-400">
-                            오늘 기준 퇴실 내역
-                        </p> */}
                     </div>
                 </button>
             </div>

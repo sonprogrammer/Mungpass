@@ -19,7 +19,8 @@ export const getCurrentUsageLogs = async(myShopId: string, statuses: UsageLogSta
             product: store_products(
             name,
             duration_minutes,
-            price
+            price,
+            category: category_id(name ,id)
             )
             `).eq('shop_id', myShopId)
             .in('status', statuses)

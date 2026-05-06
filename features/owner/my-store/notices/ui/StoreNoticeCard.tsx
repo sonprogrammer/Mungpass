@@ -1,5 +1,7 @@
 'use client'
 
+// TODO is_show 보여줄 지 말지 하는 토글 스위치, 삭제하는것도 하기
+
 import { useState } from 'react'
 import { Megaphone, Edit3, AlertCircle, Calendar, Save, X } from 'lucide-react'
 import { Button, Tag, Modal, Input, Form, message, Switch, Divider, Empty } from 'antd'

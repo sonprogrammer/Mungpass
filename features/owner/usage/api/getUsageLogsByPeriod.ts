@@ -1,0 +1,5 @@
+import { supabaseClient } from "@/shared/api/supabase/client";
+
+export const getUsageLogsByPeriod = async() => {
+    // const { data, error} = await supabaseClient.from('')
+}

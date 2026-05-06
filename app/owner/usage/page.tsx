@@ -5,27 +5,34 @@ import { useGetCurrentUsageLogs } from "@/entities/check-in/model/useGetCurrentU
 import { useGetFinishedUsageLogs } from "@/entities/check-in/model/useGetFinishedUsageLogs";
 import { UsageTabs } from "@/features/owner/ui/UsageTabs";
 import { CurrentLogList } from "@/widgets/owner/ui/CurrentLogList";
-import { useState } from "react";
+import { FinishedLogList } from "@/widgets/owner/ui/FinishedLogList";
+import { isToday, parseISO } from "date-fns";
+import { useMemo, useState } from "react";
 
 export default function UsagePage() {
     const [tab, setTab]= useState<'current' | 'checkout'>('current')
 
     // *실시간 유저
     const { data: currentLogs=[], isPending: isCurrentPending} = useGetCurrentUsageLogs()
-    // *퇴실한 유저
+    // *퇴실한 전체 유저
     const { data:checkoutLogs=[], isPending: isFinishedPending} = useGetFinishedUsageLogs()
 
+  const todayCheckoutCount = useMemo(() => {
+    return checkoutLogs.filter(log => {
+      return log.ended_at ? isToday(parseISO(log.ended_at)) : false
+    }).length
+  }, [checkoutLogs])
 
     
     return(
         <div className="h-full flex flex-col p-6"> 
-            <UsageTabs activeTab={tab} onChange={setTab} currentCount={currentLogs.length} checkoutCount={checkoutLogs.length}/>
+            <UsageTabs activeTab={tab} onChange={setTab} currentCount={currentLogs.length} checkoutCount={todayCheckoutCount}/>
             <div className="flex-1 overflow-hidden mt-3">
               {tab === 'current' ? (
                 <CurrentLogList data={currentLogs} tab={tab} isPending={isCurrentPending}/>
 
               ): (
-                <CurrentLogList data={checkoutLogs} tab={tab} isPending={isFinishedPending}/>
+                <FinishedLogList data={checkoutLogs} isPending={isFinishedPending}/>
               )}
             </div>
         </div>
