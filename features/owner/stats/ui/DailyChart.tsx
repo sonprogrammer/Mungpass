@@ -157,6 +157,7 @@ export function DailyChart({ dailyData, monthlyData, tab, setTab, handleNext, ha
                         {topRecordDate}
                     </p>
                 </div>
+                <div className='text-end text-[10px] mt-2 text-gray-500'>*체크 아웃시점에 실적에 반영됩니다.</div>
 
 
             </article>

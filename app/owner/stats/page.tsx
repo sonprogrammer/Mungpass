@@ -1,10 +1,9 @@
 'use client'
-{/* TODO 여기는 멍패스로 큐알 한 일별 매출 통계 그래프로 하면됨 몇마리 인지하고  */}
 
 import { SummaryCard } from '@/features/owner/stats/ui/SummarCards'
 import { StatsHeaderCard } from '@/features/owner/stats/ui/StatsHeaderCard'
 import { CircleDollarSign, QrCode, TrendingUp } from 'lucide-react'
-import { useEffect, useMemo, useState } from 'react'
+import { useMemo, useState } from 'react'
 import { DailyChart } from '@/features/owner/stats/ui/DailyChart'
 import { InsightCard } from '@/features/owner/stats/ui/InsitghtCard'
 import { useGetDailySalesData } from '@/entities/owner/model/useGetDailySalesData'
@@ -17,6 +16,7 @@ import { useGetMonths } from '@/entities/owner/model/useGetMonths'
 import { useGetMonthlySalesData } from '@/entities/owner/model/useGetMonthlySalesData'
 import { useGetDailyChart } from '@/entities/owner/model/useGetDailyChart'
 import { StatsPageSkeleton } from '@/widgets/owner/stats/ui/StatsPageSkeleton'
+import { useGetAiInsight } from '@/features/owner/stats/model/useGetAiInsight'
 
 
 export default function StatsPage() {
@@ -27,46 +27,63 @@ export default function StatsPage() {
     const [openSummary, setOpenSummary] = useState(false)
     const [selectedMonth, setSelectedMonth] = useState<string>(thisMonth)
     // *차트 컴포넌트 월별, 일별 탭
-    const [tab, setTab] = useState<'daily'|'monthly'>('daily')
+    const [tab, setTab] = useState<'daily' | 'monthly'>('daily')
     const [viewEndDate, setViewEndDate] = useState(now)
-    
-    
+
+
     const { data: shopInfo } = useGetShopInfo()
     const shopId = shopInfo?.id
 
-     //*일별을 위함임
+    //*일별을 위함임
     const startDateStr = format(subDays(viewEndDate, 6), 'yyyy-MM-dd')
     const endDateStr = format(viewEndDate, 'yyyy-MM-dd')
 
     // * 선택된 달의 데이터만 나오게 되어있음 - 이건 리포트용임
-    const { data: dailySalesData =[], isPending: isDailyPending } = useGetDailySalesData(shopId, selectedMonth)
+    const { data: dailySalesData = [], isPending: isDailyPending } = useGetDailySalesData(shopId, selectedMonth)
     // * 월별 데이터(연별로 그래프 볼때)
-    const { data: monthlySalesData = []} = useGetMonthlySalesData(shopId)
+    const { data: monthlySalesData = [] } = useGetMonthlySalesData(shopId)
     // *일별 데이터(일별 그래프 용)
-    const { data: dailyChartData = [], isPending: isDailyCharPending} = useGetDailyChart(shopId, startDateStr, endDateStr)
-    
+    const { data: dailyChartData = [], isPending: isDailyCharPending } = useGetDailyChart(shopId, startDateStr, endDateStr)
+
 
     // *선택달 전일 대비 데이터 - 리프트용
-    const { data: diffData} = useGetStatsData(shopId, selectedMonth)
+    const { data: diffData } = useGetStatsData(shopId, selectedMonth)
     //* 가입후부터의 월만 가져오기 - 헤더의 옵션용
-    const { data: months=[]} = useGetMonths(shopId)
-    
+    const { data: months = [] } = useGetMonths(shopId)
 
+    // *월별 최고 매출, 방문, 객단가
+    const topDays = useMemo(() => calCulateTopRecord(dailySalesData), [dailySalesData])
+
+    const dataReadyForAi = !!diffData && topDays.length > 0 && !!shopId
+
+    // *ai insight가져오기 - 제미나이
+    const { data: aiInsight, isPending: aiPending } = useGetAiInsight({
+        total_sales: diffData?.total_sales ?? 0, //이번달 총매출
+        prev_sales: diffData?.prev_sales ?? 0, // 전 매출
+        total_visits: diffData?.total_visits ?? 0, // 이번달 방문수
+        prev_visits: diffData?.prev_visits ?? 0, // 지난달 방문수
+        avg_visits: diffData?.avg_visits ?? 0, // 이번달 일 평균 방문수
+        top_day: topDays[0]?.value || '데이터 없음', //최고 매출일
+        top_visits: topDays[1]?.value || '데이터 없음', //최다 방문일
+        avg_per_price: topDays[2]?.value || '데이터 없음', //겍딘가
+        shop_id: shopId
+    },
+        dataReadyForAi)
 
     // * 실적통계 카드에서 현재 달이 클릭되어있으면 차트그래프는 일별차트로 보이고 과거달 데이터면 월별 탭으로 바뀌고 월별합산으로 보임
     const handlePeriodClick = (newMonth: string) => {
         setSelectedMonth(newMonth)
-        if(newMonth === thisMonth){
+        if (newMonth === thisMonth) {
             setTab('daily')
             setViewEndDate(now)
-        }else{
+        } else {
             setTab('monthly')
             const lastDayOfSelectedMonth = endOfMonth(new Date(newMonth))
             setViewEndDate(lastDayOfSelectedMonth)
         }
     }
 
-   
+
 
     const handlePrev = () => setViewEndDate(prev => subDays(prev, 7))
     const handleNext = () => setViewEndDate(prev => {
@@ -76,9 +93,9 @@ export default function StatsPage() {
 
     const isNextDisabled = useMemo(() => {
         return format(viewEndDate, 'yyyy-MM-dd') >= format(new Date(), 'yyyy-MM-dd')
-    },[viewEndDate])
+    }, [viewEndDate])
 
-    
+
     const summaryCards = useMemo(() => {
         if (!diffData) return []
 
@@ -106,10 +123,9 @@ export default function StatsPage() {
             },
         ];
     }, [diffData])
-    
-    // *월별 최고 매출, 방문, 객단가
-    const topDays = useMemo(() => calCulateTopRecord(dailySalesData),[dailySalesData])
-    
+
+
+
 
     const handleToggleSummary = () => {
         setOpenSummary((prev) => !prev)
@@ -124,18 +140,18 @@ export default function StatsPage() {
     return (
         <main className="min-h-screen bg-gray-50 p-4 md:p-6">
             <div className="mx-auto flex max-w-7xl flex-col gap-6">
-                <StatsHeaderCard 
-                    toggle={handleToggleSummary} 
-                    openSummary={openSummary} 
+                <StatsHeaderCard
+                    toggle={handleToggleSummary}
+                    openSummary={openSummary}
                     months={months}
                     selectedMonth={selectedMonth}
                     setSelectedMonth={handlePeriodClick}
                 />
 
-                {openSummary && <SummaryCard summaryCards={summaryCards} selectedMonth={selectedMonth} topDays={topDays}/>}
+                {openSummary && <SummaryCard summaryCards={summaryCards} selectedMonth={selectedMonth} topDays={topDays} />}
 
-                <DailyChart 
-                    dailyData={dailyChartData} 
+                <DailyChart
+                    dailyData={dailyChartData}
                     monthlyData={monthlySalesData}
                     handlePrev={handlePrev}
                     handleNext={handleNext}
@@ -143,16 +159,13 @@ export default function StatsPage() {
                     tab={tab}
                     setTab={setTab}
                     dateRange={
-                        tab==='daily' ? `${format(subDays(viewEndDate, 6), 'MM.dd')} ~ ${format(viewEndDate, 'MM.dd')}`
-                        : `${selectedMonth.split('-')[0]}년`
+                        tab === 'daily' ? `${format(subDays(viewEndDate, 6), 'MM.dd')} ~ ${format(viewEndDate, 'MM.dd')}`
+                            : `${selectedMonth.split('-')[0]}년`
                     }
                     isNextDisabled={isNextDisabled}
                 />
 
-                <InsightCard title="Insight" 
-                    value="주말 체크인 수가 평일보다 확실히 높고, 금요일 이후 매출 상승폭이 크게 나타나고 있어요." 
-                    change="+12.4%" 
-                />
+                <InsightCard content={aiInsight} isPending={aiPending}/>
             </div>
         </main>
     )

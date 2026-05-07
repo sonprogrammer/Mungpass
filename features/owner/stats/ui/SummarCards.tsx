@@ -8,6 +8,7 @@ import { format } from 'date-fns'
 
 export function SummaryCard({ summaryCards, topDays, selectedMonth }: SummaryCardProps) {
     const thisMonth = format(new Date(), 'yyyy-MM')
+
     return (
         <section className="grid grid-cols-2 gap-4 ">
             {summaryCards?.map((card) => {

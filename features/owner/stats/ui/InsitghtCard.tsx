@@ -1,24 +1,59 @@
 'use client'
 
-import { TrendingUp } from "lucide-react";
+import { Info, Lock, TrendingUp } from "lucide-react";
 
-export function InsightCard({ title, value, change }: { title: string; value: string; change: string }) {
+// TODO 일단은 일별 한번만 ai인사이트 요청 가능하고 멍패스 인사이트 가입시 무제한으로 되게(이건 나중에 규모 커지면) - 서버로직은 짜놈
+
+export function InsightCard({ content, isPending }: { content: string, isPending: boolean }) {
     return (
-        <section>
-            <article className="rounded-3xl border border-gray-100 bg-white p-6 shadow-sm">
-                <div className="flex items-start justify-between gap-3">
+        <section className="mt-6">
+            <article className="rounded-3xl border border-gray-100 bg-white p-6 shadow-sm overflow-hidden relative">
+
+                <div className="flex items-start justify-between gap-3 relative z-10">
                     <div>
-                        <h2 className="text-lg font-black text-gray-900 leading-tight">멍패스 AI 리포트</h2>
+                        <div className="flex gap-2">
+                            <h2 className="text-lg font-black text-gray-900 leading-tight">멍패스 AI 리포트</h2>
+                            <span className="inline-flex items-center rounded-full bg-orange-50 px-2 py-0.5 text-[10px] font-bold text-orange-600">
+                                일일 1회
+                            </span>
+                        </div>
                         <p className="text-[11px] font-bold text-orange-400 uppercase tracking-wider">Smart Insights</p>
                     </div>
                     <TrendingUp size={20} className="text-orange-500" />
                 </div>
 
-                {/* //TODO grok ai로 일마다 데이터를 분석해서 두세문장 인사이트 문구 만들어주기  */}
-                <div className="mt-5 rounded-2xl bg-gray-50 p-4 text-sm leading-7 text-gray-600">
-                    주말 체크인 수가 평일보다 확실히 높고, 금요일 이후 매출 상승폭이 크게 나타나고 있어요.
-                    향후에는 주말 피크 시간대 예약 관리와 추가 상품 제안을 함께 보면 좋아요.
+                <div className="mt-5 rounded-2xl bg-gray-50 p-5 text-sm leading-7 text-gray-600 min-h-30 relative z-10">
+                    {isPending ? (
+                        <div className="flex flex-col gap-3 animate-pulse">
+                            <div className="h-4 w-[90%] rounded-full bg-linear-to-r from-gray-200 to-gray-100"></div>
+                            <div className="h-4 w-full rounded-full bg-linear-to-r from-gray-200 to-gray-100"></div>
+                            <div className="h-4 w-[70%] rounded-full bg-linear-to-r from-gray-200 to-gray-100"></div>
+
+                            <div className="mt-2 flex items-center gap-2 text-[12px] text-orange-400 font-medium">
+                                <span className="relative flex h-2 w-2">
+                                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-orange-400 opacity-75"></span>
+                                    <span className="relative inline-flex rounded-full h-2 w-2 bg-orange-500"></span>
+                                </span>
+                                데이터 분석 중...
+                            </div>
+                        </div>
+                    ) : (
+                        <div className="whitespace-pre-wrap transition-opacity duration-500 ease-in opacity-100">
+                            {content || "분석할 수 있는 통계 데이터가 부족합니다."}
+                        </div>
+                    )}
                 </div>
+
+                {/* TODO 나중에 비즈니스 할때 유료회원도 하기 */}
+                <div className="mt-4 flex items-center gap-1.5 px-1 text-[11px] text-gray-400">
+                        <Info size={13} />
+                        <span>무료 회원은 매일 1회 분석 리포트가 생성됩니다.</span>
+                        <button className="ml-auto font-bold text-orange-500 hover:underline flex items-center gap-0.5">
+                            <Lock size={10} />
+                            실시간 분석 무제한 이용하기
+                        </button>
+                    </div>
+                
             </article>
         </section>
     )

@@ -15,6 +15,7 @@ export function usePostCheckout() {
         mutationFn: checkout,
         onSuccess: (res) => {
             queryClient.invalidateQueries({ queryKey: ['currentLogs', shopId] })
+            queryClient.invalidateQueries({ queryKey: ['statsData', shopId] })
 
             if (res.extraCharge > 0) {
                 modal.info({

@@ -50,3 +50,15 @@ export interface DailyChartProps{
     dateRange: string;
     isNextDisabled: boolean;
 }
+
+export interface StatsDataToAi{
+    total_sales: number
+    prev_sales: number;
+    total_visits: number;
+    prev_visits: number;
+    avg_visits: number;
+    top_day: string; //최고 매출일
+    top_visits: string; //최다 방문일
+    avg_per_price: string;//객단가
+    shop_id: string
+}
