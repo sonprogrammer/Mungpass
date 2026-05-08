@@ -5,10 +5,10 @@
 import { usePostOwnerDocs } from "@/features/auth/model/owner/usePostOwnerDocs"
 import { KakaoPlace } from "@/shared/model/map"
 import { App } from "antd"
-import { Camera, CheckCircle2, FileText, Upload, X } from "lucide-react"
+import { Camera, CheckCircle2, FileText, Loader2, Upload, X } from "lucide-react"
 import { useRef, useState } from "react"
 
-export function BusinessForm({ storeInfo,ownerId }: { storeInfo: KakaoPlace | null, ownerId: string | null }) {
+export function BusinessForm({ storeInfo, ownerId }: { storeInfo: KakaoPlace | null, ownerId: string | null }) {
 
     const [businessNumber, setBusinessNumber] = useState<string>('')
     const fileInputRef = useRef<HTMLInputElement>(null)
@@ -16,8 +16,8 @@ export function BusinessForm({ storeInfo,ownerId }: { storeInfo: KakaoPlace | nu
     const [preview, setPreview] = useState<string | null>(null)
 
 
-    const { mutate:postOwnerDocs, isPending} = usePostOwnerDocs()
-    
+    const { mutate: postOwnerDocs, isPending } = usePostOwnerDocs()
+
     const { message } = App.useApp()
 
     const formatBusinessNumber = (val: string) => {
@@ -49,10 +49,10 @@ export function BusinessForm({ storeInfo,ownerId }: { storeInfo: KakaoPlace | nu
 
     const handleVerify = async (e: React.FormEvent) => {
         e.preventDefault()
-        if(!ownerId) return message.error('회원 정보가 없습니다. - 이럴 순 없음')
-        if(!storeInfo) return message.error('등록지점 정보가 없습니다. - 그럴수 없음 만약 그래도 auth/page에서 뒤로가기 진행시켜놈')
+        if (!ownerId) return message.error('회원 정보가 없습니다. - 이럴 순 없음')
+        if (!storeInfo) return message.error('등록지점 정보가 없습니다. - 그럴수 없음 만약 그래도 auth/page에서 뒤로가기 진행시켜놈')
         if (businessNumber.length !== 12) return message.error('사업자 번호를 확인해주세요.')
-        if(!file) return message.error('사업자 등록증을 첨부해주세요.')
+        if (!file) return message.error('사업자 등록증을 첨부해주세요.')
 
 
         postOwnerDocs({
@@ -140,7 +140,15 @@ export function BusinessForm({ storeInfo,ownerId }: { storeInfo: KakaoPlace | nu
                             `}
                 type="submit"
             >
-                {isPending ? '처리중' : '심사 요청하기'}
+
+                {isPending ? (
+                    <div className="flex items-center justify-center gap-2">
+                        <Loader2 className="animate-spin" size={20} />
+                        <span>처리중...</span>
+                    </div>
+                ) :
+                    <span>심사 요청하기</span>
+                }
             </button>
 
         </form>

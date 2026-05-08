@@ -50,6 +50,7 @@ export interface StepStatusProps{
     desc: string;
     done?: boolean;
     active?: boolean
+    isError?: boolean
 }
 
 export interface SkipConfirmModalProps{

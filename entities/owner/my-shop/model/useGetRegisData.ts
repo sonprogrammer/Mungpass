@@ -6,7 +6,8 @@ import { useQuery } from "@tanstack/react-query";
 export function useGetRegisData () {
     const profile = useUserStore(state => state.profile)
     const userId = profile?.id
-        const isVerified = useOwnerStoreStatus(state => state.isVerified)
+    const isVerified = useOwnerStoreStatus(state => state.isVerified)
+
     return useQuery({
         queryKey: ['regisData'],
         queryFn: () => getRegisData(userId!),

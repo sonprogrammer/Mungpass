@@ -19,7 +19,7 @@ export function ProfileCard({ user }: ProfileCardProps) {
           <Skeleton.Input active style={{ width: 140, height: 16, borderRadius: '4px' }} />
         </div>
       </div>
-    );
+    )
   }
 
   return (

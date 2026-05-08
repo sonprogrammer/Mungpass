@@ -17,11 +17,16 @@ export function ApproveStoreBtn({ registrationID, registrationStoreName, onSucce
         setIsModalOpen(true)
     }
 
+    const now = new Date().toISOString()
+    
     const handleOk = () => {
         mutate({
             resource: 'store_registrations',
             id: registrationID,
-            values: { status, rejection_reason: status === 'REJECTED' ? reason : undefined }
+            values: { status, rejection_reason: status === 'REJECTED' ? reason : undefined,
+                approved_at: status === 'APPROVED' ? now : undefined,
+                rejected_at: status === 'REJECTED' ? now : undefined
+             }
         }, {
             onSuccess: () => {
                 setIsModalOpen(false)
@@ -43,6 +48,9 @@ export function ApproveStoreBtn({ registrationID, registrationStoreName, onSucce
                 onCancel={() => setIsModalOpen(false)}
                 okText={status === 'APPROVED' ? '승인' : '반려'}
                 cancelText="취소"
+                confirmLoading={isPending}
+                // * 무조건 사유 입력하게 
+                okButtonProps={{ disabled: status === 'REJECTED' && !reason.trim()}}
                 title={(
                     <span
                         className={`font-bold text-lg`}

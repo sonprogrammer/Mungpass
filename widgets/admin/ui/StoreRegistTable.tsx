@@ -119,6 +119,7 @@ export function StoreRegistTable() {
                 footer={null}
                 width={800}
                 onCancel={() => setPreviewUrl(null)}
+                centered={true}
             >
 
                 {previewUrl && (

@@ -39,7 +39,8 @@ export async function postOwnerDocs({ownerId, storeInfo, businessNumber, DocsImg
                                     y: storeInfo.y,
                                     business_number: businessNumber,
                                     biz_reg_image_url: storagePath,
-                                    status: 'PENDING'
+                                    status: 'PENDING',
+                                    submitted_at: new Date().toISOString()
                                 })
         
 

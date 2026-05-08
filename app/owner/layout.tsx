@@ -20,6 +20,8 @@ export default function OwnerLayout({ children }: { children: React.ReactNode })
   const { data: storeStatusInfo, isPending} = useGetOwnerHasStoreStatus(ownerId || '')
   const setIsVerified = useOwnerStoreStatus(state => state.setIsVerified)
 
+  console.log('storeStatusInfo',storeStatusInfo)
+  
   useEffect(() => {
     if(!profile || isPending) return
     if(!storeStatusInfo){

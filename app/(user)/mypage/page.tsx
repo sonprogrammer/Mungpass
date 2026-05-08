@@ -1,8 +1,5 @@
 'use client'
 
-import {
-  Settings
-} from 'lucide-react';
 import { ProfileCard } from '@/entities/user/ui/ProfileCard';
 import { MyPageMenu } from '@/widgets/mypage/ui/MyPageMenu';
 import { MyPageFooter } from '@/widgets/mypage/ui/MyPageFooter';

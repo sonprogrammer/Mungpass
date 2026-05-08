@@ -26,6 +26,8 @@ export default function MyStorePage() {
     const { data: regisData, isPending: isRegisPending } = useGetRegisData()
     
     const shopId = regisData?.store_id
+
+    
     // *현재 매장 운영여부
     const shopStatus = useShopStatus(shopId)
 
@@ -51,12 +53,12 @@ export default function MyStorePage() {
     return (
         <>
             {contextHolder}
-            <div className="min-h-screen pb-12 p-6">
+            <div className="min-h-screen pb-12">
                 <div className="mx-auto flex flex-col gap-8">
 
                     <MyStoreHeader regisData={regisData} />
 
-                    <div className="grid grid-cols-1 gap-8">
+                    <div className="grid grid-cols-1 gap-8 p-6">
 
                         <div className="flex flex-col gap-8">
                             <section>

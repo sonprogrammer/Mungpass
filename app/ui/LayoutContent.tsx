@@ -11,9 +11,9 @@ import { RefineProvider } from "@/app/RefineProvider";
 
 
 
-dayjs.extend(relativeTime);
-dayjs.extend(isBetween);
-dayjs.locale("ko");
+dayjs.extend(relativeTime)
+dayjs.extend(isBetween)
+dayjs.locale("ko")
 export default function LayoutContent({ children }: { children: React.ReactNode }) {
 
 
@@ -38,8 +38,8 @@ export default function LayoutContent({ children }: { children: React.ReactNode 
           }}
         />
 
-            {children}
-            <Toaster position='top-center' reverseOrder={false} />
+        {children}
+        <Toaster position='top-center' reverseOrder={false} />
 
       </RefineProvider>
     </AuthProvider>
