@@ -44,7 +44,7 @@ export function StatsHeaderCard({ toggle, openSummary, months, selectedMonth, se
                     </Button>
                 </div>
             </div>
-            <p className="absolute text-[10px] left-6 bottom-1 text-gray-500">*리포트는 지난달 <strong className="underline underline-offset-2">같은 날짜 기준</strong>으로 전일 대비가 계산됩니다.</p>
+            <p className="absolute text-[10px] left-6 bottom-1 text-gray-500">*리포트는 지난달 <strong className="underline underline-offset-2">동기(같은 날짜)</strong>대비 증감율을 나타냅니다.</p>
         </section>
     )
 }

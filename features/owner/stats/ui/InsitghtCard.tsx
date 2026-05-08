@@ -44,7 +44,7 @@ export function InsightCard({ content, isPending }: { content: string, isPending
                     )}
                 </div>
 
-                {/* TODO 나중에 비즈니스 할때 유료회원도 하기 */}
+                {/* TODO 나중에 비즈니스 할때 유료회원도 결제 가능하게 하기 */}
                 <div className="mt-4 flex items-center gap-1.5 px-1 text-[11px] text-gray-400">
                         <Info size={13} />
                         <span>무료 회원은 매일 1회 분석 리포트가 생성됩니다.</span>
