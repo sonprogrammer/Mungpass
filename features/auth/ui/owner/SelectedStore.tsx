@@ -10,7 +10,7 @@ export const SelectedStore = memo(function SelectedStore({ place, onNext }: { pl
 
     const { data: isAlreadyIn, isPending, isFetching } = useCheckStoreExists(place.id)
 
-
+    console.log('place 셀렉티드', place)
     const isChecking = isPending || isFetching
     const displayIsAlreadyIn = isChecking ? false : isAlreadyIn
 
@@ -37,7 +37,7 @@ export const SelectedStore = memo(function SelectedStore({ place, onNext }: { pl
                             }
                         `}
                     >
-                        {isChecking ? (
+                        {isFetching ? (
                             <div className="flex items-center justify-center gap-2">
                                 <Loader2 className="animate-spin" size={20} />
                                 <span>확인 중...</span>

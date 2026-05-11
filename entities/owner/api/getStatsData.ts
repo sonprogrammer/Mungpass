@@ -2,7 +2,9 @@ import { StatsDataFromServer } from '@/entities/owner/model/types'
 import { supabaseClient } from "@/shared/api/supabase/client";
 
 export const getStatsData = async(shopId: string, selectedMonth: string):Promise<StatsDataFromServer> => {
-    const {data , error} = await supabaseClient.rpc('get_shop_stats', {
+    const supabase = supabaseClient()
+    
+    const {data , error} = await supabase.rpc('get_shop_stats', {
         target_shop_id: shopId,
         target_month: selectedMonth
     }).single()

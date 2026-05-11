@@ -2,7 +2,9 @@ import { supabaseClient } from "@/shared/api/supabase/client";
 
 
 export const ownerHasStore = async(ownerId: string) => {
-    const { data: shop} = await supabaseClient.from('shops').select('id, status, name').eq('owner_id', ownerId).maybeSingle()
+    const supabase = supabaseClient()
+    
+    const { data: shop} = await supabase.from('shops').select('id, status, name').eq('owner_id', ownerId).maybeSingle()
 
     if(shop) return {
         id: shop.id,
@@ -11,7 +13,7 @@ export const ownerHasStore = async(ownerId: string) => {
         origin: 'shops' 
     }
 
-    const { data: regist} = await supabaseClient.from('store_registrations').select('id, status').eq('owner_id', ownerId).maybeSingle()
+    const { data: regist} = await supabase.from('store_registrations').select('id, status').eq('owner_id', ownerId).maybeSingle()
 
     if(regist){
         const statusMap: Record<string, string> = {

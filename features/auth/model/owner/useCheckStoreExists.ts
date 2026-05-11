@@ -12,4 +12,6 @@ export function useCheckStoreExists(kakaoPlaceId: string) {
         placeholderData: undefined,
         retry: 1,
     })
+
+    
 }

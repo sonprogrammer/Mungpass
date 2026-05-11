@@ -2,7 +2,9 @@ import { MonthlySalesData } from "@/entities/owner/model/types";
 import { supabaseClient } from "@/shared/api/supabase/client";
 
 export const getMonthlySalesData = async(shopId: string):Promise<MonthlySalesData[]> => {
-    const { data, error} = await supabaseClient.rpc('get_monthly_total_sales', {
+    const supabase = supabaseClient()
+    
+    const { data, error} = await supabase.rpc('get_monthly_total_sales', {
         target_shop_id: shopId
     })
 

@@ -7,6 +7,8 @@ interface StoreRegisterState {
     ownerId: string | null;
     selectedPlace: KakaoPlace | null;
     setSelectedPlace: (place: KakaoPlace | null) => void;
+    hasHydrated: boolean
+    setHasHydrated: (state: boolean) => void;
     reset: () => void;
 }
 
@@ -15,12 +17,17 @@ export const useStoreRegistrationStore = create<StoreRegisterState>()(
         (set) => ({
             ownerId: null,
             selectedPlace: null,
+            hasHydrated: false,
             setSelectedPlace: (place) => set({ selectedPlace: place }),
+            setHasHydrated: (state) => set({hasHydrated: state}),
             reset: () => set({ selectedPlace: null }),
         }),
         {
-            name: 'store-registration-storage',
-            storage: createJSONStorage(() => sessionStorage),
+            name: 'store-registration',
+            storage: createJSONStorage(() => localStorage),
+            onRehydrateStorage: () => (state) => {
+                state?.setHasHydrated(true)
+            }
         }
     )
 )

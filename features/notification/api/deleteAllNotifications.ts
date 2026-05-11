@@ -1,7 +1,8 @@
 import { supabaseClient } from "@/shared/api/supabase/client";
 
 export const deleteAllNotifications = async(targetId: string) => {
-    const { error} = await supabaseClient.from('notifications').delete().or(`shop_id.eq.${targetId}, user_id.eq.${targetId}`)
+    const supabase = supabaseClient()
+    const { error} = await supabase.from('notifications').delete().or(`shop_id.eq.${targetId}, user_id.eq.${targetId}`)
 
     if(error){
         console.error('전체 알림 삭제 에러 Api', error)

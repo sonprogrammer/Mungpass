@@ -8,13 +8,12 @@ import { getCenterFromBound } from "@/shared/utils/map";
 
 export function useAroundLogic(keyword: string, radius: number, newBound?: Bound | null){
     
+    const isSearching = !!keyword && keyword.trim().length > 0
     
-    // * 주변 애견카페
-    const { data: nearByData, isPending: nearByPending} = useGetNearByShops(radius, newBound)
-    // * 검색 애견카페
-    const { data: searchData, isPending: searchPending} = useSearchShops(keyword)
-
-    const isSearching = !!keyword
+    // * 주변 애견카페 검색 모드 아닐때만 주변 샵 데이터 가져옴
+    const { data: nearByData, isPending: nearByPending} = useGetNearByShops(radius, newBound,{enabled: !isSearching})
+    // * 검색 애견카페 - 검색 모드 일때만 검색 api호출
+    const { data: searchData, isPending: searchPending} = useSearchShops(keyword ,{ enabled: isSearching})
 
     const isSearchEmpty = isSearching && (!searchData || searchData.length === 0)
 

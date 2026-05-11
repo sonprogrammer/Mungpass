@@ -5,7 +5,7 @@ import { Bound } from "@/shared/model/map"
 import { useQuery } from "@tanstack/react-query"
 
 
-export const useGetNearByShops = (radius:number, newBound?: Bound | null) =>{
+export const useGetNearByShops = (radius:number, newBound?: Bound | null, options?: { enabled?: boolean }) =>{
     return useQuery({
         queryKey: ['nearByShops', radius, newBound],
         queryFn: () => fetchNearByShops(radius, newBound),
@@ -13,7 +13,7 @@ export const useGetNearByShops = (radius:number, newBound?: Bound | null) =>{
         gcTime: 1000 * 60 * 30,
         retry: 2,
         refetchOnWindowFocus: false,
-        enabled: !!radius
+        enabled: options?.enabled !== undefined ? options.enabled : !!radius
     })
 
 }

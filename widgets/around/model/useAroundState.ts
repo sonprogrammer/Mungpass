@@ -3,15 +3,16 @@ import { App } from 'antd';
 
 import { Bound, Coords, KakaoPlace } from "@/shared/model/map";
 import { useAroundLogic } from "@/widgets/around/model/useAroundLogic";
-import { useEffect, useState } from "react"
+import { useCallback, useEffect, useState } from "react"
 import toast from "react-hot-toast";
+import { useStoreRegistrationStore } from '@/features/auth/model/owner/useStoreRegistStore';
 
 
 export function useAroundState() {
-  const [selectedPlace, setSelectedPlace] = useState<KakaoPlace | null>(null)
+  const selectedPlace = useStoreRegistrationStore(state => state.selectedPlace)
+  const setSelectedPlace = useStoreRegistrationStore(state => state.setSelectedPlace)
   const [showMap, setShowMap] = useState<boolean>(false)
-  const [keyword, setKeyword] = useState<string>('')
-  const [searchValue, setSearchValue] = useState<string>('')
+  const [keyword, _setKeyword] = useState<string>('')
   // * 범위(기본 2km)
   const [radius, setRadius] = useState<number>(2000)
   // * 지도 드래그시 지도 중앙 위치ㅈ
@@ -26,15 +27,31 @@ export function useAroundState() {
   const { message} = App.useApp()
 
   useEffect(() => {
-    if(!isPending && displayShops.length === 0){
+    if(!isPending && displayShops.length === 0 && keyword !== ''){
       toast.error('검색 결과가 없습니다. 다른지역을 찾아볼까요?', {id: 'search-empty', duration: 3000})
     }
-  },[displayShops, isPending])
+  },[displayShops, isPending, keyword])
   
-  const handleMyLocation = () => {
+
+  const handleSetKeyword = useCallback((newKeyword: string)=> {
+    _setKeyword(newKeyword)
+    setDragBound(null)
+    if(newKeyword.trim() === ''){
+      setSelectedPlace(null)
+    }
+  },[setSelectedPlace])
+
+
+  const handleSelectPlace = useCallback((place: KakaoPlace) => {
+    setSelectedPlace(place);
+  }, [setSelectedPlace])
+  
+  
+  const handleMyLocation = useCallback(() => {
     setDragBound(null)
     setMapCenter(null)
-    setKeyword('')
+    _setKeyword('')
+    setSelectedPlace(null)
 
     if(navigator.geolocation){
       navigator.geolocation.getCurrentPosition((pos) => {
@@ -43,39 +60,38 @@ export function useAroundState() {
       })
     }
 
-  }
+  },[setSelectedPlace])
 
-  const handleToggleMap = () => {
+  const handleToggleMap = useCallback(() => {
     if (isSearchEmpty) {
       message.warning('검색 결과가 없어 현재 위치를 기반으로 멍패스 샵 보여드립니다.')
-      setKeyword('')
-      setSearchValue('')
+      _setKeyword('')
       setShowMap(true)
       return
     }
     setShowMap(prev => !prev)
-  }
+  },[message, isSearchEmpty])
 
-  const handleCenterChange = (bound: Bound) => {
+  const handleCenterChange = useCallback((bound: Bound) => {
     setMapCenter(bound)
     setShowRefreshBtn(true)
 
     if (currentCenter) {
       setCurrentCenter(null)
     }
-  }
+  },[currentCenter])
 
-  const handleRefresh = () => {
+  const handleRefresh = useCallback(() => {
     if (mapCenter) {
       setDragBound(mapCenter)
       setShowRefreshBtn(false)
     }
-  }
+  },[mapCenter])
 
   return{
-    state: { selectedPlace, showMap, keyword, searchValue, radius, showRefreshBtn, center: currentCenter|| displayCenter, displayShops, isPending},
+    state: { selectedPlace, showMap, keyword, radius, showRefreshBtn, center: currentCenter|| displayCenter || { lat: 37.5665, lon: 126.9780 }, displayShops, isPending},
     actions: {
-        setSelectedPlace, setShowMap, setKeyword, setSearchValue, setRadius, handleMyLocation, handleToggleMap, handleCenterChange, handleRefresh
+        setSelectedPlace: handleSelectPlace, setShowMap, setKeyword: handleSetKeyword, setRadius, handleMyLocation, handleToggleMap, handleCenterChange, handleRefresh
     }
   }
 }

@@ -3,7 +3,9 @@ import { MyPetUsageAllInfo } from "@/features/qr/model/types";
 import { supabaseClient } from "@/shared/api/supabase/client";
 
 export const getMyPetUsage = async({userId, statuses=['staying']}: {userId: string, statuses: UsageLogStatus[]}):Promise<MyPetUsageAllInfo[]> => {
-    const { data, error} = await supabaseClient.from('usage_logs').select(`*,
+    const supabase = supabaseClient()
+    
+    const { data, error} = await supabase.from('usage_logs').select(`*,
                                                     dog: dogs(*),
                                                     product: store_products(*),
                                                     shop: shops(name)

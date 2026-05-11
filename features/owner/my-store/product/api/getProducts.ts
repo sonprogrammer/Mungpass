@@ -2,7 +2,8 @@ import { ProductWithCategory } from '@/features/owner/my-store/product/model/typ
 import { supabaseClient } from '@/shared/api/supabase/client';
 
 export const getProducts = async(shopId: string):Promise<ProductWithCategory[]> => {
-    const { data, error} = await supabaseClient.from('store_products').select(` *, product_categories( name)`)
+    const supabase = supabaseClient()
+    const { data, error} = await supabase.from('store_products').select(` *, product_categories( name)`)
                                                 .eq('store_id', shopId)
                                                 .order('created_at', { ascending: false})
     if(error){ 

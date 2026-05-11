@@ -34,7 +34,7 @@ export default function KakaoMap({ center, places, onMarkerClick, onBoundChange 
           <MapMarker position={{ lat: center.lat, lng: center.lon }} />
         )}
 
-        {/* //* 주변 샵 마커들 */}
+        {/* //TODO 주변 샵 마커들 - 멍패스 가입된 매장이면 멍패스 로고가 뜨게*/}
         {places.map((place: KakaoPlace) => (
           <React.Fragment key={place.id}>
             <MapMarker

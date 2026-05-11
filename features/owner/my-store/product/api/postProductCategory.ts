@@ -2,7 +2,8 @@ import { ProductCategory } from "@/features/owner/my-store/product/model/types";
 import { supabaseClient } from "@/shared/api/supabase/client";
 
 export const postProductCategory = async({categoryName, shopId} : {categoryName: string, shopId: string}): Promise<ProductCategory> => {
-    const { data, error } = await supabaseClient.from('product_categories').insert({name: categoryName, store_id: shopId})
+    const supabase = supabaseClient()
+    const { data, error } = await supabase.from('product_categories').insert({name: categoryName, store_id: shopId})
                                                 .select()
                                                 .single()
 

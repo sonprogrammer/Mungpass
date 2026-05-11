@@ -2,11 +2,12 @@ import { supabaseClient } from "@/shared/api/supabase/client"
 import { endOfMonth, format, parseISO, startOfMonth } from "date-fns"
 
 export const getDailySalesData = async (shopId: string, selectedMonth: string) => {
+    const supabase = supabaseClient()
 
     const baseDate = parseISO(`${selectedMonth}-01`)
     const startDate = format(startOfMonth(baseDate), 'yyyy-MM-dd 00:00:00')
     const endDate = format(endOfMonth(baseDate), 'yyyy-MM-dd 23:59:59')
-    const { data, error } = await supabaseClient.from('usage_logs')
+    const { data, error } = await supabase.from('usage_logs')
         .select(`
                                             started_at,
                                             status,

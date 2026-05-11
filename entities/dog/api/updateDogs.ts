@@ -2,7 +2,7 @@ import { DogRegisterToSever } from "@/features/dog/model/types";
 import { supabaseClient } from "@/shared/api/supabase/client";
 
 export async function updateDogs({ userId, dogId, formData,imageFile }: { userId: string, dogId: string, formData: DogRegisterToSever, imageFile?: File | null }) {
-    const supabase = supabaseClient
+    const supabase = supabaseClient()
 
 
     if (!userId) throw new Error('login first')

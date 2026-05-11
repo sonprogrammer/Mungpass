@@ -1,9 +1,10 @@
 import { MapSectionProps } from "@/widgets/around/model/types";
 import { MapContainer } from "@/widgets/around/ui/MapContainer";
 import { LocateFixed, RefreshCw } from "lucide-react";
+import { memo } from "react";
 
 
-export function MapSection({ center, places, showRefreshBtn, onMarkerClick, onBoundChange, onRefresh, onMyLocation }: MapSectionProps) {
+function MapSection({ center, places, showRefreshBtn, onMarkerClick, onBoundChange, onRefresh, onMyLocation }: MapSectionProps) {
   return (
     <div className="relative">
 
@@ -41,3 +42,5 @@ export function MapSection({ center, places, showRefreshBtn, onMarkerClick, onBo
     </div>
   )
 }
+
+export default memo(MapSection)

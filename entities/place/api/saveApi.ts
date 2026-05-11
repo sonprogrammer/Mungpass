@@ -7,7 +7,7 @@ export const saveApi = {
 
     // *저장목록 가져오기 id로
     fetchSaveList: async (userId: string) => {
-        const supabase = supabaseClient
+        const supabase = supabaseClient()
         const { data, error } = await supabase
             .from('favorites')
             .select('*')
@@ -22,7 +22,7 @@ export const saveApi = {
 
     // * 저장하기 토글
     toggleSave: async (userId: string, place: KakaoPlace) => {
-        const supabase = supabaseClient
+        const supabase = supabaseClient()
 
         const { error: deleteError, count } = await supabase.from('favorites')
             .delete({count: 'exact'})

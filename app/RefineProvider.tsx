@@ -3,17 +3,26 @@
 import { Refine } from "@refinedev/core"
 import { dataProvider } from "@refinedev/supabase"
 import { supabaseClient } from "@/shared/api/supabase/client"
+import { useQueryClient } from "@tanstack/react-query"
 
 export function RefineProvider({children}: {children: React.ReactNode}){
+    const queryClient = useQueryClient()
+    const supabase = supabaseClient()
     return(
         <Refine
-            dataProvider={dataProvider(supabaseClient)}
+            dataProvider={dataProvider(supabase)}
             resources={[
                 {name: 'store_registration'},
                 {name: 'daily_stats'},
                 {name: 'profiles'}
             ]}
-            options={{syncWithLocation: true, warnWhenUnsavedChanges: true}}
+            options={{
+                syncWithLocation: true, 
+                warnWhenUnsavedChanges: true,
+                reactQuery: {
+                    clientConfig: queryClient
+                }
+            }}
         >
             {children}
         </Refine>

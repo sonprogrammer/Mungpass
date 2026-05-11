@@ -6,11 +6,11 @@ import { cookieLogout } from "@/features/auth/api/logoutAction"
 import { useStoreRegistrationStore } from "@/features/auth/model/owner/useStoreRegistStore"
 import { SelectedStore } from "@/features/auth/ui/owner/SelectedStore"
 import { SkipConfirmModal } from "@/features/auth/ui/owner/SkipConfirmModal"
-import { StoreSearchWidget } from "@/features/auth/ui/owner/StoreSearchWidget"
+import StoreSearchWidget from "@/features/auth/ui/owner/StoreSearchWidget"
 import { useAroundState } from "@/widgets/around/model/useAroundState"
-import { MapSection } from "@/widgets/around/ui/MapSection"
+import MapSection from "@/widgets/around/ui/MapSection"
 import { useRouter, useSearchParams } from "next/navigation"
-import { Suspense, useState } from "react"
+import { Suspense, useCallback, useState } from "react"
 
 export function RegisterContent() {
     const { state, actions } = useAroundState()
@@ -21,14 +21,14 @@ export function RegisterContent() {
     const searchParams = useSearchParams()
 
     const ownerId = searchParams.get('id')
-    
 
-    const handleNextStep = () => {
-        if (!state.selectedPlace) return
+
+    const handleNextStep = useCallback(() => {
+        if (!state.selectedPlace || !ownerId) return
 
         setSelectedPlace(state.selectedPlace)
         router.push(`/signup/owner/auth?ownerId=${ownerId}`)
-    }
+    },[state.selectedPlace, ownerId, router, setSelectedPlace])
 
     const handleSkipStep = async () => {
         await cookieLogout()
@@ -57,8 +57,6 @@ export function RegisterContent() {
             {/* //* 가게 검색/사업자 등록 */}
             <StoreSearchWidget
                 setKeyword={actions.setKeyword}
-                searchValue={state.searchValue}
-                setSearchValue={actions.setSearchValue}
             />
 
             <div className="relative w-full pb-6">
@@ -80,6 +78,7 @@ export function RegisterContent() {
                 )}
 
             </div>
+
 
             {state.selectedPlace && state.keyword ? (
                 <div className="pb-6">
@@ -110,6 +109,7 @@ export function RegisterContent() {
 
 export default function OwnerStoreRegisterPage() {
     return (
+        // TODO 스켈레톤으로 바꾸기
         <Suspense fallback={<div className="p-10 text-center">지도를 로딩 중입니다...</div>}>
             <RegisterContent />
         </Suspense>

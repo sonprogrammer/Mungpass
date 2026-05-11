@@ -1,7 +1,8 @@
 import { supabaseClient } from "@/shared/api/supabase/client";
 
 export const getNotices = async(shopId: string) => {
-    const { data, error} = await supabaseClient.from('shop_notices').select('*').eq('shop_id', shopId)
+    const supabase = supabaseClient()
+    const { data, error} = await supabase.from('shop_notices').select('*').eq('shop_id', shopId)
                                                     .order('created_at', {ascending: false})
 
     if(error){

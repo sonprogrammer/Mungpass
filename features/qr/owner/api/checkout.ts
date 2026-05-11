@@ -2,11 +2,12 @@ import { supabaseClient } from "@/shared/api/supabase/client";
 import { addMinutes, differenceInMinutes, isAfter, parseISO } from "date-fns";
 
 export const checkout = async(usageId: string) => {
+    const supabase = supabaseClient()
     const now = new Date()
 
 
     //* 해당 이용id에 대한 이용 내역 가져오기 
-    const { data: usage, error} = await supabaseClient.from('usage_logs')
+    const { data: usage, error} = await supabase.from('usage_logs')
                                         .select(`*,
                                             dog: dogs(*),
                                             product: store_products(*)
@@ -43,7 +44,7 @@ export const checkout = async(usageId: string) => {
     const totalPrice = (product.price || 0) + extraCharge
 
     // * 체크아웃
-    const { data: updateDate, error: updateError} = await supabaseClient.from('usage_logs')
+    const { data: updateDate, error: updateError} = await supabase.from('usage_logs')
                                                         .update({
                                                             ended_at: now.toISOString(),
                                                             status: 'completed',

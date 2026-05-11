@@ -13,17 +13,20 @@ import { Suspense, useEffect } from "react"
 export function AuthContent() {
     const searchParams = useSearchParams()
     const selectedPlace = useStoreRegistrationStore(state=> state.selectedPlace)
+    const hasHydrated = useStoreRegistrationStore(state => state.hasHydrated)
     const router = useRouter()
     const { message } = App.useApp()
+
     
     useEffect(() => {
-        if(!selectedPlace){
+        if(hasHydrated && !selectedPlace){
             message.error('선택된 매장이 없습니다. 다시 선택해주세요')
             router.back()
         }
-    }, [selectedPlace, router, message])
+    }, [hasHydrated, selectedPlace, router, message])
 
     const ownerId = searchParams.get('ownerId')
+  
 
     return (
         <div className="flex flex-col gap-8 px-6 py-4 animate-in fade-in slide-in-from-right-5 duration-500">
@@ -36,7 +39,7 @@ export function AuthContent() {
             <RegisterStoreCheckCard 
                 place_name={selectedPlace?.place_name}
                 address_name={selectedPlace?.address_name}
-                phone={selectedPlace?.phone || ''}
+                phone={selectedPlace?.phone}
             />
             
 

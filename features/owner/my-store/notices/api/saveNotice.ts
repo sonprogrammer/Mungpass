@@ -4,7 +4,9 @@ import { PostNotice } from "../model/types";
 
 export const saveNotice = async({shopId, noticeId, postData}: PostNotice) => {
 
-    const { data, error} = await supabaseClient.from('shop_notices')
+    const supabase = supabaseClient()
+    
+    const { data, error} = await supabase.from('shop_notices')
                                                .upsert({
                                                     ...(noticeId ? {id: noticeId} : {}),
                                                     shop_id: shopId,

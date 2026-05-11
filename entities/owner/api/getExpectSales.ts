@@ -2,10 +2,12 @@ import { supabaseClient } from "@/shared/api/supabase/client"
 import { endOfDay, parseISO, startOfDay } from "date-fns"
 
 export const getExpectSales = async (shopId: string) => {
+    const supabase = supabaseClient()
+    
     const todayStart = startOfDay(new Date()).toISOString()
     const todayEnd = endOfDay(new Date()).toISOString()
 
-    const { data, error } = await supabaseClient.from('usage_logs')
+    const { data, error } = await supabase.from('usage_logs')
         .select(`
             *,
             product: store_products(*)

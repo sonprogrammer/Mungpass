@@ -6,13 +6,14 @@ import { useEffect} from "react";
 
 
 export function useRealTimeNotification({userId, shopId}: useRealTimeNotificationProps) {
+  const supabase = supabaseClient()
   const { setNotifications, addNotification, removeNotification } = useNotificationStore()
   
   useEffect(() => {
     if(!userId && !shopId) return
 
     const fetchNoti = async () => {
-      let query = supabaseClient.from('notifications').select('*')
+      let query = supabase.from('notifications').select('*')
       // * 가게 알림용
       if(shopId){
         query = query.eq('shop_id', shopId).like('type', 'shop_%')
@@ -29,7 +30,7 @@ export function useRealTimeNotification({userId, shopId}: useRealTimeNotificatio
     const channelName = shopId ? `shop-${shopId}` : `user-${userId}`
 
 
-    const channel = supabaseClient
+    const channel = supabase
       .channel(channelName)
       .on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'notifications', filter: filter }, 
         (payload) => {
@@ -59,6 +60,6 @@ export function useRealTimeNotification({userId, shopId}: useRealTimeNotificatio
       )
       .subscribe()
 
-    return () => { supabaseClient.removeChannel(channel)}
-  }, [userId, shopId ,addNotification, setNotifications, removeNotification])
+    return () => { supabase.removeChannel(channel)}
+  }, [userId, shopId, addNotification, setNotifications, removeNotification, supabase])
 }

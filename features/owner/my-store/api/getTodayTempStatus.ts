@@ -2,10 +2,12 @@ import { supabaseClient } from "@/shared/api/supabase/client";
 import { format } from "date-fns";
 
 export const getTodayTempStatus = async(shopId: string) => {
+    const supabase = supabaseClient()
+    
     const today = new Date()
     const todayStr = format(today, 'yyyy-MM-dd')
     
-    const { data, error} = await supabaseClient.from('shop_temp_status').select('*')
+    const { data, error} = await supabase.from('shop_temp_status').select('*')
                                         .eq('shop_id', shopId)
                                         .eq('target_date', todayStr)
                                         .maybeSingle()

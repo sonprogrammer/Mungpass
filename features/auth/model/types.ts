@@ -41,8 +41,6 @@ export interface LoginFormProps{
 
 export interface StoreSearchWidgetProps{
     setKeyword: (val: string) => void;
-    searchValue: string;
-    setSearchValue: (val: string) => void;
 }
 
 export interface StepStatusProps{
@@ -62,7 +60,7 @@ export interface SkipConfirmModalProps{
 export interface RegisterStoreCheckCardProps{
     place_name?: string;
     address_name?: string;
-    phone?: string;
+    phone?: string ;
 }
 
 export interface postOwnerDocsProps{

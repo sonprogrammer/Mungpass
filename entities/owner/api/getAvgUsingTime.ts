@@ -3,11 +3,12 @@ import { endOfDay, startOfDay } from "date-fns"
 
 
 export const getAvgUsingTime = async (shopId: string) => {
+    const supabase = supabaseClient()
     const todayStart = startOfDay(new Date()).toISOString()
     const todayEnd = endOfDay(new Date()).toISOString()
 
 
-    const { data, error } = await supabaseClient.from('usage_logs')
+    const { data, error } = await supabase.from('usage_logs')
         .select('started_at, ended_at')
         .eq('shop_id', shopId)
         .gte('started_at', todayStart)

@@ -2,7 +2,9 @@
 import { supabaseClient } from "@/shared/api/supabase/client";
 
 export const deleteProductCategory = async({shopId, categoryId}: {shopId: string, categoryId: string})=>{
-    const { error} = await supabaseClient.from('product_categories').delete().eq('store_id', shopId)
+    const supabase = supabaseClient()
+    
+    const { error} = await supabase.from('product_categories').delete().eq('store_id', shopId)
                                         .eq('name', categoryId)
 
     if(error){

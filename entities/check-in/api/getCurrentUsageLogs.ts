@@ -2,7 +2,7 @@ import { CurrentUsageLog, UsageLogStatus } from "@/entities/check-in/model/types
 import { supabaseClient } from "@/shared/api/supabase/client";
 
 export const getCurrentUsageLogs = async(myShopId: string, statuses: UsageLogStatus[]):  Promise<CurrentUsageLog[]>=> {
-    const supabase = supabaseClient
+    const supabase = supabaseClient()
 
     const { data, error} = await supabase.from('usage_logs').select(`*, 
             dog: dogs(

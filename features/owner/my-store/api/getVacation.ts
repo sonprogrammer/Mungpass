@@ -4,9 +4,11 @@ import { format } from "date-fns"
 
 
 export const getVacation = async(shopId: string) => {
+    const supabase = supabaseClient()
+    
     const today = format(new Date(), 'yyyy-MM-dd')
     
-    const { data, error} = await supabaseClient.from('shop_vacations').select('*')
+    const { data, error} = await supabase.from('shop_vacations').select('*')
                                         .eq('shop_id', shopId)
                                         .gte('end_date', today)
                                         .maybeSingle()

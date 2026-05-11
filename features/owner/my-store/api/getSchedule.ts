@@ -2,7 +2,9 @@ import { ScheduleRow } from "@/features/owner/my-store/model/types";
 import { supabaseClient } from "@/shared/api/supabase/client";
 
 export const getSchedule = async(shopId: string):Promise<ScheduleRow[]> => {
-    const { data, error} = await supabaseClient.from('shop_schedules').select('*')
+    const supabase = supabaseClient()
+    
+    const { data, error} = await supabase.from('shop_schedules').select('*')
                                                 .eq('shop_id', shopId)
                                                 .order('day_of_week', {ascending: true})
 

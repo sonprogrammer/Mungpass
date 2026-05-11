@@ -3,8 +3,10 @@ import { supabaseClient } from "@/shared/api/supabase/client";
 
 
 export const postProduct = async({shopId, productData}:{shopId: string, productData: ProductSubmitData}):Promise<Product> =>{
+
+    const supabase = supabaseClient()
     
-    const { data ,error } = await supabaseClient.from('store_products').insert({...productData, store_id: shopId})
+    const { data ,error } = await supabase.from('store_products').insert({...productData, store_id: shopId})
                                             .select()
                                             .single()
 

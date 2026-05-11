@@ -2,7 +2,7 @@ import { Dog } from "@/entities/dog/model/types";
 import { supabaseClient } from "@/shared/api/supabase/client";
 
 export async function fetchDogs (userId: string): Promise<Dog[]> {
-    const supabase = supabaseClient
+    const supabase = supabaseClient()
 
     if(!userId) throw new Error('login first')
 

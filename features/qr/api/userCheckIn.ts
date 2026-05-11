@@ -2,9 +2,10 @@ import { supabaseClient } from "@/shared/api/supabase/client";
 
 // * 유저가 큐알을 스캔했을 때 일어나는 거임
 export const userCheckIn = async({dogId, shopId, productId, userId}: {dogId: string, shopId: string, productId: string, userId: string}) => {
+    const supabase = supabaseClient()
 
     //* 유저가 이용중인 상품 정보
-    const { data: productInfo, error: productError} = await supabaseClient.from('store_products').select('*')
+    const { data: productInfo, error: productError} = await supabase.from('store_products').select('*')
                                                 .eq('id', productId)
                                                 .eq('is_active', true)
                                                 .single()
@@ -15,7 +16,7 @@ export const userCheckIn = async({dogId, shopId, productId, userId}: {dogId: str
     }
 
     // * 중복 입실 체크
-    const { data: existingLog} = await supabaseClient.from('usage_logs')
+    const { data: existingLog} = await supabase.from('usage_logs')
                             .select('id')
                             .eq('dog_id', dogId)
                             .eq('status', 'staying')
@@ -32,7 +33,7 @@ export const userCheckIn = async({dogId, shopId, productId, userId}: {dogId: str
     const expectedEndAt = new Date(now.getTime() + productsMinutes * 60000)
 
     
-    const { data : usageLog, error: checkInInsertError} = await supabaseClient.from('usage_logs')
+    const { data : usageLog, error: checkInInsertError} = await supabase.from('usage_logs')
                                                 .insert([
                                                     {
                                                         shop_id: shopId,

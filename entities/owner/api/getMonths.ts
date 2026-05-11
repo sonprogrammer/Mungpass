@@ -2,7 +2,9 @@ import { supabaseClient } from "@/shared/api/supabase/client";
 import { format } from "date-fns";
 
 export const getMonths = async(shopId: string): Promise<string[]>=> {
-    const { data, error} = await supabaseClient.rpc('get_monthly_data',{
+    const supabase = supabaseClient()
+    
+    const { data, error} = await supabase.rpc('get_monthly_data',{
         target_shop_id: shopId
     })
 

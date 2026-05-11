@@ -1,7 +1,9 @@
 import { supabaseClient } from "@/shared/api/supabase/client"
 
 export const getRegisData = async(userId: string) => {
-    const { data, error} = await supabaseClient.from('store_registrations')
+    const supabase = supabaseClient()
+    
+    const { data, error} = await supabase.from('store_registrations')
         .select('*')
         .eq('owner_id', userId)
         .order('created_at', {ascending: false})
