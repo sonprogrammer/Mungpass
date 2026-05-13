@@ -7,33 +7,79 @@ import { useStoreRegistrationStore } from "@/features/auth/model/owner/useStoreR
 import { SelectedStore } from "@/features/auth/ui/owner/SelectedStore"
 import { SkipConfirmModal } from "@/features/auth/ui/owner/SkipConfirmModal"
 import StoreSearchWidget from "@/features/auth/ui/owner/StoreSearchWidget"
-import { useAroundState } from "@/widgets/around/model/useAroundState"
-import MapSection from "@/widgets/around/ui/MapSection"
+import { useSearchShops } from "@/features/search-shop/model/useSearchShops"
+import { KakaoPlace } from "@/shared/model/map"
+import { useMyLocation } from "@/shared/model/useMyLocation"
+import { MapContainer } from "@/widgets/around/ui/MapContainer"
+import { App } from "antd"
 import { useRouter, useSearchParams } from "next/navigation"
-import { Suspense, useCallback, useState } from "react"
+import { Suspense, useCallback, useEffect, useMemo, useState } from "react"
 
 export function RegisterContent() {
-    const { state, actions } = useAroundState()
-    const setSelectedPlace = useStoreRegistrationStore(state => state.setSelectedPlace)
+    // * 다음페이지로 넘어가기위한 선택용
+    const [activePlace, setActivePlace] = useState<KakaoPlace | null>(null)
+    const [keyword, setKeyword] = useState<string>('')
     const [skipModalOpen, setSkipModalOpen] = useState<boolean>(false)
-    
+    const setSelectedPlace = useStoreRegistrationStore(state => state.setSelectedPlace)
+
+    // *검색 훅
+    const { data: searchData, isPending } = useSearchShops(keyword)
+
+    //* 현재 내위치 가져오기 
+    const { data: myLocation, isLoading: isMyLocationLoading } = useMyLocation()
+
+    const {message} = App.useApp()
+
+    // * 검색 결과 없을 시
+    useEffect(() => {
+        if(!isPending && keyword && searchData?.length === 0){
+            message.warning(`${keyword}에 대한 검색 결과가 없습니다`)
+        }
+    }, [searchData, isPending, keyword, message])
+
+    // * 지도 중심, 초기에는 현재위치, 키워드 없으면 현재위치, 키워드 있을 시 그 가게 위치
+    const displayCenter = useMemo(() => {
+        if (keyword && searchData?.[0]) return { lat: Number(searchData[0].y), lon: Number(searchData[0].x) }
+        return myLocation
+    }, [keyword, searchData, myLocation])
+
+    const handleKeywordChange = (newKeyword: string) => {
+        setKeyword(newKeyword)
+        setActivePlace(null)
+    }
+
     const router = useRouter()
     const searchParams = useSearchParams()
 
-    const ownerId = searchParams.get('id')
+    const ownerId = searchParams.get('ownerId')
+    const mode = searchParams.get('mode')
+    console.log('mode', mode)
 
+    // *ownerId가 없을시 튕김
+    useEffect(() => {
+        if(!ownerId){
+            message.error('잘못된 접근입니다. 다시 로그인해주세요')
+            router.replace('/')
+        }
+    },[ownerId, router, message])
 
     const handleNextStep = useCallback(() => {
-        if (!state.selectedPlace || !ownerId) return
-
-        setSelectedPlace(state.selectedPlace)
-        router.push(`/signup/owner/auth?ownerId=${ownerId}`)
-    },[state.selectedPlace, ownerId, router, setSelectedPlace])
+        if (!activePlace || !ownerId) return
+        if(mode === 'edit'){
+            router.push('/signup/owner/re-store')
+            setSelectedPlace(activePlace)
+        }else{
+            setSelectedPlace(activePlace)
+            router.push(`/signup/owner/auth?ownerId=${ownerId}`)
+        }
+    }, [ownerId, router, setSelectedPlace, activePlace, mode])
 
     const handleSkipStep = async () => {
         await cookieLogout()
     }
 
+    // *ownerId가 없으면 얼리 리턴해주기
+    if(!ownerId) return null
 
     return (
 
@@ -56,20 +102,23 @@ export function RegisterContent() {
 
             {/* //* 가게 검색/사업자 등록 */}
             <StoreSearchWidget
-                setKeyword={actions.setKeyword}
+                handleKeywordChange={handleKeywordChange}
             />
 
             <div className="relative w-full pb-6">
 
-                {state.center ? (
-                    <MapSection
-                        center={state.center}
-                        places={state.keyword ? state.displayShops : []}
-                        showRefreshBtn={false}
-                        onMarkerClick={actions.setSelectedPlace}
-                        onBoundChange={actions.handleCenterChange}
-                        onRefresh={actions.handleRefresh}
-                        onMyLocation={actions.handleMyLocation}
+                {isMyLocationLoading ? (
+                    <div className="px-6 pt-4 h-80   animate-pulse">
+                        <div className='bg-white w-full h-full rounded-[2.5rem] flex items-center justify-center'>
+                            <p className="text-slate-400">내 위치를 확인 중입니다...</p>
+                        </div>
+                    </div>
+                ) :
+                    displayCenter ? (
+                    <MapContainer
+                        center={displayCenter}
+                        places={searchData || []}
+                        onMarkerClick={(place) => setActivePlace(place)}
                     />
                 ) : (
                     <div className="flex items-center justify-center h-full">
@@ -80,17 +129,18 @@ export function RegisterContent() {
             </div>
 
 
-            {state.selectedPlace && state.keyword ? (
+            {activePlace && keyword ? (
                 <div className="pb-6">
                     <SelectedStore
-                        place={state.selectedPlace}
+                        place={activePlace}
                         onNext={handleNextStep}
+                        ownerId={ownerId}
                     />
                 </div>
             ) : (
                 <div className="absolute bottom-10 left-0 right-0 px-10 z-10 pointer-events-none">
                     <p className="bg-black/60 backdrop-blur-md py-3 rounded-full text-[11px] font-bold text-white text-center shadow-xl border border-white/20">
-                        {state.keyword ? "등록할 가게 마커를 클릭해주세요" : "가게 이름을 검색해주세요"}
+                        {keyword ? "등록할 가게 마커를 클릭해주세요" : "가게 이름을 검색해주세요"}
                     </p>
                 </div>
             )

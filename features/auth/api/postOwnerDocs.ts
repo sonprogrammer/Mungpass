@@ -6,6 +6,8 @@ import { supabaseClient } from "@/shared/api/supabase/client";
 export async function postOwnerDocs({ownerId, storeInfo, businessNumber, DocsImg}: postOwnerDocsProps) {
     const supabase = supabaseClient()
 
+    console.log('ownerid', ownerId, storeInfo, businessNumber, DocsImg)
+    
     if(!ownerId){
         throw new Error('회원가입을 먼저 해주세요')
     }
@@ -32,6 +34,7 @@ export async function postOwnerDocs({ownerId, storeInfo, businessNumber, DocsImg
                                 .insert({
                                     owner_id: ownerId,
                                     kakao_place_id: storeInfo.id,
+                                    category_name: storeInfo.category_name,
                                     store_name: storeInfo.place_name,
                                     address_name: storeInfo.address_name,
                                     phone: storeInfo.phone,

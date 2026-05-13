@@ -4,7 +4,7 @@
 import { AroundHeader } from '@/widgets/around/ui/AroundHeader';
 import { PlaceListState } from '@/entities/place/ui/PlaceListState';
 import { useAroundState } from '@/widgets/around/model/useAroundState';
-import { MapSection } from '@/widgets/around/ui/MapSection';
+import MapSection  from '@/widgets/around/ui/MapSection';
 import { StoreDetailBottomSheet } from '@/features/user/shopInfo/ui/StoreDetailBottomSheet';
 
 export default function AroundPage() {
@@ -17,8 +17,6 @@ export default function AroundPage() {
         showMap={state.showMap}
         toggle={actions.handleToggleMap}
         onSearch={actions.setKeyword}
-        searchValue={state.searchValue}
-        setSearchValue={actions.setSearchValue}
         radius={state.radius}
         setRadius={actions.setRadius}
       />

@@ -7,9 +7,8 @@ import { QRCodeSVG } from "qrcode.react"
 import { useMemo, useState } from "react"
 
 
-export function QrModal({ products, open, qrValue, selectedProductId, onClose, onSelectProduct, isPending }: QrModalProps) {
+export function QrModal({ products, open, qrValue, selectedProductId, onClose, onSelectProduct, isPending, isVerified }: QrModalProps) {
     const [selectedCategoryName, setSelectedCategoryName] = useState<string | null>(null)
-
 
     // * 카테고리 목록들
     const categories = useMemo(() => {
@@ -38,6 +37,7 @@ export function QrModal({ products, open, qrValue, selectedProductId, onClose, o
             setSelectedCategoryName(null)
         }
     }
+    
 
     return (
         <Modal
@@ -47,15 +47,42 @@ export function QrModal({ products, open, qrValue, selectedProductId, onClose, o
             centered
             width={360}
             title={<div className="flex items-center gap-2">
-                {(selectedCategoryName || selectedProductId) && (
-                    <Button type="text" size="small" onClick={handleBack} icon={<ArrowLeft size={16} />} />
-                )}
-                <span className="font-semibold">QR 체크인 생성</span>
-            </div>}
+                    {isVerified && (selectedCategoryName || selectedProductId) && (
+                        <Button type="text" size="small" onClick={handleBack} icon={<ArrowLeft size={16} />} />
+                    )}
+                    <span className="font-semibold">QR 체크인 생성</span>
+                </div>}
         >
 
             <div className="flex flex-col pt-2">
-                {isPending ? (
+                {!isVerified ? (
+                    /* //*승인되지 않은 매장 */
+                    <div className="py-8 text-center">
+                        <Empty
+                            image={Empty.PRESENTED_IMAGE_SIMPLE}
+                            description={
+                                <div className="flex flex-col gap-2">
+                                    <Typography.Text className="text-slate-600 font-medium">
+                                        서비스 심사 승인 대기 중
+                                    </Typography.Text>
+                                    <Typography.Text type="secondary" className="text-xs">
+                                        매장 심사가 완료된 후에<br />
+                                        QR 코드를 생성하여 이용하실 수 있습니다.
+                                    </Typography.Text>
+                                </div>
+                            }
+                        />
+                        <Button 
+                            block 
+                            type="primary" 
+                            onClick={handleClose}
+                            className="mt-6 bg-orange-500! border-none!"
+                        >
+                            확인
+                        </Button>
+                    </div>
+                ) :
+                isPending ? (
                     <div className="flex-1 flex items-center justify-center">
                         <Spin size="large" />
                     </div>

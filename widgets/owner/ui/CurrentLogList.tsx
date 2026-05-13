@@ -1,7 +1,7 @@
 'use client'
 
 import { CurrentLogItem } from "@/entities/owner/ui/CurrentLogItem"
-import { Empty, Typography } from "antd"
+import { Empty } from "antd"
 import { useState } from "react"
 
 import { CurrentLogDetailModal } from "@/entities/owner/ui/CurrentLogDetailModal"
@@ -11,7 +11,7 @@ import { usePostCheckout } from "@/features/qr/owner/model/usePostCheckout"
 import { CurrentLogSkeleton } from "@/widgets/owner/ui/CurrentLogSkeleton"
 
 
-export function CurrentLogList({ data, tab, isPending }: {data: CurrentUsageLog[], tab: 'current' | 'checkout', isPending: boolean}) {
+export function CurrentLogList({ data, tab, isPending, isVerified }: {data: CurrentUsageLog[], tab: 'current' | 'checkout', isPending: boolean, isVerified: boolean}) {
     const [checkoutItem, setCheckoutItem] = useState<CurrentUsageLog | null>(null)
     const [detailItem, setDetailItem] = useState<CurrentUsageLog | null>(null)
 
@@ -19,11 +19,6 @@ export function CurrentLogList({ data, tab, isPending }: {data: CurrentUsageLog[
     
     // TODO 상품에 따라 정렬도 가능하게 하기
     
-
-    const emptyMsgs = {
-        current: '현재 이용 중인 반려견이 없습니다.',
-        checkout: '최근 퇴실 내역이 없습니다.'
-    }
     
     
     const handleCheckout = (item: CurrentUsageLog) => {
@@ -49,10 +44,12 @@ export function CurrentLogList({ data, tab, isPending }: {data: CurrentUsageLog[
                 <Empty
                     image={Empty.PRESENTED_IMAGE_SIMPLE}
                     description={
-                        <Typography.Text type="secondary">
-                            {emptyMsgs[tab]}
-                        </Typography.Text>
-                    }
+                            <span className="text-slate-400">
+                                {!isVerified
+                                    ? "매장 심사 승인 후 이용 내역이 표시됩니다."
+                                    : "현재 이용 중인 반려견이 없습니다."}
+                            </span>
+                        }
                 />
             </div>
         )

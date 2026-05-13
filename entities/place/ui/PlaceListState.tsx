@@ -1,6 +1,6 @@
 'use client'
 
-import { Info, Loader2 } from "lucide-react";
+import {  Loader2 } from "lucide-react";
 import { KakaoPlace } from "@/shared/model/map";
 import { PlaceList } from "@/entities/place/ui/PlaceList";
 import { NoResult } from "@/shared/ui/NoResultUI";
@@ -20,7 +20,7 @@ export function PlaceListState({ isPending, places, onPlaceClick }: ShopListStat
                 <Loader2 className="w-6 h-6 text-orange-200 animate-spin mb-2" />
                 <p className="text-xs text-slate-400 font-medium">가까운 장소를 찾는 중...</p>
             </div>
-        );
+        )
     }
 
     //* 결과 없음

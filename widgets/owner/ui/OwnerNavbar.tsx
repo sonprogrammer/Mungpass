@@ -13,6 +13,7 @@ import { useState } from "react"
 import { useGetShopInfo } from "@/entities/owner/model/useGetShopInfo"
 import { QrModal } from "@/widgets/owner/ui/QrModal"
 import { useGetProducts } from "@/features/owner/my-store/product/model/useGetProducts"
+import { useOwnerStoreStatus } from "@/entities/owner/model/useOwnerStoreStatus"
 
 
 
@@ -22,6 +23,7 @@ export function OwnerNavbar() {
     const pathname = usePathname()
 
     const { data} = useGetShopInfo()
+    const isVerified = useOwnerStoreStatus(state => state.isVerified)
     
     const shopId = data?.id
 
@@ -104,7 +106,11 @@ export function OwnerNavbar() {
 
             </nav>
 
-            <QrModal products={products} isPending={isProductsPending} qrValue={qrValue} selectedProductId={selectedProductId} open={isQrModalOpen} onClose={handleCloseQrModal} onSelectProduct={handleSelectedProduct}/>
+            <QrModal products={products} isPending={isProductsPending} qrValue={qrValue} 
+                    selectedProductId={selectedProductId} open={isQrModalOpen} onClose={handleCloseQrModal} 
+                    onSelectProduct={handleSelectedProduct}
+                    isVerified={isVerified}
+                    />
 
         </>
 

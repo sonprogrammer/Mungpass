@@ -7,7 +7,7 @@ import { memo } from "react";
 
 
 
-export const RegisteredStoreInfo = memo(({ storeName, status, todaySales, accSales, onDetailClick }: RegisteredStoreInfoProps) => {
+export const RegisteredStoreInfo = memo(({ storeName, status, todaySales, accSales, onDetailClick, isLoading }: RegisteredStoreInfoProps) => {
     return (
         <section className='bg-emerald-500 px-6 pt-12 pb-10 rounded-b-[3.5rem] shadow-lg relative overflow-hidden'>
 
@@ -38,10 +38,16 @@ export const RegisteredStoreInfo = memo(({ storeName, status, todaySales, accSal
                     <div className="flex flex-col text-right">
                         <p className="text-emerald-100 text-xs font-bold tracking-wider">오늘의 매출</p>
                         <div className="flex items-center gap-1 justify-end text-white">
-                            <span className="text-lg font-extrabold">
-                                {(todaySales ?? 0).toLocaleString()}
-                            </span>
-                            <span className="text-xs opacity-80">원</span>
+                            {isLoading ? (
+                                <div className="h-5 w-16 bg-emerald-400/50 animate-pulse rounded-md" />
+                            ) : (
+                                <>
+                                    <span className="text-lg font-extrabold">
+                                        {(todaySales ?? 0).toLocaleString()}
+                                    </span>
+                                    <span className="text-xs opacity-80">원</span>
+                                </>
+                            )}
                         </div>
                     </div>
 
@@ -49,10 +55,16 @@ export const RegisteredStoreInfo = memo(({ storeName, status, todaySales, accSal
                     <div className="text-right">
                         <p className="text-emerald-100 text-xs font-bold tracking-wider">이번 달 누적</p>
                         <div className="flex items-center gap-1 justify-end text-white">
-                            <span className="text-lg font-extrabold">
-                                {(accSales ?? 0).toLocaleString()}
-                            </span>
-                            <span className="text-xs opacity-80">원</span>
+                            {isLoading ? (
+                                <div className="h-5 w-20 bg-emerald-400/50 animate-pulse rounded-md" />
+                            ) : (
+                                <>
+                                    <span className="text-lg font-extrabold">
+                                        {(accSales ?? 0).toLocaleString()}
+                                    </span>
+                                    <span className="text-xs opacity-80">원</span>
+                                </>
+                            )}
                         </div>
                     </div>
 

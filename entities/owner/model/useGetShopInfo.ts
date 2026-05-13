@@ -5,7 +5,7 @@ import { useQuery } from "@tanstack/react-query";
 
 export function useGetShopInfo(){
     const profile = useUserStore(state => state.profile)
-        const isVerified = useOwnerStoreStatus(state => state.isVerified)
+    const isVerified = useOwnerStoreStatus(state => state.isVerified)
     
     const ownerId = profile?.id
     return useQuery({

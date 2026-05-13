@@ -1,4 +1,4 @@
-import { KakaoPlace } from "@/shared/model/map";
+
 
 export interface AuthTabProps{
     isLogin: boolean
@@ -40,7 +40,7 @@ export interface LoginFormProps{
 }
 
 export interface StoreSearchWidgetProps{
-    setKeyword: (val: string) => void;
+    handleKeywordChange: (val: string) => void;
 }
 
 export interface StepStatusProps{
@@ -49,6 +49,7 @@ export interface StepStatusProps{
     done?: boolean;
     active?: boolean
     isError?: boolean
+    date?: string
 }
 
 export interface SkipConfirmModalProps{
@@ -60,12 +61,25 @@ export interface SkipConfirmModalProps{
 export interface RegisterStoreCheckCardProps{
     place_name?: string;
     address_name?: string;
-    phone?: string ;
+    phone?: string
+    isEdit?: boolean;
+    ownerId?: string;
 }
 
 export interface postOwnerDocsProps{
     ownerId: string;
-    storeInfo: KakaoPlace
+    storeInfo: BusinessStoreSubmitInfo
     businessNumber: string;
     DocsImg: File;
+}
+
+
+export interface BusinessStoreSubmitInfo{
+    id: string; //카카오 아이디
+    place_name: string;
+    category_name: string;
+    address_name: string;
+    phone: string;
+    x: string; //경도
+    y: string; // 위도
 }

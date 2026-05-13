@@ -1,9 +1,15 @@
 'use client'
 
-import { usePathname } from "next/navigation"
+import { usePathname, useSearchParams } from "next/navigation"
 
 export function StepBar() {
     const pathname = usePathname()
+    const searchParams = useSearchParams()
+
+    
+    const isReRegister = searchParams.get('mode') === 'edit'
+    
+    if(isReRegister || pathname === '/signup/owner/re-store') return null
 
     const steps = [
         { path: '/signup/owner', step: 1 },

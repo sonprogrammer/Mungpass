@@ -15,6 +15,8 @@ import { NoticeBottomSheet } from "@/features/owner/my-store/ui/NoticeBottomShee
 import { InquiryBottomSheet } from "@/features/owner/my-store/ui/InquiryBottomSheet";
 import { ProductManageBottomSheet } from "@/features/owner/my-store/product/ui/ProductManageBottomSheet";
 import { KioskSettingBottomSheet } from "@/features/owner/kiosk/ui/KioskSettingBottomSheet";
+import { useOwnerStoreStatus } from "@/entities/owner/model/useOwnerStoreStatus";
+import { useGetShopInfo } from "@/entities/owner/model/useGetShopInfo";
 
 
 export default function MyStorePage() {
@@ -22,16 +24,19 @@ export default function MyStorePage() {
 
     const profile = useUserStore(state => state.profile)
 
-    // * 매장 승인 신청정보(store_registratian table)
-    const { data: regisData, isPending: isRegisPending } = useGetRegisData()
-    
-    const shopId = regisData?.store_id
+    // * 매장 승인 상태 
+    const isVerified = useOwnerStoreStatus(state => state.isVerified)
 
-    
+    const { data: shopInfo } = useGetShopInfo()
+    const shopId = shopInfo?.id
+
+    const { data: regisData, isPending: isRegisPending } = useGetRegisData()
+
+
     // *현재 매장 운영여부
     const shopStatus = useShopStatus(shopId)
 
-    const { message} = App.useApp()
+    const { message } = App.useApp()
 
     const { handleAction, contextHolder } = useRestrictedAction(regisData?.status)
 
@@ -47,6 +52,10 @@ export default function MyStorePage() {
         )
     }
 
+    if (!regisData) {
+    return null
+}
+
     const handleClick = () => {
         message.error('개발 중입니다')
     }
@@ -56,7 +65,7 @@ export default function MyStorePage() {
             <div className="min-h-screen pb-12">
                 <div className="mx-auto flex flex-col gap-8">
 
-                    <MyStoreHeader regisData={regisData} />
+                    <MyStoreHeader regisData={regisData} isVerified={isVerified} shopId={shopId}/>
 
                     <div className="grid grid-cols-1 gap-8 p-6">
 
@@ -71,6 +80,7 @@ export default function MyStorePage() {
                                             icon={<Clock className="w-5 h-5 text-orange-500 bg-orange-50!" />} title="영업 시간 관리"
                                             onClick={() => handleAction(() => setActiveDrawer('time'))}
                                             status={shopStatus.status}
+                                            isVerified={isVerified}
                                         />
                                     </div>
 
@@ -78,6 +88,7 @@ export default function MyStorePage() {
                                         <MenuItem
                                             icon={<ShoppingBag className="w-5 h-5 text-rose-500" />} title="가게 상품 관리"
                                             onClick={() => handleAction(() => setActiveDrawer('product'))}
+                                            isVerified={isVerified}
                                         />
                                     </div>
 
@@ -87,7 +98,7 @@ export default function MyStorePage() {
                                             title="키오스크 모드 설정"
                                             onClick={() => handleAction(() => setActiveDrawer('kiosk'))}
                                             // * 설정됐냐 안됐냐에 따라 나오게
-                                            status="설정"
+                                            isVerified={isVerified}
                                         />
                                     </div>
 
@@ -97,9 +108,9 @@ export default function MyStorePage() {
                                             icon={<Megaphone className="w-5 h-5 text-blue-500" />} title="가게 공지 사항"
                                             onClick={() => {
                                                 handleAction(() => setActiveDrawer('notice'))
-                                                handleClick()
                                             }}
-                                            
+                                            isVerified={isVerified}
+
                                             // TODO 현재 공지사항 유무에 따라 new 또는 공지사항 없음으로 변경
                                             status="new"
                                         />
@@ -120,11 +131,12 @@ export default function MyStorePage() {
                                     <MenuItem
                                         icon={<Headphones className="w-5 h-5 text-orange-500" />} title="관리자 문의"
                                         onClick={() => {
-                                            setActiveDrawer('inquiry')
+                                            handleAction(() => setActiveDrawer('inquiry'))
                                             handleClick()
                                         }}
                                         // TODO 문의자가 답변한 내용이 있으면 New로
                                         status="new"
+                                        isVerified={isVerified}
                                     />
                                 </div>
 

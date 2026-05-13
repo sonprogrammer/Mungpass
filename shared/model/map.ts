@@ -33,5 +33,5 @@ export interface MapProps{
     center: Coords
     places: KakaoPlace[];
     onMarkerClick: (place: KakaoPlace) => void;
-    onBoundChange: (bound: Bound) => void
+    onBoundChange?: (bound: Bound) => void
 }

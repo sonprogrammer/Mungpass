@@ -15,8 +15,8 @@ import { calCulateTopRecord } from '@/entities/owner/lib/calCulateTopRecord'
 import { useGetMonths } from '@/entities/owner/model/useGetMonths'
 import { useGetMonthlySalesData } from '@/entities/owner/model/useGetMonthlySalesData'
 import { useGetDailyChart } from '@/entities/owner/model/useGetDailyChart'
-import { StatsPageSkeleton } from '@/widgets/owner/stats/ui/StatsPageSkeleton'
 import { useGetAiInsight } from '@/features/owner/stats/model/useGetAiInsight'
+import { useOwnerStoreStatus } from '@/entities/owner/model/useOwnerStoreStatus'
 
 
 export default function StatsPage() {
@@ -33,19 +33,21 @@ export default function StatsPage() {
 
     const { data: shopInfo } = useGetShopInfo()
     const shopId = shopInfo?.id
+    // * 매장 승인 상태 
+    const isVerified = useOwnerStoreStatus(state => state.isVerified)
 
     //*일별을 위함임
     const startDateStr = format(subDays(viewEndDate, 6), 'yyyy-MM-dd')
     const endDateStr = format(viewEndDate, 'yyyy-MM-dd')
 
     // * 선택된 달의 데이터만 나오게 되어있음 - 이건 리포트용임
-    const { data: dailySalesData = [], isPending: isDailyPending } = useGetDailySalesData(shopId, selectedMonth)
+    const { data: dailySalesData = []} = useGetDailySalesData(shopId, selectedMonth)
     // * 월별 데이터(연별로 그래프 볼때)
     const { data: monthlySalesData = [] } = useGetMonthlySalesData(shopId)
     // *일별 데이터(일별 그래프 용)
     const { data: dailyChartData = [], isPending: isDailyCharPending } = useGetDailyChart(shopId, startDateStr, endDateStr)
 
-    console.log('monthlydata', monthlySalesData)
+
 
     // *선택달 전일 대비 데이터 - 리프트용
     const { data: diffData } = useGetStatsData(shopId, selectedMonth)
@@ -132,11 +134,6 @@ export default function StatsPage() {
         setOpenSummary((prev) => !prev)
     }
 
-    if (!shopId || isDailyPending) {
-        return (
-            <StatsPageSkeleton />
-        )
-    }
 
     return (
         <main className="min-h-screen bg-gray-50 p-4 md:p-6">
@@ -147,11 +144,13 @@ export default function StatsPage() {
                     months={months}
                     selectedMonth={selectedMonth}
                     setSelectedMonth={handlePeriodClick}
+                    isVerified={isVerified}
                 />
 
                 {openSummary && <SummaryCard summaryCards={summaryCards} selectedMonth={selectedMonth} topDays={topDays} />}
 
                 <DailyChart
+                    isVerified={isVerified}
                     dailyData={dailyChartData}
                     monthlyData={monthlySalesData}
                     handlePrev={handlePrev}
@@ -166,7 +165,7 @@ export default function StatsPage() {
                     isNextDisabled={isNextDisabled}
                 />
 
-                <InsightCard content={aiInsight} isPending={aiPending}/>
+                <InsightCard content={aiInsight} isPending={aiPending} isVerified={isVerified}/>
             </div>
         </main>
     )

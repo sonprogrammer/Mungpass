@@ -1,15 +1,29 @@
 'use client'
 
+import { useStoreRegistrationStore } from "@/features/auth/model/owner/useStoreRegistStore";
 import { RegisterStoreCheckCardProps } from "@/features/auth/model/types";
 import { Info, MapPin, Phone } from "lucide-react";
+import { useRouter } from "next/navigation";
 
 
-export function RegisterStoreCheckCard({place_name, phone, address_name}: RegisterStoreCheckCardProps) {
-    return(
+export function RegisterStoreCheckCard({ place_name, phone, address_name, isEdit, ownerId }: RegisterStoreCheckCardProps) {
+    const setSelectedPlace = useStoreRegistrationStore(state => state.setSelectedPlace)
+    const router = useRouter()
+
+    const handleFind = () => {
+        if(isEdit){
+            setSelectedPlace(null)
+            router.push(`/signup/owner/store?ownerId=${ownerId}&mode=edit`)
+        }else{
+            setSelectedPlace(null)
+        }
+    }
+    
+    return (
         <div className="bg-white rounded-3xl p-6 border border-orange-100 ">
 
             <div className="relative">
-            <p className="text-[10px] font-black text-orange-400 uppercase tracking-widest mb-1">Step 01 장소 확인</p>
+                <p className="text-[10px] font-black text-orange-400 uppercase tracking-widest mb-1">Step 01 장소 확인</p>
 
                 <h2 className="text-2xl font-black text-slate-800">
                     {place_name || '가게 정보 없음'}
@@ -31,6 +45,16 @@ export function RegisterStoreCheckCard({place_name, phone, address_name}: Regist
                             </span>
                         </div>
                     </div>
+                </div>
+
+                <div className="mt-4 p-3 bg-gray-50 rounded-lg flex items-center justify-between">
+                    <span className="text-xs text-gray-500">찾으시는 매장이 아닌가요?</span>
+                    <button
+                        onClick={handleFind}
+                        className="text-xs cursor-pointer font-bold text-blue-600 px-2 py-1 border border-blue-200 rounded-md"
+                    >
+                        다시 찾기
+                    </button>
                 </div>
 
                 <div className="pt-4 border-t border-slate-50">

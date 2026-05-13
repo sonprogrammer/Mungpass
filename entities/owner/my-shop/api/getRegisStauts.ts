@@ -1,6 +1,7 @@
+import { StoreRegistration } from "@/entities/owner/my-shop/model/types"
 import { supabaseClient } from "@/shared/api/supabase/client"
 
-export const getRegisData = async(userId: string) => {
+export const getRegisData = async(userId: string): Promise<StoreRegistration> => {
     const supabase = supabaseClient()
     
     const { data, error} = await supabase.from('store_registrations')

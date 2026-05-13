@@ -3,14 +3,15 @@
 import { StatsHeaderCardProps } from "@/features/owner/stats/model/types"
 import { Button, Select } from "antd"
 import { BarChart3, CalendarDays } from "lucide-react"
+import { useMemo } from "react"
 
-export function StatsHeaderCard({ toggle, openSummary, months, selectedMonth, setSelectedMonth }:StatsHeaderCardProps) {
+export function StatsHeaderCard({ toggle, openSummary, months, selectedMonth, setSelectedMonth, isVerified }: StatsHeaderCardProps) {
 
-    const options = months.map(m => {
+    const options = useMemo(() => months.map(m => {
         const [year, month] = m.split('-')
         return { value: m, label: `${year}년 ${month}월` }
-    })
-    
+    }), [months])
+
     return (
         <section className="rounded-3xl border border-gray-100 bg-white p-6 shadow-sm relative">
             <div className="flex flex-col gap-4 ">
@@ -20,27 +21,28 @@ export function StatsHeaderCard({ toggle, openSummary, months, selectedMonth, se
                         <p className="text-sm font-medium">실적 통계</p>
                     </div>
                     <p className=" text-[12px] leading-6 text-gray-500">
-                        체크인 수와 일별 매출 흐름을 한눈에 보고, 운영 추이를 빠르게 확인할 수 있어요.
+                        체크인 수와 일별 매출 흐름을 한눈에 보고, 운영 추이를 빠르게 확인할 수 있습니다.
                     </p>
                 </div>
 
                 <div className="flex flex-wrap items-center gap-3">
-                    <Select 
+                    <Select
                         value={selectedMonth}
                         onChange={setSelectedMonth}
                         options={options}
-                        prefix={<CalendarDays size={16} className="text-blue-500"/>}
+                        prefix={<CalendarDays size={16} className="text-blue-500" />}
                         variant="filled"
                     />
 
-                    <Button 
-                            type={openSummary ? "default" : "primary"}
-                            size="large"
-                            onClick={toggle}
-                            className={openSummary ? "border-gray-200" : "bg-emerald-500! hover:bg-emerald-600!"}
-                            style={{ borderRadius: '12px', fontWeight: 500 }}
-                        >
-                        {openSummary ? '리포트 숨기기' : '리포트 보기'}
+                    <Button
+                        disabled={!isVerified}
+                        type={openSummary ? "default" : "primary"}
+                        size="large"
+                        onClick={toggle}
+                        className={openSummary ? "border-gray-200" : "bg-emerald-500! hover:bg-emerald-600!"}
+                        style={{ borderRadius: '12px', fontWeight: 500 }}
+                    >
+                        {isVerified ? (openSummary ? '리포트 숨기기' : '리포트 보기') : '승인 후 열람 가능'}
                     </Button>
                 </div>
             </div>

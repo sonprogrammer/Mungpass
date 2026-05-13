@@ -3,7 +3,7 @@
 import { Modal, Badge, Button, Divider, App } from 'antd'
 import { useMemo, useState } from 'react'
 import { CheckCircleFilled, ClockCircleFilled, CloseCircleFilled } from '@ant-design/icons'
-import { AlertCircle, UploadCloud } from 'lucide-react';
+import { AlertCircle } from 'lucide-react';
 import { StepStatus } from '@/features/auth/ui/owner/StepStatus';
 
 import { format, isSameMonth, isToday } from 'date-fns';
@@ -12,9 +12,10 @@ import { MyStoreHeaderProps } from '@/entities/owner/my-shop/model/types';
 import { useGetDailySalesData } from '@/entities/owner/model/useGetDailySalesData';
 import { useGetMonthlySalesData } from '@/entities/owner/model/useGetMonthlySalesData';
 import { RegisteredStoreInfo } from '@/entities/owner/my-shop/ui/RegisteredStoreInfo';
-import { RegisteredStoreInfoSkeleton } from '@/entities/owner/my-shop/ui/RegisteredStoreInfoSkeleton';
 import { RegistrationDoc } from '@/entities/owner/my-shop/ui/RegistrationDoc';
 import { getAdminUrl } from '@/features/admin/store/api/ownerDocs';
+import NextImage from 'next/image';
+import { useRouter } from 'next/navigation';
 
 const STATUS_CONFIG = {
     APPROVED: {
@@ -38,12 +39,12 @@ const STATUS_CONFIG = {
     },
 } as const;
 
-export function MyStoreHeader({ regisData }: MyStoreHeaderProps) {
+export function MyStoreHeader({ shopId, regisData, isVerified }: MyStoreHeaderProps) {
     const [isModalOpen, setIsModalOpen] = useState(false)
     const [previewUrl, setPreviewUrl] = useState<string | null>(null)
 
-    const shopId = regisData.store_id
     const thisMonth = format(new Date(), 'yyyy-MM') //오늘 매출 데이터를 가져오기 위함
+    const router = useRouter()
 
     // * 오늘 매출 데이터 가져오기 -> 여기서 데이터는 [{date: '2026-05-01', sales: 10000, visits: 3},,,]이런식으로 나ㅁ오
     const { data: dailySalesData = [], isPending: isDailyPending } = useGetDailySalesData(shopId, thisMonth)
@@ -53,6 +54,7 @@ export function MyStoreHeader({ regisData }: MyStoreHeaderProps) {
     const isLoading = !shopId || isDailyPending || isMonthlyPending
 
     const { message } = App.useApp()
+
 
     //* 오늘 매출 가져오기 
     // * 요번달 누적 데이터만 가져오기
@@ -109,11 +111,14 @@ export function MyStoreHeader({ regisData }: MyStoreHeaderProps) {
         ]
     }, [regisData, currentStatus])
 
+    const handleReSubmit = () => {
+        router.push(`/signup/owner/re-store`)
+    }
+
 
     const handleOpenDocs = async (path: string) => {
 
         const url = await getAdminUrl(path)
-        console.log('url', url)
 
         if (!url) {
             message.error('서류 주소를가져오지 못했습니다')
@@ -127,13 +132,9 @@ export function MyStoreHeader({ regisData }: MyStoreHeaderProps) {
         setPreviewUrl(url)
     }
 
-    if (isLoading) {
-        return <RegisteredStoreInfoSkeleton />;
-    }
-
 
     return (
-        <>
+        <div className='px-6 pt-6'>
             {currentStatus !== 'APPROVED' ?
                 <section className="rounded-3xl border border-gray-100 bg-white p-6 shadow-sm">
                     <div className="flex items-center justify-between">
@@ -146,7 +147,11 @@ export function MyStoreHeader({ regisData }: MyStoreHeaderProps) {
                         </div>
 
                         <div className="flex items-center gap-2">
-                            <Badge status={config.color} text={config.label} className="mr-1! font-medium!" />
+                            {isVerified && isLoading ? (
+                                <div className="h-6 w-16 animate-pulse bg-gray-100 rounded-full" />
+                            ) : (
+                                <Badge status={config.color} text={config.label} className="mr-1! font-medium!" />
+                            )}
                             <Button
                                 type="default"
                                 shape="round"
@@ -160,7 +165,9 @@ export function MyStoreHeader({ regisData }: MyStoreHeaderProps) {
                 </section>
                 :
 
-                <RegisteredStoreInfo storeName={regisData.store_name} status={config.label} todaySales={todaySales} accSales={accSales} onDetailClick={() => setIsModalOpen(true)} />
+                <RegisteredStoreInfo storeName={regisData.store_name} status={config.label} todaySales={todaySales} accSales={accSales} onDetailClick={() => setIsModalOpen(true)}
+                    isLoading={isLoading}
+                />
             }
 
             <Modal
@@ -173,13 +180,14 @@ export function MyStoreHeader({ regisData }: MyStoreHeaderProps) {
                 open={isModalOpen}
                 onCancel={() => setIsModalOpen(false)}
                 footer={[
-                    currentStatus !== 'APPROVED' && (
+                    currentStatus === 'REJECTED' && (
                         <Button
-                            key="re-submit"
-                            icon={<UploadCloud size={16} />}
-                            className="h-11! rounded-xl! border-orange-200! text-orange-500! font-bold!"
+                            key='submit'
+                            type='primary'
+                            onClick={handleReSubmit}
+                            className='h-11! px-5! rounded-xl! bg-red-400! hover:bg-red-600! font-bold!'
                         >
-                            서류 재 제출
+                            재 제출
                         </Button>
                     ),
                     <Button
@@ -191,10 +199,10 @@ export function MyStoreHeader({ regisData }: MyStoreHeaderProps) {
                         확인
                     </Button>
                 ]}
-                width={520}
+                width={500}
                 centered
             >
-                <div className="py-4 space-y-8">
+                <div className="overflow-y-auto py-4 space-y-8" style={{ maxHeight: 'calc(100vh - 300px)' }}>
 
                     <div className="rounded-3xl bg-gray-50/50 border border-gray-100 p-6 space-y-6">
                         {approvalSteps.map((step, id) => (
@@ -207,8 +215,26 @@ export function MyStoreHeader({ regisData }: MyStoreHeaderProps) {
                         ))}
                     </div>
 
-                    <Divider />
+                    {currentStatus === 'REJECTED' && (
+                        <div className="mb-8 overflow-hidden rounded-2xl border border-rose-100 bg-rose-50/30">
+                            <div className="flex items-center gap-2 bg-rose-50 px-4 py-2.5">
+                                <AlertCircle size={16} className="text-rose-500" />
+                                <h3 className="text-sm font-bold text-rose-700">매장 승인 반려 사유</h3>
+                            </div>
+                            <div className="p-4">
+                                <p className="text-[13px] leading-relaxed text-gray-700 font-medium">
+                                    {regisData?.rejection_reason || "반려 사유가 등록되지 않았습니다. 관리자에게 문의해주세요."}
+                                </p>
+                                <div className="mt-3 flex justify-end">
+                                    <span className="text-[11px] text-rose-400 font-medium">
+                                        * 내용을 수정하여 재신청해주시기 바랍니다.
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    )}
 
+                    <Divider />
                     {/* //* 체출서류 목록 */}
                     <section>
                         <div className="flex items-center justify-between mb-4">
@@ -251,17 +277,23 @@ export function MyStoreHeader({ regisData }: MyStoreHeaderProps) {
                             style={{ border: "none" }}
                         />
                     ) : (
-                        <img
-                            src={previewUrl}
-                            style={{ width: "100%" }}
-                            onContextMenu={(e) => e.preventDefault()}
-                            draggable={false}
-                        />
+                        <div className="relative w-full aspect-3/4 min-h-[300px]">
+                            <NextImage
+                                src={previewUrl}
+                                alt='사업자 등록증 미리보기'
+                                fill
+                                className="object-contain"
+                                sizes="(max-width: 480px) 100vw, 700px"
+                                onContextMenu={(e) => e.preventDefault()}
+                                draggable={false}
+                                priority
+                            />
+                        </div>
                     )
                 )}
 
             </Modal>
 
-        </>
+        </div>
     )
 }

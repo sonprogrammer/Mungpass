@@ -2,22 +2,34 @@
 
 'use client'
 
+import { StoreRegistration } from "@/entities/owner/my-shop/model/types"
+import { getAdminUrl } from "@/features/admin/store/api/ownerDocs"
 import { usePostOwnerDocs } from "@/features/auth/model/owner/usePostOwnerDocs"
-import { KakaoPlace } from "@/shared/model/map"
+import { useUpdateOwnerDocs } from "@/features/auth/model/owner/useUpdateOwnerDocs"
+import { BusinessStoreSubmitInfo } from "@/features/auth/model/types"
+import { BusinessBizImg } from "@/features/auth/ui/owner/BusinessBizImg"
 import { App } from "antd"
 import { Camera, CheckCircle2, FileText, Loader2, Upload, X } from "lucide-react"
+import NextImage from "next/image"
 import { useRef, useState } from "react"
 
-export function BusinessForm({ storeInfo, ownerId }: { storeInfo: KakaoPlace | null, ownerId: string | null }) {
 
-    const [businessNumber, setBusinessNumber] = useState<string>('')
+export function BusinessForm({ storeInfo, ownerId, isEdit, registInfo, initialBizNumber, initialBizImg }: { storeInfo: BusinessStoreSubmitInfo, ownerId: string, isEdit?: boolean, registInfo?: StoreRegistration , initialBizNumber: string, initialBizImg: string}) {
+
+    const [businessNumber, setBusinessNumber] = useState<string>(initialBizNumber || '')
     const fileInputRef = useRef<HTMLInputElement>(null)
     const [file, setFile] = useState<File | null>(null)
-    const [preview, setPreview] = useState<string | null>(null)
+    const [preview, setPreview] = useState<string | null>(initialBizImg)
 
+    console.log('initia', initialBizImg)
 
-    const { mutate: postOwnerDocs, isPending } = usePostOwnerDocs()
+    // * 첫제출
+    const { mutate: postOwnerDocs, isPending: postPending } = usePostOwnerDocs()
+    // * 재 제출
+    const {mutate: updateOwnerDocs, isPending: updatePending} = useUpdateOwnerDocs()
 
+    const isPosting = postPending || updatePending
+    
     const { message } = App.useApp()
 
     const formatBusinessNumber = (val: string) => {
@@ -41,6 +53,23 @@ export function BusinessForm({ storeInfo, ownerId }: { storeInfo: KakaoPlace | n
         }
     }
 
+    const handleOpenDocs = async (path: string) => {
+    
+            const url = await getAdminUrl(path)
+            console.log('url', url)
+    
+            if (!url) {
+                message.error('서류 주소를가져오지 못했습니다')
+                return
+            }
+    
+            if (!path.toLowerCase().includes('.pdf')) {
+                const img = new Image()
+                img.src = url
+            }
+            setPreview(url)
+        }
+
     const removeFile = () => {
         setFile(null)
         setPreview(null)
@@ -49,19 +78,32 @@ export function BusinessForm({ storeInfo, ownerId }: { storeInfo: KakaoPlace | n
 
     const handleVerify = async (e: React.FormEvent) => {
         e.preventDefault()
-        if (!ownerId) return message.error('회원 정보가 없습니다. - 이럴 순 없음')
-        if (!storeInfo) return message.error('등록지점 정보가 없습니다. - 그럴수 없음 만약 그래도 auth/page에서 뒤로가기 진행시켜놈')
+        if (!ownerId) return message.error('회원 정보가 없습니다.')
+        if (!storeInfo) return message.error('매장 정보가 확인되지 않습니다.')
         if (businessNumber.length !== 12) return message.error('사업자 번호를 확인해주세요.')
-        if (!file) return message.error('사업자 등록증을 첨부해주세요.')
+        // * 수정 모드 혹은 파일이 있으면 통과
+        const canSubmit = isEdit ? (file || registInfo?.biz_reg_image_url) : file
+        if (!canSubmit) return message.error('사업자 등록증을 첨부해주세요.')
 
-
-        postOwnerDocs({
-            ownerId,
-            storeInfo,
-            businessNumber,
-            DocsImg: file
-        })
+        if (isEdit && registInfo) {
+            updateOwnerDocs({
+                id: registInfo.id,
+                ownerId,
+                storeInfo: registInfo,
+                businessNumber,
+                DocsImg: file || initialBizImg
+            })
+        } else {
+            postOwnerDocs({
+                ownerId,
+                storeInfo: storeInfo!,
+                businessNumber,
+                DocsImg: file as File
+            })
+        }
     }
+
+    const isValid = businessNumber.length === 12 && (file || (isEdit && initialBizImg))
 
     return (
         <form onSubmit={handleVerify} className="flex flex-col gap-6 mt-4 pb-6">
@@ -100,20 +142,7 @@ export function BusinessForm({ storeInfo, ownerId }: { storeInfo: KakaoPlace | n
                         </div>
                     </div>
                 ) : (
-                    <div className="relative rounded-3xl overflow-hidden border-2 border-orange-500 shadow-lg">
-                        <img src={preview} alt="등록증 미리보기" className="w-full h-48 object-cover" />
-                        <div className="absolute inset-0 bg-black/40 flex items-center justify-center opacity-0 hover:opacity-100 transition-opacity">
-                            <button
-                                onClick={removeFile}
-                                className="bg-white text-red-500 p-3 rounded-full shadow-xl hover:scale-110 active:scale-95 transition-all"
-                            >
-                                <X className="w-6 h-6" />
-                            </button>
-                        </div>
-                        <div className="absolute bottom-3 right-3 bg-orange-500 text-white text-[10px] font-black px-2 py-2 rounded-md flex items-center gap-1">
-                            <CheckCircle2 className="w-3 h-3" />
-                        </div>
-                    </div>
+                    <BusinessBizImg preview={preview} removeFile={removeFile} />
                 )}
 
                 <input
@@ -127,27 +156,26 @@ export function BusinessForm({ storeInfo, ownerId }: { storeInfo: KakaoPlace | n
 
             <div className="bg-slate-50 rounded-2xl p-4 text-[11px] text-slate-400 leading-relaxed">
                 * 입력하신 번호는 가입 승인 및 서비스 이용을 위한 본인 확인 용도로만 사용됩니다.<br />
+                {/* //TODO 여기 승인 완료 후 30일 폐기인지 아님 즉시 폐긴지 생각하고 넣어놓기 */}
                 * 올려주신 사업자 등록증은 승인 완료후 폐기처리됩니다.<br />
                 * 허위 정보를 입력할 경우 가입 승인이 거절될 수 있습니다.
             </div>
 
             <button
-                disabled={businessNumber.length !== 12 || !file || isPending}
-                className={`w-full py-5 rounded-2xl font-black text-lg shadow-xl transition-all cursor-pointer
-                        ${businessNumber.length === 12 && file
-                        ? 'bg-slate-800 text-white active:scale-[0.98]'
-                        : 'bg-slate-200 text-slate-400 pointer-events-none shadow-none'}
-                            `}
+                disabled={!isValid || isPosting}
+                className={`w-full py-5 rounded-2xl font-black text-lg shadow-xl transition-all
+                        ${isValid ? 'bg-slate-800 text-white active:scale-[0.98]' : 'bg-slate-200 text-slate-400 pointer-events-none shadow-none'}
+                `}
                 type="submit"
             >
 
-                {isPending ? (
+                {isPosting ? (
                     <div className="flex items-center justify-center gap-2">
                         <Loader2 className="animate-spin" size={20} />
                         <span>처리중...</span>
                     </div>
                 ) :
-                    <span>심사 요청하기</span>
+                    isEdit ? <span>재 심사 요청</span> :<span>심사 요청</span>
                 }
             </button>
 

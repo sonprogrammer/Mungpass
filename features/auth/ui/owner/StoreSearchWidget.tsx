@@ -5,13 +5,13 @@ import { Search, X } from "lucide-react"
 import { memo, useState } from "react"
 
 
-function StoreSearchWidget({ setKeyword }: StoreSearchWidgetProps) {
+function StoreSearchWidget({ handleKeywordChange }: StoreSearchWidgetProps) {
     const [localValue, setLocalValue] = useState('')
 
     const handleSearch = () => {
         const trimmed = localValue.trim()
         if(trimmed){
-            setKeyword(trimmed)
+            handleKeywordChange(trimmed)
         }
     }
     
@@ -37,7 +37,7 @@ function StoreSearchWidget({ setKeyword }: StoreSearchWidgetProps) {
                 {localValue && (
                     <button onClick={() => {
                         setLocalValue('')
-                        setKeyword('')
+                        handleKeywordChange('')
                     }}>
                         <X className="absolute right-3 top-1/2 -translate-y-1/2" />
                     </button>

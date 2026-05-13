@@ -4,7 +4,7 @@ import { Info, Lock, TrendingUp } from "lucide-react";
 
 // TODO 일단은 일별 한번만 ai인사이트 요청 가능하고 멍패스 인사이트 가입시 무제한으로 되게(이건 나중에 규모 커지면) - 서버로직은 짜놈
 
-export function InsightCard({ content, isPending }: { content: string, isPending: boolean }) {
+export function InsightCard({ content, isPending, isVerified }: { content: string, isPending: boolean, isVerified: boolean }) {
     return (
         <section className="mt-6">
             <article className="rounded-3xl border border-gray-100 bg-white p-6 shadow-sm overflow-hidden relative">
@@ -23,7 +23,16 @@ export function InsightCard({ content, isPending }: { content: string, isPending
                 </div>
 
                 <div className="mt-5 rounded-2xl bg-gray-50 p-5 text-sm leading-7 text-gray-600 min-h-30 relative z-10">
-                    {isPending ? (
+                    {!isVerified ? (
+                                <div className="flex flex-col items-center justify-center py-4 text-center">
+                                    <p className="font-semibold text-gray-700 text-lg">매장 심사 승인 후 받아보실 수 있습니다</p>
+                                    <p className="mt-1 text-gray-500 text-[13px]">
+                                        지점 등록 및 서류 인증이 완료되면 <br />
+                                        AI가 사장님 매장만을 위한 운영 리포트를 작성해드려요.
+                                    </p>
+                                </div>
+                    )
+                    : isPending ? (
                         <div className="flex flex-col gap-3 animate-pulse">
                             <div className="h-4 w-[90%] rounded-full bg-linear-to-r from-gray-200 to-gray-100"></div>
                             <div className="h-4 w-full rounded-full bg-linear-to-r from-gray-200 to-gray-100"></div>
@@ -38,22 +47,20 @@ export function InsightCard({ content, isPending }: { content: string, isPending
                             </div>
                         </div>
                     ) : (
-                        <div className="whitespace-pre-wrap transition-opacity duration-500 ease-in opacity-100">
-                            {content || "분석할 수 있는 통계 데이터가 부족합니다."}
-                        </div>
+                         content ? content : "분석할 수 있는 통계 데이터가 부족합니다. 매장 이용 건수가 쌓이면 리포트가 생성됩니다."
                     )}
                 </div>
 
                 {/* TODO 나중에 비즈니스 할때 유료회원도 결제 가능하게 하기 */}
                 <div className="mt-4 flex items-center gap-1.5 px-1 text-[11px] text-gray-400">
-                        <Info size={13} />
-                        <span>무료 회원은 매일 1회 분석 리포트가 생성됩니다.</span>
-                        <button className="ml-auto font-bold text-orange-500 hover:underline flex items-center gap-0.5">
-                            <Lock size={10} />
-                            실시간 분석 무제한 이용하기
-                        </button>
-                    </div>
-                
+                    <Info size={13} />
+                    <span>무료 회원은 매일 1회 분석 리포트가 생성됩니다.</span>
+                    <button className="ml-auto font-bold text-orange-500 hover:underline flex items-center gap-0.5">
+                        <Lock size={10} />
+                        실시간 분석 무제한 이용하기
+                    </button>
+                </div>
+
             </article>
         </section>
     )

@@ -26,12 +26,13 @@ import { usePostCheckout } from '@/features/qr/owner/model/usePostCheckout';
 
 dayjs.extend(customParseFormat)
 
-export function RealtimeUsageTable({ items, loading }: { items: CurrentUsageLog[], loading: boolean }) {
+export function RealtimeUsageTable({ items, loading, isVerified }: { items: CurrentUsageLog[], loading: boolean, isVerified: boolean }) {
   const [detailItem, setDetailItem] = useState<CurrentUsageLog | null>(null)
   const [checkoutItem, setCheckoutItem] = useState<CurrentUsageLog | null>(null)
 
   const { mutate: checkoutMutate} = usePostCheckout()
 
+  const displayLists = isVerified ? items : []
   const showViewAll = items.length >= 4
 
   const sortedData = [...items].sort((a, b) => {
@@ -62,10 +63,10 @@ export function RealtimeUsageTable({ items, loading }: { items: CurrentUsageLog[
             <Space size={8} className="min-w-0">
               <ThunderboltOutlined className="text-orange-500!" />
               <span className="font-bold truncate">실시간 입실 유저</span>
-              <Badge count={items.length} showZero color="#f97316" className="ml-1!" />
+              <Badge count={displayLists.length} showZero color="#f97316" className="ml-1!" />
             </Space>
 
-            {showViewAll && (
+            {isVerified && showViewAll && (
               <Link href="/usage">
                 <Button type="link" size="small" className="px-0! text-orange-500!">
                   전체 보기
@@ -90,7 +91,13 @@ export function RealtimeUsageTable({ items, loading }: { items: CurrentUsageLog[
           ) : !loading && (
             <Empty
               image={Empty.PRESENTED_IMAGE_SIMPLE}
-              description={<Typography.Text type="secondary">현재 입실 중인 유저가 없습니다.</Typography.Text>}
+              description={
+                <Typography.Text type="secondary">
+                  {!isVerified 
+                    ? "매장 심사 완료 후 입실 현황을 확인할 수 있습니다." 
+                    : "현재 입실 중인 유저가 없습니다."}
+                </Typography.Text>
+              }
             />
           )}
         </Spin>

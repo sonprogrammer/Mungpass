@@ -3,18 +3,25 @@
 import { RADIUS_OPTIONS } from "@/entities/place/model/constants";
 import { AroundHeaderProps } from "@/entities/place/model/types";
 import { Map as MapIcon, Search, X } from "lucide-react";
+import { useState } from "react";
 
 
 
 
-export function AroundHeader({ radius, setRadius, searchValue, setSearchValue, showMap, toggle, onSearch }: AroundHeaderProps) {
+export function AroundHeader({ radius, setRadius, showMap, toggle, onSearch }: AroundHeaderProps) {
 
-    const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
-        if (e.key === 'Enter') {
-            const trimmed = searchValue.trim()
-            if (trimmed) {
+     const [localValue, setLocalValue] = useState('')
+    
+        const handleSearch = () => {
+            const trimmed = localValue.trim()
+            if(trimmed){
                 onSearch(trimmed)
             }
+        }
+    
+    const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+        if (e.key === 'Enter') {
+            handleSearch()
         }
     }
 
@@ -39,15 +46,15 @@ export function AroundHeader({ radius, setRadius, searchValue, setSearchValue, s
                 <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-orange-200" />
                 <input
                     type="text"
-                    value={searchValue ?? ''}
+                    value={localValue ?? ''}
                     placeholder="동네 이름이나 시설명을 검색해보세요"
                     className="w-full pl-12 pr-4 py-4 bg-orange-50/50 border-2 border-orange-50 rounded-2xl outline-none focus:border-orange-500 transition-all text-sm font-bold"
                     onKeyDown={handleKeyDown}
-                    onChange={(e) => setSearchValue(e.target.value)}
+                    onChange={(e) => setLocalValue(e.target.value)}
                 />
-                {searchValue && (
+                {localValue && (
                     <button onClick={() => {
-                        setSearchValue('')
+                        setLocalValue('')
                         onSearch('')
                     }}>
                         <X className="absolute right-3 top-1/2 -translate-y-1/2"/>
@@ -56,7 +63,7 @@ export function AroundHeader({ radius, setRadius, searchValue, setSearchValue, s
             </div>
 
             {/* //* 내 주변 탐색시에만 반경이 나옴 */}
-            {!searchValue && (
+            {!localValue && (
                 <div className="flex gap-2 overflow-x-auto pb-2 no-scrollbar">
                 {RADIUS_OPTIONS.map((option) => (
                     <button

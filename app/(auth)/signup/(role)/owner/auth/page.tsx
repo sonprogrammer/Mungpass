@@ -25,8 +25,22 @@ export function AuthContent() {
         }
     }, [hasHydrated, selectedPlace, router, message])
 
+    
+
     const ownerId = searchParams.get('ownerId')
+
+    // *ownerId가 없을시 튕김
+        useEffect(() => {
+            if(!ownerId){
+                message.error('잘못된 접근입니다. 다시 로그인해주세요')
+                router.replace('/')
+            }
+        },[ownerId, router, message])
   
+        // *ownerId가 없으면 얼리 리턴해주기
+    if (!hasHydrated || !ownerId || !selectedPlace) {
+        return <div className="p-6">정보를 확인 중입니다...</div> // TODO: Skeleton 적용
+    }
 
     return (
         <div className="flex flex-col gap-8 px-6 py-4 animate-in fade-in slide-in-from-right-5 duration-500">
@@ -36,6 +50,7 @@ export function AuthContent() {
             </h2>
 
             {/* //*선택된 가게 정보 */}
+            {/* //TODO 스켈레톤 해주기 */}
             <RegisterStoreCheckCard 
                 place_name={selectedPlace?.place_name}
                 address_name={selectedPlace?.address_name}
@@ -50,7 +65,7 @@ export function AuthContent() {
                     <p className="text-sm text-slate-500">국세청에 등록된 정확한 정보를 입력해주세요.</p>
                 </div>
 
-                <BusinessForm storeInfo={selectedPlace} ownerId={ownerId}/>
+                <BusinessForm storeInfo={selectedPlace} ownerId={ownerId} isEdit={false}/>
             </div>
         </div>
     )
@@ -58,6 +73,7 @@ export function AuthContent() {
 
 export default function OwnerAuthPage() {
     return(
+        // TODO 스켈레톤으로 구성
         <Suspense fallback={<div>인증 정보를 불러오는 중입니다...</div>}>
             <AuthContent />
         </Suspense>

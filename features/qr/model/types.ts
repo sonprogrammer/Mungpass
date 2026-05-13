@@ -10,6 +10,7 @@ export interface QrModalProps {
     selectedProductId: string | null;
     onClose: () => void;
     onSelectProduct: (product: string | null) => void
+    isVerified: boolean
 }
 
 //* db에서 오는 데이터임

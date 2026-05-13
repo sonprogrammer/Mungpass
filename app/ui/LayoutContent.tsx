@@ -10,14 +10,14 @@ import { Toaster } from 'react-hot-toast'
 import { RefineProvider } from "@/app/RefineProvider";
 
 
+const KAKAO_SDK_URL = `https://dapi.kakao.com/v2/maps/sdk.js?appkey=${process.env.NEXT_PUBLIC_KAKAO_MAP_API_KEY}&libraries=services&autoload=false`;
 
 dayjs.extend(relativeTime)
 dayjs.extend(isBetween)
 dayjs.locale("ko")
+
 export default function LayoutContent({ children }: { children: React.ReactNode }) {
 
-
-  const KAKAO_SDK_URL = `https://dapi.kakao.com/v2/maps/sdk.js?appkey=${process.env.NEXT_PUBLIC_KAKAO_MAP_API_KEY}&libraries=services&autoload=false`;
 
 
 
@@ -29,10 +29,11 @@ export default function LayoutContent({ children }: { children: React.ReactNode 
 
         <Script
           src={KAKAO_SDK_URL}
-          strategy="afterInteractive"
+          strategy="beforeInteractive"
           onLoad={() => {
             if (window.kakao) {
               window.kakao.maps.load(() => {
+                console.log("✅ 카카오 맵 준비 완료");
               })
             }
           }}

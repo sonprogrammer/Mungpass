@@ -9,6 +9,7 @@ export interface StatsHeaderCardProps {
     months: string[];
     selectedMonth: string;
     setSelectedMonth: (month: string) => void;
+    isVerified: boolean
 }
 
 
@@ -49,6 +50,7 @@ export interface DailyChartProps{
     isPending: boolean;
     dateRange: string;
     isNextDisabled: boolean;
+    isVerified: boolean
 }
 
 export interface StatsDataToAi{

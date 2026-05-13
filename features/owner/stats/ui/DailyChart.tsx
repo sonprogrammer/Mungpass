@@ -8,7 +8,7 @@ import { BarChart3, Calendar } from 'lucide-react';
 import { DailyChartProps } from '@/features/owner/stats/model/types';
 import { format } from 'date-fns';
 
-const CustomTooltip = ({ active, payload, tab }: { active?: boolean; payload?: { payload: { date: string, sales: number, visits: number } }[]; tab: 'daily' | 'monthly' }) => {
+const CustomTooltip = ({ active, payload, tab }: { active?: boolean, payload?: { payload: { date: string, sales: number, visits: number } }[], tab: 'daily' | 'monthly' }) => {
 
     if (active && payload && payload.length) {
 
@@ -34,7 +34,7 @@ const CustomTooltip = ({ active, payload, tab }: { active?: boolean; payload?: {
 };
 
 
-export function DailyChart({ dailyData, monthlyData, tab, setTab, handleNext, handlePrev, isPending, dateRange, isNextDisabled }: DailyChartProps) {
+export function DailyChart({ dailyData, monthlyData, tab, setTab, handleNext, handlePrev, isPending, dateRange, isNextDisabled, isVerified }: DailyChartProps) {
 
     const chartData = useMemo(() => {
         if (tab === 'daily') return dailyData
@@ -79,6 +79,7 @@ export function DailyChart({ dailyData, monthlyData, tab, setTab, handleNext, ha
             className="grid gap-6"
         >
             <article className="rounded-3xl border border-gray-100 bg-white p-6 shadow-sm">
+
                 <div className="flex items-start justify-between gap-3">
                     <div>
                         <h2 className="text-lg font-bold text-gray-900">
@@ -101,6 +102,18 @@ export function DailyChart({ dailyData, monthlyData, tab, setTab, handleNext, ha
                 </div>
 
                 <div className={`w-full h-64 mt-5 transition-opacity ${isPending ? 'opacity-50' : 'opacity-100'}`}>
+
+                    {!isVerified && (
+                        <div className="w-full h-full flex flex-col items-center justify-center rounded-xl bg-white/30 backdrop-blur-lg border border-dashed border-gray-200">
+                            <div className="bg-white/80 px-4 py-2 rounded-full shadow-sm border border-gray-100">
+                                <p className="text-[12px] font-bold text-gray-600 flex items-center gap-2">
+                                    <span className="w-2 h-2 bg-orange-400 rounded-full animate-pulse" />
+                                    심사 승인 후 매출 차트가 활성화됩니다
+                                </p>
+                            </div>
+                        </div>
+                    )}
+
                     <ResponsiveContainer width="100%" height='100%'>
                         <BarChart data={chartData} margin={{ top: 0, right: 0, left: -10, bottom: 0 }}>
                             <CartesianGrid strokeDasharray="5 3" vertical={false} stroke="#e5e7" />
@@ -154,7 +167,7 @@ export function DailyChart({ dailyData, monthlyData, tab, setTab, handleNext, ha
                 <div className="mt-6 flex justify-between items-center bg-gray-50 rounded-2xl p-4">
                     <p className="text-[12px] font-medium text-gray-500">가장 매출이 높았던 날</p>
                     <p className="text-[12px] font-bold text-gray-900">
-                        {topRecordDate}
+                        {isVerified ? topRecordDate : '승인 후 가능'}
                     </p>
                 </div>
                 <div className='text-end text-[10px] mt-2 text-gray-500'>*체크 아웃시점에 실적에 반영됩니다.</div>

@@ -14,27 +14,28 @@ import { ko } from "date-fns/locale"
 interface FinishedLogListProps {
     data: CurrentUsageLog[];
     isPending: boolean
+    isVerified: boolean
 }
 
-export function FinishedLogList({ data, isPending }: FinishedLogListProps) {
+export function FinishedLogList({ data, isPending, isVerified }: FinishedLogListProps) {
     const [searchQuery, setSearchQuery] = useState('')
     const [filterType, setFilterType] = useState('all')
     const [detailItem, setDetailItem] = useState<CurrentUsageLog | null>(null)
 
-    const {data: shopInfo} = useGetShopInfo()
-    const shopId = shopInfo.id
-    
+    const { data: shopInfo } = useGetShopInfo()
+    const shopId = shopInfo?.id
+
 
     // * 상품 카테고리 가져오기
-    const { data: categories} = useGetProductCategories(shopId)
+    const { data: categories } = useGetProductCategories(shopId)
 
     const categoryOptions = [
-    { value: 'all', label: '전체 유형' }, 
-    ...(categories?.map(c => ({
-        value: c.id,   
-        label: c.name  
-    })) || [])
-]
+        { value: 'all', label: '전체 유형' },
+        ...(categories?.map(c => ({
+            value: c.id,
+            label: c.name
+        })) || [])
+    ]
 
 
     const filteredData = useMemo(() => {
@@ -83,7 +84,13 @@ export function FinishedLogList({ data, isPending }: FinishedLogListProps) {
 
                 <div className="flex-1 overflow-y-auto px-1">
                     {Object.keys(groupedData).length === 0 ? (
-                        <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} description="데이터가 없습니다." />
+                        <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} description={
+                            <span className="text-slate-400">
+                                {!isVerified
+                                    ? "매장 심사 승인 후 이용 내역이 표시됩니다."
+                                    : "최근 퇴실 내역이 없습니다."}
+                            </span>
+                        } />
                     ) : (
                         Object.entries(groupedData).sort((a, b) => b[0].localeCompare(a[0])).map(([date, logs]) => {
                             const dateObj = parseISO(date)

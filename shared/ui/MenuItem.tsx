@@ -1,6 +1,6 @@
 import { ChevronRight } from "lucide-react";
 
-export function MenuItem({ icon, title, onClick, status }: { icon: React.ReactNode, title: string, onClick?: () => void, status?: string}) {
+export function MenuItem({ icon, title, onClick, status, isVerified}: { icon: React.ReactNode, title: string, onClick?: () => void, status?: string, isVerified: boolean}) {
     return (
       <button 
         onClick={onClick}
@@ -10,7 +10,7 @@ export function MenuItem({ icon, title, onClick, status }: { icon: React.ReactNo
             {icon}
           </div>
           <span className="text-[15px] font-black text-slate-700 tracking-tight">{title}</span>
-          {status && <span className="text-[11px] text-orange-500 font-bold mt-0.5">{status}</span>}
+          {isVerified && status && <span className="text-[11px] text-orange-500 font-bold mt-0.5">{status}</span>}
         </div>
         <ChevronRight className="w-5 h-5 text-slate-300" />
       </button>

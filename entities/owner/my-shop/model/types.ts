@@ -3,12 +3,18 @@ export type RegistrationStatus = 	'PENDING'| 'APPROVED'| 'REJECTED'
 export interface StoreRegistration{
         id: string;
         owner_id: string;
+        address_name: string;
         store_name: string;
         store_id: string;
-        biz_reg_image_url: string | null;
+        biz_reg_image_url: string
+        kakao_place_id: string;
+        x: string;
+        y: string;
         rejection_reason: string | null;
+        phone: string
         status: RegistrationStatus;
         created_at: string; //신청일=제출일
+        category_name: string;
         updated_at: string; 
         business_number: string;
         rejected_at: string; //거절 날짜
@@ -20,6 +26,8 @@ export interface StoreRegistration{
 
 export interface MyStoreHeaderProps {
     regisData: StoreRegistration;
+    isVerified: boolean
+    shopId: string
 }
 
 export interface RegisteredStoreInfoProps {
@@ -28,4 +36,5 @@ export interface RegisteredStoreInfoProps {
     todaySales: number;
     accSales: number;
     onDetailClick: () => void;
+    isLoading: boolean
 }

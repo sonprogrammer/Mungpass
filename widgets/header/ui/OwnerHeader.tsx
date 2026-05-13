@@ -7,7 +7,6 @@ import NotificationDrawer from '@/features/notification/ui/NotificationDrawer'
 import { useNotificationStore } from "@/features/notification/model/useNotificationStore";
 import { useRouter } from "next/navigation";
 import { useRealTimeNotification } from "@/features/notification/model/useRealTimeNotification";
-import { useUserStore } from "@/entities/user/model/useUserStore";
 import { useGetOwnerHasStoreStatus } from "@/features/owner/model/useGetOwnerHasStoreStatus";
 import Image from "next/image";
 
@@ -16,8 +15,7 @@ export default function OwnerHeader() {
   const router = useRouter()
   const [isBellOpen, setIsBellOpen] = useState(false)
 
-  const profile = useUserStore(state => state.profile)
-  const { data: storeStatusInfo, isPending } = useGetOwnerHasStoreStatus(profile?.id || '')
+  const { data: storeStatusInfo, isPending } = useGetOwnerHasStoreStatus()
 
   const origin = storeStatusInfo?.origin
   const isVerifiedShop = origin === 'shops'
@@ -135,6 +133,7 @@ export default function OwnerHeader() {
         </div>
       </header>
 
+      {/* //* 매장 승인 후 이용 가능  */}
       {shopId && (
         <NotificationDrawer
           isOpen={isBellOpen}

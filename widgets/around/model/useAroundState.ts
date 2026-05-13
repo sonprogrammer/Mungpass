@@ -6,6 +6,8 @@ import { useAroundLogic } from "@/widgets/around/model/useAroundLogic";
 import { useCallback, useEffect, useState } from "react"
 import toast from "react-hot-toast";
 import { useStoreRegistrationStore } from '@/features/auth/model/owner/useStoreRegistStore';
+import { useSearchShops } from '@/features/search-shop/model/useSearchShops';
+import { useGetNearByShops } from '@/features/search-shop/model/useGetNearByShops';
 
 
 export function useAroundState() {
@@ -22,15 +24,16 @@ export function useAroundState() {
   const [showRefreshBtn, setShowRefreshBtn] = useState<boolean>(false)
   const [currentCenter, setCurrentCenter]= useState<Coords | null>(null)
 
-  const { displayCenter, displayShops, isPending, isSearchEmpty } = useAroundLogic(keyword, radius, dragBound)
-
+  // const { displayCenter, nearByShops, isPending } = useAroundLogic(radius, dragBound)
+  const { data: nearByData, isPending: nearyByPending} = useGetNearByShops(radius, dragBound)
+  const { data: searchData, isPending: searchPending} = useSearchShops(keyword)
   const { message} = App.useApp()
 
   useEffect(() => {
-    if(!isPending && displayShops.length === 0 && keyword !== ''){
-      toast.error('검색 결과가 없습니다. 다른지역을 찾아볼까요?', {id: 'search-empty', duration: 3000})
+    if(!isPending && nearByShops.length === 0 && keyword !== ''){
+      toast.error('주변 결과가 없습니다. 다른지역을 찾아볼까요?', {id: 'search-empty', duration: 3000})
     }
-  },[displayShops, isPending, keyword])
+  },[nearByShops, isPending, keyword])
   
 
   const handleSetKeyword = useCallback((newKeyword: string)=> {
@@ -42,7 +45,7 @@ export function useAroundState() {
   },[setSelectedPlace])
 
 
-  const handleSelectPlace = useCallback((place: KakaoPlace) => {
+  const handleSelectPlace = useCallback((place: KakaoPlace | null) => {
     setSelectedPlace(place);
   }, [setSelectedPlace])
   

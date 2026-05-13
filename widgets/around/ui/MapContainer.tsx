@@ -3,19 +3,19 @@ import { MapProps } from "@/shared/model/map";
 import KakaoMap from "@/shared/ui/map/KakaoMap";
 
 
-export function MapContainer({center, places,onMarkerClick, onBoundChange}: MapProps){
+export function MapContainer({ center, places, onMarkerClick, onBoundChange }: MapProps) {
 
-    return(
-        <div className="px-6 pt-4 animate-in fade-in zoom-in duration-300">
-          <div className="w-full h-80 bg-white rounded-[2.5rem] overflow-hidden shadow-xl border-4 border-white">
-            <KakaoMap 
-            key={`${center.lat}-${center.lon}`}
-              center={center} 
-              places={places} 
-              onMarkerClick={onMarkerClick} 
-              onBoundChange={onBoundChange}
-            />
-          </div>
-        </div>
-    )
+  return (
+    <div className="px-6 pt-4 animate-in fade-in zoom-in duration-300">
+      <div className="w-full h-80 bg-white rounded-[2.5rem] overflow-hidden shadow-xl border-4 border-white">
+        <KakaoMap
+          key={`${center.lat}-${center.lon}`}
+          center={center}
+          places={places}
+          onMarkerClick={onMarkerClick}
+          onBoundChange={onBoundChange}
+        />
+      </div>
+    </div>
+  )
 }
