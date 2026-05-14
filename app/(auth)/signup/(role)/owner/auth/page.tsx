@@ -1,7 +1,5 @@
 'use client'
 
-export const dynamic = 'force-dynamic'
-
 import { useStoreRegistrationStore } from "@/features/auth/model/owner/useStoreRegistStore"
 import { BusinessForm } from "@/features/auth/ui/owner/BusinessForm"
 import { RegisterStoreCheckCard } from "@/features/auth/ui/owner/RegisterStoreCheckCard"

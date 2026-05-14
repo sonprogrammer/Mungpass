@@ -1,7 +1,5 @@
 'use client'
 
-export const dynamic = 'force-dynamic'
-
 import { cookieLogout } from "@/features/auth/api/logoutAction"
 import { useStoreRegistrationStore } from "@/features/auth/model/owner/useStoreRegistStore"
 import { SelectedStore } from "@/features/auth/ui/owner/SelectedStore"

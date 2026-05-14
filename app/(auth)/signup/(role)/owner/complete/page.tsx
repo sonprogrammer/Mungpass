@@ -7,11 +7,11 @@ import { SuccessMsg } from "@/features/auth/ui/owner/SuccessMsg";
 import { App } from "antd";
 import { LogIn } from "lucide-react";
 import { useRouter, useSearchParams } from "next/navigation";
-import { useEffect } from "react";
+import { Suspense, useEffect } from "react";
 
 
 
-export default function OwnerCompletePage() {
+function OwnerCompleteContent() {
     const router = useRouter()
     const reset = useStoreRegistrationStore(state => state.reset)
     
@@ -64,5 +64,13 @@ export default function OwnerCompletePage() {
                 
             </div>
         </div>
+    )
+}
+
+export default function OwnerCompletePage() {
+    return(
+        <Suspense fallback={<div>로딩중...</div>}>
+            <OwnerCompletePage />
+        </Suspense>
     )
 }
