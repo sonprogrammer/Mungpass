@@ -3,6 +3,8 @@ import { NextRequest, NextResponse } from "next/server"
 import { supabaseServer } from "@/shared/api/supabase/server"
 import { format } from "date-fns"
 
+console.log("GEMINI KEY:", process.env.GEMINI_API_KEY);
+
 const geminiAi = new GoogleGenerativeAI(process.env.GEMINI_API_KEY!)
 
 export async function POST(req: NextRequest){
