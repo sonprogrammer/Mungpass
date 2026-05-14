@@ -4,7 +4,7 @@ import { Favorites } from "@/entities/place/model/types"
 import { useGetSaveList } from "@/entities/place/model/useGetSaveList"
 import { useSelectedPlace } from "@/features/search-shop/model/useSelectedPlace"
 import { StoreDetailBottomSheet } from "@/features/user/shopInfo/ui/StoreDetailBottomSheet"
-import { KakaoPlace } from "@/shared/model/map"
+
 import { NoResult } from "@/shared/ui/NoResultUI"
 import { MenuPageListCard } from "@/widgets/home-menu/ui/MenuPageListCard"
 import { Heart } from "lucide-react"
@@ -15,14 +15,18 @@ export function SaveList() {
     const setSelectedPlace = useSelectedPlace(state => state.setSelectedPlace)
     const { data: saveList, isPending } = useGetSaveList()
 
-    const handleMenuClick = (place: Favorites): KakaoPlace => {
+    // TODO 타입에 맞게 수정
+    const handleMenuClick = (place: Favorites) => {
         const placeData = {
             id: place.kakao_place_id,
             place_name: place.shop_name,
             address_name: place.address,
             category_name: place.category_name,
             place_url: place.place_url,
-            phone: place.phone
+            phone: place.phone ?? '',
+            x: '',
+            y: '',
+            road_address_name: ''
         }
         return placeData
     }
