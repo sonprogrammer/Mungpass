@@ -1,6 +1,6 @@
 import { ChevronRight } from "lucide-react";
 
-export function MenuItem({ icon, title, onClick, status, isVerified}: { icon: React.ReactNode, title: string, onClick?: () => void, status?: string, isVerified: boolean}) {
+export function MenuItem({ icon, title, onClick, status, isVerified}: { icon: React.ReactNode, title: string, onClick?: () => void, status?: string, isVerified?: boolean}) {
     return (
       <button 
         onClick={onClick}
