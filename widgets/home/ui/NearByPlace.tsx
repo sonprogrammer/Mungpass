@@ -1,7 +1,7 @@
 'use client'
 
 import { DEFAULT_RADIUS } from "@/entities/place/model/constants";
-import { PlaceListState } from "@/entities/place/ui/PlaceListState";
+import PlaceListState from "@/entities/place/ui/PlaceListState";
 import { useGetNearByShops } from "@/features/search-shop/model/useGetNearByShops";
 import { StoreDetailBottomSheet } from "@/features/user/shopInfo/ui/StoreDetailBottomSheet";
 import { KakaoPlace } from "@/shared/model/map";
