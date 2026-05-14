@@ -13,7 +13,7 @@ import { App } from "antd"
 import { useRouter, useSearchParams } from "next/navigation"
 import { Suspense, useCallback, useEffect, useMemo, useState } from "react"
 
-export function RegisterContent() {
+function RegisterContent() {
     // * 다음페이지로 넘어가기위한 선택용
     const [activePlace, setActivePlace] = useState<KakaoPlace | null>(null)
     const [keyword, setKeyword] = useState<string>('')

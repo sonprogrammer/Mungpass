@@ -70,7 +70,7 @@ function OwnerCompleteContent() {
 export default function OwnerCompletePage() {
     return(
         <Suspense fallback={<div>로딩중...</div>}>
-            <OwnerCompletePage />
+            <OwnerCompleteContent />
         </Suspense>
     )
 }

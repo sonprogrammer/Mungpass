@@ -6,7 +6,7 @@ import { CustomOverlayMap, Map, MapMarker } from 'react-kakao-maps-sdk';
 
 
 export default function KakaoMap({ center, places, onMarkerClick, onBoundChange }: MapProps) {
-  console.log('center', center)
+
   return (
     <div className="w-full h-full relative">
       <Map
@@ -35,7 +35,7 @@ export default function KakaoMap({ center, places, onMarkerClick, onBoundChange 
         )}
 
         {/* //TODO 주변 샵 마커들 - 멍패스 가입된 매장이면 멍패스 로고가 뜨게*/}
-        {places.map((place: KakaoPlace) => (
+        {places.slice(0,20).map((place: KakaoPlace) => (
           <React.Fragment key={place.id}>
             <MapMarker
               position={{ lat: Number(place.y), lng: Number(place.x) }}

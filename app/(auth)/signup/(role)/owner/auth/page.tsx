@@ -8,7 +8,7 @@ import { useRouter, useSearchParams } from "next/navigation"
 import { Suspense, useEffect } from "react"
 
 
-export function AuthContent() {
+function AuthContent() {
     const searchParams = useSearchParams()
     const selectedPlace = useStoreRegistrationStore(state=> state.selectedPlace)
     const hasHydrated = useStoreRegistrationStore(state => state.hasHydrated)

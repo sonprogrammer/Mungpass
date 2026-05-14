@@ -15,13 +15,6 @@ const nextConfig: NextConfig = {
       },
     ],
   },
-  experimental: {
-    optimizePackageImports: [
-      'antd',
-      '@mui/icons-material',
-      'lucide-react'
-    ]
-  }
 
 };
 
