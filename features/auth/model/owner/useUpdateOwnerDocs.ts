@@ -1,5 +1,6 @@
 
 import { updateOwnerDocs } from "@/features/auth/api/updateOwnerDocs";
+import { useStoreRegistrationStore } from "@/features/auth/model/owner/useStoreRegistStore";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { App } from "antd";
 import { useRouter } from "next/navigation";
@@ -7,6 +8,8 @@ import { useRouter } from "next/navigation";
 
 export function useUpdateOwnerDocs() {
     const queryClient = useQueryClient()
+
+    const reset = useStoreRegistrationStore(state => state.reset)
 
     const { message} = App.useApp()
     const router = useRouter()
@@ -20,6 +23,7 @@ export function useUpdateOwnerDocs() {
                 content: '재심사 요청이 완료되었습니다.',
                 duration: 3
             })
+            reset()
             router.replace('/owner')
         },
         onError: (error) => {

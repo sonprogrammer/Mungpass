@@ -80,7 +80,7 @@ export function MyStoreHeader({ shopId, regisData, isVerified }: MyStoreHeaderPr
         const submittedAt = format(new Date(regisData.submitted_at), 'yyyy.MM.dd', { locale: ko })
         const rejectedAt = format(new Date(regisData.rejected_at), 'yyyy.MM.dd', { locale: ko })
         const approvedAt = format(new Date(regisData.approved_at), 'yyyy.MM.dd', { locale: ko })
-
+        const reSubmittedAt = format(new Date(regisData.re_submit_at), 'yyyy.MM.dd',{locale: ko})
 
         return [
             {
@@ -90,8 +90,8 @@ export function MyStoreHeader({ shopId, regisData, isVerified }: MyStoreHeaderPr
                 active: false
             },
             {
-                title: "서류 제출",
-                desc: `${submittedAt} 제출`,
+                title: reSubmittedAt ? '서류 재제출' :"서류 제출",
+                desc: reSubmittedAt ? `${reSubmittedAt} 제출` : `${submittedAt} 재제출`,
                 done: !!regisData.biz_reg_image_url,
                 active: !regisData.biz_reg_image_url
             },
@@ -277,7 +277,7 @@ export function MyStoreHeader({ shopId, regisData, isVerified }: MyStoreHeaderPr
                             style={{ border: "none" }}
                         />
                     ) : (
-                        <div className="relative w-full aspect-3/4 min-h-[300px]">
+                        <div className="relative w-full aspect-3/4 min-h-75">
                             <NextImage
                                 src={previewUrl}
                                 alt='사업자 등록증 미리보기'

@@ -3,7 +3,7 @@
 import { RADIUS_OPTIONS } from "@/entities/place/model/constants";
 import { AroundHeaderProps } from "@/entities/place/model/types";
 import { Map as MapIcon, Search, X } from "lucide-react";
-import { useState } from "react";
+import { memo, useState } from "react";
 
 
 
@@ -82,3 +82,5 @@ export function AroundHeader({ radius, setRadius, showMap, toggle, onSearch }: A
         </section>
     )
 }
+
+export default memo(AroundHeader)

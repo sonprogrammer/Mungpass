@@ -2,16 +2,17 @@
 
 import { Favorites } from "@/entities/place/model/types"
 import { useGetSaveList } from "@/entities/place/model/useGetSaveList"
+import { useSelectedPlace } from "@/features/search-shop/model/useSelectedPlace"
 import { StoreDetailBottomSheet } from "@/features/user/shopInfo/ui/StoreDetailBottomSheet"
 import { KakaoPlace } from "@/shared/model/map"
 import { NoResult } from "@/shared/ui/NoResultUI"
 import { MenuPageListCard } from "@/widgets/home-menu/ui/MenuPageListCard"
 import { Heart } from "lucide-react"
-import { useState } from "react"
+
 
 
 export function SaveList() {
-    const [selectedPlace, setSelectedPlace] = useState<KakaoPlace | null>(null)
+    const setSelectedPlace = useSelectedPlace(state => state.setSelectedPlace)
     const { data: saveList, isPending } = useGetSaveList()
 
     const handleMenuClick = (place: Favorites): KakaoPlace => {
@@ -59,11 +60,7 @@ export function SaveList() {
                 ))}
 
             </div>
-            <StoreDetailBottomSheet 
-                key={selectedPlace?.id}
-                selectedPlace={selectedPlace}
-                onClose={() => setSelectedPlace(null)}
-            />
+            <StoreDetailBottomSheet />
         </>
     )
 }

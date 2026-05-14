@@ -1,12 +1,13 @@
-import { StoreRegistration } from "@/entities/owner/my-shop/model/types";
+
+import { BusinessStoreSubmitInfo } from "@/features/auth/model/types";
 import { supabaseClient } from "@/shared/api/supabase/client";
 
 interface UpdateDocsInfo{
     id: string;
     ownerId: string;
-    storeInfo: StoreRegistration
+    storeInfo: BusinessStoreSubmitInfo
     businessNumber: string;
-    DocsImg: File | string
+    DocsImg: File | string //새로운 파일 아님 기존 디비에 있는 파일 그대로 
 }
 
 export const updateOwnerDocs = async({id, ownerId, storeInfo, businessNumber, DocsImg}: UpdateDocsInfo) => {
@@ -44,9 +45,9 @@ export const updateOwnerDocs = async({id, ownerId, storeInfo, businessNumber, Do
                                                             rejection_reason: null,
                                                             re_submit_at: new Date().toISOString(),
                                                             address_name: storeInfo.address_name,
-                                                            kakao_place_id: storeInfo.kakao_place_id,
+                                                            kakao_place_id: storeInfo.id,
                                                             phone: storeInfo.phone,
-                                                            store_name: storeInfo.store_name,
+                                                            store_name: storeInfo.place_name,
                                                             x: storeInfo.x,
                                                             y: storeInfo.y
                                                         }

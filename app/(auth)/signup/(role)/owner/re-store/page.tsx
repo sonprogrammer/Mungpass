@@ -5,7 +5,6 @@ import { useStoreRegistrationStore } from "@/features/auth/model/owner/useStoreR
 import { BusinessForm } from "@/features/auth/ui/owner/BusinessForm"
 import { RegisterStoreCheckCard } from "@/features/auth/ui/owner/RegisterStoreCheckCard"
 import { AlertCircle, Loader2 } from "lucide-react"
-import { useEffect } from "react"
 
 
 export default function ReStoreRegistionPage() {
@@ -33,6 +32,8 @@ export default function ReStoreRegistionPage() {
         )
     }
 
+    const registrationTableId = registedData.id
+    
     const displayStoreInfo = {
         place_name: selectedPlace?.place_name || registedData.store_name,
         phone: selectedPlace?.phone || registedData.phone,
@@ -48,6 +49,7 @@ export default function ReStoreRegistionPage() {
         x: registedData.x,
         y: registedData.y,
         category_name: registedData.category_name,
+
     }
 
     return (
@@ -77,6 +79,7 @@ export default function ReStoreRegistionPage() {
                         isEdit={true}
                         initialBizNumber={registedData.business_number} // 기존 사업자 번호
                         initialBizImg={registedData.biz_reg_image_url} // 기존 등록증 경로
+                        registrationTableId={registrationTableId} // 재등록시에는 테이블에 로우가 있으니깐 그 로우에 대한 id값임
                     />
                 </section>
 

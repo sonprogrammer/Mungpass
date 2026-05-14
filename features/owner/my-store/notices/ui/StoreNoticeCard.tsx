@@ -4,7 +4,7 @@
 
 import { useState } from 'react'
 import { Megaphone, Edit3, AlertCircle, Calendar, Save, X } from 'lucide-react'
-import { Button, Tag, Modal, Input, Form, message, Switch, Divider, Empty } from 'antd'
+import { Button, Modal, Input, Form, Divider, Empty } from 'antd'
 import { useGetNotices } from '../model/useGetNotices'
 import { format } from 'date-fns'
 import { useSaveNotice } from '../model/useSaveNotice'
@@ -24,13 +24,11 @@ export function StoreNoticeCard({ shopId }: { shopId: string }) {
 
   // * 공지사항 있는거 가져오기
   const { data: storeNotices, isPending } = useGetNotices(shopId)
-  console.log('storeNotices', storeNotices)
 
   // * 공지사항 수정 / 등록
   const {mutate: saveNotice, isPending: saving} = useSaveNotice(shopId)
 
   const [selectedNotice, setSelectedNotice] = useState<NoticeType | null>(null)
-  console.log('selectedNotic', selectedNotice)
 
   const openModal = (notice?: NoticeType) => {
     if (notice) {
@@ -68,7 +66,7 @@ export function StoreNoticeCard({ shopId }: { shopId: string }) {
   const recentUpdate = storeNotices && storeNotices.length > 0 ?
          [...storeNotices]?.sort((a, b) => new Date(b.updated_at).getTime() - new Date(a.updated_at).getTime())[0].updated_at
           : null
-console.log('recent', recentUpdate)
+
   return (
     <>
       <article className="group rounded-3xl border border-gray-100 bg-white p-5 shadow-sm transition-all hover:shadow-md">
@@ -99,7 +97,7 @@ console.log('recent', recentUpdate)
         </div>
 
 
-        <div className="space-y-3 max-h-[400px] overflow-y-auto pr-1 custom-scrollbar">
+        <div className="space-y-3 max-h-100 overflow-y-auto pr-1 custom-scrollbar">
           {isPending ? (
             <div className="py-10 text-center text-gray-400">불러오는 중...</div>
           ) : storeNotices && storeNotices.length > 0 ? (

@@ -8,4 +8,5 @@ export interface MapSectionProps{
     onBoundChange: (bound: Bound) => void;
     onRefresh: () => void;
     onMyLocation: () => void;
+    keyword: string;
 }

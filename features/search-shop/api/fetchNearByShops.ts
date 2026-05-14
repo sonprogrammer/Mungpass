@@ -38,11 +38,14 @@ export const fetchNearByShops = (radius: number, newBound?: Bound | null): Promi
             const boundResponse = (res: kakao.maps.services.PlacesSearchResult, status: kakao.maps.services.Status, currentCenter: Coords) => {
                 if (status === window.kakao.maps.services.Status.OK) {
                     resolve({ center: currentCenter, places: res as KakaoPlace[] })
-                } else if (status === window.kakao.maps.services.Status.ZERO_RESULT) {
-                    resolve({ center: currentCenter, places: [] })
                 } else {
-                    reject(new Error('search failed'))
+                    resolve({ center: currentCenter, places: [] })
                 }
+                // else if (status === window.kakao.maps.services.Status.ZERO_RESULT) {
+                //     resolve({ center: currentCenter, places: [] })
+                // } else {
+                //     reject(new Error('search failed'))
+                // }
             }
 
             if (newBound) {
@@ -64,7 +67,13 @@ export const fetchNearByShops = (radius: number, newBound?: Bound | null): Promi
             navigator.geolocation.getCurrentPosition((pos) => {
                 const coords = { lat: pos.coords.latitude, lon: pos.coords.longitude }
                 searchWithCoords(coords)
-            }, reject)
+            },
+                (err) => {
+                    console.warn("위치 정보 실패, 기본값으로 검색:", err);
+                    const defaultCoords = { lat: 37.5665, lon: 126.9780 };
+                    searchWithCoords(defaultCoords);
+                },
+                { timeout: 5000 })
         })
     })
 }

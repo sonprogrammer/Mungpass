@@ -3,7 +3,6 @@ import { ScheduleRow } from '@/features/owner/my-store/model/types';
 import { KakaoPlace } from "@/shared/model/map";
 
 export interface StoreDetailWidgetProps {
-    selectedPlace: KakaoPlace | null
     onClose: () => void
 }
 

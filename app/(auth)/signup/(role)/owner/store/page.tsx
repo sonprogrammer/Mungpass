@@ -53,7 +53,6 @@ export function RegisterContent() {
 
     const ownerId = searchParams.get('ownerId')
     const mode = searchParams.get('mode')
-    console.log('mode', mode)
 
     // *ownerId가 없을시 튕김
     useEffect(() => {

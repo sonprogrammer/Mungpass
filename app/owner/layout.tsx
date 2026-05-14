@@ -28,7 +28,7 @@ export default function OwnerLayout({ children }: { children: React.ReactNode })
     const { status, origin } = storeStatusInfo
     const isPendingApproval = origin === 'store_registrations'
     const currentVerifiedStatus = origin === 'shops'
-    console.log('statu', status)
+
 
     // * 심사 중일 때 메시지 띄우기
     if (isPendingApproval && status === 'pending' && !isVerified) {

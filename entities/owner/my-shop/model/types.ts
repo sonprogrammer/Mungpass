@@ -22,6 +22,7 @@ export interface StoreRegistration{
         submitted_at: string; //서류 제출일
         expires_at: string; //서류 삭제 예정일 30일 
         discarded_at: string // 서류 삭제일
+        re_submit_at: string; // 서류 재 제출일 
 }
 
 export interface MyStoreHeaderProps {

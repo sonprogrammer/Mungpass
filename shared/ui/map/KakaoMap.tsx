@@ -6,7 +6,7 @@ import { CustomOverlayMap, Map, MapMarker } from 'react-kakao-maps-sdk';
 
 
 export default function KakaoMap({ center, places, onMarkerClick, onBoundChange }: MapProps) {
-  
+  console.log('center', center)
   return (
     <div className="w-full h-full relative">
       <Map

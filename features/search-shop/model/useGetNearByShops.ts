@@ -6,8 +6,9 @@ import { useQuery } from "@tanstack/react-query"
 
 
 export const useGetNearByShops = (radius:number, newBound?: Bound | null) =>{
+    
     return useQuery({
-        queryKey: ['nearByShops', radius, newBound],
+        queryKey: ['nearByShops', radius, newBound ?? 'initial'],
         queryFn: () => fetchNearByShops(radius, newBound),
         staleTime: 1000 * 60 * 10,
         gcTime: 1000 * 60 * 30,

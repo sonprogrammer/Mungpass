@@ -40,10 +40,7 @@ export function NearByPlace() {
             />
 
             <div className="-mx-6">
-                <StoreDetailBottomSheet
-                    selectedPlace={selectedPlace}
-                    onClose={() => setSelectedPlace(null)}
-                 />
+                <StoreDetailBottomSheet />
             </div>
 
         </section>

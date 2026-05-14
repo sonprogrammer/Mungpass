@@ -4,6 +4,7 @@ import {  Loader2 } from "lucide-react";
 import { KakaoPlace } from "@/shared/model/map";
 import { PlaceList } from "@/entities/place/ui/PlaceList";
 import { NoResult } from "@/shared/ui/NoResultUI";
+import { memo } from "react";
 
 
 interface ShopListStateProps {
@@ -12,7 +13,7 @@ interface ShopListStateProps {
     onPlaceClick: (place: KakaoPlace) => void;
 }
 
-export function PlaceListState({ isPending, places, onPlaceClick }: ShopListStateProps) {
+function PlaceListState({ isPending, places, onPlaceClick }: ShopListStateProps) {
     //* 로딩
     if (isPending) {
         return (
@@ -40,5 +41,7 @@ export function PlaceListState({ isPending, places, onPlaceClick }: ShopListStat
             places={places} 
             placeClick={onPlaceClick} 
         />
-    );
+    )
 }
+
+export default memo(PlaceListState)

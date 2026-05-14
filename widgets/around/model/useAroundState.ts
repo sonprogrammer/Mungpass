@@ -29,11 +29,11 @@ export function useAroundState() {
   const { data: searchData, isPending: searchPending} = useSearchShops(keyword)
   const { message} = App.useApp()
 
-  useEffect(() => {
-    if(!isPending && nearByShops.length === 0 && keyword !== ''){
-      toast.error('주변 결과가 없습니다. 다른지역을 찾아볼까요?', {id: 'search-empty', duration: 3000})
-    }
-  },[nearByShops, isPending, keyword])
+  // useEffect(() => {
+  //   if(!isPending && nearByShops.length === 0 && keyword !== ''){
+  //     toast.error('주변 결과가 없습니다. 다른지역을 찾아볼까요?', {id: 'search-empty', duration: 3000})
+  //   }
+  // },[nearByShops, isPending, keyword])
   
 
   const handleSetKeyword = useCallback((newKeyword: string)=> {
@@ -65,15 +65,15 @@ export function useAroundState() {
 
   },[setSelectedPlace])
 
-  const handleToggleMap = useCallback(() => {
-    if (isSearchEmpty) {
-      message.warning('검색 결과가 없어 현재 위치를 기반으로 멍패스 샵 보여드립니다.')
-      _setKeyword('')
-      setShowMap(true)
-      return
-    }
-    setShowMap(prev => !prev)
-  },[message, isSearchEmpty])
+  // const handleToggleMap = useCallback(() => {
+  //   if (isSearchEmpty) {
+  //     message.warning('검색 결과가 없어 현재 위치를 기반으로 멍패스 샵 보여드립니다.')
+  //     _setKeyword('')
+  //     setShowMap(true)
+  //     return
+  //   }
+  //   setShowMap(prev => !prev)
+  // },[message, isSearchEmpty])
 
   const handleCenterChange = useCallback((bound: Bound) => {
     setMapCenter(bound)
@@ -92,9 +92,15 @@ export function useAroundState() {
   },[mapCenter])
 
   return{
-    state: { selectedPlace, showMap, keyword, radius, showRefreshBtn, center: currentCenter|| displayCenter || { lat: 37.5665, lon: 126.9780 }, displayShops, isPending},
+    state: { selectedPlace, showMap, keyword, radius, showRefreshBtn, 
+      // center: currentCenter|| displayCenter || { lat: 37.5665, lon: 126.9780 }, 
+      // displayShops,
+      //  isPending
+      },
     actions: {
-        setSelectedPlace: handleSelectPlace, setShowMap, setKeyword: handleSetKeyword, setRadius, handleMyLocation, handleToggleMap, handleCenterChange, handleRefresh
+        setSelectedPlace: handleSelectPlace, setShowMap, setKeyword: handleSetKeyword, setRadius, handleMyLocation,
+        //  handleToggleMap,
+          handleCenterChange, handleRefresh
     }
   }
 }

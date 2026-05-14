@@ -1,10 +1,16 @@
+import { useSearchShops } from "@/features/search-shop/model/useSearchShops";
+import { useSelectedPlace } from "@/features/search-shop/model/useSelectedPlace";
+import { KakaoPlace } from "@/shared/model/map";
+import { useMyLocation } from "@/shared/model/useMyLocation";
 import { MapSectionProps } from "@/widgets/around/model/types";
 import { MapContainer } from "@/widgets/around/ui/MapContainer";
 import { LocateFixed, RefreshCw } from "lucide-react";
-import { memo } from "react";
+import { memo, useState } from "react";
 
 
-function MapSection({ center, places, showRefreshBtn, onMarkerClick, onBoundChange, onRefresh, onMyLocation }: MapSectionProps) {
+function MapSection({ center, places, showRefreshBtn, onMarkerClick, onBoundChange, onRefresh, onMyLocation, keyword }: MapSectionProps) {
+
+  
   return (
     <div className="relative">
 
