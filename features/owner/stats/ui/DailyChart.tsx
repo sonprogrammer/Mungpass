@@ -39,7 +39,7 @@ export function DailyChart({ dailyData, monthlyData, tab, setTab, handleNext, ha
     const chartData = useMemo(() => {
         if (tab === 'daily') return dailyData
 
-        return monthlyData.map(item => ({
+        return [...monthlyData].sort((a, b) => a.month.localeCompare(b.month)).map(item => ({
             ...item,
             date: item.month
         }))
