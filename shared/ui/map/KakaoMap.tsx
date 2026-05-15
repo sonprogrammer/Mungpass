@@ -1,11 +1,11 @@
 'use client';
 
-import { KakaoPlace, MapProps } from '@/shared/model/map';
-import React from 'react';
+import { KakaoMapProps, PartnerKakaoPlace } from '@/shared/model/map';
+import React, { memo } from 'react';
 import { CustomOverlayMap, Map, MapMarker } from 'react-kakao-maps-sdk';
 
 
-export default function KakaoMap({ center, places, onMarkerClick, onBoundChange }: MapProps) {
+function KakaoMap({ center, places, onMarkerClick, onBoundChange }: KakaoMapProps) {
 
   return (
     <div className="w-full h-full relative">
@@ -28,22 +28,17 @@ export default function KakaoMap({ center, places, onMarkerClick, onBoundChange 
           }
         }}
       >
-         
-        {/* //*현재 내 위치 마커(지도 중앙), 주변에 표시할 가게가 없을시 마커 표시  */}
-        {places.length === 0 && (
-          <MapMarker position={{ lat: center.lat, lng: center.lon }} />
-        )}
 
-        {/* //TODO 주변 샵 마커들 - 멍패스 가입된 매장이면 멍패스 로고가 뜨게*/}
-        {places.slice(0,20).map((place: KakaoPlace) => (
+          <MapMarker position={{ lat: center.lat, lng: center.lon }} />
+
+        {places.slice(0,20).map((place: PartnerKakaoPlace) => {
+
+        return(
           <React.Fragment key={place.id}>
             <MapMarker
               position={{ lat: Number(place.y), lng: Number(place.x) }}
               onClick={() => onMarkerClick(place)}
-              image={{
-                src: '/dog.png',
-                size: { width: 30, height: 30 }
-              }}
+              image={place.isPartner ? { src: '/dog.png', size: { width: 34, height: 34 } } : undefined}
             />
 
             <CustomOverlayMap
@@ -57,7 +52,8 @@ export default function KakaoMap({ center, places, onMarkerClick, onBoundChange 
               </div>
             </CustomOverlayMap>
           </React.Fragment>
-        ))}
+        )}
+        )}
       </Map>
 
       <div className="absolute bottom-4 left-1/2 -translate-x-1/2 z-10 w-full px-10">
@@ -68,3 +64,5 @@ export default function KakaoMap({ center, places, onMarkerClick, onBoundChange 
     </div>
   );
 }
+
+export default memo(KakaoMap)

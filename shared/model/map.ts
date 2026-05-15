@@ -29,9 +29,21 @@ export interface KakaoPlace{
     distance?: string;
 }
 
+export interface PartnerKakaoPlace extends KakaoPlace{
+    isPartner?: boolean;    //* 제휴 매장인지
+    shopId?: string; //* shops테이블 id
+}
+
 export interface MapProps{
     center: Coords
     places: KakaoPlace[];
+    onMarkerClick: (place: KakaoPlace) => void;
+    onBoundChange?: (bound: Bound) => void
+}
+
+export interface KakaoMapProps {
+    center: Coords
+    places: PartnerKakaoPlace[]
     onMarkerClick: (place: KakaoPlace) => void;
     onBoundChange?: (bound: Bound) => void
 }

@@ -77,6 +77,8 @@ export default function AroundPage() {
     return nearShopData?.places || []
   },[keyword, searchData, nearShopData])
 
+  console.log('displayshop', displayShops)
+
   // * 검색, 현재 위치에 따른 데이터 없음 알림
   useEffect(() => {
   if (isLoading) return
