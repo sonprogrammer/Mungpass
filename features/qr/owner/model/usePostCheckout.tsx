@@ -16,6 +16,9 @@ export function usePostCheckout() {
         onSuccess: (res) => {
             queryClient.invalidateQueries({ queryKey: ['currentLogs', shopId] })
             queryClient.invalidateQueries({ queryKey: ['statsData', shopId] })
+            queryClient.invalidateQueries({ queryKey: ['monthlySalesData', shopId]})
+            queryClient.invalidateQueries({ queryKey: ['expectedSales', shopId] })
+            
 
             if (res.extraCharge > 0) {
                 modal.info({

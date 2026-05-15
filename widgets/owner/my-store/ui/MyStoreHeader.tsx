@@ -56,7 +56,9 @@ export function MyStoreHeader({ shopId, regisData, isVerified }: MyStoreHeaderPr
     // * 오늘 확정 매출 
     const { data : todayConfirmed =0 } = useGetTodayConfirmedSales(shopId)
 
-    
+    console.log('todayconfiremed', todayConfirmed)
+    console.log('monthly', monthlySalesData)
+    console.log('expecte', expectedSales)
 
     const isLoading = !shopId || isExpectedSalesPending || isMonthlyPending
 

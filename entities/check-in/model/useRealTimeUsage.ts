@@ -19,7 +19,6 @@ export function useRealTimeUsage(shopId: string | undefined) {
                                         filter: `shop_id=eq.${shopId}`
                                     },
                                     (payload) => {
-                                        console.log('실시간 데이터 변경 감지', payload)
                                         queryClient.invalidateQueries({queryKey: ['todayVisitCount', shopId]})
                                         queryClient.invalidateQueries({queryKey: ['currentLogs', shopId, 'staying']})
                                         queryClient.invalidateQueries({queryKey: ['avgUsingTime', shopId]})

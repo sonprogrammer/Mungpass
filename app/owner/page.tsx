@@ -33,7 +33,6 @@ export default function OwnerMainPage() {
 
   // * 오늘 매출 - 체크인시 우선적으로 그 상품 가격이 나오고 상품시간초과시 유예시간 적용후 초과시간 만큼 계산된 매출이 계산되어 정산
   const { data: expectedSales, isPending: isExpectedSalesPending } = useGetExpectedSales(shopInfo?.id || '')
-  console.log('expectedSales', expectedSales)
 
   const isSummaryLoading = isVerified
     ? (isTodayVisitPedning || isAvgTimePending || isExpectedSalesPending || isShopInfoPending)
