@@ -10,6 +10,6 @@ export function useGetMyPetUsage({statuses=['staying']}: { statuses: UsageLogSta
         queryKey: ['myPet-checkIn', userId, statuses],
         queryFn: () => getMyPetUsage({userId:userId!, statuses}),
         enabled: !!userId,
-        refetchInterval: statuses.includes('staying') ? 60000 : false
+        refetchOnWindowFocus: true
     })
 }
