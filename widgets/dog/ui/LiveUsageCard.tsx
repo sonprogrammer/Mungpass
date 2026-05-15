@@ -79,7 +79,7 @@ export function LiveUsageCard({ dogUsage }: { dogUsage: MyPetUsageAllInfo }) {
                 {!isOverTime && displayMins > 0 && (
                     <div className="mt-2 px-3 py-1 bg-orange-100 rounded-full">
                         <p className="text-[10px] font-black text-orange-600">
-                            ✨ 유예 시간 {gracePeriodMins}분 적용 중
+                            유예 시간 {gracePeriodMins}분 적용 중
                         </p>
                     </div>
                 )}

@@ -6,16 +6,17 @@ import { CheckCircleFilled, ClockCircleFilled, CloseCircleFilled } from '@ant-de
 import { AlertCircle } from 'lucide-react';
 import { StepStatus } from '@/features/auth/ui/owner/StepStatus';
 
-import { format, isSameMonth, isToday } from 'date-fns';
+import { format, isSameMonth } from 'date-fns';
 import { ko } from 'date-fns/locale'
 import { MyStoreHeaderProps } from '@/entities/owner/my-shop/model/types';
-import { useGetDailySalesData } from '@/entities/owner/model/useGetDailySalesData';
 import { useGetMonthlySalesData } from '@/entities/owner/model/useGetMonthlySalesData';
 import { RegisteredStoreInfo } from '@/entities/owner/my-shop/ui/RegisteredStoreInfo';
 import { RegistrationDoc } from '@/entities/owner/my-shop/ui/RegistrationDoc';
 import { getAdminUrl } from '@/features/admin/store/api/ownerDocs';
 import NextImage from 'next/image';
 import { useRouter } from 'next/navigation';
+import { useGetExpectedSales } from '@/entities/owner/model/useGetExpectedSales';
+import { useGetTodayConfirmedSales } from '@/entities/check-in/model/useGetTodayConfirmedSales';
 
 const STATUS_CONFIG = {
     APPROVED: {
@@ -43,34 +44,38 @@ export function MyStoreHeader({ shopId, regisData, isVerified }: MyStoreHeaderPr
     const [isModalOpen, setIsModalOpen] = useState(false)
     const [previewUrl, setPreviewUrl] = useState<string | null>(null)
 
-    const thisMonth = format(new Date(), 'yyyy-MM') //오늘 매출 데이터를 가져오기 위함
     const router = useRouter()
 
-    // * 오늘 매출 데이터 가져오기 -> 여기서 데이터는 [{date: '2026-05-01', sales: 10000, visits: 3},,,]이런식으로 나ㅁ오
-    const { data: dailySalesData = [], isPending: isDailyPending } = useGetDailySalesData(shopId, thisMonth)
+
+    // * 오늘 매출 - 체크인시 우선적으로 그 상품 가격이 나오고 상품시간초과시 유예시간 적용후 초과시간 만큼 계산된 매출이 계산되어 정산
+      const { data: expectedSales, isPending: isExpectedSalesPending } = useGetExpectedSales(shopId)
+    
     // * 월 누적 데이터를 가져오기 위함 -> 데이터 [{month: '2026-05', sales: 10000, visits: 3},,,]이런식으로 나옴
     const { data: monthlySalesData = [], isPending: isMonthlyPending } = useGetMonthlySalesData(shopId)
 
-    const isLoading = !shopId || isDailyPending || isMonthlyPending
+    // * 오늘 확정 매출 
+    const { data : todayConfirmed =0 } = useGetTodayConfirmedSales(shopId)
+
+    
+
+    const isLoading = !shopId || isExpectedSalesPending || isMonthlyPending
 
     const { message } = App.useApp()
 
 
-    //* 오늘 매출 가져오기 
-    // * 요번달 누적 데이터만 가져오기
-    const { todaySales, accSales } = useMemo(() => {
+    // * 요번달 누적 매출 가져오기 - 체크아웃 한 매출(확정매출) + 체크아웃 하지 않은 예상매출(오버타임 할시 추가금 발생하는 매출)
+    const { accSales } = useMemo(() => {
         if (isLoading) return { todaySales: 0, accSales: 0 };
-
-        const todayTotal = dailySalesData
-            .filter(d => isToday(new Date(d.date)))
-            .reduce((acc, cur) => acc + cur.sales, 0);
 
         const monthlyTotal = monthlySalesData
             .filter(m => isSameMonth(new Date(m.month), new Date()))
             .reduce((acc, cur) => acc + cur.sales, 0);
 
-        return { todaySales: todayTotal, accSales: monthlyTotal };
-    }, [dailySalesData, monthlySalesData, isLoading])
+        const realTimeAccSales = monthlyTotal - todayConfirmed + expectedSales
+        // * 매출 확정된 이번달 매출 - 오늘 확정된 체크아웃 매출 + 오늘 예상매출(오늘 확정된 체크아웃매출 + 아직 체크아웃하지 않은 매출)
+
+        return {  accSales: realTimeAccSales };
+    }, [isLoading, monthlySalesData, todayConfirmed, expectedSales])
 
     const currentStatus = (regisData?.status as keyof typeof STATUS_CONFIG) || 'pending'
     const config = STATUS_CONFIG[currentStatus]
@@ -134,7 +139,7 @@ export function MyStoreHeader({ shopId, regisData, isVerified }: MyStoreHeaderPr
 
 
     return (
-        <div className='px-6 pt-6'>
+        <div className=''>
             {currentStatus !== 'APPROVED' ?
                 <section className="rounded-3xl border border-gray-100 bg-white p-6 shadow-sm">
                     <div className="flex items-center justify-between">
@@ -165,7 +170,7 @@ export function MyStoreHeader({ shopId, regisData, isVerified }: MyStoreHeaderPr
                 </section>
                 :
 
-                <RegisteredStoreInfo storeName={regisData.store_name} status={config.label} todaySales={todaySales} accSales={accSales} onDetailClick={() => setIsModalOpen(true)}
+                <RegisteredStoreInfo storeName={regisData.store_name} status={config.label} todaySales={expectedSales} accSales={accSales} onDetailClick={() => setIsModalOpen(true)}
                     isLoading={isLoading}
                 />
             }

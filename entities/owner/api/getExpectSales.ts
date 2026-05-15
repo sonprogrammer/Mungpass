@@ -31,6 +31,7 @@ export const getExpectSales = async (shopId: string) => {
         if(log.ended_at){
             return acc + (log.total_price || 0)
         }
+        
         // * 아직 이용중
         const product = log.product
         if(!product) return acc
@@ -50,7 +51,7 @@ export const getExpectSales = async (shopId: string) => {
         const diffMins = Math.floor(diffMs / 60000)
 
         
-        // * 유예 시간 
+        // * 상품 시간초과 && 유예 시간 초과
         if (diffMs > 0 && diffMins > gracePeriodMins) {
             const chargeMins = diffMins - gracePeriodMins
             const overTimeUnits = Math.ceil(chargeMins / overtimeUnitMins)

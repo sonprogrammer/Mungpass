@@ -36,7 +36,7 @@ export const RegisteredStoreInfo = memo(({ storeName, status, todaySales, accSal
                 <div className="flex flex-col gap-1">
 
                     <div className="flex flex-col text-right">
-                        <p className="text-emerald-100 text-xs font-bold tracking-wider">오늘의 매출</p>
+                        <p className="text-emerald-100 text-xs font-bold tracking-wider">오늘 예상 매출</p>
                         <div className="flex items-center gap-1 justify-end text-white">
                             {isLoading ? (
                                 <div className="h-5 w-16 bg-emerald-400/50 animate-pulse rounded-md" />
@@ -53,7 +53,7 @@ export const RegisteredStoreInfo = memo(({ storeName, status, todaySales, accSal
 
                     {/* //*월 누적 데이터*/}
                     <div className="text-right">
-                        <p className="text-emerald-100 text-xs font-bold tracking-wider">이번 달 누적</p>
+                        <p className="text-emerald-100 text-xs font-bold tracking-wider">이번 달 누적 매출</p>
                         <div className="flex items-center gap-1 justify-end text-white">
                             {isLoading ? (
                                 <div className="h-5 w-20 bg-emerald-400/50 animate-pulse rounded-md" />
@@ -66,6 +66,7 @@ export const RegisteredStoreInfo = memo(({ storeName, status, todaySales, accSal
                                 </>
                             )}
                         </div>
+                     
                     </div>
 
                 </div>

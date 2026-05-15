@@ -4,7 +4,6 @@ import { ClockCircleOutlined, PlayCircleOutlined, UserOutlined, DollarOutlined }
 export function OwnerSumCards({ currentCount, todayVisitCount, avgTime, expectedSales, loading, isVerified }: { currentCount: number, todayVisitCount?: number, avgTime?: number, expectedSales?: number, loading: boolean, isVerified: boolean }) {
 
 
-    console.log('isVreif', isVerified)
     const getDisplayValue = (val?: number) => {
         if (!isVerified) return 0
         return val ?? 0
