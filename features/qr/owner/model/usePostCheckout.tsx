@@ -18,6 +18,8 @@ export function usePostCheckout() {
             queryClient.invalidateQueries({ queryKey: ['statsData', shopId] })
             queryClient.invalidateQueries({ queryKey: ['monthlySalesData', shopId]})
             queryClient.invalidateQueries({ queryKey: ['expectedSales', shopId] })
+            queryClient.invalidateQueries({ queryKey: ['today-confirmed-sales', shopId]})
+
             
 
             if (res.extraCharge > 0) {
