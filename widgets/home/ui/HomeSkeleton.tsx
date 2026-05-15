@@ -1,46 +1,36 @@
 'use client'
 
-import { Box, Stack, Skeleton } from "@mui/material";
+import { Skeleton, Flex } from 'antd';
 
 export function HomeSkeleton() {
-    return (
-        <Box sx={{ p: 3, width: '100%', boxSizing: 'border-box' }}>
-            <Stack spacing={3}>
-                {/* //* 환영문구 */}
-                <Box>
-                    <Skeleton variant="text" width="60%" height={40} sx={{ borderRadius: 2 }} />
-                    <Skeleton variant="text" width="40%" height={32} sx={{ borderRadius: 1 }} />
-                </Box>
+  return (
+    <div className="p-6 space-y-6">
+      <div>
+        <Skeleton.Input active block style={{ height: 40, width: '40%' }} />
+        <Skeleton.Input active block style={{ height: 30, width: '60%', marginTop: 8 }} />
+      </div>
 
-                {/* //* 강아지 관련 카드 */}
-                <Skeleton
-                    variant="rectangular"
-                    width="100%"
-                    height={80}
-                    sx={{ borderRadius: 4 }} 
-                />
+      <Skeleton.Button active block style={{ height: 100 }} />
 
-                {/* //* Qr 영역 */}
-                <Skeleton variant="rectangular" width="100%" height={80} sx={{ borderRadius: 4, display: 'flex'}} />
+      <Skeleton.Button active block style={{ height: 100 }} />
 
-                {/* //* Menu  */}
-                <Box sx={{ display: 'flex', gap: 1 }}>
-                    {[1, 2].map((i) => (
-                            <Skeleton key={i} variant="rectangular" width='100%' height={100} sx={{borderRadius: 4}}/>
-                    ))}
-                </Box>
+      <Flex gap={12}>
+        <Skeleton.Button active block style={{ height: 100 }} />
+        <Skeleton.Button active block style={{ height: 100 }} />
+      </Flex>
 
-                {/* //* NearByPlace 영역 */}
-                <Box>
-                    <Skeleton variant="text" width="30%" height={32} sx={{ mb: 1 }} />
-                    <Box sx={{ display: 'flex', flexDirection: 'column' ,gap: 2, overflow: 'hidden' }}>
-                        <Skeleton variant="rectangular" width="100%" height={140} sx={{ borderRadius: 3, flexShrink: 0 }} />
-                        <Skeleton variant="rectangular" width="100%" height={140} sx={{ borderRadius: 3, flexShrink: 0 }} />
-                        <Skeleton variant="rectangular" width="100%" height={140} sx={{ borderRadius: 3, flexShrink: 0 }} />
-                    </Box>
-                    </Box>
+      <div className="space-y-3">
+        <Skeleton.Input active block style={{ height: 30,width: '30%' ,marginTop: 10 }} />
 
-            </Stack>
-        </Box>
-    )
+        {[1, 2, 3].map((i) => (
+          <Skeleton.Button
+            key={i}
+            active
+            block
+            style={{ height: 140 }}
+          />
+        ))}
+      </div>
+    </div>
+  );
 }

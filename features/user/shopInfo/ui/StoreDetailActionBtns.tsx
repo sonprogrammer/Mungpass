@@ -12,7 +12,8 @@ export function StoreDetailActionBtns({
     place, 
     onClick,
     toggleSave,
-    isLiked
+    isLiked,
+    storeNotices
  }: StoreDetailActionBtnsProps) {
     return (
         <>
@@ -39,6 +40,7 @@ export function StoreDetailActionBtns({
                     )}
                 </div>
             </button>
+            
 
             <a
                 href={place.phone ? `tel:${place.phone}` : '#'}

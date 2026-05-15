@@ -1,5 +1,6 @@
 import { Vacations } from '@/features/owner/model/type';
 import { ScheduleRow } from '@/features/owner/my-store/model/types';
+import { NoticeFromDb } from '@/features/owner/my-store/notices/model/types';
 import { KakaoPlace } from "@/shared/model/map";
 
 export interface StoreDetailWidgetProps {
@@ -25,6 +26,7 @@ export interface StoreDetailActionBtnsProps {
     onClick: () => void
     toggleSave: (place:KakaoPlace) => void;
     isLiked: boolean
+    storeNotices: NoticeFromDb[]
 }
 
 export interface StoreScheduleInfoProps{

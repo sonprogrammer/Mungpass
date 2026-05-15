@@ -6,6 +6,8 @@ import { useToggleSaveList } from "@/entities/place/model/useToggleSaveList";
 import { useGetSchedule } from "@/features/owner/my-store/model/useGetSchedule";
 import { useShopStatus } from "@/features/owner/my-store/model/useGetShopStatus";
 import { useGetVacation } from "@/features/owner/my-store/model/useGetVacation";
+import { NoticeFromDb } from "@/features/owner/my-store/notices/model/types";
+import { useGetNotices } from "@/features/owner/my-store/notices/model/useGetNotices";
 import { StoreDetailActionBtns } from "@/features/user/shopInfo/ui/StoreDetailActionBtns";
 import { StoreScheduleInfo } from "@/features/user/shopInfo/ui/StoreScheduleInfo";
 import { KakaoPlace } from "@/shared/model/map";
@@ -25,6 +27,7 @@ export function PlaceDetailSheet({ place }: { place: KakaoPlace }) {
 
     const shopId = shop?.id
 
+
     const isMungPassPartner = !!shopId
 
     const secureKakaoUrl = place.place_url?.replace('http://', 'https://')
@@ -33,6 +36,10 @@ export function PlaceDetailSheet({ place }: { place: KakaoPlace }) {
     const { data: shopScedules } = useGetSchedule(shopId)
     // * 선택된 가게의 등록된 휴가 정보 가져오기
     const { data: shopVacation } = useGetVacation(shopId)
+    // *선택된 가게의 공지사항 불러오기
+      const { data: storeNotices, isPending } = useGetNotices(shopId)
+    console.log('storeNotices',storeNotices)
+
 
     // * 선택된 가게 현재 상태(오늘이 정기 휴일인지, 휴가인지, 갑자기 닫은건지) 가져오기
     const todayShopStatus = useShopStatus(shopId)
@@ -40,7 +47,7 @@ export function PlaceDetailSheet({ place }: { place: KakaoPlace }) {
     const isOpen = todayShopStatus.status === '영업 중'
 
 
-    const isLiked = saveLists?.some(list => list.kakao_place_id === place.id)
+    const isLiked = saveLists?.some(list => list.kakao_place_id === place.id)//*여기서 place.id는 카카오아이디임
 
 
     return (
@@ -92,6 +99,7 @@ export function PlaceDetailSheet({ place }: { place: KakaoPlace }) {
                     place={place}
                     toggleSave={toggleSave}
                     isLiked={!!isLiked}
+                    storeNotices={(storeNotices as NoticeFromDb[]) || []}
                 />
             </div>
 

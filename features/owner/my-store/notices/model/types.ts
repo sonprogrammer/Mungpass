@@ -9,3 +9,13 @@ export interface PostNotice{
     noticeId?: string;
     postData: PostData
 }
+
+export interface NoticeFromDb{
+    created_at: string;
+    content: string;
+    shop_id: string;
+    updated_at: string
+    title: string;
+    is_show?: boolean;
+    id: string;
+}
