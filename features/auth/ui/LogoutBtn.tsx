@@ -1,6 +1,5 @@
 'use client'
 
-import { handleLogout } from "@/features/auth/api/handleLogout"
 import { cookieLogout } from "@/features/auth/api/logoutAction"
 import { ConfirmModal } from "@/shared/ui/ConfirmModal"
 import { LogOut } from "lucide-react"
@@ -17,8 +16,8 @@ export function LogoutBtn() {
 
     const logout = async () => {
         try {
+            console.log('logiing out')
             setIsLoggingOut(true)
-            await handleLogout()
             await cookieLogout()
             setIsLogoutModalOpen(false)
         } catch (error) {

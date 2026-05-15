@@ -3,13 +3,11 @@
 
 import AroundHeader from '@/widgets/around/ui/AroundHeader';
 import PlaceListState from '@/entities/place/ui/PlaceListState';
-import { useAroundState } from '@/widgets/around/model/useAroundState';
 import MapSection  from '@/widgets/around/ui/MapSection';
 import { StoreDetailBottomSheet } from '@/features/user/shopInfo/ui/StoreDetailBottomSheet';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useSearchShops } from '@/features/search-shop/model/useSearchShops';
-import { useMyLocation } from '@/shared/model/useMyLocation';
-import { Bound, KakaoPlace } from '@/shared/model/map';
+import { Bound} from '@/shared/model/map';
 import { useGetNearByShops } from '@/features/search-shop/model/useGetNearByShops';
 import { App } from 'antd';
 import { useSelectedPlace } from '@/features/search-shop/model/useSelectedPlace';

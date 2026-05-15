@@ -54,16 +54,16 @@ export function StoreScheduleInfo({ onClose, schedules, vacation, todayShopStatu
                     })}
                 </div>
 
-                {/* TODO 나중에 공지사항 등록했을 때 여기서도 나오게 하기 */}
                 {vacation && (
                     <div className="mt-4 p-3 bg-red-50 rounded-xl border border-red-100">
-                        <p className="text-[10px] font-bold text-red-500 leading-tight">
-                            📢 휴가 공지: {vacation.reason}<br />
+                        <div className="text-[12px] font-bold text-red-500 leading-tight">
+                            <h1>📢 휴가 공지</h1>
+                             {vacation.reason}<br />
                             <span>
-                            기간 : 
+                            기간 :  
                                 {vacation.start_date} ~ {vacation.end_date}
                             </span>
-                        </p>
+                        </div>
                     </div>
                 )}
             </motion.div>

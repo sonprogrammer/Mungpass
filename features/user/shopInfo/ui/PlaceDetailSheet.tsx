@@ -6,19 +6,20 @@ import { useToggleSaveList } from "@/entities/place/model/useToggleSaveList";
 import { useGetSchedule } from "@/features/owner/my-store/model/useGetSchedule";
 import { useShopStatus } from "@/features/owner/my-store/model/useGetShopStatus";
 import { useGetVacation } from "@/features/owner/my-store/model/useGetVacation";
-import { NoticeFromDb } from "@/features/owner/my-store/notices/model/types";
 import { useGetNotices } from "@/features/owner/my-store/notices/model/useGetNotices";
-import { StoreDetailActionBtns } from "@/features/user/shopInfo/ui/StoreDetailActionBtns";
+import StoreDetailActionBtns from "@/features/user/shopInfo/ui/StoreDetailActionBtns";
+import { StoreNoticeInfo } from "@/features/user/shopInfo/ui/StoreNoticeInfo";
 import { StoreScheduleInfo } from "@/features/user/shopInfo/ui/StoreScheduleInfo";
 import { KakaoPlace } from "@/shared/model/map";
 import { AnimatePresence } from "framer-motion";
 import Image from "next/image";
-import { useState } from "react";
+import { useCallback, useMemo, useState } from "react";
 
 
 
 export function PlaceDetailSheet({ place }: { place: KakaoPlace }) {
     const [isScheduleOpen, setIsScheduleOpen] = useState<boolean>(false)
+    const [isNoticeOpen, setIsNoticeOpen] = useState<boolean>(false)
     const { data: saveLists } = useGetSaveList()
     const { mutate: toggleSave } = useToggleSaveList()
 
@@ -37,8 +38,7 @@ export function PlaceDetailSheet({ place }: { place: KakaoPlace }) {
     // * 선택된 가게의 등록된 휴가 정보 가져오기
     const { data: shopVacation } = useGetVacation(shopId)
     // *선택된 가게의 공지사항 불러오기
-      const { data: storeNotices, isPending } = useGetNotices(shopId)
-    console.log('storeNotices',storeNotices)
+    const { data: storeNotices } = useGetNotices(shopId)
 
 
     // * 선택된 가게 현재 상태(오늘이 정기 휴일인지, 휴가인지, 갑자기 닫은건지) 가져오기
@@ -49,10 +49,22 @@ export function PlaceDetailSheet({ place }: { place: KakaoPlace }) {
 
     const isLiked = saveLists?.some(list => list.kakao_place_id === place.id)//*여기서 place.id는 카카오아이디임
 
+    // * 휴가가 끝났는지 확인 - 배힝기 모양 표시 위해서
+    const isOnVacation = useMemo(() => {
+        if(!shopVacation) return false
+        const today = new Date()
+        today.setHours(0, 0, 0, 0)
+
+        const end = new Date(shopVacation.end_date)
+        return today <= end
+    },[shopVacation])
+
+    const handleScheduleToggle = useCallback(() => setIsScheduleOpen(prev => !prev), [])
+    const handleNoticeToggle = useCallback(() => setIsNoticeOpen(prev => !prev), [])
 
     return (
 
-        <div className="relative space-y-6 h-full flex flex-col pb-8 w-full">
+        <div className="relative space-y-6 h-full flex flex-col w-full">
 
             {isMungPassPartner && (
                 <button
@@ -64,7 +76,7 @@ export function PlaceDetailSheet({ place }: { place: KakaoPlace }) {
                         width={28}
                         height={28}
                     />
-                        <span className="text-[10px] font-black text-orange-600 uppercase tracking-tight">Partner</span>
+                    <span className="text-[10px] font-black text-orange-600 uppercase tracking-tight">Partner</span>
                 </button>
             )}
 
@@ -87,27 +99,28 @@ export function PlaceDetailSheet({ place }: { place: KakaoPlace }) {
                 />
             </div>
 
-            <div className="flex gap-3 w-full">
 
                 <StoreDetailActionBtns
                     isMungPassPartner={isMungPassPartner}
                     isPending={todayShopStatus.isPending}
                     isOpen={isOpen}
                     todayShopStatus={todayShopStatus.status}
-                    isScheduleOpen={isScheduleOpen}
-                    onClick={() => setIsScheduleOpen(!isScheduleOpen)}
+                    onScheduleClick={handleScheduleToggle}
+                    onNoticeClick={handleNoticeToggle}
                     place={place}
                     toggleSave={toggleSave}
                     isLiked={!!isLiked}
-                    storeNotices={(storeNotices as NoticeFromDb[]) || []}
+                    storeNotices={storeNotices || []}
+                    isOnVacation={isOnVacation}
                 />
-            </div>
+
 
             {/* TODO 나중에 어플 확장시 추가하기 - 이용권등록 후 마일리지 적립, 쿠폰, 등급제로 운영가능 */}
             {/* <button className="w-full py-4 bg-orange-500 text-white rounded-2xl font-black text-sm active:scale-[0.98] transition-all shadow-lg shadow-orange-200">
                 멍패스 사용하기
             </button> */}
 
+            {/*//* 매장 스케줄 보는거  */}
             <AnimatePresence>
 
                 {isScheduleOpen && (
@@ -117,6 +130,15 @@ export function PlaceDetailSheet({ place }: { place: KakaoPlace }) {
                         schedules={shopScedules}
                         vacation={shopVacation}
                         todayShopStatus={todayShopStatus}
+                    />
+                )}
+            </AnimatePresence>
+            {/* //* 매장 공지사항 */}
+            <AnimatePresence>
+                {isNoticeOpen && (
+                    <StoreNoticeInfo
+                        onClose={() => setIsNoticeOpen(false)}
+                        notices={storeNotices || []}
                     />
                 )}
             </AnimatePresence>

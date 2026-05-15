@@ -22,11 +22,12 @@ export interface StoreDetailActionBtnsProps {
     isOpen: boolean
     todayShopStatus: string
     place: KakaoPlace
-    isScheduleOpen: boolean
-    onClick: () => void
+    onScheduleClick: () => void
     toggleSave: (place:KakaoPlace) => void;
     isLiked: boolean
-    storeNotices: NoticeFromDb[]
+    onNoticeClick: () => void;
+    storeNotices: NoticeFromDb[] | []
+    isOnVacation: boolean
 }
 
 export interface StoreScheduleInfoProps{

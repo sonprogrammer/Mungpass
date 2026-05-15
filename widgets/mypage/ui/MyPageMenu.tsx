@@ -2,7 +2,7 @@
 
 import { MenuItem } from "@/shared/ui/MenuItem";
 import { App } from "antd";
-import { Bell, CircleHelp, Clock, Heart, MessageCircle } from "lucide-react";
+import { Bell, Clock, Heart, MessageCircle } from "lucide-react";
 import { useRouter } from "next/navigation";
 
 export function MyPageMenu() {

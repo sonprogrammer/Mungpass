@@ -10,16 +10,16 @@ export async function cookieLogout() {
 
     await supabase.auth.signOut()
 
-    const cookieStore = await cookies()
+    // const cookieStore = await cookies()
     
-    cookieStore.getAll().forEach((cookie) => {
-        if (cookie.name.startsWith('sb-')) {
-            cookieStore.set(cookie.name, '', {
-                maxAge: 0,
-                path: '/',
-            })
-        }
-    })
+    // cookieStore.getAll().forEach((cookie) => {
+    //     if (cookie.name.startsWith('sb-')) {
+    //         cookieStore.set(cookie.name, '', {
+    //             maxAge: 0,
+    //             path: '/',
+    //         })
+    //     }
+    // })
 
     revalidatePath('/', 'layout')
     redirect('/')

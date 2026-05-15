@@ -1,3 +1,5 @@
+// TODO 안쓰고 있음 한번더 확ㅇㄴ
+
 import { supabaseClient } from "@/shared/api/supabase/client";
 
 export const handleLogout = async() => {

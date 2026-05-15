@@ -19,3 +19,4 @@ export interface NoticeFromDb{
     is_show?: boolean;
     id: string;
 }
+
