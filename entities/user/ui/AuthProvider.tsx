@@ -64,6 +64,9 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
                     .maybeSingle()
 
                 setProfile(profile)
+                console.log('profile', profile)
+console.log('role', profile?.role)
+console.log('phone', profile?.phone_number)
 
                 if (!profile?.role || !profile?.phone_number) {
                     setNeedSignup(true)
