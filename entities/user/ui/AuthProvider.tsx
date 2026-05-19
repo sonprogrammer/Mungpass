@@ -15,53 +15,27 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
     useEffect(() => {
 
-    const supabase = supabaseClient()
+        const supabase = supabaseClient()
 
-    const init = async () => {
+        const init = async () => {
 
-        const { data: { session } } = await supabase.auth.getSession()
-
-        if (!session?.user) {
-            logout()
-            return
-        }
-
-        const { data: profile, error } = await supabase
-            .from('profiles')
-            .select('*')
-            .eq('id', session.user.id)
-            .maybeSingle()
-
-        if (error) {
-            console.error(error.message)
-            return
-        }
-
-        setProfile(profile)
-
-        if (!profile?.role || !profile?.phone_number) {
-            setNeedSignup(true)
-        } else {
-            setNeedSignup(false)
-        }
-    }
-
-    init()
-
-    const { data: { subscription } } =
-        supabase.auth.onAuthStateChange(async (_, session) => {
+            const { data: { session } } = await supabase.auth.getSession()
 
             if (!session?.user) {
                 logout()
-                setNeedSignup(false)
                 return
             }
 
-            const { data: profile } = await supabase
+            const { data: profile, error } = await supabase
                 .from('profiles')
                 .select('*')
                 .eq('id', session.user.id)
                 .maybeSingle()
+
+            if (error) {
+                console.error(error.message)
+                return
+            }
 
             setProfile(profile)
 
@@ -70,19 +44,52 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
             } else {
                 setNeedSignup(false)
             }
-        })
+        }
 
-    return () => {
-        subscription.unsubscribe()
-    }
+        init()
 
-}, [setProfile, logout, setNeedSignup])
+        const { data: { subscription } } =
+            supabase.auth.onAuthStateChange(async (_, session) => {
+
+                if (!session?.user) {
+                    logout()
+                    setNeedSignup(false)
+                    return
+                }
+
+                const { data: profile } = await supabase
+                    .from('profiles')
+                    .select('*')
+                    .eq('id', session.user.id)
+                    .maybeSingle()
+
+                setProfile(profile)
+
+                if (!profile?.role || !profile?.phone_number) {
+                    setNeedSignup(true)
+                } else {
+                    setNeedSignup(false)
+                }
+            })
+
+        return () => {
+            subscription.unsubscribe()
+        }
+
+    }, [setProfile, logout, setNeedSignup])
+
+    console.log('needSignup', needSignup)
 
     return (
         <>
             {children}
             {needSignup && (
-                <KakaoAddUserInfoModal onClose={() => setNeedSignup(false)} />
+                <>
+                    {console.log('MODAL RENDER')}
+                    <KakaoAddUserInfoModal
+                        onClose={() => setNeedSignup(false)}
+                    />
+                </>
             )}
         </>
     )
