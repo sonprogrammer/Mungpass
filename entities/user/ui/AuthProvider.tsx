@@ -14,47 +14,12 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
 
     useEffect(() => {
-console.log('AUTH EFFECT START')
+        console.log('AUTH EFFECT START')
         const supabase = supabaseClient()
-
-        const init = async () => {
-
-            const { data: { session } } = await supabase.auth.getSession()
-
-            if (!session?.user) {
-                logout()
-                return
-            }
-
-            const { data: profile, error } = await supabase
-                .from('profiles')
-                .select('*')
-                .eq('id', session.user.id)
-                .maybeSingle()
-                 console.log('PROFILE', profile)
-    console.log('PROFILE ERROR', error)
-                
-
-            if (error) {
-                console.error(error.message)
-                return
-            }
-
-            setProfile(profile)
-
-            if (!profile?.role || !profile?.phone_number) {
-                console.log('NEED SIGNUP TRUE')
-                setNeedSignup(true)
-            } else {
-                console.log('NEED SIGNUP FALSE')
-                setNeedSignup(false)
-            }
-        }
-
-        init()
 
         const { data: { subscription } } =
             supabase.auth.onAuthStateChange(async (_, session) => {
+                console.log('session', session)
 
                 if (!session?.user) {
                     logout()
@@ -70,8 +35,8 @@ console.log('AUTH EFFECT START')
 
                 setProfile(profile)
                 console.log('profile', profile)
-console.log('role', profile?.role)
-console.log('phone', profile?.phone_number)
+                console.log('role', profile?.role)
+                console.log('phone', profile?.phone_number)
 
                 if (!profile?.role || !profile?.phone_number) {
                     setNeedSignup(true)
