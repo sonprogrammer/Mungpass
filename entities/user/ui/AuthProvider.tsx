@@ -28,6 +28,10 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
                     .eq('id', session.user.id)
                     .maybeSingle()
 
+                    console.log('profile', profile)
+console.log('error', error)
+console.log('user id', session.user.id)
+
                 if (error) {
                     console.error(error.message)
                     return
