@@ -60,7 +60,6 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
             {children}
             {needSignup && (
                 <>
-                    {console.log('MODAL RENDER')}
                     <KakaoAddUserInfoModal
                         onClose={() => setNeedSignup(false)}
                     />

@@ -3,7 +3,6 @@
 import { supabaseServer } from "@/shared/api/supabase/server"
 import { revalidatePath } from "next/cache"
 import { cookies } from "next/headers"
-import { redirect } from "next/navigation"
 
 export async function cookieLogout() {
     const supabase = await supabaseServer()
@@ -22,5 +21,4 @@ export async function cookieLogout() {
     // })
 
     revalidatePath('/', 'layout')
-    redirect('/')
 }

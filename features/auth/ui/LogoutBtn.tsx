@@ -4,12 +4,15 @@ import { useUserStore } from "@/entities/user/model/useUserStore"
 import { cookieLogout } from "@/features/auth/api/logoutAction"
 import { ConfirmModal } from "@/shared/ui/ConfirmModal"
 import { LogOut } from "lucide-react"
+import { useRouter } from "next/navigation"
 import { useState } from "react"
 
 export function LogoutBtn() {
 
     const [isLogoutModalOpen, setIsLogoutModalOpen] = useState<boolean>(false)
     const [isLoggingOut, setIsLoggingOut] = useState<boolean>(false)
+    const router = useRouter()
+    
     const userLogout = useUserStore(state => state.logout)
 
     const handleCheckLogout = () => {
@@ -20,8 +23,9 @@ export function LogoutBtn() {
         try {
             setIsLoggingOut(true)
             setIsLogoutModalOpen(false)
-            userLogout()
             await cookieLogout()
+            userLogout()
+            router.push('/')
         } catch (error) {
             console.error('로그아웃 실패',error)
         }finally{
