@@ -21,7 +21,9 @@ export function RefineProvider({children}: {children: React.ReactNode}){
                 warnWhenUnsavedChanges: true,
                 reactQuery: {
                     clientConfig: queryClient
-                }
+                },
+                disableTelemetry: true
+
             }}
         >
             {children}

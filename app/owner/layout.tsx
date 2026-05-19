@@ -2,6 +2,7 @@
 
 import { useOwnerStoreStatus } from '@/entities/owner/model/useOwnerStoreStatus';
 import { useUserStore } from '@/entities/user/model/useUserStore';
+import { useRoleGuard } from '@/features/auth/model/useRoleGuard';
 import { useGetOwnerHasStoreStatus } from '@/features/owner/model/useGetOwnerHasStoreStatus';
 import { LoadingToStoreRegister } from '@/features/owner/ui/LoadingToStoreRegister';
 import OwnerHeader from '@/widgets/header/ui/OwnerHeader';
@@ -15,6 +16,11 @@ export default function OwnerLayout({ children }: { children: React.ReactNode })
   const profile = useUserStore(state => state.profile)
   const ownerId = profile?.id
   const router = useRouter()
+
+  console.log('profile', profile)
+  // * 현재 로그인된사용자가 owner일 때만 페이지 접근허용
+  useRoleGuard('owner')
+    
 
   const { data: storeStatusInfo, isPending } = useGetOwnerHasStoreStatus()
   const setIsVerified = useOwnerStoreStatus(state => state.setIsVerified)
@@ -66,6 +72,8 @@ export default function OwnerLayout({ children }: { children: React.ReactNode })
     )
   }
 
+  if(!profile) return null
+  if(profile.role !== 'owner') return null
 
   return (
     <ConfigProvider>

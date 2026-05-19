@@ -1,8 +1,27 @@
 'use client';
 
+import { useUserStore } from '@/entities/user/model/useUserStore';
 import { AuthWidget } from '@/widgets/auth/ui/AuthWidget';
+import { useRouter } from 'next/navigation';
+import { useEffect } from 'react';
 
 export default function LandingPage() {
+  const router = useRouter()
+  const profile = useUserStore(state => state.profile)
+
+  useEffect(() => {
+    if (!profile) return
+
+    if (profile.role === 'user') {
+      router.replace('/home')
+    } else if (profile.role === 'owner') {
+      router.replace('/owner')
+    } else if (profile.role === 'admin') {
+      router.replace('/admin')
+    }
+  }, [profile, router])
+
+
 
   return (
     <div className='flex justify-center bg-slate-200'>

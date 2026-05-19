@@ -9,7 +9,6 @@ import {
   LogoutOutlined,
   SettingOutlined
 } from "@ant-design/icons";
-import { handleLogout } from "@/features/auth/api/handleLogout";
 import { cookieLogout } from "@/features/auth/api/logoutAction";
 
 const { Header } = Layout;
@@ -23,7 +22,6 @@ interface AdminHeaderProps {
 export function AdminHeader({ collapsed, setCollapsed }: AdminHeaderProps) {
 
   const logout = async() => {
-    await handleLogout()
     await cookieLogout()
   }
   

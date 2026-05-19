@@ -53,6 +53,7 @@ export function AuthWidget() {
             <div className="pt-2">
               <SubmitButton />
             </div>
+            {/* TODO 사장도 카톡으로 접근 가능하게 하기  */}
             {!isOwner && (
 
               <SocialLogin />

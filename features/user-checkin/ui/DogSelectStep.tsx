@@ -3,6 +3,7 @@
 import { Dog } from "@/entities/dog/model/types";
 import { Avatar, Modal, Spin } from "antd"
 import { ChevronRight, DogIcon } from "lucide-react";
+import { useRouter } from "next/navigation";
 
 interface DogSelecStepProps {
     open: boolean;
@@ -13,7 +14,7 @@ interface DogSelecStepProps {
 }
 
 export function DogSelectStep({ open, onClose, dogs, isDogsPending, onSelect }: DogSelecStepProps) {
-
+    const router = useRouter()
 
     return (
         <Modal open={open} onCancel={onClose} footer={null} centered
@@ -61,6 +62,12 @@ export function DogSelectStep({ open, onClose, dogs, isDogsPending, onSelect }: 
                 <div className="py-12 text-center">
                     <p className="text-slate-400 text-sm">등록된 강아지 정보가 없습니다.</p>
                     <p className="text-slate-400 text-sm">애완견을 먼저 등록해주세요.</p>
+                    <button 
+                        className="px-8 py-4 mt-5 cursor-pointer bg-orange-400 text-white font-black rounded-2xl shadow-lg shadow-orange-100"
+                        onClick={() => router.push('/my-pets')}
+                    >
+                        등록하러 가기
+                    </button>
                 </div>
             )
             }

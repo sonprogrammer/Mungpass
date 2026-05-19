@@ -192,7 +192,7 @@ export default function MyPetsPage() {
                         등록된 아이가 없네요!<br />
                         새로운 가족을 등록해볼까요?
                     </p>
-                    <button onClick={() => setDogPostModalOpen(true)} className="px-8 py-4 bg-orange-400 text-white font-black rounded-2xl shadow-lg shadow-orange-100">
+                    <button onClick={() => setDogPostModalOpen(true)} className="px-8 py-4 cursor-pointer bg-orange-400 text-white font-black rounded-2xl shadow-lg shadow-orange-100">
                         지금 등록하기
                     </button>
                 </div>
