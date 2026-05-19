@@ -8,9 +8,15 @@ import { useEffect } from 'react';
 export default function LandingPage() {
   const router = useRouter()
   const profile = useUserStore(state => state.profile)
+  const isLoading = useUserStore(state => state.isLoading)
 
   useEffect(() => {
+    if(isLoading) return
     if (!profile) return
+
+    if (!profile.role || !profile.phone_number) {
+      return
+    }
 
     if (profile.role === 'user') {
       router.replace('/home')
@@ -19,7 +25,7 @@ export default function LandingPage() {
     } else if (profile.role === 'admin') {
       router.replace('/admin')
     }
-  }, [profile, router])
+  }, [isLoading, profile, router])
 
 
 
