@@ -7,8 +7,7 @@ import { useEffect } from 'react';
 
 export default function LandingPage() {
   const router = useRouter()
-  const profile = useUserStore(state => state.profile)
-  const isLoading = useUserStore(state => state.isLoading)
+  const { profile, isLoading } = useUserStore()
 
   useEffect(() => {
     if(isLoading) return

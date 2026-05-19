@@ -1,12 +1,13 @@
 'use client';
 
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useUserStore } from "@/entities/user/model/useUserStore";
 import { supabaseClient } from "@/shared/api/supabase/client";
 import { KakaoAddUserInfoModal } from "@/entities/KakaoAuth/ui/KakaoAddUserInfoModal";
 
 export function AuthProvider({ children }: { children: React.ReactNode }) {
-    const [isOpenInfoModal, setIsOpenInfoModal] = useState(false)
+    const setNeedSignup = useUserStore(state => state.setNeedSignup)
+    const needSignup = useUserStore(state => state.needSignup)
     const setProfile = useUserStore(state => state.setProfile)
     const logout = useUserStore(state => state.logout)
 
@@ -39,9 +40,9 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         setProfile(profile)
 
         if (!profile?.role || !profile?.phone_number) {
-            setIsOpenInfoModal(true)
+            setNeedSignup(true)
         } else {
-            setIsOpenInfoModal(false)
+            setNeedSignup(false)
         }
     }
 
@@ -52,7 +53,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
             if (!session?.user) {
                 logout()
-                setIsOpenInfoModal(false)
+                setNeedSignup(false)
                 return
             }
 
@@ -65,9 +66,9 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
             setProfile(profile)
 
             if (!profile?.role || !profile?.phone_number) {
-                setIsOpenInfoModal(true)
+                setNeedSignup(true)
             } else {
-                setIsOpenInfoModal(false)
+                setNeedSignup(false)
             }
         })
 
@@ -75,13 +76,13 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         subscription.unsubscribe()
     }
 
-}, [setProfile, logout])
+}, [setProfile, logout, setNeedSignup])
 
     return (
         <>
             {children}
-            {isOpenInfoModal && (
-                <KakaoAddUserInfoModal onClose={() => setIsOpenInfoModal(false)} />
+            {needSignup && (
+                <KakaoAddUserInfoModal onClose={() => setNeedSignup(false)} />
             )}
         </>
     )

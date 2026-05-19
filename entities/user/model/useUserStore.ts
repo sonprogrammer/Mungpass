@@ -18,6 +18,9 @@ export interface ProfileCardProps{
 export interface UserState {
     profile: UserProfile | null;
     isLoading: boolean;
+    needSignup: boolean;
+    setNeedSignup: (value: boolean) => void;
+    
     setProfile: (profile: UserProfile | null) => void;
     logout: () => void;
 }
@@ -25,6 +28,8 @@ export interface UserState {
 export const useUserStore = create<UserState>((set) => ({
     profile: null,
     isLoading: true,
+    needSignup: false,
+    setNeedSignup: (value) => set({needSignup: value}),
     setProfile: (profile) => set({profile, isLoading: false}),
-    logout: () => set({profile: null, isLoading: false})
+    logout: () => set({profile: null, isLoading: false, needSignup: false})
 }))
