@@ -14,7 +14,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
 
     useEffect(() => {
-
+console.log('AUTH EFFECT START')
         const supabase = supabaseClient()
 
         const init = async () => {

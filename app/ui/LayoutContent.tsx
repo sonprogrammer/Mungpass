@@ -7,7 +7,6 @@ import "dayjs/locale/ko";
 import relativeTime from "dayjs/plugin/relativeTime";
 import isBetween from "dayjs/plugin/isBetween";
 import { Toaster } from 'react-hot-toast'
-import { RefineProvider } from "@/app/RefineProvider";
 
 
 const KAKAO_SDK_URL = `https://dapi.kakao.com/v2/maps/sdk.js?appkey=${process.env.NEXT_PUBLIC_KAKAO_MAP_API_KEY}&libraries=services&autoload=false`;
@@ -24,7 +23,6 @@ export default function LayoutContent({ children }: { children: React.ReactNode 
 
   return (
     <AuthProvider>
-      <RefineProvider>
 
 
         <Script
@@ -42,7 +40,6 @@ export default function LayoutContent({ children }: { children: React.ReactNode 
         {children}
         <Toaster position='top-center' reverseOrder={false} />
 
-      </RefineProvider>
     </AuthProvider>
   );
 }
