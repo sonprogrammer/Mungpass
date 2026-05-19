@@ -4,6 +4,7 @@ import { ChevronLeft, Save } from 'lucide-react'
 import { Button, TimePicker, Form, Switch } from 'antd'
 import { DAYS } from '../lib/DAYS'
 
+// TODO 타입변경
 export function StoreTimeEditView({ form, onSave, onBack, loading }: any) {
     return (
         <div className="flex flex-col h-full animate-in slide-in-from-right-6 duration-400">

@@ -12,38 +12,41 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     const logout = useUserStore(state => state.logout)
 
 
-
     useEffect(() => {
-        console.log('AUTH EFFECT START')
         const supabase = supabaseClient()
 
-        const { data: { subscription } } =
-            supabase.auth.onAuthStateChange(async (_, session) => {
-                console.log('session', session)
+        const { data: { subscription } } = supabase.auth.onAuthStateChange(async (event, session) => {
 
-                if (!session?.user) {
-                    logout()
-                    setNeedSignup(false)
-                    return
-                }
+            if (!session?.user.id) {
+                logout()
+                setNeedSignup(false)
+                return
+            }
+            const fetchProfile = async() => {
 
-                const { data: profile } = await supabase
-                    .from('profiles')
-                    .select('*')
-                    .eq('id', session.user.id)
-                    .maybeSingle()
-
+                const { data: profile, error } = await supabase
+                .from('profiles')
+                .select('*')
+                .eq('id', session.user.id)
+                .maybeSingle()
+                
                 setProfile(profile)
-                console.log('profile', profile)
-                console.log('role', profile?.role)
-                console.log('phone', profile?.phone_number)
 
+                if(error){
+                    console.error('errorr kakaoloign', error)
+                    throw error
+                }
+            
+                
                 if (!profile?.role || !profile?.phone_number) {
                     setNeedSignup(true)
                 } else {
                     setNeedSignup(false)
                 }
-            })
+            }
+            fetchProfile()
+        })
+
 
         return () => {
             subscription.unsubscribe()
@@ -51,7 +54,6 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
     }, [setProfile, logout, setNeedSignup])
 
-    console.log('needSignup', needSignup)
 
     return (
         <>
