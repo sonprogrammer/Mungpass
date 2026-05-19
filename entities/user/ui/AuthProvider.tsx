@@ -31,6 +31,9 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
                 .select('*')
                 .eq('id', session.user.id)
                 .maybeSingle()
+                 console.log('PROFILE', profile)
+    console.log('PROFILE ERROR', error)
+                
 
             if (error) {
                 console.error(error.message)
@@ -40,8 +43,10 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
             setProfile(profile)
 
             if (!profile?.role || !profile?.phone_number) {
+                console.log('NEED SIGNUP TRUE')
                 setNeedSignup(true)
             } else {
+                console.log('NEED SIGNUP FALSE')
                 setNeedSignup(false)
             }
         }
