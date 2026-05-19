@@ -16,38 +16,30 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         const supabase = supabaseClient()
 
         const { data: { subscription } } = supabase.auth.onAuthStateChange(async (event, session) => {
-            console.log('session', session)
             if (!session?.user) {
-                logout()
-                setIsOpenInfoModal(false)
-                return
-            }
-            if (session?.user && (event === "SIGNED_IN" || event === "INITIAL_SESSION")) {
+                    logout()
+                    setIsOpenInfoModal(false)
+                    return
+                }
 
                 const { data: profile, error } = await supabase
                     .from('profiles')
                     .select('*')
                     .eq('id', session.user.id)
                     .maybeSingle()
-                console.log('profile form authprovider', profile)
+
                 if (error) {
-                    console.error('kakao login error ', error.message)
+                    console.error(error.message)
                     return
                 }
 
-                if (!profile || !profile.role || !profile.phone_number) {
-                    setProfile(profile)
+                setProfile(profile)
+
+                if (!profile?.role || !profile?.phone_number) {
                     setIsOpenInfoModal(true)
                 } else {
-                    setProfile(profile)
                     setIsOpenInfoModal(false)
                 }
-
-            } else if (event === "SIGNED_OUT") {
-                console.log('sesession', subscription)
-                setProfile(null)
-                setIsOpenInfoModal(false)
-            }
         })
 
         return () => {
