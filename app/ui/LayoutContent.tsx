@@ -9,7 +9,6 @@ import isBetween from "dayjs/plugin/isBetween";
 import { Toaster } from 'react-hot-toast'
 
 
-const KAKAO_SDK_URL = `https://dapi.kakao.com/v2/maps/sdk.js?appkey=${process.env.NEXT_PUBLIC_KAKAO_MAP_API_KEY}&libraries=services&autoload=false`;
 
 dayjs.extend(relativeTime)
 dayjs.extend(isBetween)
@@ -23,19 +22,6 @@ export default function LayoutContent({ children }: { children: React.ReactNode 
 
   return (
     <AuthProvider>
-
-
-        <Script
-          src={KAKAO_SDK_URL}
-          strategy="beforeInteractive"
-          onLoad={() => {
-            if (window.kakao) {
-              window.kakao.maps.load(() => {
-                console.log("✅ 카카오 맵 준비 완료");
-              })
-            }
-          }}
-        />
 
         {children}
         <Toaster position='top-center' reverseOrder={false} />

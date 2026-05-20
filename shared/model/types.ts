@@ -9,3 +9,8 @@ export interface ConfirmModalProps{
     onConfirm: () => void;
     onCancel: () => void;
 }
+
+export interface KakaoScriptProviderProps{
+    children: React.ReactNode
+    fallback?: React.ReactNode
+}

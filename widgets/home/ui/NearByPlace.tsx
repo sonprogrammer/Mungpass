@@ -3,15 +3,14 @@
 import { DEFAULT_RADIUS } from "@/entities/place/model/constants";
 import PlaceListState from "@/entities/place/ui/PlaceListState";
 import { useGetNearByShops } from "@/features/search-shop/model/useGetNearByShops";
+import { useSelectedPlace } from "@/features/search-shop/model/useSelectedPlace";
 import { StoreDetailBottomSheet } from "@/features/user/shopInfo/ui/StoreDetailBottomSheet";
-import { KakaoPlace } from "@/shared/model/map";
 import { MapPin } from "lucide-react";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
 
 export function NearByPlace() {
     const router = useRouter()
-    const [selectedPlace, setSelectedPlace] = useState<KakaoPlace | null>(null)
+    const setSelectedPlace = useSelectedPlace(state => state.setSelectedPlace)
     const { data, isPending } = useGetNearByShops(DEFAULT_RADIUS)
     
     const places = data?.places ?? []
@@ -36,6 +35,7 @@ export function NearByPlace() {
                 places={places}
                 onPlaceClick={(place) => {
                     setSelectedPlace(place)
+                    console.log('place', place)
                 }}
             />
 
