@@ -73,6 +73,7 @@ export function RegisterContent() {
 
     const handleSkipStep = async () => {
         await cookieLogout()
+        window.location.href = '/'
     }
 
     // *ownerId가 없으면 얼리 리턴해주기
