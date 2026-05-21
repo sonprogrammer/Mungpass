@@ -2,7 +2,7 @@
 
 import { KakaoScriptProviderProps } from "@/shared/model/types";
 import Script from "next/script"
-import { useEffect, useState } from "react"
+import {  useState } from "react"
 
 const KAKAO_SDK_URL = `https://dapi.kakao.com/v2/maps/sdk.js?appkey=${process.env.NEXT_PUBLIC_KAKAO_MAP_API_KEY}&libraries=services&autoload=false`;
 
