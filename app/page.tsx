@@ -1,38 +1,14 @@
-'use client';
 
-import { useUserStore } from '@/entities/user/model/useUserStore';
-import { AuthWidget } from '@/widgets/auth/ui/AuthWidget';
-import { useRouter } from 'next/navigation';
-import { useEffect } from 'react';
+import { Suspense } from 'react'
+import { LandingPageWidget } from '@/widgets/auth/ui/LandingPageWidget';
+import { MapLoading } from '@/widgets/around/ui/MapLoading';
 
 export default function LandingPage() {
-  const router = useRouter()
-  const { profile, isLoading } = useUserStore()
-
-  useEffect(() => {
-    if(isLoading) return
-    if (!profile) return
-
-    if (!profile.role || !profile.phone_number) {
-      return
-    }
-
-    if (profile.role === 'user') {
-      router.replace('/home')
-    } else if (profile.role === 'owner') {
-      router.replace('/owner')
-    } else if (profile.role === 'admin') {
-      router.replace('/admin')
-    }
-  }, [isLoading, profile, router])
-
-
+ 
 
   return (
-    <div className='flex justify-center bg-slate-200'>
-      <div className='max-w-120 w-full'>
-        <AuthWidget />
-      </div>
-    </div>
+    <Suspense fallback={<MapLoading message='사용자 정보 확인중'/>}>
+      <LandingPageWidget />
+    </Suspense>
   )
 }

@@ -1,19 +1,15 @@
-'use client'
-
 
 import { OwnerRoleGuard } from '@/features/auth/ui/owner/OwnerRoleGuard';
 import { OwnerStoreStatusGuard } from '@/features/auth/ui/owner/OwnerStoreStatusGuard';
+import { AntdAppProvider } from '@/shared/ui/AntdAppProvider';
 import OwnerHeader from '@/widgets/header/ui/OwnerHeader';
 import { OwnerNavbar } from '@/widgets/owner/ui/OwnerNavbar';
-import { App, ConfigProvider } from 'antd';
-import React from 'react'
 
 
 export default function OwnerLayout({ children }: { children: React.ReactNode }) {
 
   return (
-    <ConfigProvider>
-      <App>
+    <AntdAppProvider>
         {/* //* 1차가드 사장님 권환인지 확인 */}
         <OwnerRoleGuard>
         {/* //* 1차가드 매장 심사상태별 라우팅 처리 */}
@@ -38,7 +34,6 @@ export default function OwnerLayout({ children }: { children: React.ReactNode })
             </div>
           </OwnerStoreStatusGuard>
         </OwnerRoleGuard>
-      </App>
-    </ConfigProvider>
+    </AntdAppProvider>
   )
 }

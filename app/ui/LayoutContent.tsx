@@ -1,7 +1,6 @@
 'use client';
 
 import { AuthProvider } from "@/entities/user/ui/AuthProvider";
-import Script from 'next/script';
 import dayjs from "dayjs";
 import "dayjs/locale/ko";
 import relativeTime from "dayjs/plugin/relativeTime";
