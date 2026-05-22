@@ -1,17 +1,10 @@
 'use client'
 
-import {  Loader2 } from "lucide-react";
-import { KakaoPlace } from "@/shared/model/map";
+import { Loader2 } from "lucide-react";
 import { PlaceList } from "@/entities/place/ui/PlaceList";
 import { NoResult } from "@/shared/ui/NoResultUI";
 import { memo } from "react";
-
-
-interface ShopListStateProps {
-    isPending: boolean;
-    places: KakaoPlace[];
-    onPlaceClick: (place: KakaoPlace) => void;
-}
+import { ShopListStateProps } from "@/features/place/model/types";
 
 function PlaceListState({ isPending, places, onPlaceClick }: ShopListStateProps) {
     //* 로딩
@@ -28,18 +21,18 @@ function PlaceListState({ isPending, places, onPlaceClick }: ShopListStateProps)
     if (places.length === 0) {
         return (
             <NoResult title="주변에 멍패스 존이 없어요" description={
-                                                        <>다른 지역으로 이동하거나<br /> 
-                                                        검색범위를 넓혀보세요
-                                                        </>} 
+                <>다른 지역으로 이동하거나<br />
+                    검색범위를 넓혀보세요
+                </>}
             />
         );
     }
 
     //* 결과 반환
     return (
-        <PlaceList 
-            places={places} 
-            placeClick={onPlaceClick} 
+        <PlaceList
+            places={places}
+            placeClick={onPlaceClick}
         />
     )
 }

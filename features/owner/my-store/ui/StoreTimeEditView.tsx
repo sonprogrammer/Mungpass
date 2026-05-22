@@ -3,9 +3,11 @@
 import { ChevronLeft, Save } from 'lucide-react'
 import { Button, TimePicker, Form, Switch } from 'antd'
 import { DAYS } from '../lib/DAYS'
+import {  StoreTimeEditViewProps } from '@/features/owner/my-store/model/types'
 
-// TODO 타입변경
-export function StoreTimeEditView({ form, onSave, onBack, loading }: any) {
+
+
+export function StoreTimeEditView({ form, onSave, onBack, loading }: StoreTimeEditViewProps) {
     return (
         <div className="flex flex-col h-full animate-in slide-in-from-right-6 duration-400">
             <div className="flex items-center justify-between mb-6">
@@ -24,13 +26,12 @@ export function StoreTimeEditView({ form, onSave, onBack, loading }: any) {
                             <div className="flex items-center justify-between">
                                 <span className="font-bold text-gray-800 text-sm">{day.label}요일 운영</span>
                                 <Form.Item name={[day.value, 'is_closed']} valuePropName="checked" noStyle>
-                                    {/* //TODO 휴무일때는 아카 색상으로 변경 */}
                                     <Switch 
                                         checkedChildren="휴무" 
                                         unCheckedChildren="영업" 
                                         />
                                 </Form.Item>
-                                        {/* // className={isClosed ? 'bg-red-500' : 'bg-gray-200'}                        */}
+
                             </div>
                             
                             <Form.Item noStyle shouldUpdate={(prev, curr) => prev[day.value]?.is_closed !== curr[day.value]?.is_closed}>
@@ -68,6 +69,7 @@ export function StoreTimeEditView({ form, onSave, onBack, loading }: any) {
                         type="primary" 
                         htmlType="submit" 
                         block 
+                        loading={loading}
                         size="large" 
                         icon={<Save size={18} />}
                         className="h-14 rounded-2xl bg-gray-900 hover:bg-gray-800! border-none font-bold shadow-lg shadow-gray-200 mb-3"

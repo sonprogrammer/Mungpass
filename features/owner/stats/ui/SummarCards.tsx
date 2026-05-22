@@ -1,12 +1,44 @@
 'use client'
 
 import { HighestRecords } from '@/features/owner/stats/ui/HighestRecords'
-import { ArrowUpRight, ArrowDownRight } from 'lucide-react'
+import { ArrowUpRight, ArrowDownRight, CircleDollarSign, QrCode, TrendingUp } from 'lucide-react'
 import { motion } from 'framer-motion'
 import { SummaryCardProps } from '@/features/owner/stats/model/types'
 import { format } from 'date-fns'
+import { useMemo } from 'react'
+import { calculateChange } from '@/entities/owner/lib/calculateChange'
 
-export function SummaryCard({ summaryCards, topDays, selectedMonth }: SummaryCardProps) {
+export function SummaryCard({ topDays, selectedMonth, diffData }: SummaryCardProps) {
+
+    const summaryCards = useMemo(() => {
+            if (!diffData) return []
+    
+            return [
+                {
+                    id: 1,
+                    title: ' 총 매출',
+                    value: `${(diffData.total_sales || 0).toLocaleString()}원`,
+                    change: calculateChange(diffData.total_sales, diffData.prev_sales),
+                    icon: CircleDollarSign,
+                },
+                {
+                    id: 2,
+                    title: ' 총 체크인',
+                    value: `${diffData.total_visits}건`,
+                    change: calculateChange(diffData.total_visits, diffData.prev_visits),
+                    icon: QrCode,
+                },
+                {
+                    id: 3,
+                    title: '일 평균 방문',
+                    value: `${diffData.avg_visits.toFixed(2)}마리`,
+                    change: calculateChange(diffData.avg_visits, diffData.prev_avg_visits),
+                    icon: TrendingUp,
+                },
+            ];
+        }, [diffData])
+    
+    
     const thisMonth = format(new Date(), 'yyyy-MM')
 
     return (

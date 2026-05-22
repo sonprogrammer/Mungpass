@@ -1,13 +1,16 @@
 'use client'
 
 import { QrModalProps } from "@/features/qr/model/types"
-import { Button, Empty, Modal, Spin, Typography } from "antd"
-import { ArrowLeft, ChevronRight } from "lucide-react"
-import { QRCodeSVG } from "qrcode.react"
-import { useMemo, useState } from "react"
+import { QrCategorySelectView } from "@/features/qr/ui/QrCategorySelectView"
+import { QrCodeDisplayView } from "@/features/qr/ui/QrDisplayView"
+import { QrProductSelectView } from "@/features/qr/ui/QrProductSelectView"
+import { QrUnverifiedView } from "@/features/qr/ui/QrUnverifiedView"
+import { Button, Modal, Spin } from "antd"
+import { ArrowLeft } from "lucide-react"
+import { memo, useMemo, useState } from "react"
 
 
-export function QrModal({ products, open, qrValue, selectedProductId, onClose, onSelectProduct, isPending, isVerified }: QrModalProps) {
+function QrModal({ products, open, qrValue, selectedProductId, onClose, onSelectProduct, isPending, isVerified }: QrModalProps) {
     const [selectedCategoryName, setSelectedCategoryName] = useState<string | null>(null)
 
     // * 카테고리 목록들
@@ -57,30 +60,7 @@ export function QrModal({ products, open, qrValue, selectedProductId, onClose, o
             <div className="flex flex-col pt-2">
                 {!isVerified ? (
                     /* //*승인되지 않은 매장 */
-                    <div className="py-8 text-center">
-                        <Empty
-                            image={Empty.PRESENTED_IMAGE_SIMPLE}
-                            description={
-                                <div className="flex flex-col gap-2">
-                                    <Typography.Text className="text-slate-600 font-medium">
-                                        서비스 심사 승인 대기 중
-                                    </Typography.Text>
-                                    <Typography.Text type="secondary" className="text-xs">
-                                        매장 심사가 완료된 후에<br />
-                                        QR 코드를 생성하여 이용하실 수 있습니다.
-                                    </Typography.Text>
-                                </div>
-                            }
-                        />
-                        <Button 
-                            block 
-                            type="primary" 
-                            onClick={handleClose}
-                            className="mt-6 bg-orange-500! border-none!"
-                        >
-                            확인
-                        </Button>
-                    </div>
+                    <QrUnverifiedView onClose={handleClose} />
                 ) :
                 isPending ? (
                     <div className="flex-1 flex items-center justify-center">
@@ -90,79 +70,24 @@ export function QrModal({ products, open, qrValue, selectedProductId, onClose, o
                     <>
                         {/* //*카테고리 선택 화면 */}
                         {!selectedCategoryName && !selectedProductId && (
-                            <div className="flex flex-col gap-3">
-                                <Typography.Text className="text-slate-500 text-sm">이용 유형을 선택하세요.</Typography.Text>
-                                {categories.map(cat => (
-                                    <Button
-                                        key={cat}
-                                        block
-                                        size="large"
-                                        className="h-14 flex justify-between items-center text-left"
-                                        onClick={() => setSelectedCategoryName(cat)}
-                                    >
-                                        <span className="font-medium">{cat}</span>
-                                        <ChevronRight size={16} className="text-slate-300" />
-                                    </Button>
-                                ))}
-                                {categories.length === 0 && <Empty description="등록된 카테고리가 없습니다." />}
-                            </div>
+                            <QrCategorySelectView 
+                                categories={categories}
+                                onSelectCategory={setSelectedCategoryName}
+                            />
                         )}
 
                         {/* //*상품 선택 화면 */}
                         {selectedCategoryName && !selectedProductId && (
-                            <div className="flex flex-col gap-3">
-                                <div className="bg-slate-50 p-3 rounded-xl mb-1 flex justify-between">
-                                    <Typography.Text className="text-[11px]  block!">선택된 유형</Typography.Text>
-                                    <Typography.Text className="font-bold text-orange-500!">{selectedCategoryName}</Typography.Text>
-                                </div>
-                                <Typography.Text className="text-slate-500 text-sm">상세 상품을 선택하세요.</Typography.Text>
-
-
-                                {filteredProducts.map(prod => (
-                                    <Button
-                                        key={prod.id}
-                                        block
-                                        size="large"
-                                        className="h-14 text-left justify-start font-medium"
-                                        onClick={() => onSelectProduct(prod.id)}
-                                    >
-                                        {prod.name}
-                                    </Button>
-                                ))}
-                                {(filteredProducts.length === 0) && (
-                                    <Empty description="이 카테고리에 등록된 상품이 없습니다." />
-                                )}
-                            </div>
+                            <QrProductSelectView 
+                                selectedCategoryName={selectedCategoryName}
+                                filteredProducts={filteredProducts}
+                                onSelectProduct={onSelectProduct}
+                            />
                         )}
 
                         {/* //*QR 코드 출력 화면 */}
                         {selectedProductId && (
-                            <div className="flex flex-col items-center gap-6 py-4 animate-in fade-in zoom-in duration-300">
-                                <div className="text-center">
-                                    <div className="inline-block px-3 py-1 bg-emerald-100 text-emerald-700 rounded-full text-[11px] font-bold mb-2 uppercase">
-                                        check-in
-                                    </div>
-                                    <Typography.Title level={4} className="m-0">
-                                        체크인 QR 코드
-                                    </Typography.Title>
-                                </div>
-
-                                <div className="p-4 bg-white rounded-2xl shadow-lg border border-slate-100">
-                                    <QRCodeSVG
-                                        value={qrValue}
-                                        size={200}
-                                        level="H"
-                                        marginSize={2}
-                                    />
-                                </div>
-
-                                <div className="text-center bg-slate-50 p-4 rounded-2xl w-full">
-                                    <p>보호자가 스캔 후</p>
-                                    <p>
-                                        <span className="font-bold text-slate-800">실시간 이용시간</span>을 확인할 수 있습니다.
-                                    </p>
-                                </div>
-                            </div>
+                            <QrCodeDisplayView qrValue={qrValue} />
                         )}
                     </>
                 )}
@@ -170,3 +95,5 @@ export function QrModal({ products, open, qrValue, selectedProductId, onClose, o
         </Modal>
     )
 }
+
+export default memo(QrModal)

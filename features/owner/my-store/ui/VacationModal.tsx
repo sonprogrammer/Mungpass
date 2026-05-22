@@ -1,28 +1,38 @@
 'use client'
-import { Modal, DatePicker, Form, Input } from 'antd';
+import { Modal, DatePicker, Form, Input, App } from 'antd';
 import { Plane } from 'lucide-react';
 import dayjs from 'dayjs';
 import { VacationModalProps } from '@/features/owner/my-store/model/types';
+import { useUpdateVacation } from '@/features/owner/my-store/model/useUpdateVacation';
 
 const { RangePicker } = DatePicker;
 
 
 
-export function VacationModal({ open, onClose, onSubmit }: VacationModalProps) {
+export function VacationModal({ open, onClose, shopId }: VacationModalProps) {
     const [form] = Form.useForm()
+    // * 휴가 설정
+        const { mutate: updateVacation } = useUpdateVacation()
+    const {message} = App.useApp()
 
     const handleSubmit = async () => {
         try {
             const values = await form.validateFields()
             
             const formattedValues = {
+                shop_id: shopId,
                 start_date: values.dates[0].format('YYYY-MM-DD'),
                 end_date: values.dates[1].format('YYYY-MM-DD'),
                 reason: values.reason,
                 updated_at: new Date().toISOString()
             }
-            onSubmit(formattedValues)
-            form.resetFields()
+            updateVacation(formattedValues, {
+                onSuccess: () => {
+                    message.success('장기 휴가 일정이 등록되었습니다.')
+                    form.resetFields()
+                    onClose()
+                }
+            })
             onClose()
         } catch (error) {
             console.log('Validate Failed:', error)

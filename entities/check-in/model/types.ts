@@ -41,3 +41,16 @@ export interface CurrentUsageLog extends UsageLogBase  {
   owner: OwnerInfo | null
   product: ProductInfo | null
 }
+
+
+export interface OvertimePolicy {
+    unitMins: number;  
+    unitPrice: number; 
+}
+export interface useTimerProps{
+    startedAt: string;
+    expectedEndAt: string;
+    endedAt?: string | null;
+    gracePeriodMins?: number;
+    overtimePolicy?: OvertimePolicy;
+}

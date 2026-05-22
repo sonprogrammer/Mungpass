@@ -1,13 +1,6 @@
+import { CheckStoreExistsResult } from "@/features/auth/model/types";
 import { supabaseClient } from "@/shared/api/supabase/client";
 
-
-
-interface CheckStoreExistsResult {
-    exists: boolean
-    isPending: boolean
-    isRejectedByMe: boolean //내가 신청했다가 반려된 기록인지 확인
-    rejectReason?: string // 내가 신청한건데 반려당하여 반려사유가 잇을시
-}
 
 export const checkStoreExists = async (kakaoPlaceId: string, ownerId: string): Promise<CheckStoreExistsResult> => {
     const supabase = supabaseClient()

@@ -1,74 +1,51 @@
 'use client'
 
-import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts'
 import { motion } from 'framer-motion'
-import { useMemo } from 'react';
 import { Segmented } from 'antd';
 import { BarChart3, Calendar } from 'lucide-react';
 import { DailyChartProps } from '@/features/owner/stats/model/types';
-import { format } from 'date-fns';
-
-const CustomTooltip = ({ active, payload, tab }: { active?: boolean, payload?: { payload: { date: string, sales: number, visits: number } }[], tab: 'daily' | 'monthly' }) => {
-
-    if (active && payload && payload.length) {
-
-        const data = payload[0]
-        const label = tab === 'daily' ? format(data.payload.date, 'MM.dd') : `${data.payload.date.split('-')[0]}년 ${data.payload.date.split('-')[1]}월`
+import DailyStatsChart from '@/features/owner/stats/ui/DailyStatsChart';
+import MonthlyStatsChart from '@/features/owner/stats/ui/MonthlyStatsChart';
+import { useMemo, useState } from 'react';
+import { addDays, addYears, format, subDays, subYears } from 'date-fns';
+import { useGetDailyChart } from '@/entities/owner/model/useGetDailyChart';
 
 
-        return (
-            <div className="rounded-2xl border border-gray-100 bg-white p-3 shadow-xl">
-                <p className="text-[10px] font-bold text-gray-400 mb-1">
-                    {label}
-                </p>
-                <p className="text-sm font-black text-gray-900">
-                    {data.payload?.sales?.toLocaleString()}원
-                </p>
-                <p className="text-[11px] font-medium text-orange-500">
-                    {data.payload?.visits}건의 체크인
-                </p>
-            </div>
-        );
-    }
-    return null;
-};
+export function DailyChart({ tab, setTab, isVerified, shopId }: DailyChartProps) {
 
 
-export function DailyChart({ dailyData, monthlyData, tab, setTab, handleNext, handlePrev, isPending, dateRange, isNextDisabled, isVerified }: DailyChartProps) {
-
-    const chartData = useMemo(() => {
-        if (tab === 'daily') return dailyData
-
-        return [...monthlyData].sort((a, b) => a.month.localeCompare(b.month)).map(item => ({
-            ...item,
-            date: item.month
-        }))
-    }, [tab, dailyData, monthlyData])
+    const now = useMemo(() => new Date(), [])
+    const [viewEndDate, setViewEndDate] = useState(now)
+    const [currentYearDate, setCurrentYearDate] = useState(now)
+    const currentYearStr = format(currentYearDate, 'yyyy')
 
 
+    const startDateStr = format(subDays(viewEndDate, 6), 'yyyy-MM-dd')
+    const endDateStr = format(viewEndDate, 'yyyy-MM-dd')
 
-    const topRecordDate = useMemo(() => {
-        if (!chartData || chartData.length === 0) return '데이터 없음'
-        const hasAnySales = chartData.some(d => d.sales > 0)
-        if (!hasAnySales) return '-'
+    // *일별 데이터(일별 그래프 용)
+    const { data: dailyData = [], isPending: isDailyChartPending } = useGetDailyChart(shopId, startDateStr, endDateStr)
 
-        const top = chartData.reduce((prev, cur) => prev.sales > cur.sales ? prev : cur)
+    const handlePrev = () => setViewEndDate(prev => subDays(prev, 7))
+    const handleNext = () => setViewEndDate(prev => {
+        const next = addDays(prev, 7)
+        return next > now ? now : next
+    })
 
-        if (tab === 'daily') {
-            return format(new Date(top.date), 'MM.dd')
-        } else {
-            const month = top.date.split('-')[1]
-            return `${Number(month)}월`
-        }
+    const isNextDisabled = useMemo(() => {
+        return format(viewEndDate, 'yyyy-MM-dd') >= format(now, 'yyyy-MM-dd')
+    }, [viewEndDate, now])
 
-    }, [chartData, tab])
+    const handlePrevYear = () => setCurrentYearDate(prev => subYears(prev, 1))
+    const handleNextYear = () => setCurrentYearDate(prev => {
+        const next = addYears(prev, 1)
+        return next > now ? now : next
+    })
 
-    const renderQuarterTick = (tickItem: string) => {
-        if (!tickItem) return ''
-        return tab === 'daily'
-            ? format(tickItem, 'MM.dd')
-            : `${format(tickItem, 'MM')}월`
-    }
+    const isNextDisabledYear = useMemo(() => {
+        return format(currentYearDate, 'yyyy') >= format(now, 'yyyy')
+    }, [currentYearDate, now])
+
 
 
     return (
@@ -86,7 +63,10 @@ export function DailyChart({ dailyData, monthlyData, tab, setTab, handleNext, ha
                             {`${tab === 'daily' ? '일별 ' : '연별 '}`}매출 추이
                         </h2>
                         <p className="mt-1 text-sm text-gray-500 font-medium">
-                            {dateRange} 매출 현황
+                            {tab === 'daily' ? `${format(subDays(viewEndDate, 6), 'MM.dd')} ~ ${format(viewEndDate,'MM.dd')}`
+                                            : `${currentYearStr}년`
+                            } 
+                            매출 현황
                         </p>
                     </div>
 
@@ -101,7 +81,7 @@ export function DailyChart({ dailyData, monthlyData, tab, setTab, handleNext, ha
                     />
                 </div>
 
-                <div className={`w-full h-64 mt-5 transition-opacity ${isPending ? 'opacity-50' : 'opacity-100'}`}>
+                <div className={`w-full mt-5 transition-opacity ${isDailyChartPending ? 'opacity-50' : 'opacity-100'}`}>
 
                     {!isVerified && (
                         <div className="w-full h-full flex flex-col items-center justify-center rounded-xl bg-white/30 backdrop-blur-lg border border-dashed border-gray-200">
@@ -114,63 +94,28 @@ export function DailyChart({ dailyData, monthlyData, tab, setTab, handleNext, ha
                         </div>
                     )}
 
-                    <ResponsiveContainer width="100%" height='100%'>
-                        <BarChart data={chartData} margin={{ top: 0, right: 0, left: -10, bottom: 0 }}>
-                            <CartesianGrid strokeDasharray="5 3" vertical={false} stroke="#e5e7" />
-                            <XAxis
-                                dataKey="date"
-                                axisLine={false}
-                                tickLine={false}
-                                tick={{ fontSize: 11, fontWeight: 600, fill: '#6b7280' }}
-                                dy={10}
-                                tickFormatter={renderQuarterTick}
-                            />
-                            <YAxis
-                                dataKey="sales"
-                                axisLine={false}
-                                tickLine={false}
-                                tick={{ fontSize: 11, fontWeight: 600, fill: '#6b7280' }}
-                                tickFormatter={(p) => `${p / 10000}만원`}
-                            />
-                            <Tooltip content={<CustomTooltip tab={tab} />} cursor={{ fill: '#f97316', opacity: 0.05 }} />
-                            <Bar dataKey="sales" fill="#f97316" radius={[6, 6, 0, 0]} barSize={20} animationDuration={1500}>
+                    {/* 차트 */}
+                    {tab === 'daily' ? (
+                        <DailyStatsChart
+                            dailyData={dailyData}
+                            handleNext={handleNext}
+                            handlePrev={handlePrev}
+                            isNextDisabled={isNextDisabled}
+                        />
+                    ) : (
+                        <MonthlyStatsChart
+                            shopId={shopId}
+                            handleNextYear={handleNextYear}
+                            handlePrevYear={handlePrevYear}
+                            isNextDisabledYear={isNextDisabledYear}
+                            now={now}
+                            currentYearStr={currentYearStr}
+                        />
+                    )}
 
-                            </Bar>
-                        </BarChart>
-
-                    </ResponsiveContainer>
 
                 </div>
 
-                <div className="flex gap-2 justify-end mt-2">
-                    <button
-                        onClick={handlePrev}
-                        className="cursor-pointer flex items-center justify-center px-3 py-1 text-xs rounded-full bg-gray-100 shadow-sm border border-gray-200 text-gray-600 hover:bg-gray-50 active:scale-95 transition-all"
-                        title='이전 7일'
-                    >
-                        이전
-                    </button>
-                    <button
-                        onClick={handleNext}
-                        disabled={isNextDisabled}
-                        className={`flex items-center justify-center px-3 py-1 text-xs rounded-full shadow-sm border transition-all
-                                ${isNextDisabled
-                                ? 'bg-gray-50 text-gray-300 border-gray-100 cursor-not-allowed'
-                                : 'bg-white border-gray-200 text-gray-600 hover:bg-gray-50 active:scale-95 cursor-pointer'
-                            }`}
-                        title="다음 7일"
-                    >
-                        다음
-                    </button>
-                </div>
-
-                <div className="mt-6 flex justify-between items-center bg-gray-50 rounded-2xl p-4">
-                    <p className="text-[12px] font-medium text-gray-500">가장 매출이 높았던 날</p>
-                    <p className="text-[12px] font-bold text-gray-900">
-                        {isVerified ? topRecordDate : '승인 후 가능'}
-                    </p>
-                </div>
-                <div className='text-end text-[10px] mt-2 text-gray-500'>*체크 아웃시점에 실적에 반영됩니다.</div>
 
 
             </article>

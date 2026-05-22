@@ -1,9 +1,9 @@
+
+
+import { useTimerProps } from "@/entities/check-in/model/types";
 import { useEffect, useState } from "react";
 
-interface OvertimePolicy {
-    unitMins: number;  
-    unitPrice: number; 
-}
+
 
 export const useTimer = ({
     startedAt,
@@ -11,13 +11,7 @@ export const useTimer = ({
     endedAt,
     gracePeriodMins = 0,
     overtimePolicy
-}: {
-    startedAt: string;
-    expectedEndAt: string;
-    endedAt?: string | null;
-    gracePeriodMins?: number;
-    overtimePolicy?: OvertimePolicy;
-}) => {
+}: useTimerProps) => {
     const [now, setNow] = useState(new Date())
 
     useEffect(() => {

@@ -9,9 +9,9 @@ import {
     QrCode,
 } from "lucide-react"
 import { NavItem } from "@/widgets/owner/ui/NavItem"
-import { useState } from "react"
+import { useCallback, useMemo, useState } from "react"
 import { useGetShopInfo } from "@/entities/owner/model/useGetShopInfo"
-import { QrModal } from "@/widgets/owner/ui/QrModal"
+import QrModal from "@/widgets/owner/ui/QrModal"
 import { useGetProducts } from "@/features/owner/my-store/product/model/useGetProducts"
 import { useOwnerStoreStatus } from "@/entities/owner/model/useOwnerStoreStatus"
 
@@ -32,24 +32,23 @@ export function OwnerNavbar() {
     
     const isQrActive = pathname === '/owner/qr'
 
-    const handleCloseQrModal = () => {
+    const handleCloseQrModal = useCallback(() => {
         setIsQrModalOpen(false)
         setSelectedProductId(null)
-    }
+    },[])
 
-    const handleSelectedProduct = (product: string| null) => {
+    const handleSelectedProduct = useCallback((product: string| null) => {
         setSelectedProductId(product)
-    }
+    },[])
 
-    // * 배포환경, 개발 환경 다르게 
-    const getBaseUrl = () => {
-        if(typeof window !== 'undefined'){
-            return window.location.origin
-        }
-        return process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost'
-    }
-
-    const qrValue = `${getBaseUrl()}/user?modal=checkin&shopId=${shopId}&productId=${selectedProductId}`
+    
+    const qrValue = useMemo(() => {
+        // * 배포환경, 개발 환경 다르게 
+        const origin = typeof window !== 'undefined'
+            ? window.location.origin
+            : process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000'
+        return `${origin}/user?modal=checkin&shopId=${shopId}&productId=${selectedProductId}` 
+    },[shopId, selectedProductId])
 
 
 

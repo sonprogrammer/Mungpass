@@ -13,11 +13,12 @@ import { DogDetailModal } from "@/widgets/dog/ui/DogDetailModal";
 import { useDeleteDog } from "@/features/dog/model/useDeleteDog";
 import { useGetMyPetUsage } from "@/features/qr/model/useGetMyPetUsage";
 import { LiveUsageCard } from "@/widgets/dog/ui/LiveUsageCard";
-import { UsageStoryList } from "@/entities/check-in/ui/UsageStoryList";
 import { MyPetUsageAllInfo } from "@/features/qr/model/types";
 import { ConfirmModal } from "@/shared/ui/ConfirmModal";
 import { App } from "antd";
 import { MyPetPageSkeleton } from "@/widgets/owner/my-store/ui/MyPetPageSkeleton";
+import { MyPetsEmptyView } from "@/widgets/my-pets/ui/MyPetsEmptyView";
+import { CheckedInWidget } from "@/widgets/my-pets/ui/CheckedInWidget";
 
 export function MyPetsPageWidget() {
     const profile = useUserStore(state => state.profile)
@@ -79,7 +80,8 @@ export function MyPetsPageWidget() {
         setDogViewModalOpen(true)
     }
 
-    const handleDogClick = (usageDog: MyPetUsageAllInfo) => {
+
+    const handleActiveDogClick = (usageDog: MyPetUsageAllInfo) => {
         setSelectedDogUsage(usageDog)
         setActiveDogModalOpen(true)
     }
@@ -105,20 +107,10 @@ export function MyPetsPageWidget() {
                 </button>
             </header>
  
-            {activeDogs.length > 0 && (
-                <section className="border-b-2 border-slate-200">
-                    <h2 className="text-xs font-black text-slate-400 mb-1 px-2 tracking-widest uppercase">Checked-In</h2>
-                    <div className="flex gap-4 overflow-x-auto py-2 px-2 no-scrollbar scroll-smooth">
-                        {activeDogs.map(usage => (
-                            <UsageStoryList
-                                key={usage.id}
-                                usageDog={usage}
-                                onClick={() => handleDogClick(usage)}
-                            />
-                        ))}
-                    </div>
-                </section>
-            )}
+                <CheckedInWidget 
+                    activeDogs={activeDogs}
+                    onDogClick={handleActiveDogClick}
+                />
 
             {!primaryDogStatus && dogs && dogs.length > 0 && (
                 <div className="mb-4 flex items-center justify-end gap-2 text-orange-400">
@@ -184,18 +176,7 @@ export function MyPetsPageWidget() {
 
             {/* //* 데이터 없을 시  */}
             {dogs?.length === 0 && !isDogPending && (
-                <div className="flex flex-col items-center justify-center py-20 bg-white rounded-[3rem] shadow-sm border border-orange-50">
-                    <div className="w-16 h-16 bg-orange-50 rounded-full flex items-center justify-center mb-4">
-                        <AlertCircle className="w-8 h-8 text-orange-200" />
-                    </div>
-                    <p className="text-slate-400 font-bold mb-6 text-center leading-relaxed">
-                        등록된 아이가 없네요!<br />
-                        새로운 가족을 등록해볼까요?
-                    </p>
-                    <button onClick={() => setDogPostModalOpen(true)} className="px-8 py-4 cursor-pointer bg-orange-400 text-white font-black rounded-2xl shadow-lg shadow-orange-100">
-                        지금 등록하기
-                    </button>
-                </div>
+                <MyPetsEmptyView onRegisterClick={() => setDogPostModalOpen(true)}/>
             )}
 
             {/* //* 현재 이용중인 강아지 스로리에서 강아지 클릭시 디테일 데이토ㅓ  */}

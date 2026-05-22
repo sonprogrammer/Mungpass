@@ -3,18 +3,8 @@ import { useMemo } from 'react';
 import { format } from 'date-fns';
 import { FileText } from "lucide-react";
 import { Button, Tag, Tooltip } from "antd";
+import { RegistrationDocProps } from '@/entities/owner/my-shop/model/types';
 
-
-interface RegistrationDocProps {
-    regisData: {
-        biz_reg_image_url: string | null;
-        submitted_at: string;
-        expires_at: string | null;
-        discarded_at: string | null;
-    };
-    currentStatus: 'PENDING' | 'APPROVED' | 'REJECTED';
-    handleOpenDocs: (url: string) => void
-}
 
 export function RegistrationDoc({ regisData, currentStatus, handleOpenDocs }: RegistrationDocProps) {
 

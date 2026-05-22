@@ -28,7 +28,7 @@ export function StoreTimeCard({ shopId }: { shopId: string }) {
     const { mutate: updateSchedule, isPending: isUpdateSchedulePending } = useUpdateSchedules()
 
     // * 휴가 정보 가져오기
-    const { data: vacation, isPending: isVacationPending} = useGetVacation(shopId)
+    const { data: vacation} = useGetVacation(shopId)
 
     // *조기 , 즉시 휴무 처리 정보 가져오기 되어있으면
     const { data: tempStatus} = useGetTodayTempStatus(shopId)

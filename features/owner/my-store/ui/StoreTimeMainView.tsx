@@ -2,13 +2,11 @@
 
 import { Clock3, Edit3, Power, AlertCircle, Timer, Plane, Info, XCircle } from 'lucide-react'
 import { Popconfirm, Tag } from 'antd'
-import { StoreTimeMainViewProps, VacationSubmitData } from '@/features/owner/my-store/model/types'
+import { StoreTimeMainViewProps } from '@/features/owner/my-store/model/types'
 import { useState } from 'react'
 import { VacationModal } from '@/features/owner/my-store/ui/VacationModal'
-import { useUpdateVacation } from '@/features/owner/my-store/model/useUpdateVacation'
 import { useDeleteVacation } from '@/features/owner/my-store/model/useDeleteVacation'
 import { format } from 'date-fns'
-import { useUpdateTempStatus } from '@/features/owner/my-store/model/useUpdataeTempStatus'
 import { useDeleteTodayStatus } from '@/features/owner/my-store/model/useDeleteTodayStatus'
 import { EarlyCloseConfirmModal } from '@/features/owner/my-store/ui/EarlyCloseConfirmModal'
 import { StoreVacationStatus } from '@/features/owner/my-store/ui/StoreVacationStatus'
@@ -17,15 +15,9 @@ export function StoreTimeMainView({ shopStatus, onEditClick, shopId, vacation }:
     const [isVacationModal, setIsVacationModal] = useState(false)
     const [isReasonModalOpen, setIsReasonModalOpen] = useState(false)
     const [tempType, setTempType] = useState<'SHUTDOWN' | 'EARLY_CLOSE' | null>(null)
-    const [reason, setReason] = useState('')
 
-
-    // * 휴가 설정
-    const { mutate: updateVacation } = useUpdateVacation()
     // *휴가 취소
     const { mutate: deleteVacation } = useDeleteVacation()
-    // * 즉시 휴무 or  조기 마감 등록
-    const { mutate: updateTodayStatus } = useUpdateTempStatus()
 
     // * 즉시 휴무 or  조기 마감 취소
     const { mutate: deleteTodayStatus } = useDeleteTodayStatus()
@@ -36,15 +28,6 @@ export function StoreTimeMainView({ shopStatus, onEditClick, shopId, vacation }:
     const isShutdown = shopStatus.status === '오늘 휴무' || shopStatus.status === '오늘 즉시 휴무'
     const isEarlyClose = shopStatus.status === '조기 마감'
 
-    const handleVacationSubmit = async (data: VacationSubmitData) => {
-        const formData = {
-            shop_id: shopId,
-            ...data,
-            updated_at: new Date().toISOString()
-        }
-        updateVacation(formData)
-
-    }
 
 
     const handleUpdateTodayStatus = (type: 'SHUTDOWN' | 'EARLY_CLOSE') => {
@@ -58,16 +41,6 @@ export function StoreTimeMainView({ shopStatus, onEditClick, shopId, vacation }:
 
     }
 
-    const handleConfirmUpdate = () => {
-        if(!tempType) return
-        updateTodayStatus({
-            shopId,
-            type: tempType,
-            reason: reason
-        })
-        setIsReasonModalOpen(false)
-        setReason('')
-    }
 
     const handleDeleteVacation = () => {
         if(!shopId) return
@@ -233,8 +206,8 @@ export function StoreTimeMainView({ shopStatus, onEditClick, shopId, vacation }:
                     </p>
                 </footer>
             </div>
-            <VacationModal open={isVacationModal} onClose={() => setIsVacationModal(false)} onSubmit={handleVacationSubmit} />
-            <EarlyCloseConfirmModal reason={reason} setReason={setReason} tempType={tempType} open={isReasonModalOpen} onClose={()=>setIsReasonModalOpen(false)} onConfirm={handleConfirmUpdate}/>
+            <VacationModal open={isVacationModal} onClose={() => setIsVacationModal(false)} shopId={shopId} />
+            <EarlyCloseConfirmModal shopId={shopId} tempType={tempType} open={isReasonModalOpen} onClose={()=>{setIsReasonModalOpen(false); setTempType(null)}} />
         </>
     )
 }

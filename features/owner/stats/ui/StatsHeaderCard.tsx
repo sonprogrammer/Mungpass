@@ -1,11 +1,14 @@
 'use client'
 
+import { useGetMonths } from "@/entities/owner/model/useGetMonths"
 import { StatsHeaderCardProps } from "@/features/owner/stats/model/types"
 import { Button, Select } from "antd"
 import { BarChart3, CalendarDays } from "lucide-react"
 import { useMemo } from "react"
 
-export function StatsHeaderCard({ toggle, openSummary, months, selectedMonth, setSelectedMonth, isVerified }: StatsHeaderCardProps) {
+export function StatsHeaderCard({ toggle, openSummary, shopId, selectedMonth, setSelectedMonth, isVerified }: StatsHeaderCardProps) {
+    //* 가입후부터의 월만 가져오기 - 헤더의 옵션용
+        const { data: months = [] } = useGetMonths(shopId)
 
     const options = useMemo(() => months.map(m => {
         const [year, month] = m.split('-')

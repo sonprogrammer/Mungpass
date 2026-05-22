@@ -39,3 +39,14 @@ export interface RegisteredStoreInfoProps {
     onDetailClick: () => void;
     isLoading: boolean
 }
+
+export interface RegistrationDocProps {
+    regisData: {
+        biz_reg_image_url: string | null;
+        submitted_at: string;
+        expires_at: string | null;
+        discarded_at: string | null;
+    };
+    currentStatus: 'PENDING' | 'APPROVED' | 'REJECTED';
+    handleOpenDocs: (url: string) => void
+}

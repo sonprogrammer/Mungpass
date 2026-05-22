@@ -1,47 +1,50 @@
 'use client'
 
-import { Dog, useDogStore } from "@/entities/dog/model/types"
+import { useDogStore } from "@/entities/dog/model/types"
 import { useUserStore } from "@/entities/user/model/useUserStore"
 import { useImageUpload } from "@/features/dog/lib/useImageUpload"
 import { DogDetailModalProps, DogRegisterForm } from "@/features/dog/model/types"
 import { useUpdateMyDogs } from "@/features/dog/model/useUpdateMyDogs"
 import { DogFormFields } from "@/features/dog/ui/DogFormFields"
-import dayjs from "dayjs"
 import { Ellipsis, X } from "lucide-react"
-import { useState } from "react"
-import { getDogAge } from "@/entities/dog/lib/getDogAge"
+import { useCallback, useState } from "react"
 import { useDeleteDog } from "@/features/dog/model/useDeleteDog"
 import { useRegisterPrimaryDog } from "@/features/dog/model/useRegisterPrimaryDog"
 import { useGetMyDogs } from "@/features/dog/model/useGetMyDogs"
 import { ConfirmModal } from "@/shared/ui/ConfirmModal"
+import DogInfoView from "@/widgets/dog/ui/DogInfoView"
 
 export function DogDetailModal({ isOpen, onClose, directEditMode }: DogDetailModalProps) {
     const [isEdit, setIsEdit] = useState<boolean>(!!directEditMode)
     const [isDropdownOpen, setIsDropdownOpen] = useState<boolean>(false)
     // * 삭제 획인 모달
-        const [isDeleteModalOpen, setIsDeleteModalOpen] = useState<boolean>(false)
-    
-        const profile = useUserStore(state => state.profile)
-    
+    const [isDeleteModalOpen, setIsDeleteModalOpen] = useState<boolean>(false)
+
+    const profile = useUserStore(state => state.profile)
+
     const selectedDog = useDogStore(state => state.selectedDog)
-    const setSelectedDog = useDogStore(state => state.setSelectedDog)
-    const { data : dogs} = useGetMyDogs()
+    const { data: dogs } = useGetMyDogs()
     const dog = dogs?.find(dog => dog.id === selectedDog?.id)
     const [localFormData, setLocalFormData] = useState<DogRegisterForm | null>(dog ? {
-                                                                                    name: dog.name,
-                                                                                    breed: dog.breed,
-                                                                                    weight: dog.weight,
-                                                                                    description: dog.description || '',
-                                                                                    birth_date: dog.birth_date,
-                                                                                    image_url: dog.image_url
-                                                                                }: null)
+        name: dog.name,
+        breed: dog.breed,
+        weight: dog.weight,
+        description: dog.description || '',
+        birth_date: dog.birth_date,
+        image_url: dog.image_url
+    } : null)
 
     const { imagePreview, imageFile, fileInputRef, handleImageChange } = useImageUpload(dog?.image_url)
     const { mutate: updatedMutate } = useUpdateMyDogs()
     const { mutate: deleteMutate, isPending: isDeleting } = useDeleteDog()
     const { mutate: primaryMutate } = useRegisterPrimaryDog(profile?.id || '')
 
-    
+    const hanldeTogglePrimary = useCallback(() => {
+        if (!dog?.id || !profile?.id) return
+        primaryMutate({ dogId: dog.id, userId: profile.id, currentPrimary: !!dog.is_primary })
+    }, [dog, profile, primaryMutate])
+
+
     if (!isOpen || !localFormData) return null
 
     const handleEdit = () => {
@@ -53,18 +56,20 @@ export function DogDetailModal({ isOpen, onClose, directEditMode }: DogDetailMod
         }
         updatedMutate({
             dogId: dog?.id, imageFile, formData: {
-                ...localFormData, 
+                ...localFormData,
                 image_url: (imageFile ? imagePreview : dog.image_url) ?? undefined
             },
-             userId: profile?.id
+            userId: profile?.id
         })
 
     }
 
+
+
     const handleCheckDelete = () => {
-            setIsDropdownOpen(false)
-            setIsDeleteModalOpen(true)
-        }
+        setIsDropdownOpen(false)
+        setIsDeleteModalOpen(true)
+    }
 
     const handleDelete = () => {
         if (!dog || !profile) return null
@@ -77,10 +82,7 @@ export function DogDetailModal({ isOpen, onClose, directEditMode }: DogDetailMod
         setIsDropdownOpen(false)
     }
 
-    const hanldePrimary = () => {
-        if (!dog?.id || !profile?.id) return
-        primaryMutate({ dogId: dog.id, userId: profile.id, currentPrimary: !!dog.is_primary })
-    }
+
 
     return (
         <div className="fixed h-screen inset-0 z-100 flex justify-center items-center bg-black/40 backdrop-blur-sm p-4"
@@ -90,10 +92,7 @@ export function DogDetailModal({ isOpen, onClose, directEditMode }: DogDetailMod
                 onClick={(e) => e.stopPropagation()}
             >
 
-                <div className="flex justify-between items-center p-8 pb-4">
-                    <button onClick={onClose} className="p-2 hover:bg-slate-50 rounded-full text-slate-400">
-                        <X className="w-6 h-6" />
-                    </button>
+                <div className="flex justify-end items-center p-8 pb-4">
 
                     {isEdit ? (
                         <button onClick={() => setIsEdit(false)} className="text-sm font-bold text-slate-400 underline underline-offset-4">
@@ -106,6 +105,9 @@ export function DogDetailModal({ isOpen, onClose, directEditMode }: DogDetailMod
                                 className={`p-2 hover:bg-orange-50 rounded-full text-slate-400 ${isDropdownOpen ? 'bg-orange-100 text-orange-500' : 'hover:bg-orange-50 text-slate-400'}`}
                             >
                                 <Ellipsis className="w-6 h-6" />
+                            </button>
+                            <button onClick={onClose} className="p-2 hover:bg-slate-50 rounded-full text-slate-400">
+                                <X className="w-6 h-6" />
                             </button>
 
                             {isDropdownOpen && (
@@ -134,6 +136,7 @@ export function DogDetailModal({ isOpen, onClose, directEditMode }: DogDetailMod
                             )}
                         </div>
                     )}
+
                 </div>
 
                 <div className="p-8 pt-0 space-y-6 max-h-[70vh] overflow-y-auto">
@@ -142,95 +145,17 @@ export function DogDetailModal({ isOpen, onClose, directEditMode }: DogDetailMod
                         <DogFormFields
                             formData={localFormData}
                             setFormData={setLocalFormData}
-                            // setFormData={(newData) => {
-                            //     setSelectedDog({
-                            //         ...dog,
-                            //         ...newData,
-                            //         weight: isNaN(Number(newData.weight)) ? dog.weight : Number(newData.weight)
-                            //     });
-                            // }}
                             imagePreview={imagePreview}
                             onImageChange={handleImageChange}
-                            // onImageChange={handleImageChange}
                             fileInputRef={fileInputRef}
                         />
                     ) :
                         (
-                            <>
-                                <div className="flex items-center gap-5 mb-6">
-                                    {/* //* 강아지 사진 */}
-                                    <div className="relative w-20 h-20 rounded-[1.8rem] bg-orange-50 overflow-hidden shadow-inner shrink-0">
-                                        <img src={dog?.image_url || "/icon.png"} className="w-full h-full object-cover" />
-                                    </div>
-
-                                    {/* //*이름  나이 */}
-                                    <div className="flex flex-col gap-1">
-                                        <div className="flex items-center gap-2">
-                                            <h1 className="text-2xl font-black text-slate-800 tracking-tight">
-                                                {dog?.name || '이름 없음'}
-                                            </h1>
-                                            {dog?.birth_date && (
-                                                <span className="text-sm font-bold text-orange-500 bg-orange-50 px-2 py-0.5 rounded-lg">
-                                                    {getDogAge(dog.birth_date)}
-                                                </span>
-                                            )}
-                                        </div>
-                                        {!isEdit && (
-                                            <div className="flex items-center gap-2 bg-slate-50 px-3 py-1.5 rounded-full border border-slate-100">
-                                                <span className={`text-[10px] font-black ${dog?.is_primary ? 'text-orange-500' : 'text-slate-400'}`}>
-                                                    대표 애완견
-                                                </span>
-                                                <button
-                                                    onClick={hanldePrimary}
-                                                    className={`relative w-8 h-4 rounded-full transition-colors duration-200 
-                                                                ${dog?.is_primary ? 'bg-orange-500' : 'bg-slate-200'
-                                                                }`}
-                                                >
-                                                    <div className={`absolute top-0.5 left-0.5 bg-white w-3 h-3 rounded-full transition-transform 
-                                                                    duration-200 ${dog?.is_primary ? 'translate-x-4' : ''
-                                                        }`} />
-                                                </button>
-                                            </div>
-                                        )}
-                                    </div>
-                                </div>
-
-                                {/* //*품종 몸무게 생일 */}
-                                <div className="grid grid-cols-3 gap-3 mb-6 bg-white border border-slate-50 p-4 rounded-4xl shadow-sm">
-                                    <div className="flex flex-col items-center border-r border-slate-50">
-                                        <label className="text-[10px] font-black text-slate-300 mb-1">품종</label>
-                                        <p className="text-sm font-bold text-slate-700 truncate w-full text-center px-1">
-                                            {dog?.breed || '-'}
-                                        </p>
-                                    </div>
-
-                                    <div className="flex flex-col items-center border-r border-slate-50">
-                                        <label className="text-[10px] font-black text-slate-300 mb-1">몸무게</label>
-                                        <p className="text-sm font-bold text-slate-700">
-                                            {dog?.weight ? `${dog.weight}kg` : '-'}
-                                        </p>
-                                    </div>
-
-                                    <div className="flex flex-col items-center">
-                                        <label className="text-[10px] font-black text-slate-300 mb-1">생일</label>
-                                        <p className="text-sm font-bold text-slate-700">
-                                            {dog?.birth_date ? dayjs(dog.birth_date).format('YY.MM.DD') : '-'}
-                                        </p>
-                                    </div>
-                                </div>
-
-                                {/* //* 특이사항 */}
-                                <div>
-                                    <label className="text-xs font-black text-slate-400 ml-1 mb-2 block uppercase tracking-tighter">Memory / Note</label>
-                                    <div className="relative">
-                                        <span className="absolute -top-2 left-3 text-2xl text-orange-200 font-serif">“</span>
-                                        <p className="text-[13px] text-slate-500 leading-relaxed px-6 py-4 bg-orange-50/30 rounded-2xl italic">
-                                            {dog?.description || '아직 작성된 특징이 없습니다.'}
-                                        </p>
-                                        <span className="absolute -bottom-5 right-3 text-2xl text-orange-200 font-serif">”</span>
-                                    </div>
-                                </div>
-                            </>
+                            <DogInfoView
+                                dog={dog}
+                                onTogglePrimary={hanldeTogglePrimary}
+                            />
+                         
                         )}
 
                     {isEdit && (
@@ -245,17 +170,17 @@ export function DogDetailModal({ isOpen, onClose, directEditMode }: DogDetailMod
 
             </div>
 
-            <ConfirmModal 
-                            open={isDeleteModalOpen}
-                            title='정보 삭제'
-                            description={`${selectedDog?.name}의 모든 기록을 삭제 하시겠습니까?`}
-                            confirmText='삭제'
-                            cancelText='취소'
-                            confirmDanger={true}
-                            isLoading={isDeleting}
-                            onConfirm={handleDelete}
-                            onCancel={() => setIsDeleteModalOpen(false)}
-                        />
+            <ConfirmModal
+                open={isDeleteModalOpen}
+                title='정보 삭제'
+                description={`${selectedDog?.name}의 모든 기록을 삭제 하시겠습니까?`}
+                confirmText='삭제'
+                cancelText='취소'
+                confirmDanger={true}
+                isLoading={isDeleting}
+                onConfirm={handleDelete}
+                onCancel={() => setIsDeleteModalOpen(false)}
+            />
 
         </div >
     )

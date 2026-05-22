@@ -3,26 +3,23 @@
 import { ProductCategory, ProductWithCategory } from "@/features/owner/my-store/product/model/types"
 import { useGetProductCategories } from "@/features/owner/my-store/product/model/useGetProductCategories"
 import { useGetProducts } from "@/features/owner/my-store/product/model/useGetProducts"
-import { App, Empty } from "antd"
+import { App} from "antd"
 import { useParams } from "next/navigation"
 import { useEffect, useMemo, useState } from "react"
 import { KioskProductSkeleton } from "@/features/owner/kiosk/ui/KioskProductSkeleton"
-import { ProductListItem } from "@/entities/owner/kiosk/ui/ProductListItem"
+import { ProductListItem } from "@/features/owner/kiosk/ui/ProductListItem"
 import { KioskHeader } from "@/widgets/owner/kiosk/ui/KioskHeader"
 import { KioskCategoryNav } from "@/widgets/owner/kiosk/ui/KioskCategoryNav"
 import { KioskQrSection } from "@/widgets/owner/kiosk/ui/KioskQrSection"
-import { Key } from "lucide-react"
-import { useRouter } from "next/navigation"
-import { KioskAuthModal } from "@/features/owner/kiosk/ui/KioskAuthModal"
+import { KioskProductEmptyView } from "@/widgets/owner/kiosk/ui/KioskProductEmptyView"
+import { KioskExit } from "@/widgets/owner/kiosk/ui/KioskExit"
 
 
 export function KioskWidget() {
     const [step, setStep] = useState<'product' | 'qr'>('product')
     const [selectedCategory, setSelectedCategory] = useState<ProductCategory | null>(null)
     const [selectedProduct, setSelectedProduct] = useState<ProductWithCategory | null>(null)
-    const [isAuthOpen, setIsAuthOpen] = useState(false)
-    
-    const router = useRouter()
+
     const params = useParams()
     const shopId = params.shopId as string
 
@@ -102,9 +99,7 @@ export function KioskWidget() {
 
                             </div>
                             {!isProductPending && filteredProducts.length === 0 && (
-                                <div className="flex flex-col items-center justify-center py-32 bg-white rounded-4xl border-2 border-dashed border-slate-200">
-                                    <Empty description={<span className="text-slate-400 font-medium">{`준비된 ${currentCategory?.name} 상품이 없습니다.`}</span>} />
-                                </div>
+                                <KioskProductEmptyView currentCategory={currentCategory}/>
                             )}
                         </div>
                     ) : (
@@ -123,26 +118,8 @@ export function KioskWidget() {
                 </div>
             </main>
 
-            {/* //*관리자 페이지로 복귀하는 버튼 */}
-            <button
-                title='관리자 페이지로 이동'
-                type='button'
-                className="fixed bottom-6 left-6 w-8 h-8 cursor-pointer flex items-center justify-center bg-slate-400 text-slate-200 rounded-full hover:bg-slate-800 hover:text-white transition-all shadow-sm active:scale-95"
-                onClick={() => setIsAuthOpen(true)}
-            >
-                <Key size={20} />
-            </button>
-            
-            {/* //* 비밀번호 확인후 사장페이지로 이동가능 */}
-            <KioskAuthModal 
-                shopId={shopId}
-                isOpen={isAuthOpen}
-                onClose={() => setIsAuthOpen(false)}
-                onSuccess={ () => {
-                    setIsAuthOpen(false)
-                    router.replace('/owner')
-                }}
-            />
+            {/* //*사장 페이지로 복귀하는 버튼 */}
+            <KioskExit shopId={shopId} />
             
         </div>
     )

@@ -1,6 +1,7 @@
+import { DailySalesData } from "@/entities/owner/model/types";
 import { supabaseClient } from "@/shared/api/supabase/client";
 
-export const getDailySalesForChart = async(shopId: string, start: string, end: string) => {
+export const getDailySalesForChart = async(shopId: string, start: string, end: string):Promise<DailySalesData[]> => {
     const supabase = supabaseClient()
     
     const { data, error} = await supabase.rpc('get_sales_data_by_period',{
@@ -14,5 +15,5 @@ export const getDailySalesForChart = async(shopId: string, start: string, end: s
         throw error
     }
 
-    return data
+    return data 
 }

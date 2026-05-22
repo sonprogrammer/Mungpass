@@ -30,3 +30,13 @@ export interface MyPetUsageAllInfo{
     product: Product
     shop: { name : string}
 }
+
+export interface QrUnverifiedViewProps {
+    onClose: () => void
+}
+
+
+export interface QrCategorySelectViewProps {
+    categories: string[]
+    onSelectCategory: (categoryName: string) => void
+}

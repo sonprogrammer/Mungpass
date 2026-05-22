@@ -1,4 +1,4 @@
-import { Dispatch, SetStateAction } from "react";
+import { FormInstance } from "antd";
 
 export interface ScheduleRow{
     shop_id: string;
@@ -51,7 +51,7 @@ export interface VacationSubmitData {
 export interface VacationModalProps {
     open: boolean;
     onClose: () => void;
-    onSubmit: (values: VacationSubmitData) => void;
+    shopId: string;
 }
 
 export interface UpdateVacationToServer {
@@ -64,9 +64,14 @@ export interface UpdateVacationToServer {
 
 export interface EarlyCloseConfirmModalProps{
     tempType: 'SHUTDOWN' | 'EARLY_CLOSE' | null
+    shopId: string;
     open: boolean
     onClose: () => void
-    onConfirm: () => void 
-    reason: string; 
-    setReason: Dispatch<SetStateAction<string>>
+}
+
+export interface StoreTimeEditViewProps{
+    form: FormInstance<SaveScheduleFormData>
+    onSave: (values: SaveScheduleFormData) => void | Promise<void>
+    onBack: () => void
+    loading: boolean
 }

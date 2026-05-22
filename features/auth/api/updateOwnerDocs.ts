@@ -1,14 +1,7 @@
 
-import { BusinessStoreSubmitInfo } from "@/features/auth/model/types";
+import { UpdateDocsInfo } from "@/features/auth/model/types";
 import { supabaseClient } from "@/shared/api/supabase/client";
 
-interface UpdateDocsInfo{
-    id: string;
-    ownerId: string;
-    storeInfo: BusinessStoreSubmitInfo
-    businessNumber: string;
-    DocsImg: File | string //새로운 파일 아님 기존 디비에 있는 파일 그대로 
-}
 
 export const updateOwnerDocs = async({id, ownerId, storeInfo, businessNumber, DocsImg}: UpdateDocsInfo) => {
     const supabase = supabaseClient()

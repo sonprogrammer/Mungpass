@@ -1,12 +1,12 @@
 
 
-import { DailySalesData, MonthlySalesData } from '@/entities/owner/model/types';
+import {  DailySalesData, StatsDataFromServer } from '@/entities/owner/model/types';
 import { LucideIcon } from 'lucide-react';
 
 export interface StatsHeaderCardProps {
     toggle: () => void;
     openSummary: boolean;
-    months: string[];
+    shopId: string;
     selectedMonth: string;
     setSelectedMonth: (month: string) => void;
     isVerified: boolean
@@ -31,9 +31,9 @@ export interface TopDays {
 
 
 export interface SummaryCardProps {
-    summaryCards: SummaryCards[]
     topDays: TopDays[]
     selectedMonth: string;
+    diffData: StatsDataFromServer| undefined
 }
 
 export interface HighestRecordsProps{
@@ -41,16 +41,10 @@ export interface HighestRecordsProps{
 }
 
 export interface DailyChartProps{
-    dailyData: DailySalesData[]
-    monthlyData: MonthlySalesData[]
     tab: 'daily' | 'monthly';
     setTab: (tab: 'daily' | 'monthly') => void;
-    handleNext: () => void;
-    handlePrev: () => void;
-    isPending: boolean;
-    dateRange: string;
-    isNextDisabled: boolean;
     isVerified: boolean
+    shopId: string;
 }
 
 export interface StatsDataToAi{
@@ -63,4 +57,24 @@ export interface StatsDataToAi{
     top_visits: string; //최다 방문일
     avg_per_price: string;//객단가
     shop_id: string
+}
+
+export interface CustomTooltipProps{
+    active?: boolean
+    payload?: {
+        payload: {
+            date: string, 
+            sales: number, 
+            visits: number 
+        } 
+    }[] 
+    tab: 'daily' | 'monthly' 
+}
+
+export interface DailyStatsChartProps {
+    dailyData: DailySalesData[];
+    handleNext: () => void
+    handlePrev: () => void
+    isNextDisabled: boolean
+
 }

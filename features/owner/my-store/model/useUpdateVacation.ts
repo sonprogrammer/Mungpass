@@ -14,8 +14,6 @@ export function useUpdateVacation() {
             const shopId = variables.shop_id
             queryClient.invalidateQueries({queryKey: ['schedules', shopId]})
             queryClient.invalidateQueries({queryKey: ['vacations', shopId]})
-
-            message.success('장기 휴가 설정이 저장되었습니다')
         },
         onError: (error) => {
             console.log('저장 중 오류 발생', error)

@@ -51,3 +51,4 @@ export interface MonthlySalesData{
     sales: number;
     visits: number;
 }
+

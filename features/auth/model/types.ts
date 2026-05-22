@@ -83,3 +83,33 @@ export interface BusinessStoreSubmitInfo{
     x: string; //경도
     y: string; // 위도
 }
+
+export interface CheckStoreExistsResult {
+    exists: boolean
+    isPending: boolean
+    isRejectedByMe: boolean //내가 신청했다가 반려된 기록인지 확인
+    rejectReason?: string // 내가 신청한건데 반려당하여 반려사유가 잇을시
+}
+
+export interface UpdateDocsInfo{
+    id: string;
+    ownerId: string;
+    storeInfo: BusinessStoreSubmitInfo
+    businessNumber: string;
+    DocsImg: File | string //새로운 파일 아님 기존 디비에 있는 파일 그대로 
+}
+
+export interface BusinessFormProps {
+    storeInfo: BusinessStoreSubmitInfo;
+    ownerId: string;
+    isEdit: boolean
+    initialBizNumber?: string;
+    initialBizImg?: string
+    registrationTableId?: string
+}
+
+export interface BusinessBizImgProps {
+    preview: string;
+    removeFile: () => void;
+    onOpenModal: () => void
+}

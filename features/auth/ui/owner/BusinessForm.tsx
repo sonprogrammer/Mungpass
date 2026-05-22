@@ -6,21 +6,13 @@ import { DocsImgPreviewModal } from "@/entities/owner/re-store/ui/DocsImgPreview
 import { getAdminUrl } from "@/features/admin/store/api/ownerDocs"
 import { usePostOwnerDocs } from "@/features/auth/model/owner/usePostOwnerDocs"
 import { useUpdateOwnerDocs } from "@/features/auth/model/owner/useUpdateOwnerDocs"
-import { BusinessStoreSubmitInfo } from "@/features/auth/model/types"
+import { BusinessFormProps } from "@/features/auth/model/types"
 import { BusinessBizImg } from "@/features/auth/ui/owner/BusinessBizImg"
 import { App } from "antd"
 import { Camera, FileText, Loader2, Upload } from "lucide-react"
 import { useEffect, useRef, useState } from "react"
 
 
-interface BusinessFormProps {
-    storeInfo: BusinessStoreSubmitInfo;
-    ownerId: string;
-    isEdit: boolean
-    initialBizNumber?: string;
-    initialBizImg?: string
-    registrationTableId?: string
-}
 
 export function BusinessForm({ storeInfo, ownerId, isEdit, initialBizNumber, initialBizImg, registrationTableId }: BusinessFormProps) {
 

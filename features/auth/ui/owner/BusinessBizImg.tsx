@@ -1,14 +1,9 @@
 'use client'
 
+import { BusinessBizImgProps } from '@/features/auth/model/types'
 import { CheckCircle2, Maximize2, X } from 'lucide-react'
 import NextImage from 'next/image'
 
-
-interface BusinessBizImgProps {
-    preview: string;
-    removeFile: () => void;
-    onOpenModal: () => void
-}
 
 export function BusinessBizImg({ preview, removeFile, onOpenModal }: BusinessBizImgProps) {
 
