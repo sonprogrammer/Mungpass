@@ -7,8 +7,12 @@ import { useEffect } from "react"
 export function useRoleGuard(allowRole: string) {
     const router = useRouter()
     const profile = useUserStore(state => state.profile)
+    const isLoading = useUserStore(state => state.isLoading)
+    
 
     useEffect(() => {
+        if(isLoading)return
+        
         if(!profile) {
             router.replace('/')
             return 
@@ -24,5 +28,5 @@ export function useRoleGuard(allowRole: string) {
             }
             return router.replace('/')
         }
-    },[profile, allowRole, router])
+    },[profile, allowRole, router, isLoading])
 }
