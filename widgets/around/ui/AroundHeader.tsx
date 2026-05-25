@@ -27,7 +27,7 @@ export function AroundHeader({ radius, setRadius, showMap, toggle, onSearch }: A
 
 
     return (
-        <section className="p-6 bg-white rounded-b-[3rem] shadow-sm space-y-4 sticky top-0 z-50">
+        <section className="p-6 bg-white rounded-b-[3rem] shadow-sm space-y-4 z-50">
             <div className="flex justify-between items-center">
                 <div>
                     <h2 className="text-2xl font-black text-slate-900">어디로 갈까요?</h2>
