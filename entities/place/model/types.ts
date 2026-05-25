@@ -11,6 +11,7 @@ export interface AroundHeaderProps{
     onSearch: (keyword: string) => void
     radius: number;
     setRadius: (radius: number) => void
+    onMyLocation: () => void;
 }
 
 export interface Favorites {

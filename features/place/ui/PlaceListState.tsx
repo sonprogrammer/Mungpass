@@ -30,13 +30,10 @@ function PlaceListState({ isPending, places, onPlaceClick }: ShopListStateProps)
 
     //* 결과 반환
     return (
-        <div>
-            <p className="text-orange-500 font-bold pb-4 pl-2">주변 애견카페</p>
-            <PlaceList
-                places={places}
-                placeClick={onPlaceClick}
-            />
-        </div>
+        <PlaceList
+            places={places}
+            placeClick={onPlaceClick}
+        />
     )
 }
 

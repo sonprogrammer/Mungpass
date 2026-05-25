@@ -103,6 +103,7 @@ export function AroundAllContent() {
                 onSearch={setKeyword}
                 radius={radius}
                 setRadius={setRadius}
+                onMyLocation={handleMyLocation}
             />
 
             <main className="flex-1 min-h-0 overflow-y-auto flex flex-col">
@@ -110,7 +111,6 @@ export function AroundAllContent() {
                     <MapSection
                         center={displayCenter}
                         keyword={keyword}
-                        // places={state.displayShops}
                         places={displayShops}
                         showRefreshBtn={showRefreshBtn}
                         onMarkerClick={setSelectedPlace}
@@ -120,11 +120,10 @@ export function AroundAllContent() {
                     />
                 )}
 
-                <div className='p-6 flex-1 '>
-
+                <div className='p-6 flex-1'>
+                    {displayShops.length !== 0 && <p className="text-orange-500 font-bold pb-4 pl-2">주변 애견카페</p>}
                     <PlaceListState
                         isPending={isLoading}
-                        // places={state.displayShops}
                         places={displayShops}
                         onPlaceClick={setSelectedPlace}
                     />

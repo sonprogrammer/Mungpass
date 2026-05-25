@@ -2,23 +2,22 @@
 
 import { RADIUS_OPTIONS } from "@/entities/place/model/constants";
 import { AroundHeaderProps } from "@/entities/place/model/types";
-import { Map as MapIcon, Search, X } from "lucide-react";
+import { LocateFixed, Map as MapIcon, Search, X } from "lucide-react";
 import { memo, useState } from "react";
 
 
 
+export function AroundHeader({ radius, setRadius, showMap, toggle, onSearch, onMyLocation }: AroundHeaderProps) {
 
-export function AroundHeader({ radius, setRadius, showMap, toggle, onSearch }: AroundHeaderProps) {
+    const [localValue, setLocalValue] = useState('')
 
-     const [localValue, setLocalValue] = useState('')
-    
-        const handleSearch = () => {
-            const trimmed = localValue.trim()
-            if(trimmed){
-                onSearch(trimmed)
-            }
+    const handleSearch = () => {
+        const trimmed = localValue.trim()
+        if (trimmed) {
+            onSearch(trimmed)
         }
-    
+    }
+
     const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
         if (e.key === 'Enter') {
             handleSearch()
@@ -57,28 +56,38 @@ export function AroundHeader({ radius, setRadius, showMap, toggle, onSearch }: A
                         setLocalValue('')
                         onSearch('')
                     }}>
-                        <X className="absolute right-3 top-1/2 -translate-y-1/2"/>
+                        <X className="absolute right-3 top-1/2 -translate-y-1/2" />
                     </button>
                 )}
             </div>
 
-            {/* //* 내 주변 탐색시에만 반경이 나옴 */}
-            {!localValue && (
-                <div className="flex gap-2 overflow-x-auto pb-2 no-scrollbar">
-                {RADIUS_OPTIONS.map((option) => (
-                    <button
-                    key={option.value}
-                    onClick={() => setRadius(option.value)}
-                    className={`px-4 py-1.5 rounded-full text-xs font-bold transition-all whitespace-nowrap border-2
+            <div className="flex items-center justify-between">
+                {/* //* 내 주변 탐색시에만 반경이 나옴 */}
+                {!localValue && (
+                    <div className="flex gap-2 overflow-x-auto no-scrollbar">
+                        {RADIUS_OPTIONS.map((option) => (
+                            <button
+                                key={option.value}
+                                onClick={() => setRadius(option.value)}
+                                className={`px-4 py-1.5 rounded-full text-xs font-bold transition-all whitespace-nowrap border-2 cursor-pointer
                         ${radius === option.value
-                            ? 'bg-orange-500 border-orange-500 text-white'
-                            : 'bg-white border-orange-100 text-orange-300'}`}
+                                        ? 'bg-orange-500 border-orange-500 text-white'
+                                        : 'bg-white border-orange-100 text-orange-300'}`}
                             >
-                        {option.label}
-                    </button>
-                ))}
+                                {option.label}
+                            </button>
+                        ))}
+                    </div>
+                )}
+                <button
+                    onClick={onMyLocation}
+                    className='mr-4 p-1 rounded-xl bg-orange-500 text-white/80 cursor-pointer flex items-center justify-center'
+                    aria-label='현재위치로 이동'
+                    title="현재 위치 탐색"
+                >
+                    <LocateFixed />
+                </button>
             </div>
-            )}
         </section>
     )
 }
