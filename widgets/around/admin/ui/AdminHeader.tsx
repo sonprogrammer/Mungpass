@@ -1,15 +1,16 @@
 'use client'
 
-import { Layout, Button, Space, Badge, Avatar, Dropdown, Typography } from "antd";
+import { Layout, Button, Space, Avatar, Dropdown, Typography } from "antd";
 import { 
   MenuUnfoldOutlined, 
   MenuFoldOutlined, 
-  BellOutlined, 
   UserOutlined,
   LogoutOutlined,
   SettingOutlined
 } from "@ant-design/icons";
 import { cookieLogout } from "@/features/auth/api/logoutAction";
+import { useUserStore } from "@/entities/user/model/useUserStore";
+import { AdminNotificationDropdown } from "@/entities/admin/notification/ui/AdminNotiDropdown";
 
 const { Header } = Layout;
 const { Text } = Typography;
@@ -20,9 +21,11 @@ interface AdminHeaderProps {
 }
 
 export function AdminHeader({ collapsed, setCollapsed }: AdminHeaderProps) {
+  const handlelogout = useUserStore(state => state.logout)
 
   const logout = async() => {
     await cookieLogout()
+    handlelogout()
   }
   
   const userMenuItems = [
@@ -60,24 +63,18 @@ export function AdminHeader({ collapsed, setCollapsed }: AdminHeaderProps) {
         </Text>
       </Space>
 
-      <Space size={20}>
+      <Space size={16} align="center">
+        <AdminNotificationDropdown />
 
-        <Badge count={3} size="small" offset={[2, 2]}>
-          <Button 
-            type="text" 
-            shape="circle" 
-            icon={<BellOutlined style={{ fontSize: '20px' }} />} 
-          />
-        </Badge>
 
         <Dropdown menu={{ items: userMenuItems }} placement="bottomRight" arrow>
-          <Space style={{ cursor: 'pointer' }} className="hover:opacity-80 transition-opacity">
+          <Space style={{ cursor: 'pointer' }} className="hover:opacity-80 transition-opacity p-1.5 rounded-lg hover:bg-gray-50">
             <Avatar 
               style={{ backgroundColor: '#f97316' }} 
               icon={<UserOutlined />} 
             />
             <div className="hidden sm:flex flex-col text-left leading-tight">
-              <Text strong style={{ fontSize: '13px' }}>운영지원팀</Text>
+              <Text strong style={{ fontSize: '13px', color: '#1f2937' }}>운영지원팀</Text>
               <Text type="secondary" style={{ fontSize: '11px' }}>Admin</Text>
             </div>
           </Space>

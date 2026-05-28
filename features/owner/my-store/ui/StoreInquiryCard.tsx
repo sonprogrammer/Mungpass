@@ -1,73 +1,83 @@
 'use client'
-// TODO 기능 개발 해줘야함
 
 import { useState } from 'react'
-import { 
-  Headphones, MessageSquarePlus, ChevronRight, CheckCircle2, 
-  Clock, User, ShieldCheck, X, Info 
+import {
+  Headphones, MessageSquarePlus, ChevronRight,
+  Clock, X,
+  Loader2
 } from 'lucide-react'
-import { 
-  Button, Modal, Badge, Empty, Divider, 
+import {
+  Button, Modal, Badge, Empty,
   Form, Input, Select, message
 } from 'antd'
+import { useUserStore } from '@/entities/user/model/useUserStore'
+import { InquiryCategory, InquiryRoom } from '@/entities/inquiry/model/types'
+import { useGetInquiryList } from '@/entities/inquiry/model/useGetInquriyList'
+import { usePostInquiry } from '@/entities/inquiry/model/usePostInquiry'
+import { format } from 'date-fns'
+import { StoreInquiryChatRoom } from '@/entities/inquiry/ui/StoreInquiryChatRoom'
+import { useGetInquiryUserNoti } from '@/entities/inquiry/model/useGetInquiryUserNoti'
+import { useGenerateInquirNoti } from '@/entities/inquiry/model/useGenerateInquirNoti'
 
-// 목업
-const MOCK_HISTORY = [
-  {
-    id: 1,
-    category: 'payout',
-    categoryLabel: '정산 및 수익',
-    title: '정산 기준 및 정산일 문의',
-    content: '이번 달 정산일이 공휴일인데, 전날에 입금되나요 아니면 다음 날에 되나요?',
-    status: 'pending',
-    createdAt: '2026-03-23 14:00',
-    answer: null
-  },
-  {
-    id: 2,
-    category: 'policy',
-    categoryLabel: '운영 정책/승인',
-    title: '사업자 서류 재업로드 관련',
-    content: '사업자 등록증 주소가 변경되어 서류를 다시 올리고 싶습니다. 어디서 하나요?',
-    status: 'completed',
-    createdAt: '2026-03-21 10:30',
-    answer: {
-      content: '안녕하세요 사장님! 멍패스 운영팀입니다. 사업자 정보 변경은 [매장 관리 > 기본 정보 수정] 메뉴에서 서류를 새로 업로드하실 수 있습니다. 승인까지는 영업일 기준 1~2일이 소요됩니다.',
-      answeredAt: '2026-03-21 15:45'
-    }
-  }
-]
-
-interface MockTypes{
-  id: number;
-  category: string;
-  categoryLabel: string;
-  title: string;
-  content: string;
-  status: string;
-  createdAt: string;
-  answer: {
-    content: string;
-    answeredAt: string;
-  } | null
+const CATEGORY_LABELS: Record<InquiryCategory, string> = {
+  payout: '정산 및 수익',
+  policy: '운영 정책/승인',
+  system: '시스템 오류',
+  refund: '환불 문의', //나중에 결제 연동까지 했을 때 넣을것,
+  use_history: '이용 내역 문의',
+  etc: '기타 문의'
 }
 
 export function StoreInquiryCard() {
   const [form] = Form.useForm()
+  const profile = useUserStore(state => state.profile)
   const [isWriteOpen, setIsWriteOpen] = useState(false)
   const [isDetailOpen, setIsDetailOpen] = useState(false)
-  const [selectedInquiry, setSelectedInquiry] = useState<MockTypes | null>(null)
+  const [selectedRoomId, setSelectedRoomId] = useState<string | null>(null)
+  const [selectedRoomTitle, setSelectedRoomTitle] = useState<string>('')
 
-  // TODO api연동
-  const onFinishInquiry = (values: {category: string,title: string, content: string}) => {
-    console.log('문의 데이터 전송:', values)
-    message.success('문의가 접수되었습니다. 담당자 확인 후 답변 드릴게요.')
-    setIsWriteOpen(false)
-    form.resetFields()
+  // * 자신의 문의 목록 가져오기 = 채팅방 가져오기 여러개 
+  const { data: inquiryList = [], isPending: isListPending } = useGetInquiryList({ userId: profile?.id || '', userType: 'owner' })
+
+  const { mutate: postInquiry, isPending: isSubmitting } = usePostInquiry()
+
+  // * 유저가 받은 알림 가져오기
+  const { data: userNoti } = useGetInquiryUserNoti(profile?.id ?? '')
+
+  // * 유저가 관리자에게 보낼 알림 보내기
+  const { mutate: sendNoti} = useGenerateInquirNoti()
+
+
+  const onFinishInquiry = (values: { category: InquiryCategory, title: string, content: string }) => {
+    if (!profile?.id) {
+      message.error('로그인 정보를 확인할 수 없습니다. 다시 로그인해주세요.')
+      return
+    }
+
+    postInquiry({
+      userId: profile.id,
+      userType: 'owner',
+      category: values.category,
+      title: values.title,
+      firstMsg: values.content
+    }, {
+      onSuccess: (data) => {
+        sendNoti({
+          roomId: data.id,
+          userId: profile.id,
+          msgType: 'inquiry_new_req',
+          title: values.title,
+          message: values.content
+        })
+        setIsWriteOpen(false)
+        form.resetFields()
+      }
+    })
   }
 
-  const handleOpenDetail = (item: MockTypes) => {
-    setSelectedInquiry(item)
+  const handleOpenDetail = (room: InquiryRoom) => {
+    setSelectedRoomId(room.id)
+    setSelectedRoomTitle(room.title)
     setIsDetailOpen(true)
   }
 
@@ -86,8 +96,8 @@ export function StoreInquiryCard() {
               </p>
             </div>
           </div>
-          <Button 
-            type="primary" 
+          <Button
+            type="primary"
             onClick={() => setIsWriteOpen(true)}
             className="rounded-xl! font-bold! border-none! bg-emerald-500! hover:bg-emerald-700! transition-all! py-2!"
             icon={<MessageSquarePlus size={16} />}
@@ -97,38 +107,45 @@ export function StoreInquiryCard() {
         </div>
 
         <div className="mt-4 space-y-2">
-          {MOCK_HISTORY.length > 0 ? (
-            MOCK_HISTORY.map((item) => (
-              <div 
-                key={item.id}
-                onClick={() => handleOpenDetail(item)}
-                className="group flex items-center justify-between rounded-2xl border border-gray-50 bg-gray-50/50 p-4 transition-all hover:bg-white hover:border-orange-200 cursor-pointer"
-              >
-                <div className="flex items-center gap-3">
-                  {item.status === 'pending' ? (
-                    <Badge status="processing" color="orange" />
-                  ) : (
-                    <CheckCircle2 size={18} className="text-emerald-500" />
-                  )}
-                  <div>
-                    <div className="flex items-center gap-2">
-                      <span className="text-[10px] font-bold text-gray-400">{item.categoryLabel}</span>
-                      <p className="text-sm font-bold text-gray-900 line-clamp-1">{item.title}</p>
+          {isListPending ? (
+            <div><Loader2 className="w-8 h-8 text-orange-500 animate-spin mb-2" /> </div>
+          ) :
+            inquiryList.length > 0 ? (
+              inquiryList.map((item) => {
+                const roomNoti = userNoti?.filter(noti => noti.room_id === item.id).sort((a,b) => (b.created_at).localeCompare(a.created_at))[0]
+
+                // * 방별 안읽음 뱃지 표시
+                const hasUnread = roomNoti && !roomNoti.is_read
+                return (
+                  <div
+                    key={item.id}
+                    onClick={() => handleOpenDetail(item)}
+                    className="group flex items-center justify-between rounded-2xl border border-gray-50 bg-gray-50/50 p-4 transition-all hover:bg-white hover:border-orange-200 cursor-pointer"
+                  >
+                    <div className="flex items-center gap-3">
+                      {item.status === 'completed' && hasUnread && (
+                        <Badge status="processing" color="orange" />
+                      )}
+                      <div>
+                        <div className="flex items-center gap-2">
+                          <span className="text-[10px] font-bold text-gray-400">
+                            {CATEGORY_LABELS[item.category] || '기타 문의'}
+                          </span>
+                          <p className="text-sm font-bold text-gray-900 line-clamp-1">{item.title}</p>
+                        </div>
+                        <p className="text-[11px] text-gray-400 mt-0.5">{format(new Date(item.created_at), 'HH:MM')}</p>
+                      </div>
                     </div>
-                    <p className="text-[11px] text-gray-400 mt-0.5">{item.createdAt}</p>
+                    <ChevronRight size={16} className="text-gray-300 transition-colors group-hover:text-orange-500" />
                   </div>
-                </div>
-                <ChevronRight size={16} className="text-gray-300 transition-colors group-hover:text-orange-500" />
-              </div>
-            ))
-          ) : (
-            <Empty description="남긴 문의가 없습니다." image={Empty.PRESENTED_IMAGE_SIMPLE} />
-          )}
+                )
+              })
+            ) : (
+              <Empty description="남긴 문의가 없습니다." image={Empty.PRESENTED_IMAGE_SIMPLE} />
+            )}
         </div>
 
-        <button className="mt-3 w-full py-1 text-center text-[11px] font-semibold text-gray-400 hover:text-orange-500">
-          이전 문의 내역 더보기
-        </button>
+
       </article>
 
       <Modal
@@ -142,14 +159,13 @@ export function StoreInquiryCard() {
       >
         <Form form={form} layout="vertical" onFinish={onFinishInquiry} className="mt-4!">
           <Form.Item label="문의 유형" name="category" rules={[{ required: true }]}>
-            <Select 
+            <Select
               placeholder="분류를 선택해주세요"
-              options={[
-                  { value: 'policy', label: '운영 정책/승인' },
-                  { value: 'system', label: '시스템 오류' },
-                  { value: 'etc', label: '기타 문의' },
-              ]}
-              className="h-11! custom-select"
+              options={Object.entries(CATEGORY_LABELS).map(([key, value]) => ({
+                value: key,
+                label: value
+              }))}
+              className="h-11!"
             />
           </Form.Item>
           <Form.Item label="제목" name="title" rules={[{ required: true }]}>
@@ -160,69 +176,30 @@ export function StoreInquiryCard() {
           </Form.Item>
           <div className="flex gap-3 mt-8">
             <Button size="large" className="flex-1 rounded-xl border-gray-200" onClick={() => setIsWriteOpen(false)}>취소</Button>
-            <Button type="primary" htmlType="submit" size="large" className="flex-1 rounded-xl bg-emerald-500! font-bold! hover:bg-emerald-700!">접수하기</Button>
+            <Button type="primary" htmlType="submit" size="large" loading={isSubmitting} className="flex-1 rounded-xl bg-emerald-500! font-bold! hover:bg-emerald-700!">접수하기</Button>
           </div>
         </Form>
       </Modal>
 
+      {/* //* 채팅방 내용  */}
       <Modal
-        title={<span className="text-lg font-bold text-gray-900">상담 히스토리</span>}
+        title={<span className="text-lg font-bold text-gray-900">1:1 실시간 상담톡</span>}
         open={isDetailOpen}
         onCancel={() => setIsDetailOpen(false)}
-        footer={<Button block size="large" onClick={() => setIsDetailOpen(false)} className="rounded-xl! font-bold! text-white! bg-emerald-500! hover:bg-emerald-700!">확인</Button>}
+        footer={null}
         centered
         width={520}
+        destroyOnHidden
       >
-        {selectedInquiry && (
-          <div className="py-4 space-y-6">
-            <div className="flex gap-3">
-              <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-gray-100 text-gray-400 shadow-sm">
-                <User size={18} />
-              </div>
-              <div className="flex-1">
-                <div className="flex items-center justify-between mb-1.5">
-                  <span className="text-sm font-bold text-gray-800">나의 문의</span>
-                  <span className="text-[11px] text-gray-400 font-medium tracking-tight">{selectedInquiry.createdAt}</span>
-                </div>
-                <div className="rounded-2xl rounded-tl-none bg-gray-50 border border-gray-100 p-4 text-sm leading-7 text-gray-600">
-                  <p className="font-extrabold text-gray-900 mb-1 leading-tight">Q. {selectedInquiry.title}</p>
-                  {selectedInquiry.content}
-                </div>
-              </div>
-            </div>
-
-            <Divider  />
-
-            <div className="flex gap-3">
-              <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-blue-50 text-blue-500 shadow-sm border border-blue-100">
-                <ShieldCheck size={18} />
-              </div>
-              <div className="flex-1">
-                <div className="flex items-center justify-between mb-1.5">
-                  <span className="text-sm font-bold text-blue-600">관리자 답변</span>
-                  {selectedInquiry.answer && (
-                    <span className="text-[11px] text-gray-400 font-medium tracking-tight">{selectedInquiry.answer.answeredAt}</span>
-                  )}
-                </div>
-                
-                {selectedInquiry.answer ? (
-                  <div className="rounded-2xl rounded-tl-none bg-blue-50/40 p-4 text-sm leading-7 text-gray-700 border border-blue-100">
-                    {selectedInquiry.answer.content}
-                  </div>
-                ) : (
-                  <div className="rounded-2xl bg-amber-50/50 p-4 border border-amber-100">
-                    <div className="flex items-center gap-2 text-amber-600 mb-1">
-                      <Info size={14} />
-                      <span className="text-xs font-bold uppercase tracking-wide">Pending Review</span>
-                    </div>
-                    <p className="text-xs text-amber-700 leading-5">
-                      담당자가 문의 내용을 확인 중입니다. 영업시간 내에 빠르게 답변 드릴 수 있도록 노력하겠습니다.
-                    </p>
-                  </div>
-                )}
-              </div>
-            </div>
+        {selectedRoomId && (
+          <div className="mt-4">
+            {selectedRoomId ? (
+              <StoreInquiryChatRoom roomId={selectedRoomId} />
+            ) : (
+              <div className="text-center py-10 text-gray-400">방 정보를 찾을 수 없습니다.</div>
+            )}
           </div>
+
         )}
       </Modal>
     </>

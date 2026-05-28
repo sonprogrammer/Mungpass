@@ -14,7 +14,7 @@ interface LoadingToStoreRegister{
 
 export function LoadingToStoreRegister({storeStatusInfo, isPending}: LoadingToStoreRegister) {
     return(
-        <div className="flex items-center justify-center h-screen bg-slate-50">
+        <div className="flex items-center justify-center h-full bg-slate-50">
         <div className="bg-white p-8 rounded-4xl shadow-xl text-center flex flex-col items-center max-w-75 animate-in fade-in zoom-in duration-300">
           <div className="mb-6 relative">
             <Spin size="large" />

@@ -9,6 +9,10 @@ import { useRouter } from "next/navigation";
 import { useRealTimeNotification } from "@/features/notification/model/useRealTimeNotification";
 import { useGetOwnerHasStoreStatus } from "@/features/owner/model/useGetOwnerHasStoreStatus";
 import Image from "next/image";
+import { useInquiryRealTimeNoti } from "@/entities/inquiry/model/useInquiryRealTimeNoti";
+import { useUserStore } from "@/entities/user/model/useUserStore";
+import { useInquiryNotiStore } from "@/entities/inquiry/model/useInquiryNotiStore";
+import { useGetInquiryUserNoti } from "@/entities/inquiry/model/useGetInquiryUserNoti";
 
 
 export default function OwnerHeader() {
@@ -19,16 +23,24 @@ export default function OwnerHeader() {
 
   const origin = storeStatusInfo?.origin
   const isVerifiedShop = origin === 'shops'
+  const profile = useUserStore(state => state.profile)
+  const userId = profile?.id
 
   const shopId = isVerifiedShop ? storeStatusInfo?.id : null
   const shopName = storeStatusInfo?.name || '확인 중'
   const status = storeStatusInfo?.status
 
   useRealTimeNotification({ shopId })
+  useInquiryRealTimeNoti({ userId: userId as string, isAdmin: false})
 
 
+  // * 체크 인아웃 알림
   const notifications = useNotificationStore((state) => state.notifications)
-  const hasUnread = notifications.some(n => !n.is_read)
+  // * 1대1알림
+  const inquiryNotifcations = useInquiryNotiStore(state => state.notifications)
+  const { data: inquiryNoti} = useGetInquiryUserNoti(userId ?? '')
+
+  const hasUnread = notifications.some(n => !n.is_read) || inquiryNoti?.some(n => !n.is_read)
 
 
   const STATUS_CONFIG = {
@@ -134,11 +146,12 @@ export default function OwnerHeader() {
       </header>
 
       {/* //* 매장 승인 후 이용 가능  */}
-      {shopId && (
+      {shopId && userId && (
         <NotificationDrawer
           isOpen={isBellOpen}
           onClose={() => setIsBellOpen(false)}
           shopId={shopId}
+          userId={userId}
         />
       )}
 

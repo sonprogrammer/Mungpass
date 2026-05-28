@@ -7,5 +7,8 @@ export const readAllNotifications = async(id: string) => {
                                             .or(`user_id.eq.${id}, shop_id.eq.${id}`)
                                             .eq('is_read', false)
 
-    return { error }
+    if(error){
+        console.error('체크인 아웃 전체 읽음 처리 실패 api', error)
+        throw new Error('체크인 아웃 전체 읽음 처리 실패 api')
+    }
 }

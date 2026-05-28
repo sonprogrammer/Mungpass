@@ -6,6 +6,7 @@ import { App } from "antd";
 export function useDeleteNotification() {
     const removeNotification = useNotificationStore(state => state.removeNotification)
     const { message} = App.useApp()
+
     
     return useMutation({
         mutationFn: deleteNotification,

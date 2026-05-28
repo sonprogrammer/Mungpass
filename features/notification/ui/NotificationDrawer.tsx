@@ -1,30 +1,72 @@
 'use client';
 
+import { useGetInquiryUserNoti } from '@/entities/inquiry/model/useGetInquiryUserNoti';
+import { deleteAllInquiryNoti } from '@/features/notification/api/deleteAllInquiryNoti';
 import { readAllNotifications } from '@/features/notification/api/readAllNotifications';
+import { readInquiryNoti } from '@/features/notification/api/readInquiryNoti';
 import { readNotification } from '@/features/notification/api/readNotification';
 import { useDeleteAllNotifications } from '@/features/notification/model/useDeleteAllNotifications';
+import { useDeleteInquiryNoti } from '@/features/notification/model/useDeleteInquiryNoti';
 import { useDeleteNotification } from '@/features/notification/model/useDeleteNotification';
 import { useNotificationStore } from '@/features/notification/model/useNotificationStore';
 import { formatTime } from '@/shared/utils/formatDate';
 import { App } from 'antd';
 import { X, Clock, Calendar, Info, Trash2 } from 'lucide-react';
 
-
+// ! 이건 일반 유저, 사장용 컴포넌트임. 관리자용은 따로 만들어주기
 interface NotificationDrawerProps {
   isOpen: boolean;
   onClose: () => void;
-  userId?: string
-  shopId?: string
+  userId: string //일반 유저 알림창일때
+  shopId?: string // 사장 유저 알림창일 때
+}
+
+interface UnifiedNotification {
+  id: string;
+  origin: 'check' | 'inquiry';
+  type: 'checkin' | 'checkout' | 'info' | 'inquiry_new_req' | 'inquiry_res';
+  title: string;
+  message: string;
+  time: string;       
+  is_read: boolean;
+  created_at: string;
 }
 
 export default function NotificationDrawer({ isOpen, onClose, userId, shopId }: NotificationDrawerProps) {
 
+  // * 체크인 체크아웃알림
   const { notifications, markAllAsRead, markAsRead } = useNotificationStore()
+  //* 1대1 채팅문의 알림
+  const { data =[]} = useGetInquiryUserNoti(userId)
+  const unreadInquiryNoti = data.filter(n => !n.is_read)
+  
+  // * 체크인 체크아웃 삭제
   const { mutate: deleteNoti } = useDeleteNotification()
   const { mutate: deleteAllNoti } = useDeleteAllNotifications()
+  // * 1대1알림 삭제
+  const {mutate: deleteInquiryNoti} = useDeleteInquiryNoti(userId)
+
 
   const { message, modal } = App.useApp()
 
+  const AllNotifications: UnifiedNotification[] = [
+    ...notifications.map(n => ({ ...n,origin: 'check' as const})),
+    ...unreadInquiryNoti.map(n => ({
+      id: n.id,
+      origin: 'inquiry' as const,
+      type: n.type,
+      title: n.title,
+      message: n.message,
+      time: formatTime(n.created_at),
+      is_read: n.is_read,
+      created_at: n.created_at
+    }))
+  ].sort((a, b) => b.created_at.localeCompare(a.created_at)) as UnifiedNotification[]
+
+  //* 안읽은 알림수
+  const totalUnreadCount = notifications.filter(n => !n.is_read).length +
+                          unreadInquiryNoti.length
+  
   // *모든 알림 삭제
   const handleAllDeleteNoti = () => {
     const targetId = shopId || userId
@@ -39,19 +81,29 @@ export default function NotificationDrawer({ isOpen, onClose, userId, shopId }: 
       content: '모든 알림을 삭제 하시겠습니까?',
       cancelText: '취소',
       okText: '삭제',
-      onOk: () => deleteAllNoti(targetId),
+      onOk: async() => {
+        deleteAllNoti(targetId)
+        await deleteAllInquiryNoti(targetId)
+        message.success('모든 문의 알림이 삭제되었습니다.')
+      },
       okButtonProps: { danger: true },
       centered: true
     })
   }
+
   // * 알림 개별 삭제
-  const handleDeleteNoti = (e: React.MouseEvent, notiId: string) => {
+  const handleDeleteNoti = async(e: React.MouseEvent, noti: UnifiedNotification) => {
     e.stopPropagation()
-    deleteNoti(notiId)
+    if(noti.origin ==='check'){
+      deleteNoti(noti.id)
+    }else{
+      deleteInquiryNoti(noti.id)
+
+    }
   }
 
   const handleAllRead = async () => {
-    const unReadIds = notifications.filter(n => !n.is_read).map(n => n.id)
+    const unReadIds = AllNotifications.filter(n => !n.is_read).map(n => n.id)
     if (unReadIds.length === 0) return
 
     const targetId = shopId || userId
@@ -63,23 +115,29 @@ export default function NotificationDrawer({ isOpen, onClose, userId, shopId }: 
 
 
     try {
-      const res = await readAllNotifications(targetId)
-      if (res.error) {
-        throw res.error
-      }
+      await readAllNotifications(targetId)
+      
       markAllAsRead()
     } catch (error) {
       console.error('전체 읽음 처리 실패', error)
     }
   }
 
-  const handleRead = async (notiId: string) => {
+  const handleRead = async (noti: UnifiedNotification) => {
+    if(noti.origin === 'check'){
+      markAsRead(noti.id)
+    }else{ //TODO 여기서는 해당 채팅방이 열려야하는데 동시에 채팅방이 열리면 해당 roomId로 된 알림내역은 is_read: true가되어서 알림창에는 안보여야하고
+      // inquiryRead(noti.id)
+    }
     try {
-      const res = await readNotification(notiId)
-      if (res.error) {
-        throw res.error
+      if(!noti.is_read){
+        if(noti.origin === 'check'){
+          await readNotification(noti.id)
+        }else{
+          //TODO 여기서는 해당 채팅방이 열려야하는데 동시에 채팅방이 열리면 해당 roomId로 된 알림내역은 is_read: true가되어서 알림창에는 안보여야하고
+          await readInquiryNoti(noti.id)
+        }
       }
-      markAsRead(notiId)
     } catch (error) {
       console.error('개별 읽음 처리 실패', error)
     }
@@ -88,7 +146,6 @@ export default function NotificationDrawer({ isOpen, onClose, userId, shopId }: 
   if (!isOpen) return null
 
 
-  const unreadCount = notifications.filter(n => !n.is_read).length
 
   return (
 
@@ -109,9 +166,9 @@ export default function NotificationDrawer({ isOpen, onClose, userId, shopId }: 
             <div className="flex justify-between items-center mb-1">
               <h3 className="text-xl font-black text-slate-900 flex items-center gap-2">
                 알림
-                {unreadCount > 0 && (
+                {totalUnreadCount > 0 && (
                   <span className="text-sm bg-orange-500 text-white px-2 py-0.5 rounded-full font-bold transition-all">
-                    {unreadCount}
+                    {totalUnreadCount}
                   </span>
                 )}
               </h3>
@@ -127,17 +184,17 @@ export default function NotificationDrawer({ isOpen, onClose, userId, shopId }: 
 
           {/* //* 알림 리스트 */}
           <div className="flex-1 overflow-y-auto px-4 py-6 space-y-4">
-            {notifications.length > 0 ? (
-              notifications.map((noti) => (
+            {AllNotifications.length > 0 ? (
+              AllNotifications.map((noti) => (
                 <div
                   key={noti.id}
-                  onClick={() => handleRead(noti.id)}
+                  onClick={() => handleRead(noti)}
                   className={`relative p-5 rounded-4xl border transition-all active:scale-[0.98] cursor-pointer ${noti.is_read ? 'bg-white border-slate-100 opacity-60' : 'bg-orange-50/50 border-orange-100 shadow-sm'
                     }`}
                 >
 
                   <button
-                    onClick={(e) => handleDeleteNoti(e, noti.id)}
+                    onClick={(e) => handleDeleteNoti(e, noti)}
                     className="absolute bottom-4 right-4 p-2 text-red-300 hover:text-red-500 hover:bg-red-50 rounded-xl transition-all"
                   >
                     <Trash2 className="w-4 h-4" />

@@ -7,7 +7,7 @@ import dayjs from "dayjs";
 import Link from "next/link";
 
 export function RecentRegistrations() {
-    
+    // TODO registerTotal 써주기
     const { result: { total: registerTotal, data: registerData }, query: { isPending } } = useList({
         resource: 'store_registrations',
         pagination: { pageSize: 5 },

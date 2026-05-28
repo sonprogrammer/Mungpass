@@ -12,7 +12,7 @@ export function OwnerRoleGuard({children}:{children: React.ReactNode}){
 
     if(isLoading){
         return(
-            <div className="h-full w-full bg-emerald-200 flex flex-col items-center justify-center">
+            <div className="h-full w-full bg-emerald-50 flex flex-col items-center justify-center">
                 <Loader2 className="w-8 h-8 text-emerald-500 animate-spin mb-2" />
                 <p className="text-xs text-slate-600 font-bold">인증 정보 확인 중...</p>
             </div>

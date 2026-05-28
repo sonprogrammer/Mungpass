@@ -14,7 +14,10 @@ export function RefineProvider({children}: {children: React.ReactNode}){
             resources={[
                 {name: 'store_registration'},
                 {name: 'daily_stats'},
-                {name: 'profiles'}
+                {name: 'profiles'},
+                {name: 'inquiries_room'},
+                {name: 'inquiry_messages'},
+                {name: 'inquiry_notifications'},
             ]}
             options={{
                 syncWithLocation: true, 

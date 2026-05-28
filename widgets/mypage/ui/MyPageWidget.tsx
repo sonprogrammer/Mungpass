@@ -17,7 +17,7 @@ export function MyPageWidget() {
         <div className="flex items-center justify-between ">
           <ProfileCard user={profile} />
 
-        {/* //TODO 아직 필요없는 기능 */}
+        {/* //TODO 아직 필요없는 기능 세팅 설정 */}
           {/* <button className="p-3 bg-slate-50 rounded-2xl text-slate-400 hover:text-slate-600 transition-colors">
             <Settings className="w-5 h-5" />
           </button> */}
