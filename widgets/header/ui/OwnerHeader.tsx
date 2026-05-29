@@ -11,7 +11,6 @@ import { useGetOwnerHasStoreStatus } from "@/features/owner/model/useGetOwnerHas
 import Image from "next/image";
 import { useInquiryRealTimeNoti } from "@/entities/inquiry/model/useInquiryRealTimeNoti";
 import { useUserStore } from "@/entities/user/model/useUserStore";
-import { useInquiryNotiStore } from "@/entities/inquiry/model/useInquiryNotiStore";
 import { useGetInquiryUserNoti } from "@/entities/inquiry/model/useGetInquiryUserNoti";
 
 
@@ -37,7 +36,6 @@ export default function OwnerHeader() {
   // * 체크 인아웃 알림
   const notifications = useNotificationStore((state) => state.notifications)
   // * 1대1알림
-  const inquiryNotifcations = useInquiryNotiStore(state => state.notifications)
   const { data: inquiryNoti} = useGetInquiryUserNoti(userId ?? '')
 
   const hasUnread = notifications.some(n => !n.is_read) || inquiryNoti?.some(n => !n.is_read)

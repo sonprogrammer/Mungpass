@@ -56,9 +56,7 @@ export function MyStorePageWidget() {
     return null
 }
 
-    const handleClick = () => {
-        message.error('개발 중입니다')
-    }
+
     return (
         <>
             {contextHolder}
@@ -132,7 +130,6 @@ export function MyStorePageWidget() {
                                         icon={<Headphones className="w-5 h-5 text-orange-500" />} title="관리자 문의"
                                         onClick={() => {
                                             handleAction(() => setActiveDrawer('inquiry'))
-                                            handleClick()
                                         }}
                                         // TODO 문의자가 답변한 내용이 있으면 New로
                                         status="new"

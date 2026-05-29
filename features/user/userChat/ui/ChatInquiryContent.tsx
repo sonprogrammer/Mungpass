@@ -72,24 +72,34 @@ export function ChatInquiryContent() {
 
     if (viewMode === 'write') {
         return (
-            <div >
-                <button></button>
-                <NewInquiryForm
-                    onFinish={handleSubmitInquiry}
-                    isSubmitting={isSubmitting}
-                    onCancel={() => setViewMode('list')}
-                />
+            <div className="flex flex-col h-full animate-fade-in">
+                <button
+                    onClick={() => setViewMode('list')}
+                    className="flex items-center gap-1 text-xs text-gray-500 font-medium hover:underline cursor-pointer hover:text-gray-800 transition-colors w-fit p-2"
+                >
+                    <ChevronLeft size={14} /> 목록으로 돌아가기
+                </button>
+                <div className="flex-1 overflow-y-auto bg-white border border-gray-100 rounded-2xl p-4 shadow-sm">
+                    <NewInquiryForm
+                        onFinish={handleSubmitInquiry}
+                        isSubmitting={isSubmitting}
+                        onCancel={() => setViewMode('list')}
+                    />
+                </div>
             </div>
         )
     }
 
     if (viewMode === 'chat' && selectedRoomId) {
         return (
-            <div className="flex flex-col h-full animate-fade-in">
-                <button onClick={() => setViewMode('list')} className="flex items-center gap-1 text-xs text-gray-500 font-medium mb-2 hover:text-gray-800">
+            <div className="flex flex-col h-full flex-1 animate-fade-in">
+                <button
+                    onClick={() => setViewMode('list')}
+                    className="flex items-center gap-1 text-xs text-gray-500 font-medium hover:underline cursor-pointer hover:text-gray-800 transition-colors w-fit p-2"
+                >
                     <ChevronLeft size={14} /> 목록으로 돌아가기
                 </button>
-                <div className="flex-1 overflow-y-auto min-h-87.5">
+                <div className="flex-1 overflow-y-auto">
                     <StoreInquiryChatRoom roomId={selectedRoomId} />
                 </div>
             </div>
@@ -116,6 +126,7 @@ export function ChatInquiryContent() {
                 ) : inquiryList.length > 0 ? (
                     inquiryList.map((item) => {
                         const roomNoti = userNoti?.filter(noti => noti.room_id === item.id).sort((a, b) => (b.created_at).localeCompare(a.created_at))[0]
+                        const lastDisplayTime = roomNoti ? roomNoti.created_at : item.created_at
                         const hasUnread = roomNoti && !roomNoti.is_read
 
                         return (
@@ -135,7 +146,7 @@ export function ChatInquiryContent() {
                                             </span>
                                             <h4 className="text-sm font-bold text-gray-800 line-clamp-1">{item.title}</h4>
                                         </div>
-                                        <p className="text-[11px] text-gray-400 mt-0.5">{format(new Date(item.created_at), 'HH:mm')}</p>
+                                        <p className="text-[11px] text-gray-400 mt-0.5">{format(new Date(lastDisplayTime), 'HH:mm')}</p>
                                     </div>
                                 </div>
                                 <ChevronRight size={16} className="text-gray-300 transition-colors group-hover:text-orange-500" />

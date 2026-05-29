@@ -191,7 +191,7 @@ export default function AdminInquiryChatPage() {
                                                     handleUserClick(e, record)
                                                 }}
                                                 className="flex items-center gap-3 hover:bg-black/20 p-2 rounded-2xl">
-
+                                                {/* //TODO 확인후 디자인 수정 */}
                                                 <Avatar
                                                     size={30}
                                                     src={record.profile.avatar_url || undefined}

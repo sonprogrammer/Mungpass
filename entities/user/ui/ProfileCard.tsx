@@ -1,6 +1,7 @@
 import { ProfileCardProps } from "@/entities/user/model/useUserStore";
-import { Skeleton } from "antd";
-import { Dog } from "lucide-react";
+import { UserOutlined } from "@ant-design/icons";
+import { Avatar, Skeleton } from "antd";
+import { Dog, User } from "lucide-react";
 
 
 
@@ -10,9 +11,9 @@ export function ProfileCard({ user }: ProfileCardProps) {
   if (!user) {
     return (
       <div className="flex items-center gap-4">
-        <Skeleton.Button 
-          active 
-          style={{ width: 64, height: 64, borderRadius: '1.5rem' }} 
+        <Skeleton.Button
+          active
+          style={{ width: 64, height: 64, borderRadius: '1.5rem' }}
         />
         <div className="flex flex-col gap-2">
           <Skeleton.Input active style={{ width: 80, height: 24, borderRadius: '6px' }} />
@@ -27,12 +28,11 @@ export function ProfileCard({ user }: ProfileCardProps) {
       {/* //* 프로필 이미지있으면 변경 (avatar_url) */}
       <div className="w-16 h-16 bg-orange-500 rounded-3xl flex items-center justify-center text-white shadow-lg shadow-orange-200">
         {user.avatar_url ? (
-          <div>
-            <img src={user.avatar_url} alt="프로필 사진" />
-          </div>
+          <img src={user.avatar_url} alt="프로필 사진" className="w-full h-full object-cover rounded-3xl" />
         ) : (
-          <Dog className="w-8 h-8" />
+          <User size={30} />
         )}
+
       </div>
       <div>
         <div className="flex items-center gap-1">

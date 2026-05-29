@@ -3,7 +3,7 @@
 import { ChatInquiryBottomSheet } from "@/features/user/userChat";
 import { MenuItem } from "@/shared/ui/MenuItem";
 import { App } from "antd";
-import { Bell, Clock, Heart, MessageCircle } from "lucide-react";
+import { Bell, Clock, Heart, Headphones } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 
@@ -56,7 +56,7 @@ export function MyPageMenu() {
                     <div className="group">
                         <MenuItem
                             onClick={() => setIsChatOpen(true)}
-                            icon={<MessageCircle className="w-5 h-5 text-slate-400" />} title="1:1 채팅 문의" />
+                            icon={<Headphones className="w-5 h-5 text-blue-500" />} title="1:1 채팅 문의" />
                     </div>
 
                     {/* //TODO 이게 필요한가 */}

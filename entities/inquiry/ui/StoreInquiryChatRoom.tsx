@@ -1,6 +1,5 @@
 'use client'
 
-import { readInquiryNotiByRoom } from "@/entities/admin/inquiry/api/readInquiryNotiByRoom"
 import { useGenerateInquirNoti } from "@/entities/inquiry/model/useGenerateInquirNoti"
 import { useInquiryChat } from "@/entities/inquiry/model/useInquiryChat"
 import { useReadInquiryNotiByRoom } from "@/entities/inquiry/model/useReadInquiryNotiByRoom"
@@ -28,6 +27,8 @@ export function StoreInquiryChatRoom({ roomId }: { roomId: string }) {
     //* 읽은 처리
     const {mutate: readInquiryByRoom} = useReadInquiryNotiByRoom()
 
+    const isOwner = profile?.role === 'owner'
+    
     const scrollToBottom = () => {
         messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' })
     }
@@ -76,17 +77,21 @@ export function StoreInquiryChatRoom({ roomId }: { roomId: string }) {
 
     if (isLoading) {
         return (
-            <div className="h-112 w-full bg-emerald-50 flex flex-col items-center justify-center">
-                <Loader2 className="w-8 h-8 text-emerald-500 animate-spin mb-2" />
-                <p className="text-xs text-emerald-400 font-bold">대화 내용을 불러오는 중...</p>
+            <div className={`h-112 w-full ${isOwner ? 'bg-emerald-50/20' : 'bg-orange-50/20'} flex flex-col items-center justify-center`}>
+                <Loader2 className={`w-8 h-8 ${isOwner ? 'text-emerald-500' : 'text-orange-500'} animate-spin mb-2`} />
+                <p className={`text-xs ${isOwner ? 'text-emerald-400' : 'text-orange-400'} font-bold`}>대화 내용을 불러오는 중...</p>
             </div>
         )
     }
 
     return (
-        <div className="flex flex-col h-112 bg-gray-50/50 rounded-2xl border border-gray-100 overflow-hidden">
+        // <div className="flex flex-col h-120 bg-gray-50/50 rounded-2xl border border-gray-100 overflow-hidden">
+        <div className={`flex flex-col bg-gray-50/50 rounded-2xl  overflow-hidden
+        ${isOwner ? 'h-120' : 'h-[65vh]'} 
+    `}>
+        {/* <div className="flex flex-col h-full bg-gray-50/50 rounded-2xl border border-gray-100 overflow-hidden"> */}
 
-            <div className="flex-1 overflow-y-auto p-4 space-y-4">
+            <div className="flex-1 overflow-y-auto p-4 border border-gray-100 space-y-4 scrollbar-none">
                 {messages.map((msg, i) => {
                     const prevMsg = messages[i - 1]
 
@@ -107,7 +112,7 @@ export function StoreInquiryChatRoom({ roomId }: { roomId: string }) {
 
 
                                 <div className={`flex h-8 w-8 shrink-0 items-center justify-center rounded-full shadow-sm text-white
-                                                ${isMe ? 'bg-emerald-500' : 'bg-blue-500'}`}
+                                                ${isMe ? (isOwner ? 'bg-emerald-500' : 'bg-orange-500') : 'bg-blue-500'}`}
                                 >
                                     {isMe ? <User size={14} /> : <ShieldCheck size={14} />}
                                 </div>
@@ -124,8 +129,8 @@ export function StoreInquiryChatRoom({ roomId }: { roomId: string }) {
 
                                     <div className={`flex items-end gap-1.5 ${isMe ? 'flex-row-reverse' : 'flex-row'}`}>
                                         <div className={`rounded-2xl px-4 py-2.5 text-sm leading-6 shadow-sm
-                                                                                    ${isMe
-                                                ? 'bg-emerald-500 text-white rounded-tr-none font-medium'
+                                                       ${isMe
+                                                ? `${isOwner ? 'bg-emerald-500' : 'bg-orange-400'} text-white rounded-tr-none font-medium`
                                                 : 'bg-white text-gray-800 border border-gray-100 rounded-tl-none'}`}
                                         >
                                             <p className="whitespace-pre-wrap">{msg.message}</p>
@@ -142,14 +147,15 @@ export function StoreInquiryChatRoom({ roomId }: { roomId: string }) {
                 <div ref={messagesEndRef} />
             </div>
 
-            <div className="p-3 bg-white border-t border-gray-100">
+            <div className="pt-3 pb-6 w-full">
                 <Form form={form} onFinish={onSendMsg} className="flex gap-2 m-0!">
                     <Form.Item name="text" className="flex-1 mb-0!">
                         <Input
                             placeholder="메시지를 입력하세요..."
                             autoComplete="off"
                             disabled={isSending}
-                            className="h-11! rounded-xl! px-4! border-gray-200! focus:border-emerald-500! shadow-none!"
+                            className={`h-11! rounded-xl! px-4! border-gray-200! focus:border-emerald-500! shadow-none!
+                                    ${isOwner ? 'focus:border-emerald-500!' : 'focus:border-orange-500!'}`}
                             onKeyDown={handleKeyDown}
                         />
                     </Form.Item>
@@ -158,7 +164,10 @@ export function StoreInquiryChatRoom({ roomId }: { roomId: string }) {
                         htmlType="submit"
                         loading={isSending}
                         icon={<Send size={16} />}
-                        className="h-11! w-11! rounded-xl! border-none! bg-emerald-500! hover:bg-emerald-700! flex items-center justify-center"
+                        className={`h-11! w-11! rounded-xl! border-none! flex items-center justify-center text-white
+                            ${isOwner 
+                                ? 'bg-emerald-500! hover:bg-emerald-700!' 
+                                : 'bg-orange-500! hover:bg-orange-700!'}`}
                     />
                 </Form>
             </div>

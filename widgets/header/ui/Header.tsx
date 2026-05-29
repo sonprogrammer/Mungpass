@@ -8,6 +8,8 @@ import { useNotificationStore } from "@/features/notification/model/useNotificat
 import { useUserStore } from "@/entities/user/model/useUserStore";
 import { useRealTimeNotification } from "@/features/notification/model/useRealTimeNotification";
 import Image from "next/image";
+import { useInquiryRealTimeNoti } from "@/entities/inquiry/model/useInquiryRealTimeNoti";
+import { useGetInquiryUserNoti } from "@/entities/inquiry/model/useGetInquiryUserNoti";
 
 export default function Header() {
   const [isBellOpen, setIsBellOpen] = useState(false)
@@ -16,10 +18,13 @@ export default function Header() {
   const userId = profile?.id
 
   useRealTimeNotification({ userId })
+  useInquiryRealTimeNoti({ userId: userId as string, isAdmin: false})
 
 
   const notifications = useNotificationStore((state) => state.notifications)
-  const hasUnread = notifications.some(n => !n.is_read)
+  // * 1대1알림
+    const { data: inquiryNoti} = useGetInquiryUserNoti(userId ?? '')
+  const hasUnread = notifications.some(n => !n.is_read) || inquiryNoti?.some(n => !n.is_read)
 
   return (
     <>
