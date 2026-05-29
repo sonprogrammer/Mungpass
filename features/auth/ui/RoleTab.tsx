@@ -13,7 +13,7 @@ export function RoleTab() {
                                 ${loginTabRole === 'user' ? 'bg-orange-500 text-white shadow-md' : 'text-slate-400'}
                         `}
                 >
-                    일반 유저
+                    견주님
                 </button>
                 <button
                     onClick={() => setLoginTabRole('owner')}
@@ -21,7 +21,7 @@ export function RoleTab() {
                             ${loginTabRole === 'owner' ? 'bg-emerald-500 text-white shadow-md' : 'text-slate-400'}
                         `}
                 >
-                    멍패스 사장님
+                    사장님
                 </button>
             </div>
         </div>

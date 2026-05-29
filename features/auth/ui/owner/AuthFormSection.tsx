@@ -38,7 +38,6 @@ export function AuthFormSection() {
 
 
                 <form action={handleAuthAction} className="space-y-3 pt-4">
-                    {/* <input type="hidden" name="role" value={isOwner ? 'owner' : 'user'} /> */}
                     <input type="hidden" name="role" value={loginTabRole} />
                     <LoginForm
                         email={email}
