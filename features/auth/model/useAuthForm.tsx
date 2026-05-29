@@ -16,13 +16,13 @@ export function useAuthForm(mode: 'login' | 'signup', OwnerSuccess?: (id: string
         const role = user.actualRole
         
         
-        if(role === 'admin'){
-          router.replace('/admin')
-        }else if(role === 'owner'){
-          router.replace('/owner')
-        }else{
-          router.replace('/home')
-        }
+        // if(role === 'admin'){
+        //   router.replace('/admin')
+        // }else if(role === 'owner'){
+        //   router.replace('/owner')
+        // }else{
+        //   router.replace('/home')
+        // }
       } catch(error: unknown) {
         message.error(error instanceof Error ? error.message : '로그인 중 에러가 발생하였습니다. 다시 시도해주세요')
       }

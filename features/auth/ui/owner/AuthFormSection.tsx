@@ -1,5 +1,6 @@
 'use client'
 
+import { useUserStore } from "@/entities/user/model/useUserStore"
 import { useAuthForm } from "@/features/auth/model/useAuthForm"
 import { LoginForm } from "@/features/auth/ui/LoginForm"
 import { RoleTab } from "@/features/auth/ui/RoleTab"
@@ -12,7 +13,7 @@ import { useState } from "react"
 
 
 export function AuthFormSection() {
-    const [isOwner, setIsOwner] = useState<boolean>(false)
+    const loginTabRole = useUserStore(state => state.loginTabRole)
     const [email, setEmail] = useState<string>('')
     const [password, setPassword] = useState<string>('')
 
@@ -23,13 +24,13 @@ export function AuthFormSection() {
 
             <div className="p-6 flex flex-col text-center">
                 <h2 className="text-2xl font-black text-slate-800">
-                    {isOwner ? '사장님 ' : '견주님'}
+                    {loginTabRole === 'owner' ? '사장님 ' : '견주님'}
                 </h2>
                 <p className="text-sm text-slate-400 font-bold">멍패스에 오신 것을 환영해요!</p>
             </div>
             <div className={`flex justify-end`}>
                 {/* //* 사용자 관리 */}
-                <RoleTab isOwner={isOwner} setIsOwner={setIsOwner} />
+                <RoleTab  />
             </div>
 
 
@@ -37,7 +38,8 @@ export function AuthFormSection() {
 
 
                 <form action={handleAuthAction} className="space-y-3 pt-4">
-                    <input type="hidden" name="role" value={isOwner ? 'owner' : 'user'} />
+                    {/* <input type="hidden" name="role" value={isOwner ? 'owner' : 'user'} /> */}
+                    <input type="hidden" name="role" value={loginTabRole} />
                     <LoginForm
                         email={email}
                         setEmail={setEmail}

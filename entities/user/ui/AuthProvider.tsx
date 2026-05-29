@@ -10,7 +10,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     const needSignup = useUserStore(state => state.needSignup)
     const setProfile = useUserStore(state => state.setProfile)
     const logout = useUserStore(state => state.logout)
-
+    const loginTabRole = useUserStore(state => state.loginTabRole)
 
     useEffect(() => {
         const supabase = supabaseClient()
@@ -29,6 +29,12 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
                 .select('*')
                 .eq('id', session.user.id)
                 .maybeSingle()
+
+                if(loginTabRole && profile.role !== 'admin' && profile.role !== loginTabRole){
+                    await supabase.auth.signOut()
+                    logout()
+                    return
+                }
                 
                 setProfile(profile)
 
@@ -52,7 +58,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
             subscription.unsubscribe()
         }
 
-    }, [setProfile, logout, setNeedSignup])
+    }, [setProfile, logout, setNeedSignup, loginTabRole])
 
 
     return (

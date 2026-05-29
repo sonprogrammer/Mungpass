@@ -26,13 +26,13 @@ export async function regularLogin(formData:FormData){
         throw new Error(msg)
     }
 
-    const { data: profile, error: profileError} = await supabase.from('profiles').select('role').eq('id', data.user.id).single()
 
+    const { data: profile, error: profileError} = await supabase.from('profiles').select('role').eq('id', data.user.id).single()
 
     if(profileError || !profile){
         console.error('상세 에러 내역', profileError)
         await supabase.auth.signOut()
-        throw new Error(`${profileError} : 사용자 프로필을 찾df을 수 없습니다.`)
+        throw new Error(`${profileError} : 사용자 프로필을 찾을 수 없습니다.`)
     }
 
     if(profile.role === 'admin'){
