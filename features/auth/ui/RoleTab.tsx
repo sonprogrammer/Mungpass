@@ -8,7 +8,11 @@ export function RoleTab() {
         <div className="px-6 z-10 w-[50%]">
             <div className="flex bg-slate-100 p-1.5 rounded-2xl">
                 <button
-                    onClick={() => setLoginTabRole('user')}
+                    type='button'
+                    onClick={() => {
+                        console.log('user click')
+                        setLoginTabRole('user')
+                    }}
                     className={`flex-1 py-2 text-xs font-black rounded-xl transition-all
                                 ${loginTabRole === 'user' ? 'bg-orange-500 text-white shadow-md' : 'text-slate-400'}
                         `}
@@ -16,7 +20,11 @@ export function RoleTab() {
                     견주님
                 </button>
                 <button
-                    onClick={() => setLoginTabRole('owner')}
+                    type='button'
+                    onClick={() => {
+                        console.log('owner clikc')
+                        setLoginTabRole('owner')
+                    }}
                     className={`flex-1 py-2 text-xs font-black rounded-xl transition-all
                             ${loginTabRole === 'owner' ? 'bg-emerald-500 text-white shadow-md' : 'text-slate-400'}
                         `}

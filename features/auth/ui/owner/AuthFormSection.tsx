@@ -19,6 +19,7 @@ export function AuthFormSection() {
 
     const { handleAuthAction } = useAuthForm('login')
 
+
     return (
         <div className="w-full max-w-120 bg-white rounded-4xl shadow-xl shadow-orange-200/40 border-4 border-orange-100 flex flex-col max-h-[80vh] relative overflow-hidden">
 
@@ -30,7 +31,7 @@ export function AuthFormSection() {
             </div>
             <div className={`flex justify-end`}>
                 {/* //* 사용자 관리 */}
-                <RoleTab  />
+                <RoleTab />
             </div>
 
 

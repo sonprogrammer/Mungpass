@@ -12,38 +12,66 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     const logout = useUserStore(state => state.logout)
     const loginTabRole = useUserStore(state => state.loginTabRole)
 
+
+    useEffect(() => {
+        const init = async () => {
+            const supabase = supabaseClient()
+
+            const {
+                data: { user }
+            } = await supabase.auth.getUser()
+
+            console.log('초기 user', user)
+
+            if (!user) return
+
+            const { data: profile } = await supabase
+                .from('profiles')
+                .select('*')
+                .eq('id', user.id)
+                .single()
+
+            setProfile(profile)
+        }
+
+        init()
+    }, [setProfile])
+
     useEffect(() => {
         const supabase = supabaseClient()
 
-        const { data: { subscription } } = supabase.auth.onAuthStateChange(async (event, session) => {
 
+
+        const { data: { subscription } } = supabase.auth.onAuthStateChange(async (event, session) => {
+            console.log('session  & event', event, session)
             if (!session?.user.id) {
+                console.log('here')
                 logout()
                 setNeedSignup(false)
                 return
             }
-            const fetchProfile = async() => {
+            const fetchProfile = async () => {
 
                 const { data: profile, error } = await supabase
-                .from('profiles')
-                .select('*')
-                .eq('id', session.user.id)
-                .maybeSingle()
+                    .from('profiles')
+                    .select('*')
+                    .eq('id', session.user.id)
+                    .maybeSingle()
 
                 if(loginTabRole && profile.role !== 'admin' && profile.role !== loginTabRole){
                     await supabase.auth.signOut()
                     logout()
                     return
                 }
-                
+
                 setProfile(profile)
 
-                if(error){
+                if (error) {
                     console.error('errorr kakaoloign', error)
                     throw error
                 }
-            
-                
+
+
                 if (!profile?.role || !profile?.phone_number) {
                     setNeedSignup(true)
                 } else {

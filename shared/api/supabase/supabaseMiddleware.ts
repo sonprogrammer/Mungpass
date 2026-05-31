@@ -26,7 +26,10 @@ export function createClient(req: NextRequest){
                     })
 
                     cookiesToSet.forEach(({name, value, options})=>{
-                        res.cookies.set(name,value, options)
+                        res.cookies.set(name, value, {
+                            ...options,
+                            path: '/'
+                        })
                     })
                 }
             }

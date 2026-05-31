@@ -22,10 +22,12 @@ interface AdminHeaderProps {
 
 export function AdminHeader({ collapsed, setCollapsed }: AdminHeaderProps) {
   const handlelogout = useUserStore(state => state.logout)
+  const resetLoginTabRole = useUserStore(state => state.resetLoginTabRole)
 
   const logout = async() => {
     await cookieLogout()
     handlelogout()
+    resetLoginTabRole()
   }
   
   const userMenuItems = [

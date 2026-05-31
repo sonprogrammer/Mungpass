@@ -8,6 +8,7 @@ export const supabaseClient = () => {
   return createBrowserClient(url, key, {
     auth: {
       persistSession: true, 
+      flowType: 'pkce',
       autoRefreshToken: true,  
       detectSessionInUrl: true, 
     },

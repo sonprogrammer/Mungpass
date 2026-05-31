@@ -1,13 +1,14 @@
 'use client';
 
 import { useUserStore } from '@/entities/user/model/useUserStore';
+import {useShallow} from 'zustand/react/shallow'
 import { AuthWidget } from '@/widgets/auth/ui/AuthWidget';
 import { useRouter } from 'next/navigation';
 import { useEffect } from 'react';
 
 export function LandingPageWidget() {
   const router = useRouter()
-  const { profile, isLoading } = useUserStore()
+  const { profile, isLoading } = useUserStore(useShallow((state) => ({profile: state.profile, isLoading: state.isLoading})))
 
   useEffect(() => {
     if(isLoading) return

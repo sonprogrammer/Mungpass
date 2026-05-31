@@ -1,8 +1,8 @@
+
 import { supabaseClient } from "@/shared/api/supabase/client";
 
 export async function regularLogin(formData:FormData){
     const supabase = supabaseClient()
-
     const email = formData.get('email') as string
     const password = formData.get('password') as string
     const role = formData.get('role') as string

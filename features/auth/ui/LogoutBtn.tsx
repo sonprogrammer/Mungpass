@@ -12,6 +12,7 @@ export function LogoutBtn() {
     const [isLoggingOut, setIsLoggingOut] = useState<boolean>(false)
     
     const userLogout = useUserStore(state => state.logout)
+    const resetLoginTabRole = useUserStore(state => state.resetLoginTabRole)
 
     const handleCheckLogout = () => {
         setIsLogoutModalOpen(true)
@@ -23,6 +24,7 @@ export function LogoutBtn() {
             setIsLogoutModalOpen(false)
             await cookieLogout()
             userLogout()
+            resetLoginTabRole()
             window.location.href = '/'
         } catch (error) {
             console.error('로그아웃 실패',error)

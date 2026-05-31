@@ -15,7 +15,11 @@ export async function supabaseServer() {
                 },
                 setAll(cookieToSet){
                     try {
-                        cookieToSet.forEach(({name, value, options}) => cookieStore.set(name, value, options))
+                        cookieToSet.forEach(({name, value, options}) => 
+                            cookieStore.set(name, value, {
+                                ...options,
+                                path: '/'
+                            }))
                     } catch {
                         console.log('cookie error')
                     }
