@@ -12,7 +12,7 @@ export const useGetSaveList = () => {
         queryKey: ['favorites'],
         queryFn: async () => {
             const {data: {user}} = await supabase.auth.getUser()
-            if(!user) { console.log('failed'); return []}
+            if(!user) { console.error('failed'); return []}
             return saveApi.fetchSaveList(user.id)
         },
         staleTime: 1000 * 60 * 10

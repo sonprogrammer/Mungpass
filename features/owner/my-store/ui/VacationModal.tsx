@@ -35,7 +35,7 @@ export function VacationModal({ open, onClose, shopId }: VacationModalProps) {
             })
             onClose()
         } catch (error) {
-            console.log('Validate Failed:', error)
+            console.error('Validate Failed:', error)
         }
     }
 

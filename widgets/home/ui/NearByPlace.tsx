@@ -35,7 +35,6 @@ export function NearByPlace() {
                 places={places}
                 onPlaceClick={(place) => {
                     setSelectedPlace(place)
-                    console.log('place', place)
                 }}
             />
 

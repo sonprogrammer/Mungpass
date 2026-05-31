@@ -10,6 +10,6 @@ export const kakaologin = async() => {
         }
     })
     if(error){
-        console.log('error', error.message)
+        console.error('error', error.message)
     }
 }

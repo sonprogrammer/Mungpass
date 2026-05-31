@@ -15,7 +15,7 @@ export async function regularLogin(formData:FormData){
 
     
     if(error){
-        console.log('erorr', error.message)
+        console.error('erorr', error.message)
         let msg = '로그인 정보를 확인해주세요'
         if(error.message.toLowerCase().includes('email not confirmed')){
             msg ='이메일 인증을 완료해주세요. 메일함을 확인해주세요'

@@ -92,7 +92,7 @@ export function StoreTimeCard({ shopId }: { shopId: string }) {
                 onSuccess: () => setViewMode('main')
             })
         } catch (err) {
-            console.log('handlesave error', err)
+            console.error('handlesave error', err)
             message.error('저장에 실패했습니다.');
         }
     }

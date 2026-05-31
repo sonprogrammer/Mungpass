@@ -20,7 +20,6 @@ export function KakaoScriptProvider({ children, fallback }: KakaoScriptProviderP
     const handleScriptLoad = () => {
         if (window.kakao && window.kakao.maps) {
             window.kakao.maps.load(() => {
-                console.log('카카오 맵 완료')
                 setIsLoaded(true)
             })
         }

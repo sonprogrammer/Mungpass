@@ -13,7 +13,6 @@ export function GlobalLiveUsage() {
     if(pathname === '/my-pets' || !activeDogs.length) return null
 
     const checkingDogCount = activeDogs.length -1
-    console.log('chekcincoun', checkingDogCount)
 
     return(
         <div className="relative h-full w-full flex justify-end">

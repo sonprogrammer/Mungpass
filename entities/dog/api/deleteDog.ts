@@ -10,7 +10,7 @@ export async function deleteDog({userId, dogId}: {userId: string, dogId: string}
     if(error) throw error
 
     if(!data || data.length === 0){
-        console.log('there is no data for deleting, check rls policey')
+        console.error('there is no data for deleting, check rls policey')
         throw new Error('can not find deleting data')
     }
 

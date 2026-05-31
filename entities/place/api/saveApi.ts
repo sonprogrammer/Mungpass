@@ -14,7 +14,7 @@ export const saveApi = {
             .eq('user_id', userId)
 
         if (error) {
-            console.log('fetchSaveList Error', error)
+            console.error('fetchSaveList Error', error)
             throw new Error('theere is no userinof')
         }
         return data
@@ -30,7 +30,7 @@ export const saveApi = {
             .eq('kakao_place_id', place.id)
             
             if (deleteError) {
-            console.log('toggleSave failed', deleteError.message)
+            console.error('toggleSave failed', deleteError.message)
             throw deleteError
         } 
         
@@ -48,7 +48,7 @@ export const saveApi = {
                 phone: place.phone,
             })
         if (insertError) {
-            console.log('toggleSave Error', insertError)
+            console.error('toggleSave Error', insertError)
             throw new Error('cant toggle')
         }
     }

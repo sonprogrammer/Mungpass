@@ -15,7 +15,7 @@ export function useUpdateTempStatus() {
             queryClient.invalidateQueries({queryKey:['schedule', shopId]})
         },
         onError: (error) => {
-            console.log('조기마감, 즉시휴무 취소시 에러 발생 ', error)
+            console.error('조기마감, 즉시휴무 취소시 에러 발생 ', error)
             message.error('저장 중 오류가 발생했습니다. 다시 시도해주세요')
         }
     })

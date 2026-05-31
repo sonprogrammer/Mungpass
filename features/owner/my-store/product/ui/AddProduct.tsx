@@ -55,7 +55,7 @@ export function AddProduct({ add, setAddModal, form, shopId, isPostPending }: { 
     }
 
     return (
-        <Form form={form} layout="vertical" onFinish={add} onFinishFailed={(error) => console.log('검증 실패:', error)} className="flex flex-col h-full">
+        <Form form={form} layout="vertical" onFinish={add} onFinishFailed={(error) => console.error('검증 실패:', error)} className="flex flex-col h-full">
             <section className="space-y-2 flex-1 overflow-y-auto pb-4 ">
                 <Form.Item
                     name="category_id"

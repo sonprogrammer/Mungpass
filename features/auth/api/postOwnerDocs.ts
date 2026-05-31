@@ -5,8 +5,6 @@ import { supabaseClient } from "@/shared/api/supabase/client";
 
 export async function postOwnerDocs({ownerId, storeInfo, businessNumber, DocsImg}: postOwnerDocsProps) {
     const supabase = supabaseClient()
-
-    console.log('ownerid', ownerId, storeInfo, businessNumber, DocsImg)
     
     if(!ownerId){
         throw new Error('회원가입을 먼저 해주세요')

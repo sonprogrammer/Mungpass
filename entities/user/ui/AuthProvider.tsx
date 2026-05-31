@@ -21,8 +21,6 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
                 data: { user }
             } = await supabase.auth.getUser()
 
-            console.log('초기 user', user)
-
             if (!user) return
 
             const { data: profile } = await supabase
@@ -43,9 +41,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
 
         const { data: { subscription } } = supabase.auth.onAuthStateChange(async (event, session) => {
-            console.log('session  & event', event, session)
             if (!session?.user.id) {
-                console.log('here')
                 logout()
                 setNeedSignup(false)
                 return

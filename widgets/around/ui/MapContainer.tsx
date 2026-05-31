@@ -16,7 +16,6 @@ export function MapContainer({ center, places, onMarkerClick, onBoundChange }: M
     }))
   },[partners, places])
   
-  console.log('refined', refinedPlaces)
 
   return (
     <div className="px-6 pt-4 animate-in fade-in zoom-in duration-300">

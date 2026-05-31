@@ -21,7 +21,7 @@ export async function supabaseServer() {
                                 path: '/'
                             }))
                     } catch {
-                        console.log('cookie error')
+                        console.error('cookie error')
                     }
                 }
             }

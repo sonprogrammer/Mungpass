@@ -8,7 +8,7 @@ export const handleLogout = async() => {
     const {error } = await supabase.auth.signOut()
 
     if(error){
-        console.log('error ocure while logout', error.message)
+        console.error('error ocure while logout', error.message)
     }else{
         window.location.href = '/'
     }

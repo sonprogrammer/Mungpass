@@ -16,7 +16,7 @@ export function useDeleteVacation() {
             message.success('휴가 일정이 취소되었습니다. 정상 영업 상태로 복구합니다')
         },
         onError: (error) => {
-            console.log('휴가 취소 중 에러 발생',error)
+            console.error('휴가 취소 중 에러 발생',error)
             message.error('저장 중 오류가 발생했습니다. 다시 시도해주세요')
         }
     })

@@ -21,7 +21,6 @@ function MonthlyStatsChart({ shopId, handleNextYear, handlePrevYear, isNextDisab
     
     // * 월별 데이터(연별로 그래프 볼때)
     const { data: monthlySalesData = [] } = useGetMonthlySalesData(shopId)
-    console.log('month', monthlySalesData)
 
     const chartData = useMemo(() => {
         if (!monthlySalesData) return []

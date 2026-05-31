@@ -10,7 +10,6 @@ export function RoleTab() {
                 <button
                     type='button'
                     onClick={() => {
-                        console.log('user click')
                         setLoginTabRole('user')
                     }}
                     className={`flex-1 py-2 text-xs font-black rounded-xl transition-all
@@ -22,7 +21,6 @@ export function RoleTab() {
                 <button
                     type='button'
                     onClick={() => {
-                        console.log('owner clikc')
                         setLoginTabRole('owner')
                     }}
                     className={`flex-1 py-2 text-xs font-black rounded-xl transition-all

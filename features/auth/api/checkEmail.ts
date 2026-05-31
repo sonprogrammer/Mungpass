@@ -7,7 +7,7 @@ export async function checkEmail(email: string){
 
 
     if(error){
-        console.log('db error', error)
+        console.error('db error', error)
         throw error
     }
 
