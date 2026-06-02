@@ -26,6 +26,8 @@ export interface UserState {
   setProfile: (profile: UserProfile | null) => void;
   logout: () => void;
   resetLoginTabRole: () => void
+  isHydrated: boolean
+  setHydrated: (state: boolean) => void
 }
 
 export const useUserStore = create<UserState>()(
@@ -53,7 +55,9 @@ export const useUserStore = create<UserState>()(
       resetLoginTabRole: () =>
         set({
           loginTabRole: 'user'
-        })
+        }),
+      isHydrated: false,
+      setHydrated: (state) => set({isHydrated: state}),
     }),
     {
       name: 'user-store',
@@ -61,6 +65,9 @@ export const useUserStore = create<UserState>()(
       partialize: (state) => ({
         loginTabRole: state.loginTabRole,
       }),
+      onRehydrateStorage: () => (state) => {
+        state?.setHydrated(true)
+      }
     }
   )
 )

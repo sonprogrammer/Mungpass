@@ -9,7 +9,6 @@ import { MyStoreHeader } from "@/widgets/owner/my-store/ui/MyStoreHeader";
 import { Clock, ShoppingBag, Megaphone, Headphones, Monitor } from "lucide-react";
 import { useState } from "react";
 import { useShopStatus } from "@/features/owner/my-store/model/useGetShopStatus";
-import { App } from "antd";
 import { StoreTimeBottomSheet } from "@/features/owner/my-store/ui/StoreTimeBottomSheet";
 import { NoticeBottomSheet } from "@/features/owner/my-store/ui/NoticeBottomSheet";
 import { InquiryBottomSheet } from "@/features/owner/my-store/ui/InquiryBottomSheet";
@@ -36,7 +35,6 @@ export function MyStorePageWidget() {
     // *현재 매장 운영여부
     const shopStatus = useShopStatus(shopId)
 
-    const { message } = App.useApp()
 
     const { handleAction, contextHolder } = useRestrictedAction(regisData?.status)
 

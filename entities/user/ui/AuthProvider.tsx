@@ -4,16 +4,26 @@ import { useEffect } from "react";
 import { useUserStore } from "@/entities/user/model/useUserStore";
 import { supabaseClient } from "@/shared/api/supabase/client";
 import { KakaoAddUserInfoModal } from "@/entities/KakaoAuth/ui/KakaoAddUserInfoModal";
+import { useShallow } from "zustand/react/shallow";
+import { App } from "antd";
 
 export function AuthProvider({ children }: { children: React.ReactNode }) {
-    const setNeedSignup = useUserStore(state => state.setNeedSignup)
-    const needSignup = useUserStore(state => state.needSignup)
-    const setProfile = useUserStore(state => state.setProfile)
-    const logout = useUserStore(state => state.logout)
-    const loginTabRole = useUserStore(state => state.loginTabRole)
+    const { setNeedSignup, needSignup, setProfile, logout, loginTabRole, isHydrated } = useUserStore(
+        useShallow(state => ({
+            setNeedSignup: state.setNeedSignup,
+            needSignup: state.needSignup,
+            setProfile: state.setProfile,
+            logout: state.logout,
+            loginTabRole: state.loginTabRole,
+            isHydrated: state.isHydrated
+        })
+        ))
 
+    const {message} = App.useApp()
 
     useEffect(() => {
+
+        if(!isHydrated) return
         const init = async () => {
             const supabase = supabaseClient()
 
@@ -29,15 +39,24 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
                 .eq('id', user.id)
                 .single()
 
-            setProfile(profile)
+            if (profile) {
+
+                if (loginTabRole && profile.role !== 'admin' && profile.role !== loginTabRole) {
+                    message.error('선택한 회원 유형이 올바르지 않습니다.')
+                    await supabase.auth.signOut()
+                    logout()
+                    return
+                }
+                setProfile(profile)
+            }
+
         }
 
         init()
-    }, [setProfile])
+    }, [isHydrated, loginTabRole, logout, message, setProfile])
 
     useEffect(() => {
         const supabase = supabaseClient()
-
 
 
         const { data: { subscription } } = supabase.auth.onAuthStateChange(async (event, session) => {
@@ -59,8 +78,8 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
                     setProfile(profile)
                     return
                 }
-                
-                if(loginTabRole && profile.role !== 'admin' && profile.role !== loginTabRole){
+
+                if (loginTabRole && profile.role !== 'admin' && profile.role !== loginTabRole) {
                     await supabase.auth.signOut()
                     logout()
                     return

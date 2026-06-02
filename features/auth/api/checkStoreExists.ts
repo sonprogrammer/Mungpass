@@ -5,6 +5,7 @@ import { supabaseClient } from "@/shared/api/supabase/client";
 export const checkStoreExists = async (kakaoPlaceId: string, ownerId: string): Promise<CheckStoreExistsResult> => {
     const supabase = supabaseClient()
 
+    let hasError = false
     try {
         // *이미 등록된가게인지 확인
         const { data: shopData, error: shopDataError } = await supabase
@@ -14,49 +15,59 @@ export const checkStoreExists = async (kakaoPlaceId: string, ownerId: string): P
             .maybeSingle()
 
         if (shopData) {
-            return { exists: true, isPending: false, isRejectedByMe: false }
+            return { exists: true, isPending: false, isRejectedByMe: false, error: false }
         }
 
         if (shopDataError) {
             console.error('shops테이블 가게 확인 api 에러 발생', shopDataError)
-            throw shopDataError
+            throw new Error('shops테이블 가게 확인 api 에러 발생')
         }
+    } catch (error) {
+        console.error('shops 테이블 조회 에러 발생 api', error)
+        hasError = true
+    }
 
+
+    try {
         // *store_registrations테이블에 이미 올라가 있는지 확인, pending, rejected면 여기 있음
-        const { data: registrationData, error: registError } = await supabase.from('store_registrations')
-            .select('status, owner_id, rejection_reason')
+        const { data: statusData, error: statusError } = await supabase.from('registration_status_view')
+            .select('status')
             .eq('kakao_place_id', kakaoPlaceId)
-            .order('created_at', { ascending: false })
             .limit(1)
             .maybeSingle()
 
-        if (registError) {
-            console.error('store_registrations 테이블 api 에러 발생', registError)
-            throw registError
+        if (statusError) {
+            console.error('store_registrations 테이블 api 에러 발생', statusError)
+            throw new Error('store_registrations 테이블 api 에러 발생')
         }
 
-        if (registrationData) {
-            const { status, owner_id, rejection_reason } = registrationData
+        if (statusData?.status === 'PENDING') {
+            return { exists: false, isPending: true, isRejectedByMe: false, error: false }
+        }
 
-            if (status === 'PENDING') {
-                return { exists: false, isPending: true, isRejectedByMe: false }
+        if (statusData?.status === 'REJECTED') {
+            const { data: rejectData, error: rejectError } = await supabase.from('store_registrations').select('rejection_reason')
+                .eq('kakao_place_id', kakaoPlaceId)
+                .eq('owner_id', ownerId)
+                .maybeSingle()
+            if(rejectError){
+                console.error('store_registrations 테이블 거절 사유 api 에러 발생', rejectError)
+                throw new Error('store_registrations 테이블 거절 사유 api 에러 발생')
             }
-
-            if (status === 'REJECTED') {
-                //* 매장은 같고 반려당한게 당사자면 
-                if (owner_id === ownerId) {
-                    return { exists: false, isPending: false, isRejectedByMe: true, rejectReason: rejection_reason ||'반려 사유가 등록되지 않았습니다. 고객센터에 문의주세요'}
-                // * 매장은 같은데 반려당한게 당사자가 아니라며
-                } else {
-                    return { exists: false, isPending: false, isRejectedByMe: false }
-                }
+            if(rejectData){
+                return {exists: false, isPending: false, isRejectedByMe: true, rejectReason: rejectData.rejection_reason || '반려 사유가 없습니다.', error: false}
             }
         }
 
-
-        return { exists: false, isPending: false, isRejectedByMe: false }
-    } catch (e) {
-        console.error('예상치 못한 예외', e)
-        return { exists: false, isPending: false, isRejectedByMe: false }
+    } catch (error) {
+        console.error('registrations 조회 에러', error)
+        hasError = true
     }
+
+    if (hasError) {
+        return { exists: false, isPending: false, isRejectedByMe: false, error: true }
+    }
+
+    return { exists: false, isPending: false, isRejectedByMe: false, error: false };
+
 }

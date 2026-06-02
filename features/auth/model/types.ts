@@ -89,6 +89,7 @@ export interface CheckStoreExistsResult {
     isPending: boolean
     isRejectedByMe: boolean //내가 신청했다가 반려된 기록인지 확인
     rejectReason?: string // 내가 신청한건데 반려당하여 반려사유가 잇을시
+    error?: boolean //에러발생여부 - 두 테이블서 조회 실패시
 }
 
 export interface UpdateDocsInfo{

@@ -21,8 +21,7 @@ export const SelectedStore = memo(function SelectedStore({ place, onNext, ownerI
         }
         if (isError) return '다시 시도해주세요.'
         if (checkResult?.exists) return '이미 등록된 매장입니다.'
-        if (checkResult?.isPending) return '심사 대기 중인 매장입니다'
-        //TODO 여기서 반려메시지를 멍패스 안에서 줄지 아님 등록된 이메일로 줄지 생각해보기
+        if (checkResult.isPending) return '심사 대기 중인 매장입니다'
         if (checkResult?.isRejectedByMe) return '반려된 기록이 있습니다. 확인해주세요'
 
         return '이 장소로 등록 시작하기'
