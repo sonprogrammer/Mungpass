@@ -1,3 +1,5 @@
+'use client'
+
 import { History, Heart } from "lucide-react"
 import { useRouter } from "next/navigation"
 
