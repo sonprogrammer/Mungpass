@@ -6,6 +6,7 @@ import { useGetMyDogs } from "@/features/dog/model/useGetMyDogs";
 
 import { DogFormModal } from "@/features/dog/ui/DogFormModal";
 import { KakaoScriptProvider } from "@/shared/ui/map/KakaoScriptProvider";
+import { MapLoading } from "@/widgets/around/ui/MapLoading";
 import { DogDetailModal } from "@/widgets/dog/ui/DogDetailModal";
 
 import { MyDogWidget } from "@/widgets/home/dog/ui/MyDogWidget";
@@ -53,8 +54,7 @@ export function HomePageWidget() {
 
         {/* //*주변 애견카페  */}
         <KakaoScriptProvider fallback={
-          // TODO fallback 수정해주기
-          <div className="text-sm text-gray-400">주변 플레이스 로드 중... </div>
+          <MapLoading message="주변 플레이스 로드 중..."/>
         }>
           <NearByPlace />
         </KakaoScriptProvider>

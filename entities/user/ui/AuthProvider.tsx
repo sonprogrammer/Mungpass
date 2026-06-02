@@ -53,7 +53,6 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
                     .select('*')
                     .eq('id', session.user.id)
                     .maybeSingle()
-                console.log('profile', profile)
 
                 if (!profile?.role || !profile?.phone_number) {
                     setNeedSignup(true)
@@ -63,7 +62,6 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
                 
                 if(loginTabRole && profile.role !== 'admin' && profile.role !== loginTabRole){
                     await supabase.auth.signOut()
-                    console.log('여기 들어오면 안되는데 카카오 로그인시')
                     logout()
                     return
                 }

@@ -3,6 +3,7 @@
 import { useStoreRegistrationStore } from "@/features/auth/model/owner/useStoreRegistStore"
 import { BusinessForm } from "@/features/auth/ui/owner/BusinessForm"
 import { RegisterStoreCheckCard } from "@/features/auth/ui/owner/RegisterStoreCheckCard"
+import { LoadingFallback } from "@/shared/ui/Loader/LoadingFallback"
 import { App } from "antd"
 import { useRouter, useSearchParams } from "next/navigation"
 import { useEffect } from "react"
@@ -37,7 +38,7 @@ export function OwnerAuthWidget() {
   
         // *ownerId가 없으면 얼리 리턴해주기
     if (!hasHydrated || !ownerId || !selectedPlace) {
-        return <div className="p-6">정보를 확인 중입니다...</div> // TODO: Skeleton 적용
+        return <LoadingFallback text='정보를 확인 중입니다...'/>
     }
 
     return (
