@@ -2,7 +2,7 @@
 
 
 import AroundHeader from '@/widgets/around/ui/AroundHeader';
-import PlaceListState from '@/features/place/ui/PlaceListState';
+import { PlaceListState } from '@/features/place/ui';
 import MapSection from '@/widgets/around/ui/MapSection';
 import { StoreDetailBottomSheet } from '@/features/user/shopInfo/ui/StoreDetailBottomSheet';
 import { useCallback, useEffect, useMemo, useState } from 'react';
