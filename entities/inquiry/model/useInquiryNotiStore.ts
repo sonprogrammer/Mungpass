@@ -1,4 +1,4 @@
-import { InquiryNoti } from "@/entities/inquiry/model/types";
+import { InquiryNoti } from "@/entities/inquiry/model";
 import { create } from "zustand";
 
 

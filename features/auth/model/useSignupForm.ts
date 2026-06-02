@@ -1,6 +1,6 @@
 'use client'
 
-import { checkEmail } from "@/features/auth/api/checkEmail";
+import { checkEmail } from "@/features/auth/api";
 import { App } from "antd";
 import { useState } from "react";
 

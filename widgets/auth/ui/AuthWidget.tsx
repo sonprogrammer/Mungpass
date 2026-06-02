@@ -1,5 +1,5 @@
-import { AuthFormSection } from "@/features/auth/ui/owner/AuthFormSection"
-import { BigLogo } from "@/shared/ui/BigLogo"
+import { AuthFormSection } from "@/features/auth/ui/owner"
+import { BigLogo } from "@/shared/ui"
 
 export function AuthWidget() {
 

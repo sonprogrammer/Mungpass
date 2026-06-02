@@ -1,6 +1,6 @@
-import { PlaceDetailSheet } from "@/features/user/shopInfo/ui/PlaceDetailSheet";
-import { BottomSheet } from "@/shared/ui/place/BottomSheet";
-import { useSelectedPlace } from "@/features/search-shop/model/useSelectedPlace";
+import { PlaceDetailSheet } from "@/features/user/shopInfo/ui";
+import { BottomSheet } from "@/shared/ui/place";
+import { useSelectedPlace } from "@/features/search-shop/model";
 
 export function StoreDetailBottomSheet() {
     const selectedPlace = useSelectedPlace(state => state.selectedPlace)

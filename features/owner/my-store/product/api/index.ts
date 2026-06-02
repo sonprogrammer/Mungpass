@@ -1,0 +1,6 @@
+export * from './deleteProduct'
+export * from './deleteProductCategroy'
+export * from './getProductCategories'
+export * from './getProducts'
+export * from './postProductCategory'
+export * from './postProducts'

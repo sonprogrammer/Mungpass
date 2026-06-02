@@ -1,4 +1,4 @@
-import { getShopIdByKakaoId } from "@/entities/place/api/getShopIdByKakaoId";
+import { getShopIdByKakaoId } from "@/entities/place/api";
 import { useQuery } from "@tanstack/react-query";
 
 export function useGetShopIdByKakaoId(kakaoId: string) {

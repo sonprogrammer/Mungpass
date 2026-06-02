@@ -1,5 +1,5 @@
+import { PostNotice } from "@/features/owner/my-store/notices/model";
 import { supabaseClient } from "@/shared/api/supabase/client";
-import { PostNotice } from "../model/types";
 
 
 export const saveNotice = async({shopId, noticeId, postData}: PostNotice) => {

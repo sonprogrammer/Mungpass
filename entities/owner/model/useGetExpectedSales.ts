@@ -1,5 +1,5 @@
-import { getExpectSales } from "@/entities/owner/api/getExpectSales";
-import { useOwnerStoreStatus } from "@/entities/owner/model/useOwnerStoreStatus";
+import { getExpectSales } from "@/entities/owner/api";
+import { useOwnerStoreStatus } from "@/entities/owner/model";
 import { useQuery } from "@tanstack/react-query";
 
 export function useGetExpectedSales(shopId: string) {

@@ -1,4 +1,5 @@
-import { DogFormFieldsProps } from "@/features/dog/model/types";
+'use client'
+import { DogFormFieldsProps } from "@/features/dog/model";
 import { Camera } from "lucide-react";
 
 

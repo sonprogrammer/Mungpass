@@ -1,5 +1,5 @@
-import { useUserStore } from "@/entities/user/model/useUserStore";
-import { ownerHasStore } from "@/features/owner/api/ownerHasStore";
+import { useUserStore } from "@/entities/user/model";
+import { ownerHasStore } from "@/features/owner/api";
 import { useQuery } from "@tanstack/react-query";
 
 export function useGetOwnerHasStoreStatus() {

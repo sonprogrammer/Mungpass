@@ -1,4 +1,4 @@
-import { AntdAppProvider } from "@/shared/ui/AntdAppProvider";
+import { AntdAppProvider } from "@/shared/ui";
 
 
 export default function KioskLayout({ children }: { children: React.ReactNode }) {

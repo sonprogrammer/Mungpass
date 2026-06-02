@@ -1,5 +1,4 @@
-
-import { AdminMainPageWidget } from "@/widgets/admin/ui/AdminMainPageWidget";
+import { AdminMainPageWidget } from "@/widgets/admin/ui";
 
 export default function AdminMainPage() {
  

@@ -1,5 +1,7 @@
 'use client'
-import { useUserStore } from "@/entities/user/model/useUserStore"
+
+import { useUserStore } from "@/entities/user/model"
+
 
 export function RoleTab() {
     const setLoginTabRole = useUserStore(state => state.setLoginTabRole)

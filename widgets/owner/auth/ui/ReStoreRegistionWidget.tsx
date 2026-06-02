@@ -1,9 +1,8 @@
 'use client'
 
-import { useGetRegisData } from "@/entities/owner/my-shop/model/useGetRegisData"
-import { useStoreRegistrationStore } from "@/features/auth/model/owner/useStoreRegistStore"
-import { BusinessForm } from "@/features/auth/ui/owner/BusinessForm"
-import { RegisterStoreCheckCard } from "@/features/auth/ui/owner/RegisterStoreCheckCard"
+import { useGetRegisData } from "@/entities/owner/my-shop/model"
+import { useStoreRegistrationStore } from "@/features/auth/model/owner"
+import { BusinessForm, RegisterStoreCheckCard } from "@/features/auth/ui/owner"
 import { AlertCircle, Loader2 } from "lucide-react"
 
 

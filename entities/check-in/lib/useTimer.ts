@@ -1,6 +1,5 @@
 
-
-import { useTimerProps } from "@/entities/check-in/model/types";
+import { useTimerProps } from "@/entities/check-in/model";
 import { useEffect, useState } from "react";
 
 

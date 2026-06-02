@@ -1,9 +1,7 @@
-'use client'
-
-import { saveApi } from "@/entities/place/api/saveApi"
-import { Favorites } from "@/entities/place/model/types"
-import { useUserStore } from "@/entities/user/model/useUserStore"
-import { KakaoPlace } from "@/shared/model/map"
+import { saveApi } from "@/entities/place/api"
+import { Favorites } from "@/entities/place/model"
+import { useUserStore } from "@/entities/user/model"
+import { KakaoPlace } from "@/shared/model"
 import { useMutation, useQueryClient } from "@tanstack/react-query"
 import { App } from "antd"
 

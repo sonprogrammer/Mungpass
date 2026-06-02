@@ -1,6 +1,6 @@
 
 
-import {  DailySalesData, StatsDataFromServer } from '@/entities/owner/model/types';
+import {  DailySalesData, StatsDataFromServer } from '@/entities/owner/model';
 import { LucideIcon } from 'lucide-react';
 
 export interface StatsHeaderCardProps {

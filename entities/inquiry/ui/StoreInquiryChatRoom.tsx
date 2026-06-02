@@ -1,10 +1,7 @@
 'use client'
 
-import { useGenerateInquirNoti } from "@/entities/inquiry/model/useGenerateInquirNoti"
-import { useInquiryChat } from "@/entities/inquiry/model/useInquiryChat"
-import { useReadInquiryNotiByRoom } from "@/entities/inquiry/model/useReadInquiryNotiByRoom"
-import { useSendMsg } from "@/entities/inquiry/model/useSendMsg"
-import { useUserStore } from "@/entities/user/model/useUserStore"
+import { useGenerateInquirNoti, useInquiryChat, useReadInquiryNotiByRoom, useSendMsg } from "@/entities/inquiry/model"
+import { useUserStore } from "@/entities/user/model"
 import { Button, Form, Input } from "antd"
 import { format, isSameDay } from "date-fns"
 import { ko } from "date-fns/locale"

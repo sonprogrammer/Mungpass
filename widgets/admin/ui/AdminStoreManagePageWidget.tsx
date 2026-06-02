@@ -1,7 +1,7 @@
 'use client'
 
 import { Typography, Card } from "antd";
-import { StoreRegistTable } from "@/widgets/admin/ui/StoreRegistTable";
+import { StoreRegistTable } from "@/widgets/admin/ui";
 
 
 

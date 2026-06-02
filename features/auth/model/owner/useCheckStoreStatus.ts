@@ -1,4 +1,4 @@
-import { checkStoreStatus } from "@/features/auth/api/checkStoreStatus";
+import { checkStoreStatus } from "@/features/auth/api";
 import { useQuery } from "@tanstack/react-query";
 
 export function useCheckStoreStatus(ownerId: string) {

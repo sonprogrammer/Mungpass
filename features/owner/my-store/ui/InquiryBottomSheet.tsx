@@ -1,5 +1,5 @@
-import { StoreInquiryCard } from "@/features/owner/my-store/ui/StoreInquiryCard";
-import { BottomSheet } from "@/shared/ui/place/BottomSheet";
+import { StoreInquiryCard } from "@/features/owner/my-store/ui";
+import { BottomSheet } from "@/shared/ui/place";
 
 export function InquiryBottomSheet({open, onClose}: {open: boolean, onClose: () => void}) {
     return(

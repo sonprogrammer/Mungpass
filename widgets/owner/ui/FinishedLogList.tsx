@@ -1,14 +1,13 @@
 'use client'
 
-import { CurrentLogItem } from "@/entities/owner/ui/CurrentLogItem"
+import { CurrentLogItem, CurrentLogDetailModal } from "@/entities/owner/ui"
 import { Empty, Input, Select, Typography } from "antd"
 import { useMemo, useState } from "react"
-import { CurrentUsageLog } from "@/entities/check-in/model/types"
+import { CurrentUsageLog } from "@/entities/check-in/model"
 import { format, isToday, parseISO } from "date-fns"
 import { CurrentLogSkeleton } from "./CurrentLogSkeleton"
-import { CurrentLogDetailModal } from "@/entities/owner/ui/CurrentLogDetailModal"
-import { useGetProductCategories } from "@/features/owner/my-store/product/model/useGetProductCategories"
-import { useGetShopInfo } from "@/entities/owner/model/useGetShopInfo"
+import { useGetProductCategories } from "@/features/owner/my-store/product/model"
+import { useGetShopInfo } from "@/entities/owner/model"
 import { ko } from "date-fns/locale"
 
 interface FinishedLogListProps {

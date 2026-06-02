@@ -1,5 +1,5 @@
-import { Notification } from "@/entities/notification/model/types";
-import { useNotificationStore } from "@/features/notification/model/useNotificationStore";
+import { Notification } from "@/entities/notification/model";
+import { useNotificationStore, useRealTimeNotificationProps } from "@/features/notification/model";
 import { supabaseClient } from "@/shared/api/supabase/client";
 import { useEffect} from "react";
 

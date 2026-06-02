@@ -1,5 +1,5 @@
-import { UsageLogStatus } from "@/entities/check-in/model/types";
-import { MyPetUsageAllInfo } from "@/features/qr/model/types";
+import { UsageLogStatus } from "@/entities/check-in/model";
+import { MyPetUsageAllInfo } from "@/features/qr/model";
 import { supabaseClient } from "@/shared/api/supabase/client";
 
 export const getMyPetUsage = async({userId, statuses=['staying']}: {userId: string, statuses: UsageLogStatus[]}):Promise<MyPetUsageAllInfo[]> => {

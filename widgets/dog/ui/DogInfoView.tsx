@@ -1,7 +1,7 @@
 'use client'
 
-import { getDogAge } from "@/entities/dog/lib/getDogAge"
-import { Dog } from "@/entities/dog/model/types"
+import { getDogAge } from "@/entities/dog/lib"
+import { Dog } from "@/entities/dog/model"
 import { format } from "date-fns"
 import { memo } from "react"
 
@@ -10,7 +10,7 @@ interface DogInfoViewProps {
     onTogglePrimary: () => void
 }
 
-function DogInfoView({ dog, onTogglePrimary }: DogInfoViewProps) {
+function DogInfoViewInner({ dog, onTogglePrimary }: DogInfoViewProps) {
     return (
         <>
             <div className="flex items-center gap-5 mb-6">
@@ -88,4 +88,4 @@ function DogInfoView({ dog, onTogglePrimary }: DogInfoViewProps) {
     )
 }
 
-export default memo(DogInfoView)
+export const DogInfoView = memo(DogInfoViewInner)

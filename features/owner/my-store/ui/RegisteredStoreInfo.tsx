@@ -1,6 +1,6 @@
 'use client'
 
-import { RegisteredStoreInfoProps } from "@/entities/owner/my-shop/model/types";
+import { RegisteredStoreInfoProps } from "@/entities/owner/my-shop/model";
 import { ChevronRight, FileText } from "lucide-react";
 import { memo } from "react";
 
@@ -15,7 +15,7 @@ export const RegisteredStoreInfo = memo(({ storeName, status, todaySales, accSal
                 <div className="flex flex-col justify-between">
                     <div>
                         <div className="flex items-center gap-3">
-                            <h1 className="text-white text-3xl font-black tracking-tight">{storeName}</h1>
+                            <h1 className="text-white text-xl font-black tracking-tight">{storeName}</h1>
                             <div className="inline-flex items-center px-2 py-0.5 rounded-full bg-white text-[10px] font-bold text-emerald-600">
                                 {status}
                             </div>

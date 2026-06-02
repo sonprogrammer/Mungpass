@@ -1,6 +1,6 @@
 'use client'
 
-import { SkipConfirmModalProps } from "@/features/auth/model/types"
+import { SkipConfirmModalProps } from "@/features/auth/model"
 import { AnimatePresence, motion } from "framer-motion"
 import { AlertCircle } from "lucide-react"
 

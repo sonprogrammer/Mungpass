@@ -1,7 +1,7 @@
 'use client'
 
-import { StepStatus } from "@/features/auth/ui/owner/StepStatus"
-import { StoreApprovalTimelineProps } from "@/widgets/owner/my-store/model/types"
+import { StepStatus } from "@/features/auth/ui/owner"
+import { StoreApprovalTimelineProps } from "@/widgets/owner/my-store/model"
 import { format } from "date-fns"
 import { ko } from "date-fns/locale"
 import { AlertCircle } from "lucide-react"
@@ -12,12 +12,16 @@ import { useMemo } from "react"
 
 export function StoreApprovalTimeline({ regisData, currentStatus }: StoreApprovalTimelineProps) {
     const approvalSteps = useMemo(() => {
-        const createdAt = format(new Date(regisData.created_at), 'yyyy.MM.dd', { locale: ko })
-        const submittedAt = format(new Date(regisData.submitted_at), 'yyyy.MM.dd', { locale: ko })
-        const rejectedAt = format(new Date(regisData.rejected_at), 'yyyy.MM.dd', { locale: ko })
-        const approvedAt = format(new Date(regisData.approved_at), 'yyyy.MM.dd', { locale: ko })
-        const reSubmittedAt = format(new Date(regisData.re_submit_at), 'yyyy.MM.dd', { locale: ko })
 
+        const formatDate = (dateString: string | null | undefined) => {
+            if (!dateString) return null;
+            return format(new Date(dateString), 'yyyy.MM.dd', { locale: ko })
+        }
+        const createdAt = formatDate(regisData.created_at)
+        const submittedAt = formatDate(regisData.submitted_at)
+        const rejectedAt = formatDate(regisData.rejected_at)
+        const approvedAt = formatDate(regisData.approved_at)
+        const reSubmittedAt = formatDate(regisData.re_submit_at)
         return [
             {
                 title: "가입 및 신청",
@@ -27,7 +31,7 @@ export function StoreApprovalTimeline({ regisData, currentStatus }: StoreApprova
             },
             {
                 title: reSubmittedAt ? '서류 재제출' : "서류 제출",
-                desc: reSubmittedAt ? `${reSubmittedAt} 제출` : `${submittedAt} 재제출`,
+                desc: reSubmittedAt ? `${reSubmittedAt} 제출` : `${submittedAt} 제출`,
                 done: !!regisData.biz_reg_image_url,
                 active: !regisData.biz_reg_image_url
             },

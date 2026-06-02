@@ -1,21 +1,18 @@
 'use client'
 
-import { useGetRegisData } from "@/entities/owner/my-shop/model/useGetRegisData";
-import { useUserStore } from "@/entities/user/model/useUserStore";
-import { useRestrictedAction } from "@/features/owner/my-store/lib/useRestrictedAction";
-import { MenuItem } from "@/shared/ui/MenuItem";
-import { MyPageFooter } from "@/widgets/mypage/ui/MyPageFooter";
-import { MyStoreHeader } from "@/widgets/owner/my-store/ui/MyStoreHeader";
 import { Clock, ShoppingBag, Megaphone, Headphones, Monitor } from "lucide-react";
 import { useState } from "react";
-import { useShopStatus } from "@/features/owner/my-store/model/useGetShopStatus";
-import { StoreTimeBottomSheet } from "@/features/owner/my-store/ui/StoreTimeBottomSheet";
-import { NoticeBottomSheet } from "@/features/owner/my-store/ui/NoticeBottomSheet";
-import { InquiryBottomSheet } from "@/features/owner/my-store/ui/InquiryBottomSheet";
-import { ProductManageBottomSheet } from "@/features/owner/my-store/product/ui/ProductManageBottomSheet";
-import { KioskSettingBottomSheet } from "@/features/owner/kiosk/ui/KioskSettingBottomSheet";
-import { useOwnerStoreStatus } from "@/entities/owner/model/useOwnerStoreStatus";
-import { useGetShopInfo } from "@/entities/owner/model/useGetShopInfo";
+import { useGetRegisData } from "@/entities/owner/my-shop/model";
+import { useUserStore } from "@/entities/user/model";
+import { useRestrictedAction } from "@/features/owner/my-store/lib";
+import { MenuItem } from "@/shared/ui";
+import { MyPageFooter } from "@/widgets/mypage/ui";
+import { MyStoreHeader } from "@/widgets/owner/my-store/ui";
+import { useShopStatus } from "@/features/owner/my-store/model";
+import { StoreTimeBottomSheet, NoticeBottomSheet, InquiryBottomSheet } from "@/features/owner/my-store/ui";
+import { ProductManageBottomSheet } from "@/features/owner/my-store/product/ui";
+import { KioskSettingBottomSheet } from "@/features/owner/kiosk/ui";
+import { useOwnerStoreStatus,useGetShopInfo } from "@/entities/owner/model";
 
 
 export function MyStorePageWidget() {

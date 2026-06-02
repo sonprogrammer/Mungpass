@@ -1,8 +1,8 @@
 'use client'
 
-import { useGetMyPetUsage } from "@/features/qr/model/useGetMyPetUsage";
-import { BackBtn } from "@/shared/ui/BackBtn";
-import { MenuPageListCard } from "@/widgets/home-menu/ui/MenuPageListCard";
+import { useGetMyPetUsage } from "@/features/qr/model";
+import { BackBtn } from "@/shared/ui";
+import { MenuPageListCard } from "@/widgets/home-menu/ui";
 import { format, parseISO } from "date-fns";
 import { PawPrint } from "lucide-react";
 

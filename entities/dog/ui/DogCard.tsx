@@ -1,7 +1,6 @@
-// *마이도그위젯에서 나오는 카드
 
-import { getDogAge } from "@/entities/dog/lib/getDogAge"
-import { Dog } from "@/entities/dog/model/types"
+import { getDogAge } from "@/entities/dog/lib"
+import { Dog } from "@/entities/dog/model"
 import dayjs from "dayjs"
 import { ChevronRight, ChessQueen } from "lucide-react"
 
@@ -15,7 +14,6 @@ export function DogCard({ dog }: { dog: Dog}) {
         <div className="bg-white rounded-[2.5rem] p-6 border border-orange-100 flex items-center justify-between group hover:shadow-md" >
             <div className="flex items-center gap-4 relative" >
                 <div className=" w-16 h-16 rounded-full overflow-hidden bg-orange-50">
-                    {/* //TODO 만약 대표 애견이면 왕관 나오게 */}
                     {dog.is_primary &&
                         <div className="absolute -top-1.5 -left-1.5 rounded-full p-1 shadow-sm">
                             <ChessQueen className="w-4 h-4 text-yellow-500 -rotate-20 fill-yellow-500" />

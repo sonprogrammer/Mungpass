@@ -1,6 +1,4 @@
 
-
-
 export function StoryTimer ({ progress, imageUrl, isOverTime }: { progress: number, imageUrl?: string, isOverTime: boolean }) {
   const radius = 30
   const circumference = 2 * Math.PI * radius

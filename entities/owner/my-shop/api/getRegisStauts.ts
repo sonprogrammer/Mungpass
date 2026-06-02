@@ -1,4 +1,4 @@
-import { StoreRegistration } from "@/entities/owner/my-shop/model/types"
+import { StoreRegistration } from "@/entities/owner/my-shop/model"
 import { supabaseClient } from "@/shared/api/supabase/client"
 
 export const getRegisData = async(userId: string): Promise<StoreRegistration> => {

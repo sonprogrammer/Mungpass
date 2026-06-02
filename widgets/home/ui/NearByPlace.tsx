@@ -1,10 +1,9 @@
 'use client'
 
-import { DEFAULT_RADIUS } from "@/entities/place/model/constants";
-import PlaceListState from "@/features/place/ui/PlaceListState";
-import { useGetNearByShops } from "@/features/search-shop/model/useGetNearByShops";
-import { useSelectedPlace } from "@/features/search-shop/model/useSelectedPlace";
-import { StoreDetailBottomSheet } from "@/features/user/shopInfo/ui/StoreDetailBottomSheet";
+import { DEFAULT_RADIUS } from "@/entities/place/model";
+import { PlaceListState } from "@/features/place/ui";
+import { useGetNearByShops, useSelectedPlace } from "@/features/search-shop/model";
+import { StoreDetailBottomSheet } from "@/features/user/shopInfo/ui";
 import { MapPin } from "lucide-react";
 import { useRouter } from "next/navigation";
 

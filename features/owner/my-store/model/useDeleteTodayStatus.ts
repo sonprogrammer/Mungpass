@@ -1,4 +1,4 @@
-import { deleteTodayStatus } from "@/features/owner/my-store/api/deleteTodayStatus";
+import { deleteTodayStatus } from "@/features/owner/my-store/api";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { App } from "antd";
 

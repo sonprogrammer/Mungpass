@@ -1,7 +1,7 @@
 import { App } from 'antd';
-import { postProduct } from "@/features/owner/my-store/product/api/postProducts";
+import { postProduct } from "@/features/owner/my-store/product/api";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { ProductSubmitData } from '@/features/owner/my-store/product/model/types';
+import { ProductSubmitData } from '@/features/owner/my-store/product/model';
 
 export function usePostProduct() {
     const queryClient = useQueryClient()

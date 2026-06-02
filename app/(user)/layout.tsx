@@ -1,6 +1,6 @@
 
-import { UserRoleGuard } from "@/features/auth/ui/UserRoleGuard";
-import { GlobalLiveUsage } from "@/widgets/dog/ui/GlobalLiveUsage";
+import { UserRoleGuard } from "@/features/auth/ui";
+import { GlobalLiveUsage } from "@/widgets/dog/ui";
 import Header from "@/widgets/header/ui/Header";
 import Navbar from "@/widgets/navbar/ui/Navbar";
 import { App } from "antd";

@@ -1,4 +1,4 @@
-import { Product, ProductSubmitData } from "@/features/owner/my-store/product/model/types";
+import { Product, ProductSubmitData } from "@/features/owner/my-store/product/model";
 import { supabaseClient } from "@/shared/api/supabase/client";
 
 

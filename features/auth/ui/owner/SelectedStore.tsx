@@ -1,7 +1,7 @@
 'use client'
 
-import { useCheckStoreExists } from "@/features/auth/model/owner/useCheckStoreExists";
-import { KakaoPlace } from "@/shared/model/map";
+import { useCheckStoreExists } from "@/features/auth/model/owner";
+import { KakaoPlace } from "@/shared/model";
 import { AlertCircle, ChevronDown, ChevronUp, Loader2 } from "lucide-react";
 import { memo, useState } from "react";
 

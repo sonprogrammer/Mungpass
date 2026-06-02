@@ -1,9 +1,6 @@
-'use client'
 
-import { getCurrentStoreStatus } from "@/features/owner/my-store/lib/getCurrentStoraStatus";
-import { useGetSchedule } from "@/features/owner/my-store/model/useGetSchedule";
-import { useGetTodayTempStatus } from "@/features/owner/my-store/model/useGetTodayTempStatus";
-import { useGetVacation } from "@/features/owner/my-store/model/useGetVacation";
+import { getCurrentStoreStatus } from "@/features/owner/my-store/lib";
+import { useGetSchedule, useGetTodayTempStatus, useGetVacation } from "@/features/owner/my-store/model";
 import { useEffect, useState } from "react";
 
 export function useShopStatus(shopId: string) {

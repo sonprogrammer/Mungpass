@@ -1,4 +1,5 @@
-import { getAdminInquiryNoti } from "@/entities/inquiry/api/getAdminInquiryNoti";
+
+import { getAdminInquiryNoti } from "@/entities/inquiry/api";
 import { useQuery } from "@tanstack/react-query";
 
 export function useGetAdminInquiryNoti() {

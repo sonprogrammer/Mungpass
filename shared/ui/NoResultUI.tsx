@@ -1,5 +1,5 @@
 import { Info } from "lucide-react";
-import { NoResultProps } from "@/shared/model/noresultTypes";
+import { NoResultProps } from "@/shared/model";
 
 export function NoResult ({ 
     title, 

@@ -1,8 +1,7 @@
 'use client'
 
-import { useAuthForm } from "@/features/auth/model/useAuthForm"
-import { SignupForm } from "@/features/auth/ui/SignupForm"
-import { SignupSuccessModal } from "@/features/auth/ui/SignupSuccessModal"
+import { useAuthForm } from "@/features/auth/model"
+import { SignupForm, SignupSuccessModal } from "@/features/auth/ui"
 import { useRouter } from "next/navigation"
 import { useState } from "react"
 

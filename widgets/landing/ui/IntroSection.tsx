@@ -1,4 +1,4 @@
-import { BigLogo } from "@/shared/ui/BigLogo";
+import { BigLogo } from "@/shared/ui";
 
 export function IntroSection() {
     return (

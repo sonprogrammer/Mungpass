@@ -1,6 +1,6 @@
 'use client'
 
-import { QrUnverifiedViewProps } from "@/features/qr/model/types"
+import { QrUnverifiedViewProps } from "@/features/qr/model"
 import { Button, Empty, Typography } from "antd"
 
 export function QrUnverifiedView({ onClose }: QrUnverifiedViewProps) {

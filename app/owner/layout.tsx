@@ -1,9 +1,8 @@
+import { OwnerRoleGuard, OwnerStoreStatusGuard } from "@/features/auth/ui/owner";
+import { AntdAppProvider } from "@/shared/ui";
+import { OwnerHeader } from "@/widgets/header/ui";
+import { OwnerNavbar } from "@/widgets/owner/ui";
 
-import { OwnerRoleGuard } from '@/features/auth/ui/owner/OwnerRoleGuard';
-import { OwnerStoreStatusGuard } from '@/features/auth/ui/owner/OwnerStoreStatusGuard';
-import { AntdAppProvider } from '@/shared/ui/AntdAppProvider';
-import OwnerHeader from '@/widgets/header/ui/OwnerHeader';
-import { OwnerNavbar } from '@/widgets/owner/ui/OwnerNavbar';
 
 
 export default function OwnerLayout({ children }: { children: React.ReactNode }) {

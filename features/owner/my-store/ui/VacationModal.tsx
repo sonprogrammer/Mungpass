@@ -2,8 +2,8 @@
 import { Modal, DatePicker, Form, Input, App } from 'antd';
 import { Plane } from 'lucide-react';
 import dayjs from 'dayjs';
-import { VacationModalProps } from '@/features/owner/my-store/model/types';
-import { useUpdateVacation } from '@/features/owner/my-store/model/useUpdateVacation';
+import { useUpdateVacation, VacationModalProps } from '@/features/owner/my-store/model';
+
 
 const { RangePicker } = DatePicker;
 

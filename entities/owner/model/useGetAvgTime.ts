@@ -1,5 +1,5 @@
-import { getAvgUsingTime } from "@/entities/owner/api/getAvgUsingTime";
-import { useOwnerStoreStatus } from "@/entities/owner/model/useOwnerStoreStatus";
+import { getAvgUsingTime } from "@/entities/owner/api";
+import { useOwnerStoreStatus } from "@/entities/owner/model";
 import { useQuery } from "@tanstack/react-query";
 
 export function useGetAvgTime(shopId: string) {

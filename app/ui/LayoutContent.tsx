@@ -1,11 +1,12 @@
 'use client';
 
-import { AuthProvider } from "@/entities/user/ui/AuthProvider";
+
 import dayjs from "dayjs";
 import "dayjs/locale/ko";
 import relativeTime from "dayjs/plugin/relativeTime";
 import isBetween from "dayjs/plugin/isBetween";
 import { Toaster } from 'react-hot-toast'
+import { AuthProvider } from "@/entities/user/ui";
 
 
 
@@ -14,7 +15,6 @@ dayjs.extend(isBetween)
 dayjs.locale("ko")
 
 export default function LayoutContent({ children }: { children: React.ReactNode }) {
-
 
 
 

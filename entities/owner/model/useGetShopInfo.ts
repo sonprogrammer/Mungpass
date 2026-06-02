@@ -1,6 +1,6 @@
-import { getShopInfo } from "@/entities/owner/api/getShopInfo";
-import { useOwnerStoreStatus } from "@/entities/owner/model/useOwnerStoreStatus";
-import { useUserStore } from "@/entities/user/model/useUserStore";
+import { getShopInfo } from "@/entities/owner/api";
+import { useOwnerStoreStatus } from "@/entities/owner/model";
+import { useUserStore } from "@/entities/user/model";
 import { useQuery } from "@tanstack/react-query";
 
 export function useGetShopInfo(){

@@ -1,9 +1,8 @@
 'use client'
 
-import { cookieLogout } from "@/features/auth/api/logoutAction";
-import { useStoreRegistrationStore } from "@/features/auth/model/owner/useStoreRegistStore";
-import { RegisterStatus } from "@/features/auth/ui/owner/RegisterStatus";
-import { SuccessMsg } from "@/features/auth/ui/owner/SuccessMsg";
+import { cookieLogout } from "@/features/auth/api";
+import { useStoreRegistrationStore } from "@/features/auth/model/owner";
+import { RegisterStatus, SuccessMsg } from "@/features/auth/ui/owner";
 import { App } from "antd";
 import { LogIn } from "lucide-react";
 import { useRouter, useSearchParams } from "next/navigation";

@@ -1,4 +1,4 @@
-import { updateTempStatus } from "@/features/owner/my-store/api/updateTempStatus";
+import { updateTempStatus } from "@/features/owner/my-store/api/";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { App } from "antd";
 

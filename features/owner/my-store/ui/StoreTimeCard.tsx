@@ -3,16 +3,11 @@
 import { useState } from 'react'
 import {  Form, message, Skeleton } from 'antd'
 import dayjs, { Dayjs } from 'dayjs'
-import { DAYS } from '../lib/DAYS'
-import { StoreTimeMainView } from '@/features/owner/my-store/ui/StoreTimeMainView'
-import { StoreTimeEditView } from '@/features/owner/my-store/ui/StoreTimeEditView'
-import { useUpdateSchedules } from '@/features/owner/my-store/model/useUpdateSchedules'
-import { useGetSchedule } from '@/features/owner/my-store/model/useGetSchedule'
-import { SaveScheduleFormData } from '@/features/owner/my-store/model/types'
 import { format } from 'date-fns'
-import { getCurrentStoreStatus } from '@/features/owner/my-store/lib/getCurrentStoraStatus'
-import { useGetVacation } from '@/features/owner/my-store/model/useGetVacation'
-import { useGetTodayTempStatus } from '@/features/owner/my-store/model/useGetTodayTempStatus'
+import { SaveScheduleFormData, useGetSchedule, useGetTodayTempStatus, useGetVacation, useUpdateSchedules } from '@/features/owner/my-store/model'
+import { DAYS, getCurrentStoreStatus } from '@/features/owner/my-store/lib'
+import { StoreTimeEditView, StoreTimeMainView } from '@/features/owner/my-store/ui'
+
 
 
 

@@ -1,4 +1,4 @@
-import { ScheduleRow } from "@/features/owner/my-store/model/types";
+import { ScheduleRow } from "@/features/owner/my-store/model";
 import { supabaseClient } from "@/shared/api/supabase/client";
 
 export const getSchedule = async(shopId: string):Promise<ScheduleRow[]> => {

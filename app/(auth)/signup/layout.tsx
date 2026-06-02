@@ -1,4 +1,5 @@
-import { SmallLogo } from "@/shared/ui/SmallLogo";
+import { SmallLogo } from "@/shared/ui";
+
 
 export default function SignupLayout({ children }: { children: React.ReactNode }) {
     return (

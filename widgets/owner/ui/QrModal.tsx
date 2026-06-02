@@ -1,16 +1,13 @@
 'use client'
 
-import { QrModalProps } from "@/features/qr/model/types"
-import { QrCategorySelectView } from "@/features/qr/ui/QrCategorySelectView"
-import { QrCodeDisplayView } from "@/features/qr/ui/QrDisplayView"
-import { QrProductSelectView } from "@/features/qr/ui/QrProductSelectView"
-import { QrUnverifiedView } from "@/features/qr/ui/QrUnverifiedView"
+import { QrModalProps } from "@/features/qr/model"
+import { QrCategorySelectView, QrCodeDisplayView, QrProductSelectView, QrUnverifiedView } from "@/features/qr/ui"
 import { Button, Modal, Spin } from "antd"
 import { ArrowLeft } from "lucide-react"
 import { memo, useMemo, useState } from "react"
 
 
-function QrModal({ products, open, qrValue, selectedProductId, onClose, onSelectProduct, isPending, isVerified }: QrModalProps) {
+function QrModalInner({ products, open, qrValue, selectedProductId, onClose, onSelectProduct, isPending, isVerified }: QrModalProps) {
     const [selectedCategoryName, setSelectedCategoryName] = useState<string | null>(null)
 
     // * 카테고리 목록들
@@ -96,4 +93,4 @@ function QrModal({ products, open, qrValue, selectedProductId, onClose, onSelect
     )
 }
 
-export default memo(QrModal)
+export const QrModal= memo(QrModalInner)

@@ -1,9 +1,9 @@
 'use client'
+import { CurrentLogDetailModalProps } from '@/entities/owner/model'
+import { formatTime, getElapsedTime } from '@/shared/utils'
 import { Avatar, Button, Modal, Tag, Typography } from 'antd'
 import { ClockArrowUp, Dog, ClockArrowDown } from 'lucide-react'
-import { CurrentLogDetailModalProps } from '@/entities/owner/model/types'
-import { getElapsedTime } from '@/shared/utils/getElapsedTime'
-import { formatTime } from '@/shared/utils/formatDate'
+
 
 export function CurrentLogDetailModal({ open, item, onClose, onCheckout }: CurrentLogDetailModalProps) {
     const isStaying = item?.status === 'staying'

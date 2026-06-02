@@ -1,5 +1,4 @@
-
-import { UpdateDocsInfo } from "@/features/auth/model/types";
+import { UpdateDocsInfo } from "@/features/auth/model";
 import { supabaseClient } from "@/shared/api/supabase/client";
 
 

@@ -1,16 +1,10 @@
 'use client'
 
-import { useGetSaveList } from "@/entities/place/model/useGetSaveList";
-import { useGetShopIdByKakaoId } from "@/entities/place/model/useGetShopIdByKakaoId";
-import { useToggleSaveList } from "@/entities/place/model/useToggleSaveList";
-import { useGetSchedule } from "@/features/owner/my-store/model/useGetSchedule";
-import { useShopStatus } from "@/features/owner/my-store/model/useGetShopStatus";
-import { useGetVacation } from "@/features/owner/my-store/model/useGetVacation";
-import { useGetNotices } from "@/features/owner/my-store/notices/model/useGetNotices";
-import StoreDetailActionBtns from "@/features/user/shopInfo/ui/StoreDetailActionBtns";
-import { StoreNoticeInfo } from "@/features/user/shopInfo/ui/StoreNoticeInfo";
-import { StoreScheduleInfo } from "@/features/user/shopInfo/ui/StoreScheduleInfo";
-import { KakaoPlace } from "@/shared/model/map";
+import { useGetSaveList, useGetShopIdByKakaoId, useToggleSaveList } from "@/entities/place/model";
+import { useGetSchedule, useGetVacation, useShopStatus } from "@/features/owner/my-store/model";
+import { useGetNotices } from "@/features/owner/my-store/notices/model";
+import { StoreDetailActionBtns, StoreNoticeInfo, StoreScheduleInfo } from "@/features/user/shopInfo/ui";
+import { KakaoPlace } from "@/shared/model";
 import { AnimatePresence } from "framer-motion";
 import Image from "next/image";
 import { useCallback, useMemo, useState } from "react";

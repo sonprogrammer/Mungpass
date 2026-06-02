@@ -2,12 +2,11 @@
 
 'use client'
 
-import { DocsImgPreviewModal } from "@/entities/owner/re-store/ui/DocsImgPreviewModal"
-import { getAdminUrl } from "@/features/admin/store/api/ownerDocs"
-import { usePostOwnerDocs } from "@/features/auth/model/owner/usePostOwnerDocs"
-import { useUpdateOwnerDocs } from "@/features/auth/model/owner/useUpdateOwnerDocs"
-import { BusinessFormProps } from "@/features/auth/model/types"
-import { BusinessBizImg } from "@/features/auth/ui/owner/BusinessBizImg"
+import { DocsImgPreviewModal } from "@/entities/owner/re-store/ui"
+import { getAdminUrl } from "@/features/admin/store/api"
+import { BusinessFormProps } from "@/features/auth/model"
+import { usePostOwnerDocs, useUpdateOwnerDocs } from "@/features/auth/model/owner"
+import { BusinessBizImg } from "@/features/auth/ui/owner"
 import { App } from "antd"
 import { Camera, FileText, Loader2, Upload } from "lucide-react"
 import { useEffect, useRef, useState } from "react"

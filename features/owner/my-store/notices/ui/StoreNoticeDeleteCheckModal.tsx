@@ -1,7 +1,6 @@
 'use client'
 
-import { StoreNoticeDeleteCheckModalProps } from "@/features/owner/my-store/notices/model/types"
-import { useDeleteNotice } from "@/features/owner/my-store/notices/model/useDeleteNotice"
+import { StoreNoticeDeleteCheckModalProps, useDeleteNotice } from "@/features/owner/my-store/notices/model"
 import { Button, Modal } from "antd"
 import { AlertTriangle } from "lucide-react"
 

@@ -1,6 +1,6 @@
 // * 마이펫페이지에서 나오는 강아지 프로필 카드
 
-import { Dog } from "@/entities/dog/model/types";
+import { Dog } from "@/entities/dog/model";
 import dayjs from "dayjs";
 import { Cake, Dog as Dogicon } from "lucide-react";
 

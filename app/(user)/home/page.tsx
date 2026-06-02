@@ -1,7 +1,4 @@
-
-import { HomePageWidget } from "@/widgets/home/ui/HomePageWidget";
-
-
+import { HomePageWidget } from "@/widgets/home/ui";
 
 export default function HomePage() {
 

@@ -1,6 +1,5 @@
 'use client'
-import { signup } from "../api/signup";
-import { regularLogin } from "../api/regularLogin";
+import { regularLogin, signup } from "@/features/auth/api";
 import { App } from "antd";
 
 export function useAuthForm(mode: 'login' | 'signup', OwnerSuccess?: (id: string) => void) {

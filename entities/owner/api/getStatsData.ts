@@ -1,4 +1,4 @@
-import { StatsDataFromServer } from '@/entities/owner/model/types'
+import { StatsDataFromServer } from "@/entities/owner/model";
 import { supabaseClient } from "@/shared/api/supabase/client";
 
 export const getStatsData = async(shopId: string, selectedMonth: string):Promise<StatsDataFromServer> => {

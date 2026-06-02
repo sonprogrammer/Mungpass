@@ -1,4 +1,4 @@
-import { StoreRegistration } from "@/entities/owner/my-shop/model/types"
+import { StoreRegistration } from "@/entities/owner/my-shop/model"
 
 export interface StoreDocPreviewModalProps {
     previewUrl: string | null

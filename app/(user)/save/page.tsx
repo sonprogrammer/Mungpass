@@ -1,8 +1,5 @@
-import { BackBtn } from "@/shared/ui/BackBtn";
-import { SaveList } from "@/widgets/save/ui/SaveList";
-
-
-
+import { BackBtn } from "@/shared/ui";
+import { SaveList } from "@/widgets/save/ui";
 
 export default function FavoritesPage() {
 

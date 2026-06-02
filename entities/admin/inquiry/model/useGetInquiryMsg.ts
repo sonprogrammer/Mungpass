@@ -1,4 +1,5 @@
-import { getInquiryMsg } from "@/entities/admin/inquiry/api/getInquiryMsg";
+
+import { getInquiryMsg } from "@/entities/admin/inquiry/api";
 import { useQuery } from "@tanstack/react-query";
 
 export function useGetInquiryMsg(roomId: string) {

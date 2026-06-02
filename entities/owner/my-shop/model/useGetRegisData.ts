@@ -1,6 +1,5 @@
-
-import { getRegisData } from "@/entities/owner/my-shop/api/getRegisStauts";
-import { useUserStore } from "@/entities/user/model/useUserStore";
+import { getRegisData } from "@/entities/owner/my-shop/api";
+import { useUserStore } from "@/entities/user/model";
 import { useQuery } from "@tanstack/react-query";
 
 export function useGetRegisData () {

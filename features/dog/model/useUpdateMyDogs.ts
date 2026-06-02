@@ -1,7 +1,7 @@
 
 import { App } from "antd";
-import { updateDogs } from "../../../entities/dog/api/updateDogs";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { updateDogs } from "@/entities/dog/api";
 
 export const useUpdateMyDogs = () => {
     const queryClient = useQueryClient()

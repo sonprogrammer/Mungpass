@@ -1,4 +1,4 @@
-import { searchShops } from "@/features/search-shop/api/searchShops";
+import { searchShops } from "@/features/search-shop/api";
 import { useQuery } from "@tanstack/react-query";
 
 

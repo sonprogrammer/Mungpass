@@ -1,8 +1,8 @@
 'use client'
 
-import { useGetShopInfo } from "@/entities/owner/model/useGetShopInfo"
-import { StoreTimeCard } from "@/features/owner/my-store/ui/StoreTimeCard"
-import { BottomSheet } from "@/shared/ui/place/BottomSheet"
+import { useGetShopInfo } from "@/entities/owner/model"
+import { StoreTimeCard } from "@/features/owner/my-store/ui"
+import { BottomSheet } from "@/shared/ui/place"
 import { Skeleton } from "antd"
 
 

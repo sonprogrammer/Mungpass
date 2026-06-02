@@ -1,4 +1,6 @@
-import { UserProfile } from "@/entities/user/model/useUserStore";
+// TODO 아직 안쓰는 파일
+
+import { UserProfile } from "@/entities/user/model";
 import { Ticket } from "lucide-react";
 
 export function UserStats({user}: {user: UserProfile | null}) {

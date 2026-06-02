@@ -1,4 +1,6 @@
-import { LoginFormProps } from "@/features/auth/model/types"
+'use client'
+
+import { LoginFormProps } from "@/features/auth/model"
 import { Bone, Mail } from "lucide-react"
 
 export function LoginForm({email, setEmail, password, setPassword}: LoginFormProps) {

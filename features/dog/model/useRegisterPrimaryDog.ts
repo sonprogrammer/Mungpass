@@ -1,5 +1,5 @@
-import { registerPrimaryDog } from "@/entities/dog/api/registerPrimaryDog";
-import { Dog } from "@/entities/dog/model/types";
+import { registerPrimaryDog } from "@/entities/dog/api";
+import { Dog } from "@/entities/dog/model";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { App } from "antd";
 

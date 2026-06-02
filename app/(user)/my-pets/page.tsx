@@ -1,4 +1,5 @@
-import { MyPetsPageWidget } from "@/widgets/my-pets/ui/MyPetPageWidget";
+import { MyPetsPageWidget } from "@/widgets/my-pets/ui";
+
 
 export default function MyPetPage() {
     return(

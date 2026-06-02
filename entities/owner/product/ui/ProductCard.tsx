@@ -1,6 +1,6 @@
 'use client'
 
-import { ProductWithCategory } from "@/features/owner/my-store/product/model/types";
+import { ProductWithCategory } from "@/features/owner/my-store/product/model";
 import { Button, Tag } from "antd";
 import { Banknote, Clock, Trash2 } from "lucide-react";
 

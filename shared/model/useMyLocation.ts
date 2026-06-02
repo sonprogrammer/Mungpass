@@ -1,4 +1,4 @@
-import { Coords } from '@/shared/model/map';
+import { Coords } from '@/shared/model';
 import { useQuery } from '@tanstack/react-query';
 import { App } from 'antd';
 

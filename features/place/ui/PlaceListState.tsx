@@ -1,12 +1,12 @@
 'use client'
 
 import { Loader2 } from "lucide-react";
-import { PlaceList } from "@/entities/place/ui/PlaceList";
-import { NoResult } from "@/shared/ui/NoResultUI";
+import { PlaceList } from "@/entities/place/ui";
+import { NoResult } from "@/shared/ui";
 import { memo } from "react";
-import { ShopListStateProps } from "@/features/place/model/types";
+import { ShopListStateProps } from "@/features/place/model";
 
-function PlaceListState({ isPending, places, onPlaceClick }: ShopListStateProps) {
+function PlaceListStateInner({ isPending, places, onPlaceClick }: ShopListStateProps) {
     //* 로딩
     if (isPending) {
         return (
@@ -37,4 +37,4 @@ function PlaceListState({ isPending, places, onPlaceClick }: ShopListStateProps)
     )
 }
 
-export default memo(PlaceListState)
+export const PlaceListState = memo(PlaceListStateInner)

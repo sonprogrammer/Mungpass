@@ -3,13 +3,11 @@
 import { Bell } from "lucide-react";
 import Link from "next/link";
 import { useState } from "react";
-import NotificationDrawer from '@/features/notification/ui/NotificationDrawer'
-import { useNotificationStore } from "@/features/notification/model/useNotificationStore";
-import { useUserStore } from "@/entities/user/model/useUserStore";
-import { useRealTimeNotification } from "@/features/notification/model/useRealTimeNotification";
 import Image from "next/image";
-import { useInquiryRealTimeNoti } from "@/entities/inquiry/model/useInquiryRealTimeNoti";
-import { useGetInquiryUserNoti } from "@/entities/inquiry/model/useGetInquiryUserNoti";
+import { useUserStore } from "@/entities/user/model";
+import { useNotificationStore, useRealTimeNotification } from "@/features/notification/model";
+import { useGetInquiryUserNoti, useInquiryRealTimeNoti } from "@/entities/inquiry/model";
+import { NotificationDrawer } from "@/features/notification/ui";
 
 export default function Header() {
   const [isBellOpen, setIsBellOpen] = useState(false)

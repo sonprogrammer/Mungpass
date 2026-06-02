@@ -3,22 +3,18 @@
 import { AlertCircle, X, Pencil, Plus, Settings2, Trash2 } from "lucide-react";
 import { useMemo, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { DogProfileCard } from "@/entities/dog/ui/DogProfileCard";
-import { useGetMyDogs } from "@/features/dog/model/useGetMyDogs";
-import { useUserStore } from "@/entities/user/model/useUserStore";
-import { Dog, useDogStore } from "@/entities/dog/model/types";
-import { DogFormModal } from "@/features/dog/ui/DogFormModal";
-import { DogDetailModal } from "@/widgets/dog/ui/DogDetailModal";
-
-import { useDeleteDog } from "@/features/dog/model/useDeleteDog";
-import { useGetMyPetUsage } from "@/features/qr/model/useGetMyPetUsage";
-import { LiveUsageCard } from "@/widgets/dog/ui/LiveUsageCard";
-import { MyPetUsageAllInfo } from "@/features/qr/model/types";
-import { ConfirmModal } from "@/shared/ui/ConfirmModal";
 import { App } from "antd";
-import { MyPetPageSkeleton } from "@/widgets/owner/my-store/ui/MyPetPageSkeleton";
-import { MyPetsEmptyView } from "@/widgets/my-pets/ui/MyPetsEmptyView";
-import { CheckedInWidget } from "@/widgets/my-pets/ui/CheckedInWidget";
+import { useUserStore } from "@/entities/user/model";
+import { Dog, useDogStore } from "@/entities/dog/model";
+import { MyPetUsageAllInfo, useGetMyPetUsage } from "@/features/qr/model";
+import { useDeleteDog, useGetMyDogs } from "@/features/dog/model";
+import { MyPetPageSkeleton } from "@/widgets/owner/my-store/ui";
+import { DogProfileCard } from "@/entities/dog/ui";
+import { CheckedInWidget, MyPetsEmptyView } from "@/widgets/my-pets/ui";
+import { DogDetailModal, LiveUsageCard } from "@/widgets/dog/ui";
+import { DogFormModal } from "@/features/dog/ui";
+import { ConfirmModal } from "@/shared/ui";
+
 
 export function MyPetsPageWidget() {
     const profile = useUserStore(state => state.profile)

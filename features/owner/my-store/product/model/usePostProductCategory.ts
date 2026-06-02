@@ -1,5 +1,4 @@
-import { postProductCategory } from "@/features/owner/my-store/product/api/postProductCategory";
-import { ProductCategorySubmitData } from "@/features/owner/my-store/product/model/types";
+import { postProductCategory } from "@/features/owner/my-store/product/api";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { App } from "antd";
 

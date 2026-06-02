@@ -1,6 +1,6 @@
 'use client'
 
-import { VactationFromDB } from "@/features/owner/my-store/model/types";
+import { VactationFromDB } from "@/features/owner/my-store/model";
 import { Popconfirm } from "antd";
 import { format } from "date-fns";
 import { Plane, XCircle } from "lucide-react";

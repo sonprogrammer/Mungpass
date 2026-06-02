@@ -3,10 +3,12 @@
 import { Badge, Dropdown, List, Avatar, Empty, Button } from 'antd'
 import { BellOutlined, CheckCircleOutlined, MessageOutlined } from '@ant-design/icons'
 import { useRouter } from 'next/navigation'
-import { useGetAdminInquiryNoti } from '@/entities/admin/inquiry/model/useGetAminInquiryNoti'
+
 import { useQueryClient } from '@tanstack/react-query'
 import { useMemo } from 'react'
-import { InquiryNotification } from '@/entities/admin/notification/model/types'
+import { useGetAdminInquiryNoti } from '@/entities/admin/inquiry/model'
+import { InquiryNotification } from '@/entities/admin/notification/model'
+
 
 export function AdminNotificationDropdown() {
     // TODO 다른 알림처리도 해야함

@@ -1,7 +1,4 @@
-
-import { HistoryPageWidget } from "@/widgets/history/ui/HistoryPageWidget";
-
-
+import { HistoryPageWidget } from "@/widgets/history/ui";
 
 export default function HistoryPage() {
 

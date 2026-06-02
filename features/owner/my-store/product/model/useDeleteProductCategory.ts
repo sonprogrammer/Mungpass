@@ -1,4 +1,4 @@
-import { deleteProductCategory } from "@/features/owner/my-store/product/api/deleteProductCategroy";
+import { deleteProductCategory } from "@/features/owner/my-store/product/api";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { App } from "antd";
 

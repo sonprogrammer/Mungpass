@@ -3,7 +3,7 @@
 import { Modal, Input, Button, Space } from "antd";
 import { useState } from "react";
 import { useUpdate } from "@refinedev/core";
-import { ApproveStoreBtnProps } from "@/features/admin/store/model/type";
+import { ApproveStoreBtnProps } from "@/features/admin/store/model";
 
 export function ApproveStoreBtn({ registrationID, registrationStoreName, onSuccess }: ApproveStoreBtnProps) {
     const [isModalOpen, setIsModalOpen] = useState(false);

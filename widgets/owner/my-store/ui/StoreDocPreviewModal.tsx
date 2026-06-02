@@ -1,6 +1,6 @@
 'use client'
 
-import { StoreDocPreviewModalProps } from "@/widgets/owner/my-store/model/types"
+import { StoreDocPreviewModalProps } from "@/widgets/owner/my-store/model"
 import { Modal } from "antd"
 import Image from "next/image"
 

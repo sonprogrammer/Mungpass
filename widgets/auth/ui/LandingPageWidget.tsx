@@ -1,8 +1,8 @@
 'use client';
 
-import { useUserStore } from '@/entities/user/model/useUserStore';
+import { useUserStore } from '@/entities/user/model';
 import {useShallow} from 'zustand/react/shallow'
-import { AuthWidget } from '@/widgets/auth/ui/AuthWidget';
+import { AuthWidget } from '@/widgets/auth/ui';
 import { useRouter } from 'next/navigation';
 import { useEffect } from 'react';
 

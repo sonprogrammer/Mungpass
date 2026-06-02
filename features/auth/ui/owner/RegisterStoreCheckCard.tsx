@@ -1,7 +1,7 @@
 'use client'
 
-import { useStoreRegistrationStore } from "@/features/auth/model/owner/useStoreRegistStore";
-import { RegisterStoreCheckCardProps } from "@/features/auth/model/types";
+import { RegisterStoreCheckCardProps } from "@/features/auth/model";
+import { useStoreRegistrationStore } from "@/features/auth/model/owner";
 import { Info, MapPin, Phone } from "lucide-react";
 import { useRouter } from "next/navigation";
 

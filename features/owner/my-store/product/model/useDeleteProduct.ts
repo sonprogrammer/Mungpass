@@ -1,4 +1,4 @@
-import { deleteProduct } from "@/features/owner/my-store/product/api/deleteProduct";
+import { deleteProduct } from "@/features/owner/my-store/product/api";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { App } from "antd";
 

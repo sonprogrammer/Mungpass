@@ -1,5 +1,5 @@
-import { deleteAllNotifications } from "@/features/notification/api/deleteAllNotifications";
-import { useNotificationStore } from "@/features/notification/model/useNotificationStore";
+import { deleteAllNotifications } from "@/features/notification/api";
+import { useNotificationStore } from "@/features/notification/model";
 import { useMutation } from "@tanstack/react-query";
 import { App } from "antd";
 

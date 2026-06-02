@@ -1,6 +1,6 @@
 'use client'
 
-import { DocsImgPreiewModalProps } from "@/entities/owner/re-store/model/types"
+import { DocsImgPreiewModalProps } from "@/entities/owner/re-store/model"
 import { Modal } from "antd"
 import Image from "next/image"
 

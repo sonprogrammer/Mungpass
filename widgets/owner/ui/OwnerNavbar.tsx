@@ -8,12 +8,11 @@ import {
     BarChart3,
     QrCode,
 } from "lucide-react"
-import { NavItem } from "@/widgets/owner/ui/NavItem"
+import { NavItem, QrModal } from "@/widgets/owner/ui"
 import { useCallback, useMemo, useState } from "react"
-import { useGetShopInfo } from "@/entities/owner/model/useGetShopInfo"
-import QrModal from "@/widgets/owner/ui/QrModal"
+import { useGetShopInfo, useOwnerStoreStatus } from "@/entities/owner/model"
 import { useGetProducts } from "@/features/owner/my-store/product/model/useGetProducts"
-import { useOwnerStoreStatus } from "@/entities/owner/model/useOwnerStoreStatus"
+
 
 
 

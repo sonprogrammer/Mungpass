@@ -1,7 +1,7 @@
 'use client'
 
-import { useTimer } from "@/entities/check-in/lib/useTimer"
-import { MyPetUsageAllInfo } from "@/features/qr/model/types"
+import { useTimer } from "@/entities/check-in/lib"
+import { MyPetUsageAllInfo } from "@/features/qr/model"
 import { format } from "date-fns"
 import { motion } from "framer-motion"
 import { AlertCircle, Clock, Wallet } from "lucide-react"

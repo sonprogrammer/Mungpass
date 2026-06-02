@@ -1,5 +1,5 @@
 import { create } from 'zustand';
-import { Notification } from '@/entities/notification/model/types'
+import { Notification } from '@/entities/notification/model'
 
 interface NotificationStore {
   notifications: Notification[]

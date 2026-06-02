@@ -1,3 +1,4 @@
+'use client'
 
 import { useFormStatus } from 'react-dom';
 import { ArrowRight, Loader2 } from 'lucide-react';

@@ -1,7 +1,7 @@
 'use client'
 
-import { ProductCard } from "@/entities/owner/product/ui/ProductCard"
-import { ProductWithCategory } from "@/features/owner/my-store/product/model/types"
+import { ProductCard } from "@/entities/owner/product/ui"
+import { ProductWithCategory } from "@/features/owner/my-store/product/model"
 import { Empty } from "antd"
 import { useState } from "react"
 

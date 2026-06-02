@@ -1,6 +1,7 @@
 'use client'
 
-import { InquiryMessage } from "@/entities/admin/inquiry/model/types";
+
+import { InquiryMessage } from "@/entities/inquiry/model";
 import { supabaseClient } from "@/shared/api/supabase/client"
 import { useQueryClient } from "@tanstack/react-query";
 import { useEffect } from "react"

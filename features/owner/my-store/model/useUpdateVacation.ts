@@ -1,5 +1,5 @@
-import { updateVacation } from "@/features/owner/my-store/api/updateVacation";
-import { UpdateVacationToServer } from "@/features/owner/my-store/model/types";
+import { updateVacation } from "@/features/owner/my-store/api";
+import { UpdateVacationToServer } from "@/features/owner/my-store/model";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { App } from "antd";
 

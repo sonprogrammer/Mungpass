@@ -1,9 +1,8 @@
 'use client'
 
-import { ProfileCard } from '@/entities/user/ui/ProfileCard';
-import { MyPageMenu } from '@/widgets/mypage/ui/MyPageMenu';
-import { MyPageFooter } from '@/widgets/mypage/ui/MyPageFooter';
-import { useUserStore } from '@/entities/user/model/useUserStore';
+import { ProfileCard } from '@/entities/user/ui';
+import { MyPageMenu, MyPageFooter } from '@/widgets/mypage/ui';
+import { useUserStore } from '@/entities/user/model';
 
 export function MyPageWidget() {
   const profile = useUserStore(state => state.profile)

@@ -1,4 +1,4 @@
-import { getVacation } from "@/features/owner/my-store/api/getVacation";
+import { getVacation } from "@/features/owner/my-store/api";
 import { useQuery } from "@tanstack/react-query";
 
 export function useGetVacation(shopId: string) {

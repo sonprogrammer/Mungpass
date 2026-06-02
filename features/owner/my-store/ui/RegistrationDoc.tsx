@@ -3,7 +3,7 @@ import { useMemo } from 'react';
 import { format } from 'date-fns';
 import { FileText } from "lucide-react";
 import { Button, Tag, Tooltip } from "antd";
-import { RegistrationDocProps } from '@/entities/owner/my-shop/model/types';
+import { RegistrationDocProps } from '@/entities/owner/my-shop/model';
 
 
 export function RegistrationDoc({ regisData, currentStatus, handleOpenDocs }: RegistrationDocProps) {

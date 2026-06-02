@@ -1,7 +1,7 @@
 'use client'
 
-import { ProductWithCategory } from "@/features/owner/my-store/product/model/types"
-import { AlertCircle, ChevronRight, Clock } from "lucide-react"
+import { ProductWithCategory } from "@/features/owner/my-store/product/model"
+import { AlertCircle, Clock } from "lucide-react"
 
 interface ProductListItem {
     product: ProductWithCategory

@@ -1,4 +1,4 @@
-import { sendInquiryMsg } from "@/entities/inquiry/api/sendInquiryMsg";
+import { sendInquiryMsg } from "@/entities/inquiry/api";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { App } from "antd";
 

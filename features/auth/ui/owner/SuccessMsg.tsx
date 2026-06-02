@@ -1,3 +1,5 @@
+'use client'
+
 import { Check, Clock } from "lucide-react";
 
 export function SuccessMsg() {

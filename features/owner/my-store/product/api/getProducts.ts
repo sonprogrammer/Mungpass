@@ -1,4 +1,4 @@
-import { ProductWithCategory } from '@/features/owner/my-store/product/model/types';
+import { ProductWithCategory } from '@/features/owner/my-store/product/model';
 import { supabaseClient } from '@/shared/api/supabase/client';
 
 export const getProducts = async(shopId: string):Promise<ProductWithCategory[]> => {

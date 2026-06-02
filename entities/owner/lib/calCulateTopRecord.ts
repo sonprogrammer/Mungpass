@@ -1,4 +1,4 @@
-import { DailySalesData } from "@/entities/owner/model/types"
+import { DailySalesData } from "@/entities/owner/model"
 
 export const calCulateTopRecord = (dailySalesData: DailySalesData[]) => {
     if(!dailySalesData || dailySalesData.length === 0){

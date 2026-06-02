@@ -1,18 +1,11 @@
 'use client'
 
-import { ProductCategory, ProductWithCategory } from "@/features/owner/my-store/product/model/types"
-import { useGetProductCategories } from "@/features/owner/my-store/product/model/useGetProductCategories"
-import { useGetProducts } from "@/features/owner/my-store/product/model/useGetProducts"
+import { KioskProductSkeleton, ProductListItem } from "@/features/owner/kiosk/ui"
+import { ProductCategory, ProductWithCategory, useGetProductCategories, useGetProducts } from "@/features/owner/my-store/product/model"
+import { KioskCategoryNav, KioskExit, KioskHeader, KioskProductEmptyView, KioskQrSection } from "@/widgets/owner/kiosk/ui"
 import { App} from "antd"
 import { useParams } from "next/navigation"
 import { useEffect, useMemo, useState } from "react"
-import { KioskProductSkeleton } from "@/features/owner/kiosk/ui/KioskProductSkeleton"
-import { ProductListItem } from "@/features/owner/kiosk/ui/ProductListItem"
-import { KioskHeader } from "@/widgets/owner/kiosk/ui/KioskHeader"
-import { KioskCategoryNav } from "@/widgets/owner/kiosk/ui/KioskCategoryNav"
-import { KioskQrSection } from "@/widgets/owner/kiosk/ui/KioskQrSection"
-import { KioskProductEmptyView } from "@/widgets/owner/kiosk/ui/KioskProductEmptyView"
-import { KioskExit } from "@/widgets/owner/kiosk/ui/KioskExit"
 
 
 export function KioskWidget() {

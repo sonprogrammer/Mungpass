@@ -1,5 +1,4 @@
-
-import { StatsPageWidget } from '@/widgets/owner/stats/ui/StatsPageWidget'
+import { StatsPageWidget } from "@/widgets/owner/stats/ui";
 
 
 export default function StatsPage() {

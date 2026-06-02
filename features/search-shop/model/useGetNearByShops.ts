@@ -1,7 +1,7 @@
 'use client'
 
-import { fetchNearByShops } from "@/features/search-shop/api/fetchNearByShops"
-import { Bound } from "@/shared/model/map"
+import { fetchNearByShops } from "@/features/search-shop/api"
+import { Bound } from "@/shared/model"
 import { useQuery } from "@tanstack/react-query"
 
 

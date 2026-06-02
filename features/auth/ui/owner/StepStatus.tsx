@@ -1,4 +1,6 @@
-import { StepStatusProps } from "@/features/auth/model/types";
+'use client'
+
+import { StepStatusProps } from "@/features/auth/model";
 import { Check, X } from "lucide-react";
 
 export function StepStatus({ title, desc, done, active, isError, date }: StepStatusProps) {

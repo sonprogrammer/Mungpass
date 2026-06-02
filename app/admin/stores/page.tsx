@@ -1,7 +1,4 @@
-
-import { AdminStoreManagePageWidget } from "@/widgets/admin/ui/AdminStoreManagePageWidget";
-
-
+import { AdminStoreManagePageWidget } from "@/widgets/admin/ui";
 
 export default function StoreRegistrationListPage() {
   

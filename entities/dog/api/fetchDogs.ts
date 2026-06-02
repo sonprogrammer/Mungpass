@@ -1,4 +1,5 @@
-import { Dog } from "@/entities/dog/model/types";
+
+import { Dog } from "@/entities/dog/model";
 import { supabaseClient } from "@/shared/api/supabase/client";
 
 export async function fetchDogs (userId: string): Promise<Dog[]> {

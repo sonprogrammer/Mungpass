@@ -1,4 +1,5 @@
-import { updateInquiryRoomStatus } from "@/entities/admin/inquiry/api/updateInquiryRoomStatus";
+
+import { updateInquiryRoomStatus } from "@/entities/admin/inquiry/api";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 export function useUpdateInquiryRoomStatus() {

@@ -1,4 +1,4 @@
-import { CustomTooltipProps } from '@/features/owner/stats/model/types';
+import { CustomTooltipProps } from '@/features/owner/stats/model';
 import { format } from 'date-fns';
 
 export const CustomTooltip = ({ active, payload, tab }: CustomTooltipProps) => {

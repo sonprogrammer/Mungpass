@@ -1,6 +1,6 @@
 'use client'
 
-import { StoreScheduleInfoProps } from "@/features/user/shopInfo/model/types";
+import { StoreScheduleInfoProps } from "@/features/user/shopInfo/model";
 import { CalendarDays, X } from "lucide-react";
 import { motion } from "framer-motion";
 

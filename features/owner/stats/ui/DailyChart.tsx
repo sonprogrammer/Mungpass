@@ -3,12 +3,12 @@
 import { motion } from 'framer-motion'
 import { Segmented } from 'antd';
 import { BarChart3, Calendar } from 'lucide-react';
-import { DailyChartProps } from '@/features/owner/stats/model/types';
-import DailyStatsChart from '@/features/owner/stats/ui/DailyStatsChart';
-import MonthlyStatsChart from '@/features/owner/stats/ui/MonthlyStatsChart';
 import { useMemo, useState } from 'react';
 import { addDays, addYears, format, subDays, subYears } from 'date-fns';
-import { useGetDailyChart } from '@/entities/owner/model/useGetDailyChart';
+import { DailyChartProps } from '@/features/owner/stats/model';
+import { useGetDailyChart } from '@/entities/owner/model';
+import { DailyStatsChart, MonthlyStatsChart } from '@/features/owner/stats/ui';
+
 
 
 export function DailyChart({ tab, setTab, isVerified, shopId }: DailyChartProps) {

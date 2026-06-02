@@ -1,4 +1,4 @@
-import { deleteNotice } from "@/features/owner/my-store/notices/api/deleteNotice";
+import { deleteNotice } from "@/features/owner/my-store/notices/api";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { App } from "antd";
 

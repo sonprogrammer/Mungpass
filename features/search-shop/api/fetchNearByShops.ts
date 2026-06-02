@@ -1,6 +1,6 @@
-import { FetchShopsRes } from "@/features/search-shop/model/types"
-import { Bound, Coords, KakaoPlace } from "@/shared/model/map"
-import { getCenterFromBound } from "@/shared/utils/map"
+import { FetchShopsRes } from "@/features/search-shop/model"
+import { Bound, Coords, KakaoPlace } from "@/shared/model"
+import { getCenterFromBound } from "@/shared/utils"
 
 export const fetchNearByShops = (radius: number, newBound?: Bound | null): Promise<FetchShopsRes> => {
     return new Promise((resolve, reject) => {

@@ -1,9 +1,9 @@
 'use client'
 
-import { useOwnerStoreStatus } from "@/entities/owner/model/useOwnerStoreStatus"
-import { useUserStore } from "@/entities/user/model/useUserStore"
-import { useGetOwnerHasStoreStatus } from "@/features/owner/model/useGetOwnerHasStoreStatus"
-import { LoadingToStoreRegister } from "@/features/owner/ui/LoadingToStoreRegister"
+import { useOwnerStoreStatus } from "@/entities/owner/model"
+import { useUserStore } from "@/entities/user/model"
+import { useGetOwnerHasStoreStatus } from "@/features/owner/model"
+import { LoadingToStoreRegister } from "@/features/owner/ui"
 import { ShopOutlined } from "@ant-design/icons"
 import { App, Button, Modal } from "antd"
 import { usePathname, useRouter } from "next/navigation"

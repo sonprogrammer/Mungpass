@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { X, MessageSquare, Smartphone, ArrowRight } from 'lucide-react';
 
 export default function AuthModal({ onClose, onAuthSuccess }: { onClose: () => void, onAuthSuccess: () => void }) {

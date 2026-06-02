@@ -1,5 +1,5 @@
-import { getDailySalesForChart } from "@/entities/owner/api/getDailySalesForChart";
-import { useOwnerStoreStatus } from "@/entities/owner/model/useOwnerStoreStatus";
+import { getDailySalesForChart } from "@/entities/owner/api";
+import { useOwnerStoreStatus } from "@/entities/owner/model";
 import { useQuery } from "@tanstack/react-query";
 
 export function useGetDailyChart(shopId: string, start: string, end: string) {

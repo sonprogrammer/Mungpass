@@ -1,6 +1,6 @@
 'use client'
 
-import { SignupFieldsProps } from "@/features/auth/model/types";
+import { SignupFieldsProps } from "@/features/auth/model";
 import { CheckCircle2, Smartphone, User, Lock, Mail, Bone, Loader2, AlertCircle, ShieldX } from "lucide-react";
 
 

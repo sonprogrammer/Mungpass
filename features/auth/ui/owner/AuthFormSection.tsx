@@ -1,11 +1,8 @@
 'use client'
 
-import { useUserStore } from "@/entities/user/model/useUserStore"
-import { useAuthForm } from "@/features/auth/model/useAuthForm"
-import { LoginForm } from "@/features/auth/ui/LoginForm"
-import { RoleTab } from "@/features/auth/ui/RoleTab"
-import { SocialLogin } from "@/features/auth/ui/SocialLogin"
-import { SubmitButton } from "@/features/auth/ui/SubmitButton"
+import { useUserStore } from "@/entities/user/model"
+import { useAuthForm } from "@/features/auth/model"
+import { LoginForm, RoleTab, SocialLogin, SubmitButton } from "@/features/auth/ui"
 import { ChevronDown, Store } from "lucide-react"
 import Link from "next/link"
 import { useState } from "react"

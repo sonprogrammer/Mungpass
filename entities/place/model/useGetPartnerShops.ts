@@ -1,5 +1,5 @@
-import { getPartnerShops } from "@/entities/place/api/getPartnerShops";
-import { KakaoPlace } from "@/shared/model/map";
+import { getPartnerShops } from "@/entities/place/api";
+import { KakaoPlace } from "@/shared/model";
 import { useQuery } from "@tanstack/react-query";
 
 export function useGetPartnerShops(places: KakaoPlace[]){

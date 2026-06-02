@@ -1,5 +1,5 @@
 import { supabaseClient } from '@/shared/api/supabase/client';
-import { KakaoPlace } from '@/shared/model/map';
+import { KakaoPlace } from '@/shared/model';
 
 
 

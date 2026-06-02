@@ -4,14 +4,14 @@
 
 
 
-import { DogCard } from "@/entities/dog/ui/DogCard"
-import { useDogStore } from "@/entities/dog/model/types"
+import { DogCard } from "@/entities/dog/ui"
+import { useDogStore } from "@/entities/dog/model"
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Pagination } from 'swiper/modules';
 import 'swiper/css';
 import 'swiper/css/pagination';
-import { useGetMyDogs } from "@/features/dog/model/useGetMyDogs"
-import { MyDogWidgetProps } from "@/widgets/home/model/types";
+import { useGetMyDogs } from "@/features/dog/model"
+import { MyDogWidgetProps } from "@/widgets/home/model";
 
 
 export function MyDogWidget({dogPostModal, dogViewModal}:MyDogWidgetProps) {

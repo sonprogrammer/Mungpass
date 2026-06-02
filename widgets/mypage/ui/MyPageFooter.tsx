@@ -1,5 +1,5 @@
-import { UserProfile } from "@/entities/user/model/useUserStore";
-import { LogoutBtn } from "@/features/auth/ui/LogoutBtn";
+import { UserProfile } from "@/entities/user/model";
+import { LogoutBtn } from "@/features/auth/ui";
 
 export function MyPageFooter({user}: {user: UserProfile|null}) {
     return(

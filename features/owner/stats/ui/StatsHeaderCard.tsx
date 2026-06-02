@@ -1,7 +1,7 @@
 'use client'
 
-import { useGetMonths } from "@/entities/owner/model/useGetMonths"
-import { StatsHeaderCardProps } from "@/features/owner/stats/model/types"
+import { useGetMonths } from "@/entities/owner/model"
+import { StatsHeaderCardProps } from "@/features/owner/stats/model"
 import { Button, Select } from "antd"
 import { BarChart3, CalendarDays } from "lucide-react"
 import { useMemo } from "react"

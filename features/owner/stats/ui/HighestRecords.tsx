@@ -1,4 +1,4 @@
-import { HighestRecordsProps } from "@/features/owner/stats/model/types";
+import { HighestRecordsProps } from "@/features/owner/stats/model";
 
 
 

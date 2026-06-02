@@ -1,7 +1,6 @@
 'use client'
 
-import { StoreNoticeModalProps } from "@/features/owner/my-store/notices/model/types"
-import { useSaveNotice } from "@/features/owner/my-store/notices/model/useSaveNotice"
+import { StoreNoticeModalProps, useSaveNotice } from "@/features/owner/my-store/notices/model"
 import { App, Button, Divider, Form, Input, Modal, Switch } from "antd"
 import { Save, X } from "lucide-react"
 import { useEffect } from "react"

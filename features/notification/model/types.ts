@@ -1,4 +1,4 @@
-interface useRealTimeNotificationProps{
+export interface useRealTimeNotificationProps{
     userId? : string
     shopId?: string;
 }

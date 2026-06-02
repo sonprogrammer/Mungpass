@@ -1,7 +1,7 @@
 'use client'
 
-import { useGetMonthlySalesData } from "@/entities/owner/model/useGetMonthlySalesData"
-import { CustomTooltip } from "@/features/owner/stats/ui/CustomTooltip"
+import { useGetMonthlySalesData } from "@/entities/owner/model"
+import { CustomTooltip } from "@/features/owner/stats/ui"
 import { format } from "date-fns"
 import { memo, useMemo} from "react"
 import { Bar, BarChart, CartesianGrid, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts"
@@ -15,7 +15,7 @@ interface MonthlyStatsChartProps {
     now: Date
 }
 
-function MonthlyStatsChart({ shopId, handleNextYear, handlePrevYear, isNextDisabledYear, currentYearStr, now }: MonthlyStatsChartProps) {
+function MonthlyStatsChartInner({ shopId, handleNextYear, handlePrevYear, isNextDisabledYear, currentYearStr, now }: MonthlyStatsChartProps) {
     
 
     
@@ -95,4 +95,4 @@ function MonthlyStatsChart({ shopId, handleNextYear, handlePrevYear, isNextDisab
 
 }
 
-export default memo(MonthlyStatsChart)
+export const MonthlyStatsChart = memo(MonthlyStatsChartInner)

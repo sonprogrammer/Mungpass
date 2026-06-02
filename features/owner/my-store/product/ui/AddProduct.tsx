@@ -1,9 +1,6 @@
 'use client'
 
-import { ProductSubmitData } from "@/features/owner/my-store/product/model/types";
-import { useDeleteProductCategory } from "@/features/owner/my-store/product/model/useDeleteProductCategory";
-import { useGetProductCategories } from "@/features/owner/my-store/product/model/useGetProductCategories";
-import { usePostProductCategory } from "@/features/owner/my-store/product/model/usePostProductCategory";
+import { ProductSubmitData, useDeleteProductCategory, useGetProductCategories, usePostProductCategory } from "@/features/owner/my-store/product/model";
 import { App, Button, Divider, Form, FormInstance, Input, InputNumber, Modal, Select, Space, Typography} from "antd";
 import { HelpCircle, AlarmClockCheck, Save, ChevronLeft, CircleDollarSign, LayoutGrid, Plus, X  } from "lucide-react";
 import { useState } from "react";

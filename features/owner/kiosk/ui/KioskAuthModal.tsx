@@ -1,6 +1,6 @@
 'use client'
 
-import { verifyKioskPin } from "@/entities/owner/kiosk/api/verifyKioskPin"
+import { verifyKioskPin } from "@/entities/owner/kiosk/api";
 import { App, Input, Modal } from "antd"
 import { useState } from "react"
 

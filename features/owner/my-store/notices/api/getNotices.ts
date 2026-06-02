@@ -1,4 +1,4 @@
-import { NoticeFromDb } from "@/features/owner/my-store/notices/model/types";
+import { NoticeFromDb } from "@/features/owner/my-store/notices/model";
 import { supabaseClient } from "@/shared/api/supabase/client";
 
 export const getNotices = async(shopId: string):Promise<NoticeFromDb[]> => {

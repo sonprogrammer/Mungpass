@@ -1,5 +1,5 @@
+import { saveNotice } from "@/features/owner/my-store/notices/api";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { saveNotice } from "../api/saveNotice";
 import { App } from "antd";
 
 

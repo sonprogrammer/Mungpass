@@ -1,6 +1,4 @@
-
-import { UsageWidget } from "@/widgets/owner/ui/OwnerUsageWidget";
-
+import { UsageWidget } from "@/widgets/owner/ui";
 
 export default function UsagePage() {
 

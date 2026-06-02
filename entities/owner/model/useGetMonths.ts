@@ -1,5 +1,5 @@
-import { getMonths } from "@/entities/owner/api/getMonths";
-import { useOwnerStoreStatus } from "@/entities/owner/model/useOwnerStoreStatus";
+import { getMonths } from "@/entities/owner/api";
+import { useOwnerStoreStatus } from "@/entities/owner/model";
 import { useQuery } from "@tanstack/react-query";
 
 

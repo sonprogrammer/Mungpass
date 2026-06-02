@@ -2,8 +2,8 @@
 
 import { ChevronLeft, Save } from 'lucide-react'
 import { Button, TimePicker, Form, Switch } from 'antd'
-import { DAYS } from '../lib/DAYS'
-import {  StoreTimeEditViewProps } from '@/features/owner/my-store/model/types'
+import {  StoreTimeEditViewProps } from '@/features/owner/my-store/model'
+import { DAYS } from '@/features/owner/my-store/lib'
 
 
 

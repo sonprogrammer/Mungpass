@@ -1,15 +1,13 @@
 'use client'
 import { useState } from 'react';
-import { BottomSheet } from "@/shared/ui/place/BottomSheet";
 
 import { Button, Form } from 'antd';
 import {  Plus } from 'lucide-react';
-import { ProductList } from '@/entities/owner/product/ui/ProductList';
-import { AddProduct } from '@/features/owner/my-store/product/ui/AddProduct'
-import { useGetProducts } from '@/features/owner/my-store/product/model/useGetProducts';
-import { ProductSubmitData } from '@/features/owner/my-store/product/model/types';
-import { usePostProduct } from '@/features/owner/my-store/product/model/usePostProduct';
-import { useDeleteProduct } from '@/features/owner/my-store/product/model/useDeleteProduct';
+import { ProductSubmitData, useDeleteProduct, useGetProducts, usePostProduct } from '@/features/owner/my-store/product/model';
+import { BottomSheet } from '@/shared/ui/place';
+import { AddProduct } from '@/features/owner/my-store/product/ui';
+import { ProductList } from '@/entities/owner/product/ui';
+
 
 export function ProductManageBottomSheet({ open, onClose, shopId }: { open: boolean, onClose: () => void, shopId: string }) {
     const [form] = Form.useForm()

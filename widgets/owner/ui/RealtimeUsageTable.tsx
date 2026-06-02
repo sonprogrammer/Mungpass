@@ -16,12 +16,11 @@ import {
 } from '@ant-design/icons';
 import dayjs from 'dayjs';
 import customParseFormat from 'dayjs/plugin/customParseFormat';
-import { CurrentLogItem } from '@/entities/owner/ui/CurrentLogItem';
+import { CurrentLogItem,CurrentLogDetailModal } from '@/entities/owner/ui';
 import { useState } from 'react';
-import { CurrentLogDetailModal } from '@/entities/owner/ui/CurrentLogDetailModal';
-import { ConfirmModal } from '@/shared/ui/ConfirmModal';
-import { CurrentUsageLog } from '@/entities/check-in/model/types';
-import { usePostCheckout } from '@/features/qr/owner/model/usePostCheckout';
+import { ConfirmModal } from '@/shared/ui';
+import { CurrentUsageLog } from '@/entities/check-in/model';
+import { usePostCheckout } from '@/features/qr/owner/model';
 
 
 dayjs.extend(customParseFormat)

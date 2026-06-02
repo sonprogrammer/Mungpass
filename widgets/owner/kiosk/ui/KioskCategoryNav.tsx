@@ -1,8 +1,8 @@
 'use client'
 
 import { Button } from "antd"
-import { ProductCategory } from "@/features/owner/my-store/product/model/types"
-import { KioskCategorySkeleton } from "@/features/owner/kiosk/ui/KioskCategorySkeloton"
+import { ProductCategory } from "@/features/owner/my-store/product/model"
+import { KioskCategorySkeleton } from "@/features/owner/kiosk/ui"
 
 interface Props {
     categories: ProductCategory[]

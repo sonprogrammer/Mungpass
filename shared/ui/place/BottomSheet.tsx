@@ -1,6 +1,6 @@
 'use client'
 
-import { BottomSheetProps } from "@/shared/model/place"
+import { BottomSheetProps } from "@/shared/model"
 import { useEffect, useState} from "react"
 import { createPortal } from "react-dom";
 

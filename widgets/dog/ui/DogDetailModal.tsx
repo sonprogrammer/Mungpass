@@ -1,18 +1,15 @@
 'use client'
 
-import { useDogStore } from "@/entities/dog/model/types"
-import { useUserStore } from "@/entities/user/model/useUserStore"
-import { useImageUpload } from "@/features/dog/lib/useImageUpload"
-import { DogDetailModalProps, DogRegisterForm } from "@/features/dog/model/types"
-import { useUpdateMyDogs } from "@/features/dog/model/useUpdateMyDogs"
-import { DogFormFields } from "@/features/dog/ui/DogFormFields"
+import { useDogStore } from "@/entities/dog/model"
+import { useUserStore } from "@/entities/user/model"
+import { useImageUpload } from "@/features/dog/lib"
+import { DogDetailModalProps, DogRegisterForm, useDeleteDog, useGetMyDogs, useRegisterPrimaryDog, useUpdateMyDogs } from "@/features/dog/model"
+import { DogFormFields } from "@/features/dog/ui"
+import { ConfirmModal } from "@/shared/ui"
+import { DogInfoView } from "@/widgets/dog/ui"
 import { Ellipsis, X } from "lucide-react"
 import { useCallback, useState } from "react"
-import { useDeleteDog } from "@/features/dog/model/useDeleteDog"
-import { useRegisterPrimaryDog } from "@/features/dog/model/useRegisterPrimaryDog"
-import { useGetMyDogs } from "@/features/dog/model/useGetMyDogs"
-import { ConfirmModal } from "@/shared/ui/ConfirmModal"
-import DogInfoView from "@/widgets/dog/ui/DogInfoView"
+
 
 export function DogDetailModal({ isOpen, onClose, directEditMode }: DogDetailModalProps) {
     const [isEdit, setIsEdit] = useState<boolean>(!!directEditMode)

@@ -1,16 +1,9 @@
 'use client'
 
 import { Col, Row } from 'antd';
-import { OwnerSumCards } from '@/widgets/owner/ui/OwnerSumCards';
-import { RealtimeUsageTable } from '@/widgets/owner/ui/RealtimeUsageTable';
-import { Tip } from '@/widgets/owner/ui/Tip';
-import { useGetCurrentUsageLogs } from '@/entities/check-in/model/useGetCurrentUsageLogs';
-import { useGetTodayVisitCount } from '@/entities/check-in/model/useGetTodayVisitCount';
-import { useGetAvgTime } from '@/entities/owner/model/useGetAvgTime';
-import { useGetShopInfo } from '@/entities/owner/model/useGetShopInfo';
-import { useGetExpectedSales } from '@/entities/owner/model/useGetExpectedSales';
-import { useOwnerStoreStatus } from '@/entities/owner/model/useOwnerStoreStatus';
-import { useRealTimeUsage } from '@/entities/check-in/model/useRealTimeUsage';
+import { OwnerSumCards, Tip, RealtimeUsageTable } from '@/widgets/owner/ui';
+import { useGetCurrentUsageLogs, useGetTodayVisitCount, useRealTimeUsage } from '@/entities/check-in/model';
+import { useGetAvgTime, useGetShopInfo, useGetExpectedSales, useOwnerStoreStatus } from '@/entities/owner/model';
 
 
 export function OwnerMainPageWidget() {

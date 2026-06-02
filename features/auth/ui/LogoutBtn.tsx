@@ -1,8 +1,8 @@
 'use client'
 
-import { useUserStore } from "@/entities/user/model/useUserStore"
-import { cookieLogout } from "@/features/auth/api/logoutAction"
-import { ConfirmModal } from "@/shared/ui/ConfirmModal"
+import { useUserStore } from "@/entities/user/model"
+import { cookieLogout } from "@/features/auth/api"
+import { ConfirmModal } from "@/shared/ui"
 import { LogOut } from "lucide-react"
 import { useState } from "react"
 

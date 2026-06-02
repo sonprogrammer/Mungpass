@@ -1,4 +1,4 @@
-import { checkStoreExists } from "@/features/auth/api/checkStoreExists";
+import { checkStoreExists } from "@/features/auth/api";
 import { useQuery } from "@tanstack/react-query";
 
 export function useCheckStoreExists(kakaoPlaceId: string, ownerId: string) {

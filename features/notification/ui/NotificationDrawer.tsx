@@ -1,15 +1,9 @@
 'use client';
 
-import { useGetInquiryUserNoti } from '@/entities/inquiry/model/useGetInquiryUserNoti';
-import { deleteAllInquiryNoti } from '@/features/notification/api/deleteAllInquiryNoti';
-import { readAllNotifications } from '@/features/notification/api/readAllNotifications';
-import { readInquiryNoti } from '@/features/notification/api/readInquiryNoti';
-import { readNotification } from '@/features/notification/api/readNotification';
-import { useDeleteAllNotifications } from '@/features/notification/model/useDeleteAllNotifications';
-import { useDeleteInquiryNoti } from '@/features/notification/model/useDeleteInquiryNoti';
-import { useDeleteNotification } from '@/features/notification/model/useDeleteNotification';
-import { useNotificationStore } from '@/features/notification/model/useNotificationStore';
-import { formatTime } from '@/shared/utils/formatDate';
+import { useGetInquiryUserNoti } from '@/entities/inquiry/model';
+import { deleteAllInquiryNoti, readAllNotifications, readInquiryNoti, readNotification } from '@/features/notification/api';
+import { useDeleteAllNotifications, useDeleteInquiryNoti, useDeleteNotification, useNotificationStore } from '@/features/notification/model';
+import { formatTime } from '@/shared/utils';
 import { App } from 'antd';
 import { X, Clock, Calendar, Info, Trash2 } from 'lucide-react';
 
@@ -32,7 +26,7 @@ interface UnifiedNotification {
   created_at: string;
 }
 
-export default function NotificationDrawer({ isOpen, onClose, userId, shopId }: NotificationDrawerProps) {
+export function NotificationDrawer({ isOpen, onClose, userId, shopId }: NotificationDrawerProps) {
 
   // * 체크인 체크아웃알림
   const { notifications, markAllAsRead, markAsRead } = useNotificationStore()

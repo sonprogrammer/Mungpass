@@ -1,6 +1,6 @@
-// TODO 현재 안쓰고 있음
+import { EditDogBtnProps } from "@/features/dog/model"
 
-import { EditDogBtnProps } from "@/features/dog/model/types";
+// TODO 현재 안쓰고 있음
 
 export function EditDogBtn({onClick}: EditDogBtnProps) {
     return(

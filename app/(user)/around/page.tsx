@@ -1,6 +1,6 @@
-import { KakaoScriptProvider } from "@/shared/ui/map/KakaoScriptProvider";
-import { AroundAllContent } from "@/widgets/around/ui/AroundAllContent";
-import { MapLoading } from "@/widgets/around/ui/MapLoading";
+import { KakaoScriptProvider } from "@/shared/ui/map";
+import { AroundAllContent, MapLoading } from "@/widgets/around/ui";
+
 
 
 export default function AroundPage() {

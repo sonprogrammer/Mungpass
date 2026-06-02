@@ -3,18 +3,17 @@
 import { Bell, Monitor } from "lucide-react";
 import Link from "next/link";
 import { useState } from "react";
-import NotificationDrawer from '@/features/notification/ui/NotificationDrawer'
-import { useNotificationStore } from "@/features/notification/model/useNotificationStore";
 import { useRouter } from "next/navigation";
-import { useRealTimeNotification } from "@/features/notification/model/useRealTimeNotification";
-import { useGetOwnerHasStoreStatus } from "@/features/owner/model/useGetOwnerHasStoreStatus";
 import Image from "next/image";
-import { useInquiryRealTimeNoti } from "@/entities/inquiry/model/useInquiryRealTimeNoti";
-import { useUserStore } from "@/entities/user/model/useUserStore";
-import { useGetInquiryUserNoti } from "@/entities/inquiry/model/useGetInquiryUserNoti";
+import { useGetOwnerHasStoreStatus } from "@/features/owner/model";
+import { useUserStore } from "@/entities/user/model";
+import { useNotificationStore, useRealTimeNotification } from "@/features/notification/model";
+import { useGetInquiryUserNoti, useInquiryRealTimeNoti } from "@/entities/inquiry/model";
+import { NotificationDrawer } from "@/features/notification/ui";
 
 
-export default function OwnerHeader() {
+
+export function OwnerHeader() {
   const router = useRouter()
   const [isBellOpen, setIsBellOpen] = useState(false)
 

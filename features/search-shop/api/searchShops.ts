@@ -1,4 +1,4 @@
-import { KakaoPlace } from "@/shared/model/map";
+import { KakaoPlace } from "@/shared/model";
 
 export const searchShops = (keyword: string): Promise<KakaoPlace[]> => {
     return new Promise((resolve, reject) => {

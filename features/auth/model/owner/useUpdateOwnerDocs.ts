@@ -1,6 +1,5 @@
-
-import { updateOwnerDocs } from "@/features/auth/api/updateOwnerDocs";
-import { useStoreRegistrationStore } from "@/features/auth/model/owner/useStoreRegistStore";
+import { updateOwnerDocs } from "@/features/auth/api";
+import { useStoreRegistrationStore } from "@/features/auth/model/owner";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { App } from "antd";
 import { useRouter } from "next/navigation";

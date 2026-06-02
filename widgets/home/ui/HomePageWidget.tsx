@@ -1,16 +1,14 @@
 'use client'
 
-import { useDogStore } from "@/entities/dog/model/types";
-import { useUserStore } from "@/entities/user/model/useUserStore";
-import { useGetMyDogs } from "@/features/dog/model/useGetMyDogs";
-
-import { DogFormModal } from "@/features/dog/ui/DogFormModal";
-import { KakaoScriptProvider } from "@/shared/ui/map/KakaoScriptProvider";
-import { MapLoading } from "@/widgets/around/ui/MapLoading";
-import { DogDetailModal } from "@/widgets/dog/ui/DogDetailModal";
-
-import { MyDogWidget } from "@/widgets/home/dog/ui/MyDogWidget";
-import { GreetMessage, QrCheckIn, Menu, NearByPlace } from "@/widgets/home/ui";
+import { useDogStore } from "@/entities/dog/model";
+import { useUserStore } from "@/entities/user/model";
+import { useGetMyDogs } from "@/features/dog/model";
+import { DogFormModal } from "@/features/dog/ui";
+import { KakaoScriptProvider } from "@/shared/ui/map";
+import { MapLoading } from "@/widgets/around/ui";
+import { DogDetailModal } from "@/widgets/dog/ui";
+import { MyDogWidget } from "@/widgets/home/dog/ui";
+import { GreetMessage, Menu, NearByPlace, QrCheckIn } from "@/widgets/home/ui";
 import { HomeSkeleton } from "@/widgets/home/ui/HomeSkeleton";
 import { useState } from "react";
 

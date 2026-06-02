@@ -1,8 +1,7 @@
 'use client'
 
-import { DogFormModalProps, DogRegisterForm } from "@/features/dog/model/types"
-import { useRegisterDog } from "@/features/dog/model/useRegisterDog"
-import { DogFormFields } from "@/features/dog/ui/DogFormFields"
+import { DogFormModalProps, DogRegisterForm, useRegisterDog } from "@/features/dog/model"
+import { DogFormFields } from "@/features/dog/ui"
 import { App } from "antd"
 import { X } from "lucide-react"
 import { useRef, useState } from "react"

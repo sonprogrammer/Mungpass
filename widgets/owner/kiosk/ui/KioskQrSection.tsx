@@ -2,7 +2,7 @@
 
 import { AlertCircle, ChevronLeft } from "lucide-react"
 import { QRCodeSVG } from "qrcode.react"
-import { ProductWithCategory } from "@/features/owner/my-store/product/model/types"
+import { ProductWithCategory } from "@/features/owner/my-store/product/model"
 
 interface Props {
     product: ProductWithCategory

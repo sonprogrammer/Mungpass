@@ -1,4 +1,5 @@
-import { CreatedInquiryRoomParams, InquiryRoom } from "@/entities/inquiry/model/types";
+
+import { CreatedInquiryRoomParams, InquiryRoom } from "@/entities/inquiry/model";
 import { supabaseClient } from "@/shared/api/supabase/client";
 
 export const createInquiryRoom = async(roomData: CreatedInquiryRoomParams):Promise<InquiryRoom> =>{

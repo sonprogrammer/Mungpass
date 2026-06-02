@@ -3,14 +3,10 @@
 import { useState } from 'react'
 import { Megaphone, Edit3, AlertCircle, EyeOff, Trash2 } from 'lucide-react'
 import { Button, Empty, App, Switch } from 'antd'
-import { useGetNotices } from '../model/useGetNotices'
 import { format } from 'date-fns'
-import { formatTime } from '@/shared/utils/formatDate'
-import { StoreNoticeModal } from '@/features/owner/my-store/notices/ui/StoreNoticeModal'
-import { useSaveNotice } from '@/features/owner/my-store/notices/model/useSaveNotice'
-import { NoticeType } from '@/features/owner/my-store/notices/model/types'
-import { StoreNoticeDeleteCheckModal } from '@/features/owner/my-store/notices/ui/StoreNoticeDeleteCheckModal'
-
+import { NoticeType, useGetNotices, useSaveNotice } from '@/features/owner/my-store/notices/model'
+import { formatTime } from '@/shared/utils'
+import { StoreNoticeDeleteCheckModal, StoreNoticeModal } from '@/features/owner/my-store/notices/ui'
 
 
 export function StoreNoticeCard({ shopId }: { shopId: string }) {

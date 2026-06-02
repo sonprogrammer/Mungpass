@@ -1,4 +1,5 @@
-import { GetInquiryRoomParams, InquiryRoom } from "@/entities/inquiry/model/types";
+
+import { GetInquiryRoomParams, InquiryRoom } from "@/entities/inquiry/model";
 import { supabaseClient } from "@/shared/api/supabase/client";
 
 

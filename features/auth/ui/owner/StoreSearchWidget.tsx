@@ -1,11 +1,11 @@
 'use client'
 
-import { StoreSearchWidgetProps } from "@/features/auth/model/types"
+import { StoreSearchWidgetProps } from "@/features/auth/model"
 import { Search, X } from "lucide-react"
 import { memo, useState } from "react"
 
 
-function StoreSearchWidget({ handleKeywordChange }: StoreSearchWidgetProps) {
+function StoreSearchWidgetInner({ handleKeywordChange }: StoreSearchWidgetProps) {
     const [localValue, setLocalValue] = useState('')
 
     const handleSearch = () => {
@@ -47,4 +47,4 @@ function StoreSearchWidget({ handleKeywordChange }: StoreSearchWidgetProps) {
     )
 }
 
-export default memo(StoreSearchWidget)
+export const StoreSearchWidget = memo(StoreSearchWidgetInner)

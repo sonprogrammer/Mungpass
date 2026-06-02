@@ -1,8 +1,7 @@
 'use client'
 
-import { getKioskPin } from "@/entities/owner/my-shop/api/getKioskPin"
-import { updateKioskPin } from "@/entities/owner/my-shop/api/updateKioskPin"
-import { BottomSheet } from "@/shared/ui/place/BottomSheet"
+import { getKioskPin, updateKioskPin } from "@/entities/owner/my-shop/api"
+import { BottomSheet } from "@/shared/ui/place"
 import { Alert, App, Button, Input, Space, Typography } from "antd"
 import { AlertCircle, Check, Edit2, Lock, Monitor, Play } from "lucide-react"
 import { useRouter } from "next/navigation"

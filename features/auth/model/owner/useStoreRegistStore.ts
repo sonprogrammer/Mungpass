@@ -1,4 +1,4 @@
-import { BusinessStoreSubmitInfo } from "@/features/auth/model/types";
+import { BusinessStoreSubmitInfo } from "@/features/auth/model";
 import { create } from "zustand";
 import { persist, createJSONStorage } from 'zustand/middleware'
 

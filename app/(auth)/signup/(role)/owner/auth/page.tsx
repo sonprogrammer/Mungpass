@@ -1,5 +1,6 @@
-import { LoadingFallback } from "@/shared/ui/Loader/LoadingFallback";
-import { OwnerAuthWidget } from "@/widgets/owner/auth/ui/OwnerAuthWidget";
+
+import { LoadingFallback } from "@/shared/ui/Loader";
+import { OwnerAuthWidget } from "@/widgets/owner/auth/ui";
 import { Suspense } from "react";
 
 export default function OwnerAuthPage() {

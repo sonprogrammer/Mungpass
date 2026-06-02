@@ -1,6 +1,6 @@
 'use client'
 
-import { NoticeFromDb } from "@/features/owner/my-store/notices/model/types"
+import { NoticeFromDb } from "@/features/owner/my-store/notices/model"
 import { motion } from "framer-motion"
 import { ChevronDown, Clock } from "lucide-react"
 import { memo } from "react"
@@ -14,7 +14,7 @@ interface StoreNoticeItemProps{
 }
 
 
-function StoreNoticeItem({ notice, index, isExpanded, isLatest, onToggle}: StoreNoticeItemProps){
+function StoreNoticeItemInner({ notice, index, isExpanded, isLatest, onToggle}: StoreNoticeItemProps){
 
     return(
         <motion.li
@@ -92,4 +92,4 @@ function StoreNoticeItem({ notice, index, isExpanded, isLatest, onToggle}: Store
     )
 }
 
-export default memo(StoreNoticeItem)
+export const StoreNoticeItem = memo(StoreNoticeItemInner)

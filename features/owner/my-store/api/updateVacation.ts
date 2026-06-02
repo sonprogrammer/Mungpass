@@ -1,4 +1,4 @@
-import { UpdateVacationToServer } from "@/features/owner/my-store/model/types";
+import { UpdateVacationToServer } from "@/features/owner/my-store/model";
 import { supabaseClient } from "@/shared/api/supabase/client";
 
 export const updateVacation = async(vacationData:UpdateVacationToServer) => {

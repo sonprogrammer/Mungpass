@@ -1,4 +1,4 @@
-import { getSchedule } from "@/features/owner/my-store/api/getSchedule";
+import { getSchedule } from "@/features/owner/my-store/api";
 import { useQuery } from "@tanstack/react-query";
 
 export function useGetSchedule(shopId: string) {

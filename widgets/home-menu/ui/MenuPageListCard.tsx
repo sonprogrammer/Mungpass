@@ -1,6 +1,7 @@
 'use client';
 
-import { MenuPageListCardProps } from "../model/types";
+import { MenuPageListCardProps } from "@/widgets/home-menu/model";
+
 
 export function MenuPageListCard({
   icon,

@@ -1,8 +1,6 @@
-
-import { KakaoScriptProvider } from "@/shared/ui/map/KakaoScriptProvider"
-import { MapLoading } from "@/widgets/around/ui/MapLoading"
-import { RegisterContent } from "@/widgets/owner/ui/RegisterStoreWidget"
-
+import { KakaoScriptProvider } from "@/shared/ui/map";
+import { MapLoading } from "@/widgets/around/ui";
+import { RegisterContent } from "@/widgets/owner/ui";
 
 
 

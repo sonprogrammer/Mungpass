@@ -1,17 +1,11 @@
 'use client'
 
-import { SummaryCard } from '@/features/owner/stats/ui/SummarCards'
-import { StatsHeaderCard } from '@/features/owner/stats/ui/StatsHeaderCard'
 import { useMemo, useState } from 'react'
-import { DailyChart } from '@/features/owner/stats/ui/DailyChart'
-import { InsightCard } from '@/features/owner/stats/ui/InsitghtCard'
-import { useGetDailySalesData } from '@/entities/owner/model/useGetDailySalesData'
-import { useGetShopInfo } from '@/entities/owner/model/useGetShopInfo'
-import { useGetStatsData } from '@/entities/owner/model/useGetStatsData'
+import { SummaryCard, DailyChart, InsightCard, StatsHeaderCard } from '@/features/owner/stats/ui'
+import { useGetDailySalesData, useGetShopInfo, useGetStatsData, useOwnerStoreStatus } from '@/entities/owner/model'
 import { endOfMonth, format } from 'date-fns'
-import { calCulateTopRecord } from '@/entities/owner/lib/calCulateTopRecord'
-import { useGetAiInsight } from '@/features/owner/stats/model/useGetAiInsight'
-import { useOwnerStoreStatus } from '@/entities/owner/model/useOwnerStoreStatus'
+import { calCulateTopRecord } from '@/entities/owner/lib'
+import { useGetAiInsight } from '@/features/owner/stats/model'
 
 
 export function StatsPageWidget() {

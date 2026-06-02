@@ -1,6 +1,6 @@
 'use client'
 
-import { KioskAuthModal } from "@/features/owner/kiosk/ui/KioskAuthModal"
+import { KioskAuthModal } from "@/features/owner/kiosk/ui"
 import { Key } from "lucide-react"
 import { useRouter } from "next/navigation"
 import { useState } from "react"

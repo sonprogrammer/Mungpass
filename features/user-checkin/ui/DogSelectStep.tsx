@@ -1,6 +1,6 @@
 'use client'
 
-import { Dog } from "@/entities/dog/model/types";
+import { Dog } from "@/entities/dog/model";
 import { Avatar, Modal, Spin } from "antd"
 import { ChevronRight, DogIcon } from "lucide-react";
 import { useRouter } from "next/navigation";

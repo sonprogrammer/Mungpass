@@ -1,5 +1,6 @@
-import { getInquiryRoom } from "@/entities/inquiry/api/getInquiryRoom";
-import { GetInquiryRoomParams } from "@/entities/inquiry/model/types";
+
+import { getInquiryRoom } from "@/entities/inquiry/api";
+import { GetInquiryRoomParams } from "@/entities/inquiry/model";
 import { useQuery } from "@tanstack/react-query";
 
 export function useGetInquiryList(userData: GetInquiryRoomParams) {

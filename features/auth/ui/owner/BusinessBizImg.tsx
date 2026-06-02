@@ -1,6 +1,6 @@
 'use client'
 
-import { BusinessBizImgProps } from '@/features/auth/model/types'
+import { BusinessBizImgProps } from '@/features/auth/model'
 import { CheckCircle2, Maximize2, X } from 'lucide-react'
 import NextImage from 'next/image'
 

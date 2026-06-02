@@ -1,8 +1,7 @@
 'use client'
 
-import { SignupFormProps } from "@/features/auth/model/types";
-import { useSignupForm } from "@/features/auth/model/useSignupForm";
-import { SignupFields } from "@/features/auth/ui/SignupFields";
+import { SignupFormProps, useSignupForm } from "@/features/auth/model"
+import { SignupFields } from "@/features/auth/ui"
 
 export function SignupForm({role, handleAuthAction} :SignupFormProps) {
     const signupLogic = useSignupForm()

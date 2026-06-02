@@ -1,6 +1,4 @@
-
-import {OwnerSignupWidget} from "@/widgets/owner/auth/ui/OwnerSignupWidget"
-
+import { OwnerSignupWidget } from "@/widgets/owner/auth/ui";
 
 
 export default function OwnerSignupPage() {

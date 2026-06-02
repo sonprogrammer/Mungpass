@@ -1,4 +1,5 @@
-import { getTodayConfirmedSales } from "@/entities/check-in/api/getTodayConfirmedSales";
+
+import { getTodayConfirmedSales } from "@/entities/check-in/api";
 import { useQuery } from "@tanstack/react-query";
 
 export function useGetTodayConfirmedSales(shopId: string) {

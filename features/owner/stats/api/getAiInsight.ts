@@ -1,4 +1,4 @@
-import { StatsDataToAi } from "@/features/owner/stats/model/types"
+import { StatsDataToAi } from "@/features/owner/stats/model"
 
 
 export const getAiInsight = async(statsData: StatsDataToAi) => {

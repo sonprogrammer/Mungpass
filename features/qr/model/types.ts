@@ -1,6 +1,6 @@
-import { UsageLogStatus } from "@/entities/check-in/model/types";
-import { Dog } from "@/entities/dog/model/types";
-import { Product, ProductWithCategory } from "@/features/owner/my-store/product/model/types";
+import { UsageLogStatus } from "@/entities/check-in/model";
+import { Dog } from "@/entities/dog/model";
+import { Product, ProductWithCategory } from "@/features/owner/my-store/product/model";
 
 export interface QrModalProps {
     products: ProductWithCategory[]

@@ -1,5 +1,5 @@
-import { fetchDogs } from "@/entities/dog/api/fetchDogs";
-import { useUserStore } from "@/entities/user/model/useUserStore";
+import { fetchDogs } from "@/entities/dog/api";
+import { useUserStore } from "@/entities/user/model";
 import { useQuery } from "@tanstack/react-query";
 
 

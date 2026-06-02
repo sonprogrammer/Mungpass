@@ -1,4 +1,4 @@
-import { CheckStoreExistsResult } from "@/features/auth/model/types";
+import { CheckStoreExistsResult } from "@/features/auth/model";
 import { supabaseClient } from "@/shared/api/supabase/client";
 
 

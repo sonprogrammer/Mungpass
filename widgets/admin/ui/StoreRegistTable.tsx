@@ -1,7 +1,7 @@
 'use client'
 
-import { getAdminUrl } from "@/features/admin/store/api/ownerDocs";
-import { ApproveStoreBtn } from "@/features/admin/store/ui/ApproveStoreBtn";
+import { getAdminUrl } from "@/features/admin/store/api";
+import { ApproveStoreBtn } from "@/features/admin/store/ui";
 import { FileSearchOutlined } from "@ant-design/icons"
 import { DateField, useTable } from "@refinedev/antd"
 import { useInvalidate } from "@refinedev/core";

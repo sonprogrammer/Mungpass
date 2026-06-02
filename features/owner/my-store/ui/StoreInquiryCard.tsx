@@ -10,14 +10,10 @@ import {
   Button, Modal, Badge, Empty,
   Form, Input, Select, message
 } from 'antd'
-import { useUserStore } from '@/entities/user/model/useUserStore'
-import { InquiryCategory, InquiryRoom } from '@/entities/inquiry/model/types'
-import { useGetInquiryList } from '@/entities/inquiry/model/useGetInquriyList'
-import { usePostInquiry } from '@/entities/inquiry/model/usePostInquiry'
+import { useUserStore } from '@/entities/user/model'
+import { InquiryCategory, InquiryRoom, useGenerateInquirNoti, useGetInquiryList, useGetInquiryUserNoti, usePostInquiry } from '@/entities/inquiry/model'
 import { format } from 'date-fns'
-import { StoreInquiryChatRoom } from '@/entities/inquiry/ui/StoreInquiryChatRoom'
-import { useGetInquiryUserNoti } from '@/entities/inquiry/model/useGetInquiryUserNoti'
-import { useGenerateInquirNoti } from '@/entities/inquiry/model/useGenerateInquirNoti'
+import { StoreInquiryChatRoom } from '@/entities/inquiry/ui'
 
 const CATEGORY_LABELS: Record<InquiryCategory, string> = {
   payout: '정산 및 수익',

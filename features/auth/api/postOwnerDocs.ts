@@ -1,4 +1,4 @@
-import { postOwnerDocsProps } from '@/features/auth/model/types';
+import { postOwnerDocsProps } from "@/features/auth/model";
 import { supabaseClient } from "@/shared/api/supabase/client";
 
 

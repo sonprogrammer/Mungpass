@@ -1,7 +1,7 @@
 'use client'
 
-import { useGetMyPetUsage } from "@/features/qr/model/useGetMyPetUsage"
-import { LiveUsageWidget } from "@/widgets/dog/ui/LiveUsageWidget"
+import { useGetMyPetUsage } from "@/features/qr/model"
+import { LiveUsageWidget } from "@/widgets/dog/ui"
 import { usePathname } from "next/navigation"
 
 

@@ -1,4 +1,5 @@
-import { MyPetUsageAllInfo } from "@/features/qr/model/types"
+
+import { MyPetUsageAllInfo } from "@/features/qr/model"
 
 export interface CheckedInWidgetProps {
     activeDogs: MyPetUsageAllInfo[]

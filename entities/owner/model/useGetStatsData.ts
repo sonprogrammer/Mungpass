@@ -1,5 +1,5 @@
-import { getStatsData } from "@/entities/owner/api/getStatsData";
-import { useOwnerStoreStatus } from "@/entities/owner/model/useOwnerStoreStatus";
+import { getStatsData } from "@/entities/owner/api";
+import { useOwnerStoreStatus } from "@/entities/owner/model";
 import { useQuery } from "@tanstack/react-query";
 
 export function useGetStatsData(shopId: string, selectedMonth: string) {

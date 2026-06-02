@@ -1,6 +1,6 @@
-import { UsageLogStatus } from "@/entities/check-in/model/types";
-import { useUserStore } from "@/entities/user/model/useUserStore";
-import { getMyPetUsage } from "@/features/qr/api/getMyPetUsage";
+import { UsageLogStatus } from "@/entities/check-in/model";
+import { useUserStore } from "@/entities/user/model";
+import { getMyPetUsage } from "@/features/qr/api";
 import { useQuery } from "@tanstack/react-query";
 
 export function useGetMyPetUsage({statuses=['staying']}: { statuses: UsageLogStatus[]}) {

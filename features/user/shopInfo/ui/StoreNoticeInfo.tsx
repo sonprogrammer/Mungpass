@@ -1,7 +1,7 @@
 'use client'
 
-import { NoticeFromDb } from "@/features/owner/my-store/notices/model/types"
-import StoreNoticeItem from "@/features/user/shopInfo/ui/StoreNoticeItem"
+import { NoticeFromDb } from "@/features/owner/my-store/notices/model"
+import { StoreNoticeItem } from "@/features/user/shopInfo/ui"
 import { motion } from "framer-motion"
 import { X, Megaphone } from "lucide-react"
 import { useCallback, useMemo, useState } from "react"

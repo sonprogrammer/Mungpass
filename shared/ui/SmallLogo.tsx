@@ -1,6 +1,6 @@
 'use client'
 
-import { BackBtn } from "@/shared/ui/BackBtn";
+import { BackBtn } from "@/shared/ui";
 import { usePathname } from "next/navigation";
 
 export function SmallLogo() {

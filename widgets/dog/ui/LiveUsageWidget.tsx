@@ -1,7 +1,7 @@
 'use client'
 
-import { MyPetUsageAllInfo } from "@/features/qr/model/types"
-import { LiveUsageCard } from "@/widgets/dog/ui/LiveUsageCard"
+import { MyPetUsageAllInfo } from "@/features/qr/model"
+import { LiveUsageCard } from "@/widgets/dog/ui"
 import { AnimatePresence, motion } from "framer-motion"
 import { ChevronLeft, ChevronRight, ChevronUp, Minimize2 } from "lucide-react"
 import { useState } from "react"

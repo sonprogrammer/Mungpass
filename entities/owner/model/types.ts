@@ -1,4 +1,4 @@
-import { CurrentUsageLog } from "@/entities/check-in/model/types";
+import { CurrentUsageLog } from "@/entities/check-in/model";
 
 // TODO 이건 store_products에서 상품명에 따라 다를 수 있음 아래는 임시 목업으로 처리해논거임
 export type UsageType = '유치원' | '호텔' | '놀이방';

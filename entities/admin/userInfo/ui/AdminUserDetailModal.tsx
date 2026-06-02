@@ -1,5 +1,7 @@
 'use client'
 
+import { Profile } from '@/entities/admin/inquiry/model'
+import { SUBSCRIBES_STATUS } from '@/shared/constant'
 import { Modal, Avatar, Tag, Divider } from 'antd'
 import {
     User,
@@ -11,8 +13,8 @@ import {
     CircleAlert,
     Crown,
 } from 'lucide-react'
-import { Profile } from '@/entities/admin/inquiry/model/types'
-import { SUBSCRIBES_STATUS } from '@/shared/constant/usersubscribeStatus'
+
+
 
 
 interface UserInfoModalProps {

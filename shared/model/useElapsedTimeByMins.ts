@@ -1,5 +1,6 @@
+import { getElapsedTime } from "@/shared/utils";
 import { useEffect, useState } from "react";
-import { getElapsedTime } from "../utils/getElapsedTime";
+
 
 export function useElapsedTimeByMins(startedAt: string | null | undefined, endedAt: string | null | undefined) {
     const [elapsedText, setElapsedText] = useState(() => getElapsedTime(startedAt, endedAt))

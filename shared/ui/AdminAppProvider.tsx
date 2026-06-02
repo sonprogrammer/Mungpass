@@ -2,10 +2,9 @@
 
 import { useState } from "react";
 import { Layout } from "antd";
-import { AdminSidebar } from "@/widgets/around/admin/ui/AdminSideBar";
-import { AdminHeader } from "@/widgets/around/admin/ui/AdminHeader";
 import { RefineProvider } from "@/app/RefineProvider";
-import { AntdAppProvider } from "@/shared/ui/AntdAppProvider";
+import { AntdAppProvider } from "@/shared/ui";
+import { AdminHeader, AdminSidebar } from "@/widgets/around/admin/ui";
 
 const { Content } = Layout
 

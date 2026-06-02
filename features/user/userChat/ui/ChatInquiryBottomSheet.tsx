@@ -1,7 +1,7 @@
 'use client'
 
-import { ChatInquiryContent } from "@/features/user/userChat/ui/ChatInquiryContent"
-import { BottomSheet } from "@/shared/ui/place/BottomSheet"
+import { ChatInquiryContent } from "@/features/user/userChat/ui"
+import { BottomSheet } from "@/shared/ui/place"
 import { X } from "lucide-react"
 
 interface ChatInquiryBottomSheetProps{

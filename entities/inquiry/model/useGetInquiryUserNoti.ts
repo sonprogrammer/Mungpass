@@ -1,4 +1,5 @@
-import { getInquiryUserNoti } from "@/entities/inquiry/api/getInquiryUserNoti";
+
+import { getInquiryUserNoti } from "@/entities/inquiry/api";
 import { useQuery } from "@tanstack/react-query";
 
 export function useGetInquiryUserNoti(userId: string) {

@@ -1,5 +1,5 @@
-import { Dog } from '@/entities/dog/model/types';
-import { UserProfile } from '@/entities/user/model/useUserStore';
+import { Dog } from '@/entities/dog/model';
+import { UserProfile } from '@/entities/user/model';
 
 export interface GreetMessageProps{
     userData: UserProfile |null;

@@ -1,4 +1,4 @@
-import { PlaceListProps } from "@/entities/place/model/types";
+import { PlaceListProps } from "@/entities/place/model";
 import { MapPin } from "lucide-react";
 
 export function PlaceList({ places, placeClick }: PlaceListProps) {

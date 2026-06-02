@@ -1,8 +1,8 @@
 'use client'
 
-import { RegistrationDoc } from "@/features/owner/my-store/ui/RegistrationDoc"
-import { StoreDetailStatusModalProps } from "@/widgets/owner/my-store/model/types"
-import { StoreApprovalTimeline } from "@/widgets/owner/my-store/ui/StoreApprovalTimeline"
+import { RegistrationDoc } from "@/features/owner/my-store/ui"
+import { StoreDetailStatusModalProps } from "@/widgets/owner/my-store/model"
+import { StoreApprovalTimeline } from "@/widgets/owner/my-store/ui"
 import { Button, Divider, Modal } from "antd"
 import { AlertCircle, FileCheck, Store } from "lucide-react"
 

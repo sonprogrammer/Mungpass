@@ -1,4 +1,4 @@
-import { Bound, Coords } from "@/shared/model/map";
+import { Bound, Coords } from "@/shared/model";
 
 
 export const getCenterFromBound = (bound: Bound): Coords => ({

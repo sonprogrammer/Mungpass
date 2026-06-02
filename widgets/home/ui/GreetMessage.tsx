@@ -1,6 +1,6 @@
 'use client'
-import { useGetMyPetUsage } from "@/features/qr/model/useGetMyPetUsage";
-import { GreetMessageProps } from "@/widgets/home/model/types";
+import { useGetMyPetUsage } from "@/features/qr/model";
+import { GreetMessageProps } from "@/widgets/home/model";
 
 
 export function GreetMessage({ userData, myDog }: GreetMessageProps) {

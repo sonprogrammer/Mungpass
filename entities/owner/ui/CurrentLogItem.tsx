@@ -1,9 +1,8 @@
 'use client'
 
-import { CurrentLogItemProps } from "@/entities/owner/model/types";
-import { useElapsedTimeByMins } from "@/shared/model/useElapsedTimeByMins";
-import { formatTime } from "@/shared/utils/formatDate";
-import { getElapsedTime } from "@/shared/utils/getElapsedTime";
+import { CurrentLogItemProps } from "@/entities/owner/model";
+import { useElapsedTimeByMins } from "@/shared/model";
+import { formatTime } from "@/shared/utils";
 import { ClockCircleOutlined } from "@ant-design/icons";
 import { Avatar, Button, Tag, Typography } from "antd";
 import { Dog } from "lucide-react";

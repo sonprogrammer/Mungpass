@@ -1,5 +1,5 @@
-import { getDailySalesData } from "@/entities/owner/api/getDailySalesData";
-import { useOwnerStoreStatus } from "@/entities/owner/model/useOwnerStoreStatus";
+import { getDailySalesData } from "@/entities/owner/api";
+import { useOwnerStoreStatus } from "@/entities/owner/model";
 import { useQuery } from "@tanstack/react-query";
 
 export function useGetDailySalesData(shopId: string, selectedMonth: string) {

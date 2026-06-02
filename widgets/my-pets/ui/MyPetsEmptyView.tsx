@@ -1,6 +1,6 @@
 'use client'
 
-import { MyPetsEmptyViewProps } from "@/widgets/my-pets/model/types"
+import { MyPetsEmptyViewProps } from "@/widgets/my-pets/model"
 import { AlertCircle } from "lucide-react"
 
 

@@ -1,4 +1,5 @@
-import { KakaoPlace } from "@/shared/model/map";
+import { KakaoPlace } from "@/shared/model";
+
 
 export interface ShopListStateProps {
     isPending: boolean;

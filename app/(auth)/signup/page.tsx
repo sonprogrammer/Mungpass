@@ -1,4 +1,4 @@
-import { RoleSelection } from "@/features/auth/ui/RoleSelection";
+import { RoleSelection } from "@/features/auth/ui";
 
 
 export default function SignupPage() {

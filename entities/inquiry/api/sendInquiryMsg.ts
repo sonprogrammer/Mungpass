@@ -1,4 +1,5 @@
-import { SendInquiryMsgPayload } from "@/entities/inquiry/model/types";
+
+import { SendInquiryMsgPayload } from "@/entities/inquiry/model";
 import { supabaseClient } from "@/shared/api/supabase/client";
 
 export const sendInquiryMsg = async(payload:SendInquiryMsgPayload):Promise<void> => {

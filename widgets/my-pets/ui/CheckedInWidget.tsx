@@ -1,7 +1,7 @@
 'use client'
 
-import { UsageStoryList } from "@/entities/check-in/ui/UsageStoryList"
-import { CheckedInWidgetProps } from "@/widgets/my-pets/model/types"
+import { UsageStoryList } from "@/entities/check-in/ui"
+import { CheckedInWidgetProps } from "@/widgets/my-pets/model"
 
 
 

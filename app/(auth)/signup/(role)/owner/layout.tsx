@@ -1,4 +1,5 @@
-import { StepBar } from "@/features/auth/ui/owner/StepBar";
+
+import { StepBar } from "@/features/auth/ui/owner";
 import { Suspense } from "react";
 
 export default function OwnerSignupLayout({children}: {children: React.ReactNode}){

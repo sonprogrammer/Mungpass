@@ -1,6 +1,6 @@
 'use client'
 
-import { ConfirmModalProps } from "@/shared/model/types"
+import { ConfirmModalProps } from "@/shared/model"
 import { Button, Modal, Typography } from "antd"
 
 export function ConfirmModal({open, title, description, confirmText ='확인', cancelText='취소', confirmDanger= false, isLoading=false, onConfirm, onCancel}: ConfirmModalProps) {

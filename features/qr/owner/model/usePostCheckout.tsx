@@ -1,6 +1,6 @@
-import { useGetShopInfo } from "@/entities/owner/model/useGetShopInfo";
-import { checkout } from "@/features/qr/owner/api/checkout";
-import { formatMinsToTime } from "@/shared/utils/formatMinsToTime";
+import { useGetShopInfo } from "@/entities/owner/model";
+import { checkout } from "@/features/qr/owner/api";
+import { formatMinsToTime } from "@/shared/utils";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { App } from "antd";
 

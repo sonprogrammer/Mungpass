@@ -1,5 +1,5 @@
-import { useUserStore } from "@/entities/user/model/useUserStore";
-import { userCheckIn } from "@/features/qr/api/userCheckIn";
+import { useUserStore } from "@/entities/user/model";
+import { userCheckIn } from "@/features/qr/api";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 export function usePostCheckIn() {

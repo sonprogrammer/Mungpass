@@ -1,11 +1,11 @@
 'use client';
 
 import { useEffect } from "react";
-import { useUserStore } from "@/entities/user/model/useUserStore";
 import { supabaseClient } from "@/shared/api/supabase/client";
-import { KakaoAddUserInfoModal } from "@/entities/KakaoAuth/ui/KakaoAddUserInfoModal";
 import { useShallow } from "zustand/react/shallow";
 import { App } from "antd";
+import { useUserStore } from "@/entities/user/model";
+import { KakaoAddUserInfoModal } from "@/entities/KakaoAuth/ui";
 
 export function AuthProvider({ children }: { children: React.ReactNode }) {
     const { setNeedSignup, needSignup, setProfile, logout, loginTabRole, isHydrated } = useUserStore(

@@ -1,6 +1,6 @@
 'use client'
 
-import { saveApi } from "@/entities/place/api/saveApi"
+import { saveApi } from "@/entities/place/api"
 import { supabaseClient } from "@/shared/api/supabase/client"
 import { useQuery } from "@tanstack/react-query"
 

@@ -1,12 +1,12 @@
 'use client'
 
-import { HighestRecords } from '@/features/owner/stats/ui/HighestRecords'
+import { HighestRecords } from '@/features/owner/stats/ui'
 import { ArrowUpRight, ArrowDownRight, CircleDollarSign, QrCode, TrendingUp } from 'lucide-react'
 import { motion } from 'framer-motion'
-import { SummaryCardProps } from '@/features/owner/stats/model/types'
+import { SummaryCardProps } from '@/features/owner/stats/model'
 import { format } from 'date-fns'
 import { useMemo } from 'react'
-import { calculateChange } from '@/entities/owner/lib/calculateChange'
+import { calculateChange } from '@/entities/owner/lib'
 
 export function SummaryCard({ topDays, selectedMonth, diffData }: SummaryCardProps) {
 

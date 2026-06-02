@@ -1,7 +1,7 @@
-import { Vacations } from '@/features/owner/model/type';
-import { ScheduleRow } from '@/features/owner/my-store/model/types';
-import { NoticeFromDb } from '@/features/owner/my-store/notices/model/types';
-import { KakaoPlace } from "@/shared/model/map";
+import { Vacations } from '@/features/owner/model';
+import { ScheduleRow } from '@/features/owner/my-store/model';
+import { NoticeFromDb } from '@/features/owner/my-store/notices/model';
+import { KakaoPlace } from "@/shared/model";
 
 export interface StoreDetailWidgetProps {
     onClose: () => void

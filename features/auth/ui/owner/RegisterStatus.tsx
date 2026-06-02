@@ -1,5 +1,7 @@
-import { useCheckStoreStatus } from "@/features/auth/model/owner/useCheckStoreStatus";
-import { StepStatus } from "@/features/auth/ui/owner/StepStatus";
+'use client'
+
+import { useCheckStoreStatus } from "@/features/auth/model/owner";
+import { StepStatus } from "@/features/auth/ui/owner";
 import { format } from "date-fns";
 import { Loader2 } from "lucide-react";
 

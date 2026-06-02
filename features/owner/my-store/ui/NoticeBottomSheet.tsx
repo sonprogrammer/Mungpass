@@ -1,6 +1,6 @@
-import { useGetShopInfo } from "@/entities/owner/model/useGetShopInfo";
-import { StoreNoticeCard } from "@/features/owner/my-store/notices/ui/StoreNoticeCard";
-import { BottomSheet } from "@/shared/ui/place/BottomSheet";
+import { useGetShopInfo } from "@/entities/owner/model";
+import { StoreNoticeCard } from "@/features/owner/my-store/notices/ui";
+import { BottomSheet } from "@/shared/ui/place";
 
 
 export function NoticeBottomSheet({ open, onClose }: { open: boolean, onClose: () => void }) {

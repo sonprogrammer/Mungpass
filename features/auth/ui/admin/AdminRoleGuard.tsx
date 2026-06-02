@@ -1,7 +1,7 @@
 'use client'
 
-import { useUserStore } from "@/entities/user/model/useUserStore"
-import { useRoleGuard } from "@/features/auth/model/useRoleGuard"
+import { useUserStore } from "@/entities/user/model"
+import { useRoleGuard } from "@/features/auth/model"
 import { Loader2 } from "lucide-react"
 import React from "react"
 

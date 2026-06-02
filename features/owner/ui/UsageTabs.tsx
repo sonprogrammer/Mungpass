@@ -1,5 +1,5 @@
 'use client'
-import { UsageTabsProps } from "@/features/owner/model/type";
+import { UsageTabsProps } from "@/features/owner/model";
 import { LoginOutlined } from "@ant-design/icons";
 import { ClipboardCheck } from "lucide-react";
 

@@ -1,4 +1,4 @@
-import { deleteVacation } from "@/features/owner/my-store/api/deleteVacation";
+import { deleteVacation } from "@/features/owner/my-store/api";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { App } from "antd";
 

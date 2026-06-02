@@ -1,7 +1,7 @@
 //* 지금 안쓰고 있음 - 추후 필요할 수 있으니깐 납둠
 
 import { Button, Card, Typography } from "antd";
-import { CurrentUsageLog } from "@/entities/check-in/model/types";
+import { CurrentUsageLog } from "@/entities/check-in/model";
 
 export function CheckoutLogList({data}: {data: CurrentUsageLog[]}) {
     return(

@@ -1,6 +1,6 @@
-import { useOwnerStoreStatus } from "@/entities/owner/model/useOwnerStoreStatus";
-import { getAiInsight } from "@/features/owner/stats/api/getAiInsight";
-import { StatsDataToAi } from "@/features/owner/stats/model/types";
+import { useOwnerStoreStatus } from "@/entities/owner/model";
+import { getAiInsight } from "@/features/owner/stats/api";
+import { StatsDataToAi } from "@/features/owner/stats/model";
 import { useQuery } from "@tanstack/react-query";
 
 

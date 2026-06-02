@@ -1,8 +1,9 @@
 'use client'
 
-import { useTimer } from "@/entities/check-in/lib/useTimer"
+import { useTimer } from "@/entities/check-in/lib"
 import { StoryTimer } from "@/entities/check-in/ui/StoryTimer"
-import { MyPetUsageAllInfo } from "@/features/qr/model/types"
+import { MyPetUsageAllInfo } from "@/features/qr/model"
+
 
 export function UsageStoryList({usageDog, onClick}: {usageDog: MyPetUsageAllInfo, onClick: () => void}){
     const { progress, isOverTime} = useTimer({

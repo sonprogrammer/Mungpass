@@ -1,7 +1,6 @@
 'use client'
 
-import { EarlyCloseConfirmModalProps } from "@/features/owner/my-store/model/types"
-import { useUpdateTempStatus } from "@/features/owner/my-store/model/useUpdataeTempStatus"
+import { EarlyCloseConfirmModalProps, useUpdateTempStatus } from "@/features/owner/my-store/model"
 import { App, Input, Modal } from "antd"
 import { useState } from "react"
 

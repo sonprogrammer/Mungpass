@@ -1,7 +1,7 @@
 'use client'
 
-import { ChatInquiryBottomSheet } from "@/features/user/userChat";
-import { MenuItem } from "@/shared/ui/MenuItem";
+import { ChatInquiryBottomSheet } from "@/features/user/userChat/ui";
+import { MenuItem } from "@/shared/ui";
 import { App } from "antd";
 import { Bell, Clock, Heart, Headphones } from "lucide-react";
 import { useRouter } from "next/navigation";

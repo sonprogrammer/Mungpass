@@ -1,7 +1,7 @@
 'use client'
 
 
-import { KioskProductEmptyViewProps } from "@/widgets/owner/kiosk/model/types"
+import { KioskProductEmptyViewProps } from "@/widgets/owner/kiosk/model"
 import { Empty } from "antd"
 
 

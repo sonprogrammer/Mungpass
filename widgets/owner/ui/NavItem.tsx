@@ -1,4 +1,4 @@
-import { NavItemProps } from "@/widgets/owner/model/type";
+import { NavItemProps } from "@/widgets/owner/model";
 import Link from "next/link";
 
 export function NavItem({ href, label, icon: Icon, active }: NavItemProps) {

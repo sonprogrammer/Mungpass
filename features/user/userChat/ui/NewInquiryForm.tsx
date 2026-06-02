@@ -1,6 +1,6 @@
 'use client'
 
-import { InquiryCategory } from "@/entities/inquiry/model/types"
+import { InquiryCategory } from "@/entities/inquiry/model"
 import { Button, Form, Input, Select } from "antd"
 
 const CATEGORY_LABELS: Record<InquiryCategory, string> = {

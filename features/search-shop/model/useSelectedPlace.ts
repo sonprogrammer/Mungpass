@@ -1,4 +1,4 @@
-import { KakaoPlace } from "@/shared/model/map";
+import { KakaoPlace } from "@/shared/model";
 import { create } from "zustand";
 
 interface SelectedPlaceState{

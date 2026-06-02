@@ -1,4 +1,4 @@
-import { createInquiryRoom } from "@/entities/inquiry/api/createInquiryRoom";
+import { createInquiryRoom } from "@/entities/inquiry/api";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { App } from "antd";
 

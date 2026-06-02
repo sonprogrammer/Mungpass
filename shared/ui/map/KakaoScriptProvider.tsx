@@ -1,6 +1,6 @@
 'use client'
 
-import { KakaoScriptProviderProps } from "@/shared/model/types";
+import { KakaoScriptProviderProps } from "@/shared/model";
 import Script from "next/script"
 import {  useState } from "react"
 

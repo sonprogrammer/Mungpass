@@ -1,12 +1,10 @@
 'use client'
 
 
-import { useGetCurrentUsageLogs } from "@/entities/check-in/model/useGetCurrentUsageLogs";
-import { useGetFinishedUsageLogs } from "@/entities/check-in/model/useGetFinishedUsageLogs";
-import { useOwnerStoreStatus } from "@/entities/owner/model/useOwnerStoreStatus";
-import { UsageTabs } from "@/features/owner/ui/UsageTabs";
-import { CurrentLogList } from "@/widgets/owner/ui/CurrentLogList";
-import { FinishedLogList } from "@/widgets/owner/ui/FinishedLogList";
+import { useGetCurrentUsageLogs, useGetFinishedUsageLogs } from "@/entities/check-in/model";
+import { useOwnerStoreStatus } from "@/entities/owner/model";
+import { UsageTabs } from "@/features/owner/ui";
+import { CurrentLogList, FinishedLogList } from "@/widgets/owner/ui";
 import { isToday, parseISO } from "date-fns";
 import { useMemo, useState } from "react";
 

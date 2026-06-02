@@ -1,4 +1,4 @@
-import { getTodayTempStatus } from "@/features/owner/my-store/api/getTodayTempStatus";
+import { getTodayTempStatus } from "@/features/owner/my-store/api";
 import { useQuery } from "@tanstack/react-query";
 
 export function useGetTodayTempStatus(shopId: string) {

@@ -1,7 +1,7 @@
 import { App } from 'antd';
-import { useDogStore } from "@/entities/dog/model/types";
-import { deleteDog } from "@/entities/dog/api/deleteDog";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useDogStore } from '@/entities/dog/model';
+import { deleteDog } from '@/entities/dog/api';
 
 export const useDeleteDog = () => {
     const queryClient = useQueryClient()

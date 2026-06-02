@@ -1,9 +1,9 @@
 'use client'
 
-import { Dog } from "@/entities/dog/model/types";
-import { usePostCheckIn } from "@/features/qr/model/usePostCheckIn";
-import QrScannerModal from "@/features/qr/ui/QrScannerModal";
-import { DogSelectStep } from "@/features/user-checkin/ui/DogSelectStep";
+import { Dog } from "@/entities/dog/model";
+import { usePostCheckIn } from "@/features/qr/model";
+import { QrScannerModal } from "@/features/qr/ui";
+import { DogSelectStep } from "@/features/user-checkin/ui";
 import { App } from "antd";
 import { CheckCircle2, ChevronRight, Clock, PartyPopper, QrCode } from "lucide-react";
 import { useState } from "react";

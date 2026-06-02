@@ -5,7 +5,7 @@ import { Html5Qrcode } from 'html5-qrcode';
 import { X, Camera } from 'lucide-react';
 import { App } from 'antd';
 
-export default function QrScannerModal({ onClose, onScanSuccess }: { 
+export function QrScannerModal({ onClose, onScanSuccess }: { 
   onClose: () => void, 
   onScanSuccess: (data: string) => void 
 }) {

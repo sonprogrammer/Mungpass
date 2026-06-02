@@ -1,4 +1,4 @@
-import { getProducts } from "@/features/owner/my-store/product/api/getProducts";
+import { getProducts } from "@/features/owner/my-store/product/api";
 import { useQuery } from "@tanstack/react-query";
 
 export function useGetProducts(shopId: string) {

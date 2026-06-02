@@ -1,7 +1,4 @@
-
-import {ReStoreRegistionWidget} from "@/widgets/owner/auth/ui/ReStoreRegistionWidget"
-
-
+import { ReStoreRegistionWidget } from "@/widgets/owner/auth/ui";
 
 export default function ReStoreRegistionPage() {
 

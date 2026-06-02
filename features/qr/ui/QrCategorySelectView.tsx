@@ -1,6 +1,6 @@
 'use client'
 
-import { QrCategorySelectViewProps } from "@/features/qr/model/types"
+import { QrCategorySelectViewProps } from "@/features/qr/model"
 import { Button, Empty, Typography } from "antd"
 import { ChevronRight } from "lucide-react"
 

@@ -1,6 +1,6 @@
 'use client'
 
-import { useUserStore } from "@/entities/user/model/useUserStore"
+import { useUserStore } from "@/entities/user/model"
 import { supabaseClient } from "@/shared/api/supabase/client"
 import { App, Button, Input, Modal, Radio } from "antd"
 import { useRouter } from "next/navigation"

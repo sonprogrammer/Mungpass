@@ -1,9 +1,9 @@
 'use client'
 
+import { QuickActions } from "@/features/admin/ui";
+import { MainCardFourData, RecentRegistrations } from "@/widgets/admin/ui";
 import { Row, Col, Typography } from "antd";
-import { MainCardFourData } from "@/widgets/admin/ui/MainFourCardData";
-import { RecentRegistrations } from "@/widgets/admin/ui/RecentRegistrations";
-import { QuickActions } from "@/features/admin/ui/QuickActions";
+
 
 export function AdminMainPageWidget() {
 

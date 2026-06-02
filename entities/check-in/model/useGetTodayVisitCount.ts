@@ -1,5 +1,6 @@
-import { getTodayVisitCount } from "@/entities/check-in/api/getTodayVisitCount";
-import { useGetShopInfo } from "@/entities/owner/model/useGetShopInfo";
+
+import { getTodayVisitCount } from "@/entities/check-in/api";
+import { useGetShopInfo } from "@/entities/owner/model";
 import { useQuery } from "@tanstack/react-query";
 
 export function useGetTodayVisitCount() {

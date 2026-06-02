@@ -1,4 +1,4 @@
-import { deleteIquiryNoti } from "@/features/notification/api/deleteInquiryNoti";
+import { deleteIquiryNoti } from "@/features/notification/api";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { App } from "antd";
 

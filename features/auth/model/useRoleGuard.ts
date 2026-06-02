@@ -1,6 +1,6 @@
 'use client'
 
-import { useUserStore } from "@/entities/user/model/useUserStore"
+import { useUserStore } from "@/entities/user/model"
 import { useRouter } from "next/navigation"
 import { useEffect } from "react"
 

@@ -1,5 +1,4 @@
-import { Dog } from "@/entities/dog/model/types";
-import { UserProfile } from "@/entities/user/model/useUserStore";
+import { UserProfile } from "@/entities/user/model";
 import React from "react";
 
 //*안쓰는 타입임

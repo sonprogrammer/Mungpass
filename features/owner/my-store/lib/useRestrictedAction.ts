@@ -1,4 +1,4 @@
-import { RegistrationStatus } from '@/entities/owner/my-shop/model/types';
+import { RegistrationStatus } from "@/entities/owner/my-shop/model";
 import { message } from "antd";
 import { useState } from 'react';
 

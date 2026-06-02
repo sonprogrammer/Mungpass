@@ -1,9 +1,8 @@
 'use client'
 
-import { useStoreRegistrationStore } from "@/features/auth/model/owner/useStoreRegistStore"
-import { BusinessForm } from "@/features/auth/ui/owner/BusinessForm"
-import { RegisterStoreCheckCard } from "@/features/auth/ui/owner/RegisterStoreCheckCard"
-import { LoadingFallback } from "@/shared/ui/Loader/LoadingFallback"
+import { useStoreRegistrationStore } from "@/features/auth/model/owner"
+import { BusinessForm, RegisterStoreCheckCard } from "@/features/auth/ui/owner"
+import { LoadingFallback } from "@/shared/ui/Loader"
 import { App } from "antd"
 import { useRouter, useSearchParams } from "next/navigation"
 import { useEffect } from "react"

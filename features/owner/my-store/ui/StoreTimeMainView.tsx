@@ -1,15 +1,12 @@
 'use client'
 
 import { Clock3, Edit3, Power, AlertCircle, Timer, Plane, Info, XCircle } from 'lucide-react'
-import { Popconfirm, Tag } from 'antd'
-import { StoreTimeMainViewProps } from '@/features/owner/my-store/model/types'
-import { useState } from 'react'
-import { VacationModal } from '@/features/owner/my-store/ui/VacationModal'
-import { useDeleteVacation } from '@/features/owner/my-store/model/useDeleteVacation'
 import { format } from 'date-fns'
-import { useDeleteTodayStatus } from '@/features/owner/my-store/model/useDeleteTodayStatus'
-import { EarlyCloseConfirmModal } from '@/features/owner/my-store/ui/EarlyCloseConfirmModal'
-import { StoreVacationStatus } from '@/features/owner/my-store/ui/StoreVacationStatus'
+import { Popconfirm, Tag } from 'antd'
+import { useState } from 'react'
+import { StoreTimeMainViewProps, useDeleteTodayStatus, useDeleteVacation } from '@/features/owner/my-store/model'
+import { EarlyCloseConfirmModal, StoreVacationStatus, VacationModal } from '@/features/owner/my-store/ui'
+
 
 export function StoreTimeMainView({ shopStatus, onEditClick, shopId, vacation }: StoreTimeMainViewProps) {
     const [isVacationModal, setIsVacationModal] = useState(false)

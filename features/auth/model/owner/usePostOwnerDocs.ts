@@ -1,5 +1,4 @@
-
-import { postOwnerDocs } from "@/features/auth/api/postOwnerDocs";
+import { postOwnerDocs } from "@/features/auth/api";
 import { useMutation } from "@tanstack/react-query";
 import { App } from "antd";
 import { useRouter } from 'next/navigation';

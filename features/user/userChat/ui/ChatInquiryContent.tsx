@@ -1,13 +1,9 @@
 'use client'
 
-import { InquiryCategory, InquiryRoom } from "@/entities/inquiry/model/types"
-import { useGenerateInquirNoti } from "@/entities/inquiry/model/useGenerateInquirNoti"
-import { useGetInquiryUserNoti } from "@/entities/inquiry/model/useGetInquiryUserNoti"
-import { useGetInquiryList } from "@/entities/inquiry/model/useGetInquriyList"
-import { usePostInquiry } from "@/entities/inquiry/model/usePostInquiry"
-import { StoreInquiryChatRoom } from "@/entities/inquiry/ui/StoreInquiryChatRoom"
-import { useUserStore } from "@/entities/user/model/useUserStore"
-import { NewInquiryForm } from "@/features/user/userChat/ui/NewInquiryForm"
+import { InquiryCategory, InquiryRoom, useGenerateInquirNoti, useGetInquiryList, useGetInquiryUserNoti, usePostInquiry } from "@/entities/inquiry/model"
+import { StoreInquiryChatRoom } from "@/entities/inquiry/ui"
+import { useUserStore } from "@/entities/user/model"
+import { NewInquiryForm } from "@/features/user/userChat/ui"
 import { App, Badge, Empty } from "antd"
 import { format } from "date-fns/format"
 import { ChevronLeft, ChevronRight, Clock, Loader2, MessageSquarePlus } from "lucide-react"

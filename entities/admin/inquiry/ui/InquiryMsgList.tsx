@@ -1,7 +1,8 @@
 'use client'
 
-import { InquiryMessage, InquiryRoom, InquiryRoomWithProfile } from "@/entities/admin/inquiry/model/types"
-import { Typography } from "antd"
+
+import { InquiryRoomWithProfile } from "@/entities/admin/inquiry/model"
+import { InquiryMessage } from "@/entities/inquiry/model"
 import { format, isSameDay } from "date-fns"
 import { ko } from "date-fns/locale"
 import { ShieldCheck, User } from "lucide-react"

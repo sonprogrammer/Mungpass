@@ -1,7 +1,6 @@
-import { ProfileCardProps } from "@/entities/user/model/useUserStore";
-import { UserOutlined } from "@ant-design/icons";
-import { Avatar, Skeleton } from "antd";
-import { Dog, User } from "lucide-react";
+import { ProfileCardProps } from "@/entities/user/model";
+import { Skeleton } from "antd";
+import { User } from "lucide-react";
 
 
 

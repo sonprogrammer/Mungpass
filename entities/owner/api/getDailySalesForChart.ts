@@ -1,4 +1,4 @@
-import { DailySalesData } from "@/entities/owner/model/types";
+import { DailySalesData } from "@/entities/owner/model";
 import { supabaseClient } from "@/shared/api/supabase/client";
 
 export const getDailySalesForChart = async(shopId: string, start: string, end: string):Promise<DailySalesData[]> => {

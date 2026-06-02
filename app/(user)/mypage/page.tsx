@@ -1,4 +1,5 @@
-import { MyPageWidget } from '@/widgets/mypage/ui/MyPageWidget';
+import { MyPageWidget } from "@/widgets/mypage/ui";
+
 
 export default function MyPage() {
 

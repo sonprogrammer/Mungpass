@@ -1,5 +1,6 @@
-import { DogRegisterToSever } from './types';
-import { registerDog } from "@/entities/dog/api/registerDog";
+
+import { registerDog } from "@/entities/dog/api";
+import { DogRegisterToSever } from "@/features/dog/model";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { App } from 'antd';
 

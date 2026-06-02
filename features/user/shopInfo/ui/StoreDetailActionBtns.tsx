@@ -1,10 +1,10 @@
 'use client'
 
-import { StoreDetailActionBtnsProps } from "@/features/user/shopInfo/model/types"
+import { StoreDetailActionBtnsProps } from "@/features/user/shopInfo/model"
 import { Bell, Calendar, ChevronUp, Heart, Plane } from "lucide-react"
 import { memo, useState } from "react"
 
-function StoreDetailActionBtns({
+function StoreDetailActionBtnsInner({
     isMungPassPartner,
     isPending,
     isOpen,
@@ -118,4 +118,4 @@ function StoreDetailActionBtns({
     )
 }
 
-export default memo(StoreDetailActionBtns)
+export const StoreDetailActionBtns = memo(StoreDetailActionBtnsInner)

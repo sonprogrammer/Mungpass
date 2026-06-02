@@ -1,13 +1,13 @@
 'use client'
 
 
-import { DailyStatsChartProps } from "@/features/owner/stats/model/types"
-import { CustomTooltip } from "@/features/owner/stats/ui/CustomTooltip"
+import { DailyStatsChartProps } from "@/features/owner/stats/model"
+import { CustomTooltip } from "@/features/owner/stats/ui"
 import { format } from "date-fns"
 import { memo, useMemo } from "react"
 import { Bar, BarChart, CartesianGrid, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts"
 
-function DailyStatsChart({ dailyData,handleNext, handlePrev, isNextDisabled }: DailyStatsChartProps) {
+function DailyStatsChartInner({ dailyData,handleNext, handlePrev, isNextDisabled }: DailyStatsChartProps) {
 
 
     const topRecordDate = useMemo(() => {
@@ -64,4 +64,4 @@ function DailyStatsChart({ dailyData,handleNext, handlePrev, isNextDisabled }: D
 
 }
 
-export default memo(DailyStatsChart)
+export const DailyStatsChart = memo(DailyStatsChartInner)
