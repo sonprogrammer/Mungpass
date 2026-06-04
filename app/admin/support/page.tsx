@@ -194,12 +194,12 @@ export default function AdminInquiryChatPage() {
                                                 {/* //TODO 확인후 디자인 수정 */}
                                                 <Avatar
                                                     size={30}
-                                                    src={record.profile.avatar_url || undefined}
+                                                    src={record.profile.avatar_url ?? undefined}
                                                     icon={<UserOutlined />}
                                                 />
                                                 <div className="flex flex-col">
                                                     <span className="font-semibold">
-                                                        {isOwner ? record.profile.shop?.[0]?.name || '매장명 없음'
+                                                        {isOwner ? record.profile.shop?.[0]?.name ?? '매장명 없음'
                                                             : record.profile.name
                                                         }
                                                     </span>

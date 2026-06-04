@@ -33,7 +33,7 @@ export function StoreInquiryCard() {
   const [selectedRoomTitle, setSelectedRoomTitle] = useState<string>('')
 
   // * 자신의 문의 목록 가져오기 = 채팅방 가져오기 여러개 
-  const { data: inquiryList = [], isPending: isListPending } = useGetInquiryList({ userId: profile?.id || '', userType: 'owner' })
+  const { data: inquiryList = [], isPending: isListPending } = useGetInquiryList({ userId: profile?.id ?? '', userType: 'owner' })
 
   const { mutate: postInquiry, isPending: isSubmitting } = usePostInquiry()
 

@@ -23,7 +23,7 @@ export function InquiryMsgList({ messages, selectedRoom, messageEndRef, onUserCl
                     const prevMsg = messages[i - 1]
 
                     const isFirstOfDay = !prevMsg || !isSameDay(new Date(prevMsg.created_at), new Date(msg.created_at))
-                    const isMe = msg.sender_type === "admin";
+                    const isMe = msg.sender_type === "admin"
 
                     return (
                         <div key={msg.id}>

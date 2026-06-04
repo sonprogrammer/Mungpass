@@ -27,7 +27,7 @@ export function ChatInquiryContent() {
 
     const profile = useUserStore(state => state.profile)
     //* 채팅방 목록 가져오기
-    const { data: inquiryList = [], isPending: isListPending } = useGetInquiryList({ userId: profile?.id || '', userType: 'user' })
+    const { data: inquiryList = [], isPending: isListPending } = useGetInquiryList({ userId: profile?.id ?? '', userType: 'user' })
     //* 일반 유저 알림 가졍괴
     const { data: userNoti } = useGetInquiryUserNoti(profile?.id ?? '')
     // * 관리자에게 알림 보내기
