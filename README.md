@@ -4,7 +4,9 @@
 ### "반려 시설의 번거로운 수기 입장 절차를 개선하고, 사장님과 견주를 유기적으로 연결하는 비즈니스 지향 O2O 서비스입니다."
 <br />
 
-**[서비스 랜딩페이지 가보기](https://mungpass-landing.vercel.app/)**
+**[서비스 랜딩페이지 가보기](https://mungpass-landing.vercel.app/)**<br />
+**[서비스 페이지 가보기](https://mungpass.vercel.app/)**
+
 <br />
 
 🚀 서비스 비전 & 목적
@@ -62,8 +64,11 @@ Layers: app, pages, widgets, features, entities, shared로 엄격히 구분하�
 - 문제: 동일한 모달 내에서 데이터가 바뀔 때 이전 데이터가 일시적으로 남는 캐시 문제 발생
 - 해결: React의 key 속성을 활용하여 컴포넌트의 라이프사이클을 명확히 제어함으로써 데이터 엇박자 해결
 
-
-
+[Next.js SSR 환경의 Hydration 및 사전 렌더링 에러 해결]
+- 문제1 : **useSearchParams** 빌드 오류 : 런타임 기반의 클라이언트 훅이 사전 PreRender되어 Vercel 배포 빌드가 중단되는 현상 발생
+- 해결1 : 해당 컴포넌트의 상위 페이지를 **Suspense** 로 감싸 CSR 전환 시점을 명확히 분리
+- 문제2 : **Zustand Persist** 데이터 깜빡임 : 서버에는 없는 브라우저의 **localStorage**상태가 클라이언트 하이드레이션 이전에 참조되어 새로고침시 데이터가 순간적으로 비어 보이는 현상 발생
+- 해결2 : **onRehydrateStorage**를 활용해 상태 복구 완료를 관리하고 하이드레이션 완료 후에만 UI를 렌더링하도록 제어
 
 
 
