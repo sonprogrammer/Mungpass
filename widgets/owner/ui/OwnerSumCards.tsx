@@ -1,3 +1,5 @@
+'use client'
+
 import { Card, Col, Row, Skeleton } from 'antd';
 import { ClockCircleOutlined, PlayCircleOutlined, UserOutlined, DollarOutlined } from '@ant-design/icons';
 
