@@ -1,5 +1,6 @@
 'use client'
 
+import { useUserStore } from "@/entities/user/model"
 import { cookieLogout } from "@/features/auth/api"
 import { useStoreRegistrationStore } from "@/features/auth/model/owner"
 import { SelectedStore, SkipConfirmModal, StoreSearchWidget } from "@/features/auth/ui/owner"
@@ -16,6 +17,7 @@ export function RegisterContent() {
     const [keyword, setKeyword] = useState<string>('')
     const [skipModalOpen, setSkipModalOpen] = useState<boolean>(false)
     const setSelectedPlace = useStoreRegistrationStore(state => state.setSelectedPlace)
+    const resetLoginTabRole = useUserStore(state => state.resetLoginTabRole)
 
     // *검색 훅
     const { data: searchData, isPending } = useSearchShops(keyword)
@@ -70,7 +72,8 @@ export function RegisterContent() {
 
     const handleSkipStep = async () => {
         await cookieLogout()
-        window.location.href = '/'
+        resetLoginTabRole()
+        window.location.href = '/' //이거로 전역상태 초기화
     }
 
     // *ownerId가 없으면 얼리 리턴해주기

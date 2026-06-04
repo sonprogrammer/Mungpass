@@ -15,7 +15,6 @@ export function ReStoreRegistionWidget() {
 
     if (isRegisPending) {
         return (
-            // TODO MapLoad 컴포넌트 활용
             <div className="mt-10 flex flex-col items-center justify-center p-10 bg-white rounded-4xl border border-orange-50/50">
                 <Loader2 className="w-6 h-6 text-orange-200 animate-spin mb-2" />
                 <p className="text-xs text-slate-400 font-medium">제출 내역 가져오는 중...</p>
@@ -45,7 +44,7 @@ export function ReStoreRegistionWidget() {
         place_name: registedData.store_name,
         address_name: registedData.address_name,
         phone: registedData.phone,
-        id: registedData.kakao_place_id, // 카카오 ID
+        id: registedData.kakao_place_id, // 카카오 id
         x: registedData.x,
         y: registedData.y,
         category_name: registedData.category_name,
