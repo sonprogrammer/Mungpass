@@ -55,7 +55,7 @@ Layers: app, pages, widgets, features, entities, shared로 엄격히 구분하�
 - RLS 정책: 유저 타입(견주/사장님)에 따른 엄격한 데이터 접근 권한 분리 설계
 <br />
 
-## 🔍 트러블 슈팅 (Troubleshooting)
+## 🔫 트러블 슈팅 (Troubleshooting)
 [Next.js SSR 스타일 깨짐(FOUC) 해결]
 - 문제: Ant Design 사용 시 서버 사이드 렌더링 환경에서 스타일이 적용되기 전 HTML이 노출되는 현상 발생
 - 해결: @ant-design/nextjs-registry를 도입하여 서버에서 스타일 시트를 미리 추출하고 주입함으로써 사용자 경험 개선
