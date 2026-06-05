@@ -40,8 +40,14 @@ export function MyPetsPageWidget() {
     const { data: activeDogs = [], isPending: isActiveDogLoading } = useGetMyPetUsage({ statuses: ['staying'] })
 
     const { message } = App.useApp()
+
     
     const primaryDogStatus = useMemo(() => !!dogs?.find(dog => dog.is_primary),[dogs])
+
+    const primaryDogFirst = useMemo(() => {
+        if(!dogs) return []
+        return [...dogs].sort((a, b) => Number(b.is_primary) - Number(a.is_primary))
+    }, [dogs])
 
     const handleCheckDelete = (dog: Dog) => {
         setSelectedDog(dog)
@@ -116,7 +122,9 @@ export function MyPetsPageWidget() {
             )}
             <div className="grid grid-cols-2 gap-3 ">
                 <AnimatePresence mode="popLayout">
-                    {dogs && dogs.map((dog, index) => (
+                    {primaryDogFirst && primaryDogFirst.map((dog, index) => { 
+                        
+                        return (
                         <motion.div
                             key={dog.id}
                             layout
@@ -152,7 +160,7 @@ export function MyPetsPageWidget() {
                                 )}
                             </AnimatePresence>
                         </motion.div>
-                    ))}
+                    )})}
                 </AnimatePresence>
                 {/*//* 하단 추가 버튼 */}
                 {dogs && dogs.length > 0 && (

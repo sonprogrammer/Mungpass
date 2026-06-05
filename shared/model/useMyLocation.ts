@@ -19,7 +19,7 @@ export function useMyLocation() {
                         console.error('현재 위치 에러', err)
                         res({ lat: 37.5665, lon: 126.9780 })
                     },
-                    {enableHighAccuracy: true, timeout: 5000}
+                    {enableHighAccuracy: false, timeout: 5000}
                 )
             })
         },

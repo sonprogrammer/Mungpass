@@ -1,11 +1,13 @@
+'use client'
 
 import { getDogAge } from "@/entities/dog/lib"
 import { Dog } from "@/entities/dog/model"
 import dayjs from "dayjs"
 import { ChevronRight, ChessQueen } from "lucide-react"
+import { memo } from "react"
 
 
-export function DogCard({ dog }: { dog: Dog}) {
+function DogCardInner({ dog }: { dog: Dog}) {
 
 
 
@@ -55,3 +57,5 @@ export function DogCard({ dog }: { dog: Dog}) {
         </div>
     )
 }
+
+export const DogCard = memo(DogCardInner)

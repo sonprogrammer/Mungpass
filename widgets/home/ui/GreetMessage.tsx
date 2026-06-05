@@ -7,9 +7,9 @@ export function GreetMessage({ userData, myDog }: GreetMessageProps) {
 
   const { data: dogStatus } = useGetMyPetUsage({ statuses: ['staying'] })
 
-  const primaryDog = dogStatus?.find(useage => useage.dog.is_primary)
+  const primaryDog = dogStatus?.find(useage => useage.dog.is_primary) // 현재 이용중인 강아지가 대표강아지인지 찾고
 
-  const displayDog = primaryDog || (dogStatus && dogStatus[0])
+  const displayDog = primaryDog || (dogStatus && dogStatus[0]) // 현재 이용중인 강아지가 있는데 대표강아지가 아니면 처음으로 이용중인 강아지 이름이 뜬다
 
 
 

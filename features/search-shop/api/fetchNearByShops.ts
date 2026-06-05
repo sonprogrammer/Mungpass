@@ -2,6 +2,37 @@ import { FetchShopsRes } from "@/features/search-shop/model"
 import { Bound, Coords, KakaoPlace } from "@/shared/model"
 import { getCenterFromBound } from "@/shared/utils"
 
+
+//* ip 기반 주소 찾기 - 백업
+// const getIPLocation = async (): Promise<Coords> => {
+//     try {
+//         const res = await fetch('https://ipapi.co/json/')
+//         const data = await res.json()
+//         return { lat: data.latitude, lon: data.longitude }
+//     } catch {
+//         return { lat: 37.5665, lon: 126.9780 }
+//     }
+// }
+
+// const getLocationWithFallback = (): Promise<Coords> => {
+//     return new Promise((resolve) => {
+//         if (!navigator.geolocation) {
+//             getIPLocation().then(resolve)
+//             return
+//         }
+//         navigator.geolocation.getCurrentPosition(
+//             (pos) => resolve({ lat: pos.coords.latitude, lon: pos.coords.longitude }),
+//             async (err) => {
+//                 console.warn('geolocation 실패, IP 기반으로 시도:', err)
+//                 const coords = await getIPLocation()
+//                 resolve(coords)
+//             },
+//             { timeout: 5000, enableHighAccuracy: false }
+//         )
+//     })
+// }
+
+
 export const fetchNearByShops = (radius: number, newBound?: Bound | null): Promise<FetchShopsRes> => {
     return new Promise((resolve, reject) => {
 
@@ -60,7 +91,7 @@ export const fetchNearByShops = (radius: number, newBound?: Bound | null): Promi
                 })
                 return
             }
-
+            // getLocationWithFallback().then(searchWithCoords) //* ip기반 현재 위치 찾기 
             if (!navigator.geolocation) {
                 return reject(new Error('geolocation is not surporting'))
             }

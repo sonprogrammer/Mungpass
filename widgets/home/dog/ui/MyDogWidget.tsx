@@ -1,8 +1,4 @@
-
-
 'use client'
-
-
 
 import { DogCard } from "@/entities/dog/ui"
 import { useDogStore } from "@/entities/dog/model"
@@ -12,12 +8,18 @@ import 'swiper/css';
 import 'swiper/css/pagination';
 import { useGetMyDogs } from "@/features/dog/model"
 import { MyDogWidgetProps } from "@/widgets/home/model";
+import { useMemo } from "react";
 
 
 export function MyDogWidget({dogPostModal, dogViewModal}:MyDogWidgetProps) {
     const setSelectedDog = useDogStore(state => state.setSelectedDog)
 
     const { data: dogs, isPending} = useGetMyDogs()
+
+    const primaryDogFirst = useMemo(() => {
+        if(!dogs) return []
+        return [...dogs].sort((a, b) => Number(b.is_primary) - Number(a.is_primary))
+    }, [dogs])
 
 
 
@@ -57,7 +59,7 @@ export function MyDogWidget({dogPostModal, dogViewModal}:MyDogWidgetProps) {
                 className="pb-10" 
             >
             
-                {dogs.map((dog) => (
+                {primaryDogFirst.map((dog) => (
                     <SwiperSlide key={dog.id} onClick={()=> {setSelectedDog(dog); dogViewModal()}}>
                         <DogCard dog={dog} />
                     </SwiperSlide>
