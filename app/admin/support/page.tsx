@@ -154,6 +154,22 @@ export default function AdminInquiryChatPage() {
         }
     }
 
+    const getDisplayName = (profile: Profile) => {
+        if (profile.role === 'owner') {
+            const shop = Array.isArray(profile.shop) ? profile.shop[0] : profile.shop
+            return shop?.name ?? '매장명 없음'
+        }
+        return profile.name
+    }
+
+    const getDisplayTitle = (profile: InquiryRoomWithProfile['profile']) => {
+        if (profile?.role === 'owner') {
+            const shop = Array.isArray(profile.shop) ? profile.shop[0] : profile.shop
+            return `[${shop?.name ?? '매장명 없음'}]`
+        }
+        return `[${profile?.name ?? '일반 회원'}]`
+    }
+
     return (
         <>
             <div style={{ padding: "24px" }}>
@@ -198,9 +214,7 @@ export default function AdminInquiryChatPage() {
                                                 />
                                                 <div className="flex flex-col">
                                                     <span className="font-semibold">
-                                                        {isOwner ? record.profile.shop?.[0]?.name ?? '매장명 없음'
-                                                            : record.profile.name
-                                                        }
+                                                        {getDisplayName(record.profile)}
                                                     </span>
                                                     <span className="text-xs text-gray-400">
                                                         {isOwner ? '사장 회원' : '일반 회원'}
@@ -245,10 +259,7 @@ export default function AdminInquiryChatPage() {
                                     <div className="flex justify-between items-center">
                                         <div className="flex items-center gap-2">
                                             <span className="font-bold text-gray-800">
-                                                {selectedRoom.profile?.role === 'owner'
-                                                    ? `[${selectedRoom.profile.shop?.[0]?.name || '매장명 없음'}]`
-                                                    : `[${selectedRoom.profile?.name || '일반 회원'}]`
-                                                }
+                                                {getDisplayTitle(selectedRoom.profile)}
                                             </span>
                                             <span className="text-sm text-gray-500 font-normal border-l pl-2 border-gray-300">
                                                 {selectedRoom.title}
