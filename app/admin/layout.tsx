@@ -3,12 +3,12 @@ import { AdminAppProvider } from "@/shared/ui";
 
 
 export default function AdminLayout({ children }: { children: React.ReactNode }) {
-  
+
   return (
-    <AdminRoleGuard>
-      <AdminAppProvider>
+    <AdminAppProvider>
+      <AdminRoleGuard>
         {children}
-      </AdminAppProvider>
-    </AdminRoleGuard>
+      </AdminRoleGuard>
+    </AdminAppProvider>
   );
 }

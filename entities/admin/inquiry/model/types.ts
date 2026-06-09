@@ -20,6 +20,31 @@ export interface InquiryMessage {
     created_at: string;
 }
 
+export interface StoreRegistration {
+    id: string;
+    owner_id: string;
+    store_name: string;
+    business_number: string;
+    address_name: string;
+    biz_reg_image_url: string | null;
+    status: 'PENDING' | 'APPROVED' | 'REJECTED';
+    rejection_reason: string | null;  // 반려 사유 
+    kakao_place_id: string | null;
+    phone: string;
+    store_id: string | null;
+    x: string | null; // 경도
+    y: string | null; // 위도
+    created_at: string;
+    updated_at: string;
+    submitted_at: string | null;
+    approved_at: string | null;
+    rejected_at: string | null;
+    re_submit_at: string | null;
+    discarded_at: string | null;
+    expires_at: string | null;
+    category_name: string | null;
+}
+
 // * 관리자에서 사용자가 사장이면 가게 정보를 가져오기 위함
 export interface Shop {
     id: string;
@@ -55,12 +80,13 @@ export interface Profile {
     business_number: string | null;
     store_name: string | null;
     biz_reg_image: string | null;
-    subscribe_status:
+    subscribe_status: // 멍패스 유료 여부
         | 'NOT_STARTED'
         | 'PENDING'
         | 'APPROVED'
         | 'REJECTED';
-    shop?: Shop[] | null;
+    shop?: Shop | null;
+    store_registrations?: StoreRegistration |null
 }
 
 export interface InquiryRoomWithProfile extends InquiryRoom {

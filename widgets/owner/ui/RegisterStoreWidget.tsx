@@ -1,12 +1,13 @@
 'use client'
 
+import { useGetPartnerShops } from "@/entities/place/model"
 import { useUserStore } from "@/entities/user/model"
 import { cookieLogout } from "@/features/auth/api"
 import { useStoreRegistrationStore } from "@/features/auth/model/owner"
 import { SelectedStore, SkipConfirmModal, StoreSearchWidget } from "@/features/auth/ui/owner"
 import { useSearchShops } from "@/features/search-shop/model/useSearchShops"
 import { KakaoPlace, useMyLocation } from "@/shared/model"
-import { MapContainer } from "@/widgets/around/ui"
+import { MapContainer } from "@/shared/ui/map"
 import { App } from "antd"
 import { useRouter, useSearchParams } from "next/navigation"
 import { useCallback, useEffect, useMemo, useState } from "react"
@@ -25,11 +26,21 @@ export function RegisterContent() {
     //* 현재 내위치 가져오기 
     const { data: myLocation, isLoading: isMyLocationLoading } = useMyLocation()
 
-    const {message} = App.useApp()
+    const { data: partners } = useGetPartnerShops(searchData || [])
+
+    const refinedPlaces = useMemo(() => {
+        const partnerIdSet = new Set(partners?.map(p => p.kakao_place_id))
+        return (searchData || []).map(place => ({
+            ...place,
+            isPartner: partnerIdSet.has(place.id)
+        }))
+    }, [partners, searchData])
+
+    const { message } = App.useApp()
 
     // * 검색 결과 없을 시
     useEffect(() => {
-        if(!isPending && keyword && searchData?.length === 0){
+        if (!isPending && keyword && searchData?.length === 0) {
             message.warning(`${keyword}에 대한 검색 결과가 없습니다`)
         }
     }, [searchData, isPending, keyword, message])
@@ -53,18 +64,18 @@ export function RegisterContent() {
 
     // *ownerId가 없을시 튕김
     useEffect(() => {
-        if(!ownerId){
+        if (!ownerId) {
             message.error('잘못된 접근입니다. 다시 로그인해주세요')
             router.replace('/')
         }
-    },[ownerId, router, message])
+    }, [ownerId, router, message])
 
     const handleNextStep = useCallback(() => {
         if (!activePlace || !ownerId) return
-        if(mode === 'edit'){
+        if (mode === 'edit') {
             router.push('/signup/owner/re-store')
             setSelectedPlace(activePlace)
-        }else{
+        } else {
             setSelectedPlace(activePlace)
             router.push(`/signup/owner/auth?ownerId=${ownerId}`)
         }
@@ -77,7 +88,7 @@ export function RegisterContent() {
     }
 
     // *ownerId가 없으면 얼리 리턴해주기
-    if(!ownerId) return null
+    if (!ownerId) return null
 
     return (
 
@@ -113,16 +124,16 @@ export function RegisterContent() {
                     </div>
                 ) :
                     displayCenter ? (
-                    <MapContainer
-                        center={displayCenter}
-                        places={searchData || []}
-                        onMarkerClick={(place) => setActivePlace(place)}
-                    />
-                ) : (
-                    <div className="flex items-center justify-center h-full">
-                        <p className="text-slate-400">지도를 불러오는 중입니다...</p>
-                    </div>
-                )}
+                        <MapContainer
+                            center={displayCenter}
+                            places={refinedPlaces}
+                            onMarkerClick={(place) => setActivePlace(place)}
+                        />
+                    ) : (
+                        <div className="flex items-center justify-center h-full">
+                            <p className="text-slate-400">지도를 불러오는 중입니다...</p>
+                        </div>
+                    )}
 
             </div>
 

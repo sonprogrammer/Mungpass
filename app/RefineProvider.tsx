@@ -18,6 +18,7 @@ export function RefineProvider({children}: {children: React.ReactNode}){
                 {name: 'inquiries_room'},
                 {name: 'inquiry_messages'},
                 {name: 'inquiry_notifications'},
+                {name: 'shops'},
             ]}
             options={{
                 syncWithLocation: true, 

@@ -18,6 +18,7 @@ function StoreSearchWidgetInner({ handleKeywordChange }: StoreSearchWidgetProps)
     
     const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
         if (e.key === 'Enter') {
+            e.preventDefault()
            handleSearch()
         }
     }

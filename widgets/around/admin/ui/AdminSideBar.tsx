@@ -5,7 +5,7 @@ import {
   DashboardOutlined,
   ShopOutlined,
   UserOutlined,
-  GiftOutlined,
+  // GiftOutlined,
   CustomerServiceOutlined
 } from "@ant-design/icons";
 import Link from "next/link";
@@ -24,8 +24,8 @@ export function AdminSidebar({ collapsed }: { collapsed: boolean }) {
   const menuItems = [
     { key: '/admin', icon: <DashboardOutlined />, label: <Link href="/admin">대시보드</Link> },
     { key: '/admin/stores', icon: <ShopOutlined />, label: <Link href="/admin/stores">입점 심사</Link> },
-    { key: '/admin/users', icon: <UserOutlined />, label: <Link href="/admin/users">회원 관리</Link> },
-    { key: '/admin/coupons', icon: <GiftOutlined />, label: <Link href="/admin/coupons">쿠폰 관리</Link> },
+    { key: '/admin/users', icon: <UserOutlined />, label: <Link href="/admin/user-manage">회원 관리</Link> },
+    // { key: '/admin/coupons', icon: <GiftOutlined />, label: <Link href="/admin/coupons">쿠폰 관리</Link> },
     {
       key: '/admin/support', icon: <CustomerServiceOutlined />, label: (
         <Link href="/admin/support" className="flex items-center justify-between w-full">

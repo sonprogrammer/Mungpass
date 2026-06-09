@@ -1,20 +1,29 @@
 'use client'
 
+import { useGetPartnerShops } from "@/entities/place/model";
 import { MapSectionProps } from "@/widgets/around/model/types";
-import { MapContainer } from "@/widgets/around/ui/MapContainer";
+import { MapContainer } from "@/shared/ui/map/MapContainer";
 import { LocateFixed, RefreshCw } from "lucide-react";
-import { memo } from "react";
+import { memo, useMemo } from "react";
 
 
 function MapSection({ center, places, showRefreshBtn, onMarkerClick, onBoundChange, onRefresh, onMyLocation }: MapSectionProps) {
 
-  
+  const { data: partners } = useGetPartnerShops(places)
+
+  const refinedPlaces = useMemo(() => {
+    const partnerIdSet = new Set(partners?.map(p => p.kakao_place_id))
+    return places.map(place => ({
+      ...place,
+      isPartner: partnerIdSet.has(place.id)
+    }))
+  }, [partners, places])
   return (
     <div className="relative">
 
       <MapContainer
         center={center}
-        places={places}
+        places={refinedPlaces}
         onMarkerClick={onMarkerClick}
         onBoundChange={onBoundChange}
       />

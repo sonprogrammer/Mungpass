@@ -19,16 +19,16 @@ import { HttpError } from "@refinedev/core";
 
 import { useGetInquiryMsg } from "@/entities/admin/inquiry/model/useGetInquiryMsg";
 import { useUserStore } from "@/entities/user/model/useUserStore";
-import { useUpdateInquiryRoomStatus } from "@/entities/admin/inquiry/model/useUpdateInquiryRoomStatus";
+import { useUpdateInquiryRoomStatus } from "@/features/admin/inquiry/model";
 import { useGenerateInquirNoti } from "@/entities/inquiry/model/useGenerateInquirNoti";
 import { InquiryRoom, InquiryRoomWithProfile, Profile } from "@/entities/admin/inquiry/model/types";
 import { useInquiryRealtime } from "@/entities/admin/inquiry/model/useInquiryRealtime";
-import { InquiryMsgList } from "@/entities/admin/inquiry/ui/InquiryMsgList";
-import { InquiryReplyForm } from "@/entities/admin/inquiry/ui/InquiryReplyForm";
+import { InquiryMsgList } from "@/features/admin/inquiry/ui";
+import { InquiryReplyForm } from "@/features/admin/inquiry/ui";
 import { useSendMsg } from "@/entities/inquiry/model/useSendMsg";
 import { useReadInquiryNotiByRoom } from "@/entities/inquiry/model/useReadInquiryNotiByRoom";
 import { UserOutlined } from "@ant-design/icons";
-import { AdminUserDetailModal } from "@/entities/admin/userInfo/ui/AdminUserDetailModal";
+import { AdminUserDetailModal } from "@/features/admin/user/ui/AdminUserDetailModal";
 import { InquiryCategory } from "@/entities/inquiry/model/types";
 import { format } from "date-fns/format";
 import { X } from "lucide-react";
@@ -72,12 +72,10 @@ export default function AdminInquiryChatPage() {
         meta: {
             select: `
             *,
-            profile:profiles(
-                *,
-                shop: shops(
-                *
+            profile:profiles(*,
+                shop: shops(*),
+                store_registrations: store_registrations(*)
                 )
-            )
             `
         },
         sorters: {
@@ -92,7 +90,8 @@ export default function AdminInquiryChatPage() {
             mode: "client",
             pageSize: 12,
         },
-    });
+    })
+
 
     // * 실시간채팅
     useInquiryRealtime(selectedRoom?.id ?? '')
@@ -272,7 +271,7 @@ export default function AdminInquiryChatPage() {
                                         className="text-gray-400 hover:text-gray-600 p-1 rounded-lg hover:bg-gray-100 transition-colors cursor-pointer flex items-center justify-center"
                                         title="대화방 닫기"
                                     >
-                                            <X size={20} />
+                                        <X size={20} />
                                     </button>
                                 }
                                 style={{

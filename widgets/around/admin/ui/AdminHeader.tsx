@@ -10,7 +10,7 @@ import {
 } from "@ant-design/icons";
 import { cookieLogout } from "@/features/auth/api/logoutAction";
 import { useUserStore } from "@/entities/user/model/useUserStore";
-import { AdminNotificationDropdown } from "@/entities/admin/notification/ui/AdminNotiDropdown";
+import { AdminNotificationDropdown } from "@/features/admin/notification/ui";
 
 const { Header } = Layout;
 const { Text } = Typography;

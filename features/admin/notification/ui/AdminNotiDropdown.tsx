@@ -7,7 +7,7 @@ import { useRouter } from 'next/navigation'
 import { useQueryClient } from '@tanstack/react-query'
 import { useMemo } from 'react'
 import { useGetAdminInquiryNoti } from '@/entities/admin/inquiry/model'
-import { InquiryNotification } from '@/entities/admin/notification/model'
+import { InquiryNotification } from '@/features/admin/notification/model'
 
 
 export function AdminNotificationDropdown() {

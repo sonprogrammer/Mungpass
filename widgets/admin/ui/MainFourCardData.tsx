@@ -17,10 +17,8 @@ export function MainCardFourData() {
 
     // *승인된 데이터, 업체수
     const { result: { total: approvedDataTotal }, query: { isLoading: approvedQuery } } = useList({
-        resource: 'store_registrations',
-        filters: [{ field: 'status', operator: 'eq', value: 'APPROVED' }]
+        resource: 'shops',
     })
-
     // * 신규 유저
     const { result: { total: newUserTotal }, query: { isLoading: newUserQuery } } = useList({
         resource: 'profiles',

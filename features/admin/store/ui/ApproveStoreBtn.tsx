@@ -1,15 +1,15 @@
 'use client'
 
-import { Modal, Input, Button, Space } from "antd";
+import { Modal, Input, Button, Space, App } from "antd";
 import { useState } from "react";
 import { useUpdate } from "@refinedev/core";
 import { ApproveStoreBtnProps } from "@/features/admin/store/model";
 
 export function ApproveStoreBtn({ registrationID, registrationStoreName, onSuccess }: ApproveStoreBtnProps) {
-    const [isModalOpen, setIsModalOpen] = useState(false);
-    const [status, setStatus] = useState<'APPROVED' | 'REJECTED'>('APPROVED');
-    const [reason, setReason] = useState('');
-    const { mutate, mutation: { isPending } } = useUpdate();
+    const [isModalOpen, setIsModalOpen] = useState(false)
+    const [status, setStatus] = useState<'APPROVED' | 'REJECTED'>('APPROVED')
+    const [reason, setReason] = useState('')
+    const { mutate, mutation: { isPending } } = useUpdate()
 
     const openModal = (s: 'APPROVED' | 'REJECTED') => {
         setStatus(s)
@@ -17,13 +17,16 @@ export function ApproveStoreBtn({ registrationID, registrationStoreName, onSucce
         setIsModalOpen(true)
     }
 
+    const { message} = App.useApp()
     const now = new Date().toISOString()
     
     const handleOk = () => {
         mutate({
             resource: 'store_registrations',
             id: registrationID,
-            values: { status, rejection_reason: status === 'REJECTED' ? reason : undefined,
+            values: { 
+                status, 
+                rejection_reason: status === 'REJECTED' ? reason : undefined,
                 approved_at: status === 'APPROVED' ? now : undefined,
                 rejected_at: status === 'REJECTED' ? now : undefined
              }
@@ -31,6 +34,7 @@ export function ApproveStoreBtn({ registrationID, registrationStoreName, onSucce
             onSuccess: () => {
                 setIsModalOpen(false)
                 onSuccess?.()
+                message.success(`${registrationStoreName} 지점이 ${status === 'APPROVED' ? '승인' : '거절'}되었습니다.`)
             }
         })
     }
