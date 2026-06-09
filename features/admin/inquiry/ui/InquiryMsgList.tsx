@@ -16,6 +16,15 @@ interface InquiryMsgListProps {
 }
 
 export function InquiryMsgList({ messages, selectedRoom, messageEndRef, onUserClick }: InquiryMsgListProps) {
+    const profile = selectedRoom.profile
+    const shop = profile && Array.isArray(profile.shop) ? profile.shop[0] : profile.shop
+    
+    const getSenderName = (isMe: boolean) => {
+        if(isMe) return '멍패스 운영팀'
+        if(profile.role === 'owner') return shop.name || '매장명 없음'
+        return profile.name || '이름 없음'
+    }
+    
     return (
         <div className="flex flex-col h-112 bg-gray-50/50 rounded-2xl border border-gray-100 overflow-hidden">
             <div className="flex-1 overflow-y-auto p-4 space-y-4">
@@ -48,12 +57,7 @@ export function InquiryMsgList({ messages, selectedRoom, messageEndRef, onUserCl
 
                                     <div className="flex items-center gap-1.5 mb-1">
                                         <span className="text-[11px] font-bold text-gray-700">
-                                            {isMe 
-                                                ? '멍패스 운영팀' 
-                                                : selectedRoom.profile?.role === 'owner'
-                                                    ? selectedRoom.profile.shop?.[0]?.name || '매장명 없음'
-                                                    : selectedRoom.profile?.name || '이름 없음'
-                                            }
+                                            {getSenderName(isMe)}
                                         </span>
                                     </div>
 
