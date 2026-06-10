@@ -10,6 +10,7 @@ function KakaoMap({ center, places, onMarkerClick, onBoundChange }: KakaoMapProp
   return (
     <div className="w-full h-full relative">
       <Map
+        key={`${center.lat}-${center.lon}`}
         center={{ lat: center.lat, lng: center.lon }}
         style={{ width: "100%", height: "100%" }}
         level={4}

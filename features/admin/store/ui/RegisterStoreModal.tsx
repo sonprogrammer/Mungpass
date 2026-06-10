@@ -20,6 +20,8 @@ export function RegisterStoreModal({ open, onClose }: RegisterStoreModalProps) {
   const [activePlace, setActivePlace] = useState<KakaoPlace | null>(null)
   const [selectedOwnerId, setSelectedOwnerId] = useState<string | null>(null)
   const [mode, setMode] = useState<'owner' | 'store' | 'check'>('owner')
+  const [savedFormValues, setSavedFormValues] = useState<Partial<Shop>>({})
+
 
   // *검색 훅
   const { data: searchData, isPending } = useSearchShops(keyword)
@@ -66,6 +68,7 @@ export function RegisterStoreModal({ open, onClose }: RegisterStoreModalProps) {
     } else if (mode === 'store') {
       try {
         await form.validateFields(['name', 'address', 'kakao_place_id'])
+        setSavedFormValues(form.getFieldsValue())
         setMode('check')
       } catch {
         message.warning('필수 항목을 입력해주세요')
@@ -107,7 +110,7 @@ export function RegisterStoreModal({ open, onClose }: RegisterStoreModalProps) {
   }
 
   const selectedOwner = unregisOwner?.find(o => o.id === selectedOwnerId)
-  const formValues = form.getFieldsValue()
+  // const formValues = form.getFieldsValue()
 
 
   const stepItems = [
@@ -128,12 +131,12 @@ export function RegisterStoreModal({ open, onClose }: RegisterStoreModalProps) {
       footer={null}
       centered
     >
+      <div className="max-h-[70vh] overflow-y-auto scrollbar-none">
+        <Steps items={stepItems} current={currentStep} className="mb-8" />
 
-      <Steps items={stepItems} current={currentStep} className="mb-8" />
+        <Form form={form} layout="vertical">
 
-      <Form form={form} layout="vertical">
-        {/* {mode === 'owner' && ( */}
-          <div className={mode !== 'owner' ? 'hidden' : ''}>
+          <div className={`${mode !== 'owner' ? 'hidden' : ''}`}>
 
             <Form.Item name="owner_id" label="사장님 선택" rules={[{ required: true }]}>
               <Select showSearch
@@ -152,78 +155,37 @@ export function RegisterStoreModal({ open, onClose }: RegisterStoreModalProps) {
               />
             </Form.Item>
           </div>
-        {/* // // )} */}
-        {/* {mode === 'store' && ( */}
-          <div className={mode !== 'store' ? 'hidden' : ''}>
 
-            {/* <Button onClick={() => setShowMap(!showMap)} className='mb-4'>
-              {showMap ? '지도 닫기' : '매장 검색하기'}
-            </Button> */}
+          {mode === 'store' && (
 
-            <SearchStoreSection
-              displayCenter={displayCenter}
-              searchData={searchData}
-              activePlace={activePlace}
-              selectedOwnerId={selectedOwnerId}
-              onKeywordChange={handleKeywordChange}
-              onPlaceClick={handlePlaceClick}
-              onMarkerClick={setActivePlace}
-            />
-            {/* <AnimatePresence>
-              {showMap && (
-                <motion.div
-                  initial={{ height: 0, opacity: 0 }}
-                  animate={{ height: 'auto', opacity: 1 }}
-                  exit={{ height: 0, opacity: 0 }}
-                  className="flex items-center justify-center mb-6"
-                >
-                  <div className="flex flex-col gap-4">
-                    <StoreSearchWidget handleKeywordChange={(k) => { setKeyword(k); setActivePlace(null); }} />
+            <div className="mt-3 scrollbar-none">
+              <SearchStoreSection
+                displayCenter={displayCenter}
+                searchData={searchData}
+                activePlace={activePlace}
+                selectedOwnerId={selectedOwnerId}
+                onKeywordChange={handleKeywordChange}
+                onPlaceClick={handlePlaceClick}
+                onMarkerClick={setActivePlace}
+              />
 
-                    {displayCenter && (
-                      <div className="h-100">
-                        <MapContainer
-                          center={displayCenter}
-                          places={searchData || []}
-                          onMarkerClick={setActivePlace}
-                        />
-                      </div>
-                    )}
+              <div className="grid grid-cols-2 gap-4">
+                <Form.Item name="name" label="매장명" rules={[{ required: true }]} preserve={true}><Input /></Form.Item>
+                <Form.Item name="address" label="주소" rules={[{ required: true }]} preserve={true}><Input /></Form.Item>
+                <Form.Item name="shops_phone" label="매장 전화번호" preserve={true}><Input /></Form.Item>
+                <Form.Item name="business_number" label="사업자 번호" preserve={true}><Input /></Form.Item>
+                <Form.Item name="kakao_place_id" label="카카오 장소 ID" preserve={true}><Input readOnly /></Form.Item>
 
-                    {activePlace && selectedOwnerId ? (
-                      <SelectedStore
-                        place={activePlace}
-                        onNext={() => handlePlaceClick(activePlace)}
-                        ownerId={selectedOwnerId}
-                      />
-                    ) : (
-                      <div className="p-3 bg-orange-50 text-orange-600 text-sm font-bold rounded-lg text-center">
-                        {!selectedOwnerId ? "먼저 사장님을 선택해주세요" : "지도의 마커를 클릭하여 매장을 선택하세요"}
-                      </div>
-                    )}
-                  </div>
+              </div>
 
-                </motion.div>
-              )}
-            </AnimatePresence> */}
-            <div className="grid grid-cols-2 gap-4">
-              <Form.Item name="name" label="매장명" rules={[{ required: true }]} preserve={true}><Input /></Form.Item>
-              <Form.Item name="address" label="주소" rules={[{ required: true }]} preserve={true}><Input /></Form.Item>
-              <Form.Item name="shops_phone" label="매장 전화번호" preserve={true}><Input /></Form.Item>
-              <Form.Item name="business_number" label="사업자 번호" preserve={true}><Input /></Form.Item>
-              <Form.Item name="kakao_place_id" label="카카오 장소 ID" preserve={true}><Input readOnly /></Form.Item>
-
+              <div className="flex items-center gap-8 py-4">
+                <Form.Item name="kiosk_enabled" label="키오스크 사용" valuePropName="checked" preserve={true}><Switch /></Form.Item>
+                <Form.Item name="is_member" label="유료 회원 여부" valuePropName="checked" preserve={true}><Switch /></Form.Item>
+              </div>
             </div>
+          )}
 
-            <div className="flex items-center gap-8 py-4">
-              <Form.Item name="kiosk_enabled" label="키오스크 사용" valuePropName="checked" preserve={true}><Switch /></Form.Item>
-              <Form.Item name="is_member" label="유료 회원 여부" valuePropName="checked" preserve={true}><Switch /></Form.Item>
-            </div>
-          </div>
-        {/* )} */}
-
-        {/* {mode === 'check' && ( */}
-          <div className="flex flex-col gap-6 mode !== 'store' ? 'hidden' : ''">
+          <div className={`flex flex-col gap-6 ${mode !== 'check' ? 'hidden' : ''}`}>
             <Descriptions title="사장님 정보" bordered column={2}>
               <Descriptions.Item label="이름">{selectedOwner?.name}</Descriptions.Item>
               <Descriptions.Item label="이메일">{selectedOwner?.email}</Descriptions.Item>
@@ -231,42 +193,42 @@ export function RegisterStoreModal({ open, onClose }: RegisterStoreModalProps) {
             </Descriptions>
 
             <Descriptions title="매장 정보" bordered column={2}>
-              <Descriptions.Item label="매장명">{formValues.name}</Descriptions.Item>
-              <Descriptions.Item label="주소">{formValues.address}</Descriptions.Item>
-              <Descriptions.Item label="전화번호">{formValues.shops_phone}</Descriptions.Item>
-              <Descriptions.Item label="사업자 번호">{formValues.business_number}</Descriptions.Item>
-              <Descriptions.Item label="카카오 장소 ID">{formValues.kakao_place_id}</Descriptions.Item>
-              <Descriptions.Item label="키오스크">{formValues.kiosk_enabled ? '사용' : '미사용'}</Descriptions.Item>
-              <Descriptions.Item label="유료 회원">{formValues.is_member ? '예' : '아니오'}</Descriptions.Item>
+              <Descriptions.Item label="매장명">{savedFormValues.name}</Descriptions.Item>
+              <Descriptions.Item label="주소">{savedFormValues.address}</Descriptions.Item>
+              <Descriptions.Item label="전화번호">{savedFormValues.shops_phone}</Descriptions.Item>
+              <Descriptions.Item label="사업자 번호">{savedFormValues.business_number}</Descriptions.Item>
+              <Descriptions.Item label="카카오 장소 ID">{savedFormValues.kakao_place_id}</Descriptions.Item>
+              <Descriptions.Item label="키오스크">{savedFormValues.kiosk_enabled ? '사용' : '미사용'}</Descriptions.Item>
+              <Descriptions.Item label="유료 회원">{savedFormValues.is_member ? '예' : '아니오'}</Descriptions.Item>
             </Descriptions>
           </div>
-        {/* )} */}
 
 
-      </Form>
 
-      <div className="flex justify-between mt-6">
-        <Button
-          onClick={() => {
-            if (mode === 'store') setMode('owner')
-            else if (mode === 'check') setMode('store')
-          }}
-          disabled={mode === 'owner'}
-        >
-          이전
-        </Button>
-        <div className="flex gap-2">
-          <Button onClick={handleClose}>취소</Button>
-          {mode !== 'check' ? (
-            <Button type="primary" onClick={handleNext}>다음</Button>
-          ) : (
-            <Button type="primary" onClick={handleSubmit} loading={isSubmitting}>등록하기</Button>
-          )}
+        </Form>
+
+        <div className="flex justify-between mt-6">
+          <Button
+            onClick={() => {
+              if (mode === 'store') setMode('owner')
+              else if (mode === 'check') setMode('store')
+            }}
+            disabled={mode === 'owner'}
+          >
+            이전
+          </Button>
+          <div className="flex gap-2">
+            <Button onClick={handleClose}>취소</Button>
+            {mode !== 'check' ? (
+              <Button type="primary" onClick={handleNext}>다음</Button>
+            ) : (
+              <Button type="primary" onClick={handleSubmit} loading={isSubmitting}>등록하기</Button>
+            )}
+          </div>
         </div>
+
+
       </div>
-
-
-
     </Modal>
   )
 }

@@ -30,7 +30,7 @@ function StoreSearchWidgetInner({ handleKeywordChange }: StoreSearchWidgetProps)
                 <input
                     type="text"
                     value={localValue ?? ''}
-                    placeholder="동네 이름이나 시설명을 검색해보세요"
+                    placeholder="시설명을 검색해보세요"
                     className="w-full pl-12 pr-4 py-4 bg-white border-2 border-orange-100 rounded-2xl outline-none focus:border-orange-500 transition-all text-sm font-bold"
                     onKeyDown={handleKeyDown}
                     onChange={(e) => setLocalValue(e.target.value)}

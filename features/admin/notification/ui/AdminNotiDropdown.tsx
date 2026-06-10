@@ -5,12 +5,13 @@ import { BellOutlined, CheckCircleOutlined, MessageOutlined } from '@ant-design/
 import { useRouter } from 'next/navigation'
 
 import { useQueryClient } from '@tanstack/react-query'
-import { useMemo } from 'react'
+import { useMemo, useState } from 'react'
 import { useGetAdminInquiryNoti } from '@/entities/admin/inquiry/model'
 import { InquiryNotification } from '@/features/admin/notification/model'
 
 
 export function AdminNotificationDropdown() {
+    const [open, setOpen] = useState(false)
     // TODO 다른 알림처리도 해야함
     //    TODO 클릭시 해당 페이지랑 모달 혹은 채팅방 여는 거 해야함
     const router = useRouter()
@@ -32,7 +33,7 @@ export function AdminNotificationDropdown() {
                 <span className="font-semibold text-gray-800 text-sm">
                     알림 <span className="text-orange-500 font-bold ml-1">{unReadCount}</span>
                 </span>
-                {unReadCount > 0 && (
+                {/* {unReadCount > 0 && (
                     <Button
                         type="text"
                         size="small"
@@ -41,7 +42,7 @@ export function AdminNotificationDropdown() {
                     >
                         모두 읽음
                     </Button>
-                )}
+                )} */}
             </div>
 
             <div className="max-h-80 overflow-y-auto divide-y divide-gray-50 custom-scrollbar">
@@ -87,7 +88,7 @@ export function AdminNotificationDropdown() {
             </div>
 
             <div className="border-t border-gray-50 p-2 text-center bg-gray-50/30">
-                <Button type="text" size="small" block className="text-xs text-gray-500 hover:text-gray-800">
+                <Button onClick={()=> {router.push('/admin/support'); setOpen(false)}} type="text" size="small" block className="text-xs text-gray-500 hover:text-gray-800">
                     전체 알림 보기
                 </Button>
             </div>
@@ -99,6 +100,8 @@ export function AdminNotificationDropdown() {
             trigger={['click']}
             placement="bottomRight"
             popupRender={() => dropdownContent}
+            open={open}
+            onOpenChange={setOpen}
         >
             <div className="flex items-center justify-center h-full cursor-pointer px-2">
                 <Badge

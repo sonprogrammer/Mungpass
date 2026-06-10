@@ -3,21 +3,30 @@
 import { RightOutlined } from "@ant-design/icons";
 import { useList } from "@refinedev/core";
 import { Button, Card, List, Spin, Tag, Typography } from "antd";
-import dayjs from "dayjs";
+import { format, subDays, formatDistanceToNow } from "date-fns";
+import { ko } from "date-fns/locale";
 import Link from "next/link";
 
 export function RecentRegistrations() {
-    // TODO registerTotal 써주기
+
+    const weekAgo = format(subDays(new Date(), 7), 'yyyy-MM-dd')
+
     const { result: { total: registerTotal, data: registerData }, query: { isPending } } = useList({
         resource: 'store_registrations',
-        pagination: { pageSize: 5 },
-        sorters: [{ field: 'created_at', order: 'desc' }]
+        pagination: { pageSize: 3 },
+        sorters: [{ field: 'created_at', order: 'desc' }],
+        filters: [{field: 'created_at', operator: 'gte', value: weekAgo}]
     })
 
 
     return (
         <Card
-            title={<Typography.Text strong>최근 입점 신청 현황</Typography.Text>}
+            title={
+                <div className="flex items-center gap-2">
+                    <Typography.Text strong>최근 입점 신청 현황</Typography.Text>
+                    <Tag color="blue">{registerTotal ?? 0}건</Tag>
+                </div>
+            }
             extra={<Link href='/admin/stores'><Button type="link" icon={<RightOutlined />} />전체보기</Link>}
             variant="outlined"
             className="shadow-sm h-full"
@@ -29,6 +38,7 @@ export function RecentRegistrations() {
                 <List
                     itemLayout="horizontal"
                     dataSource={registerData}
+                    locale={{ emptyText: '최근 7일 내 입점 신청이 없습니다.' }}
                     renderItem={(item) => {
                         const statusConfig: Record<string, {color: string, text: string}> = { 
                             PENDING: {color: 'orange', text: '대기'},
@@ -45,7 +55,7 @@ export function RecentRegistrations() {
                         >
                             <List.Item.Meta
                                 title={<Typography.Text strong>{item.store_name}</Typography.Text>}
-                                description={dayjs(item.created_at).fromNow()}
+                                description={formatDistanceToNow(new Date(item.created_at), { addSuffix: true, locale: ko })}
                             />
 
                         </List.Item>

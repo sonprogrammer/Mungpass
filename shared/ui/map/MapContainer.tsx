@@ -7,7 +7,7 @@ export function MapContainer({ center, places, onMarkerClick, onBoundChange }: M
 
 
   return (
-    <div className="px-6 pt-4 animate-in fade-in zoom-in duration-300">
+    <div className="px-6 pt-4 w-full h-full">
       <div className="w-full h-80 bg-white rounded-[2.5rem] overflow-hidden shadow-xl border-4 border-white">
         <KakaoMap
           center={center}

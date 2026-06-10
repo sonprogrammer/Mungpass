@@ -1,15 +1,15 @@
 'use client'
 
 import { Layout, Button, Space, Avatar, Dropdown, Typography } from "antd";
-import { 
-  MenuUnfoldOutlined, 
-  MenuFoldOutlined, 
+import {
+  MenuUnfoldOutlined,
+  MenuFoldOutlined,
   UserOutlined,
   LogoutOutlined,
   SettingOutlined
 } from "@ant-design/icons";
-import { cookieLogout } from "@/features/auth/api/logoutAction";
-import { useUserStore } from "@/entities/user/model/useUserStore";
+import { cookieLogout } from "@/features/auth/api";
+import { useUserStore } from "@/entities/user/model";
 import { AdminNotificationDropdown } from "@/features/admin/notification/ui";
 
 const { Header } = Layout;
@@ -24,27 +24,27 @@ export function AdminHeader({ collapsed, setCollapsed }: AdminHeaderProps) {
   const handlelogout = useUserStore(state => state.logout)
   const resetLoginTabRole = useUserStore(state => state.resetLoginTabRole)
 
-  const logout = async() => {
+  const logout = async () => {
     await cookieLogout()
     handlelogout()
     resetLoginTabRole()
   }
-  
+
   const userMenuItems = [
-    { key: 'profile', icon: <UserOutlined />, label: '내 프로필' },
-    { key: 'settings', icon: <SettingOutlined />, label: '설정' },
-    { type: 'divider' as const },
+    // { key: 'profile', icon: <UserOutlined />, label: '내 프로필' },
+    // { key: 'settings', icon: <SettingOutlined />, label: '설정' },
+    // { type: 'divider' as const },
     { key: 'logout', icon: <LogoutOutlined />, label: '로그아웃', danger: true, onClick: logout },
   ];
 
-  
+
   return (
-    <Header 
-      style={{ 
-        padding: '0 24px', 
-        background: '#fff', 
-        display: 'flex', 
-        alignItems: 'center', 
+    <Header
+      style={{
+        padding: '0 24px',
+        background: '#fff',
+        display: 'flex',
+        alignItems: 'center',
         justifyContent: 'space-between',
         position: 'sticky',
         top: 0,
@@ -71,9 +71,9 @@ export function AdminHeader({ collapsed, setCollapsed }: AdminHeaderProps) {
 
         <Dropdown menu={{ items: userMenuItems }} placement="bottomRight" arrow>
           <Space style={{ cursor: 'pointer' }} className="hover:opacity-80 transition-opacity p-1.5 rounded-lg hover:bg-gray-50">
-            <Avatar 
-              style={{ backgroundColor: '#f97316' }} 
-              icon={<UserOutlined />} 
+            <Avatar
+              style={{ backgroundColor: '#f97316' }}
+              icon={<UserOutlined />}
             />
             <div className="hidden sm:flex flex-col text-left leading-tight">
               <Text strong style={{ fontSize: '13px', color: '#1f2937' }}>운영지원팀</Text>

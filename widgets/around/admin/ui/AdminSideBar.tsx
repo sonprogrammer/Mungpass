@@ -25,6 +25,7 @@ export function AdminSidebar({ collapsed }: { collapsed: boolean }) {
     { key: '/admin', icon: <DashboardOutlined />, label: <Link href="/admin">대시보드</Link> },
     { key: '/admin/stores', icon: <ShopOutlined />, label: <Link href="/admin/stores">입점 심사</Link> },
     { key: '/admin/users', icon: <UserOutlined />, label: <Link href="/admin/user-manage">회원 관리</Link> },
+    // TODO 추후에 추가 해보기
     // { key: '/admin/coupons', icon: <GiftOutlined />, label: <Link href="/admin/coupons">쿠폰 관리</Link> },
     {
       key: '/admin/support', icon: <CustomerServiceOutlined />, label: (
