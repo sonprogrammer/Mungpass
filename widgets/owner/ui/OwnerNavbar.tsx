@@ -28,7 +28,7 @@ export function OwnerNavbar() {
     const shopId = data?.id
 
     const { data: rawProducts=[], isPending: isProductsPending} = useGetProducts(shopId)
-    const products = useMemo(() => rawProducts, [rawProducts])
+    const products = useMemo(() => rawProducts.filter(p => p.is_active), [rawProducts])
 
     
     const isQrActive = pathname === '/owner/qr'

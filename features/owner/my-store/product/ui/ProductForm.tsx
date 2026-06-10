@@ -42,7 +42,6 @@ export function ProductForm<T>({ form, shopId, initialValues, onSubmit, onCancel
     const handleDeleteCategory = (e: React.MouseEvent, categoryId: string) => {
         e.stopPropagation()
         e.preventDefault()
-        console.log('category', categoryId)
 
         modal.confirm({
             title: '카테고리 삭제',
