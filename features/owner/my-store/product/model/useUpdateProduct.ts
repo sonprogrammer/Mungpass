@@ -14,7 +14,7 @@ export function useUpdateProduct(shopId: string) {
             message.success('상품이 업데이트되었습니다')
         },
         onError: (err) => {
-            console.log('error occured', err)
+            console.error('error occured', err)
             message.error('상품 업데이트 실패')
         }
     })

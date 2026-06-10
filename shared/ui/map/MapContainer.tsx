@@ -5,7 +5,6 @@ import KakaoMap from "@/shared/ui/map/KakaoMap";
 
 export function MapContainer({ center, places, onMarkerClick, onBoundChange }: MapProps) {
 
-  console.log('center', center)
 
   return (
     <div className="px-6 pt-4 animate-in fade-in zoom-in duration-300">

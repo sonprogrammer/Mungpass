@@ -12,7 +12,6 @@ export function StoreTimeMainView({ shopStatus, onEditClick, shopId, vacation }:
     const [isVacationModal, setIsVacationModal] = useState(false)
     const [isReasonModalOpen, setIsReasonModalOpen] = useState(false)
     const [tempType, setTempType] = useState<'SHUTDOWN' | 'EARLY_CLOSE' | null>(null)
-    console.log('shopid', shopId)
 
     // *휴가 취소
     const { mutate: deleteVacation } = useDeleteVacation()

@@ -4,7 +4,6 @@ import { supabaseClient } from "@/shared/api/supabase/client";
 
 export const postUnreigisOwner = async(values:Shop) => {
     const supabase = supabaseClient()
-    console.log('valuesfdsaf', values)
 
     const payload = {
         ...values,

@@ -34,8 +34,7 @@ export function RegisterStoreModal({ open, onClose }: RegisterStoreModalProps) {
     if (keyword && searchData?.[0]) return { lat: Number(searchData[0].y), lon: Number(searchData[0].x) }
     return myLocation
   }, [keyword, searchData, myLocation])
-  // console.log('display', displayCenter)
-  // console.log('searchdata', searchData)
+
 
   const handleKeywordChange = (newKeyword: string) => {
     setKeyword(newKeyword)
@@ -83,7 +82,7 @@ export function RegisterStoreModal({ open, onClose }: RegisterStoreModalProps) {
       kiosk_enabled: !!values.kiosk_enabled,
       is_member: !!values.is_member,
     }
-    console.log('payload', payload)
+
     registerStore(payload, {
       onSuccess: () => {
         message.success('매장이 등록되었습니다')
@@ -109,7 +108,7 @@ export function RegisterStoreModal({ open, onClose }: RegisterStoreModalProps) {
 
   const selectedOwner = unregisOwner?.find(o => o.id === selectedOwnerId)
   const formValues = form.getFieldsValue()
-  console.log('faormvalue', formValues)
+
 
   const stepItems = [
     { title: '사장님 선택' },
