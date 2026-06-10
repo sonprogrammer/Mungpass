@@ -11,7 +11,6 @@ export function useDeleteProductCategory() {
         mutationFn: ({shopId, categoryId}: {shopId: string, categoryId: string}) => deleteProductCategory({shopId, categoryId}),
         onSuccess: (_, {shopId}) => {
             queryClient.invalidateQueries({queryKey: ['categories', shopId]})
-            message.success('카테고리 등록 성공')
         },
         onError: (error) => {
             console.error('카테고리 삭제 실패', error)

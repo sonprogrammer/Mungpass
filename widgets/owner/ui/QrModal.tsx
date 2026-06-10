@@ -7,7 +7,7 @@ import { ArrowLeft } from "lucide-react"
 import { memo, useMemo, useState } from "react"
 
 
-function QrModalInner({ products, open, qrValue, selectedProductId, onClose, onSelectProduct, isPending, isVerified }: QrModalProps) {
+function QrModalInner({ products, open, qrValue, selectedProduct, onClose, onSelectProduct, isPending, isVerified }: QrModalProps) {
     const [selectedCategoryName, setSelectedCategoryName] = useState<string | null>(null)
 
     // * 카테고리 목록들
@@ -16,8 +16,7 @@ function QrModalInner({ products, open, qrValue, selectedProductId, onClose, onS
         return Array.from(new Set(categoryName)) as string[]
     }, [products])
 
-
-    // * 카테고리 내용들
+    // * 카테고리 안 상세 상품들
     const filteredProducts = useMemo(() => {
         if (!selectedCategoryName) return []
         return products.filter(p => p.product_categories?.name === selectedCategoryName)
@@ -31,7 +30,7 @@ function QrModalInner({ products, open, qrValue, selectedProductId, onClose, onS
     }
 
     const handleBack = () => {
-        if (selectedProductId) {
+        if (selectedProduct) {
             onSelectProduct(null)
         } else if (selectedCategoryName) {
             setSelectedCategoryName(null)
@@ -47,7 +46,7 @@ function QrModalInner({ products, open, qrValue, selectedProductId, onClose, onS
             centered
             width={360}
             title={<div className="flex items-center gap-2">
-                    {isVerified && (selectedCategoryName || selectedProductId) && (
+                    {isVerified && (selectedCategoryName || selectedProduct) && (
                         <Button type="text" size="small" onClick={handleBack} icon={<ArrowLeft size={16} />} />
                     )}
                     <span className="font-semibold">QR 체크인 생성</span>
@@ -66,7 +65,7 @@ function QrModalInner({ products, open, qrValue, selectedProductId, onClose, onS
                 ) : (
                     <>
                         {/* //*카테고리 선택 화면 */}
-                        {!selectedCategoryName && !selectedProductId && (
+                        {!selectedCategoryName && !selectedProduct && (
                             <QrCategorySelectView 
                                 categories={categories}
                                 onSelectCategory={setSelectedCategoryName}
@@ -74,7 +73,7 @@ function QrModalInner({ products, open, qrValue, selectedProductId, onClose, onS
                         )}
 
                         {/* //*상품 선택 화면 */}
-                        {selectedCategoryName && !selectedProductId && (
+                        {selectedCategoryName && !selectedProduct && (
                             <QrProductSelectView 
                                 selectedCategoryName={selectedCategoryName}
                                 filteredProducts={filteredProducts}
@@ -83,8 +82,8 @@ function QrModalInner({ products, open, qrValue, selectedProductId, onClose, onS
                         )}
 
                         {/* //*QR 코드 출력 화면 */}
-                        {selectedProductId && (
-                            <QrCodeDisplayView qrValue={qrValue} />
+                        {selectedCategoryName && selectedProduct && (
+                            <QrCodeDisplayView qrValue={qrValue} selectedProductName={selectedProduct.name}/>
                         )}
                     </>
                 )}

@@ -58,7 +58,6 @@ export function StoreNoticeModal({ shopId, isOpen, onClose, selectedNotice }: St
             centered
             width={500}
             closeIcon={<X size={20} className="text-gray-400" />}
-            className="custom-modal"
         >
             <Form
                 form={form}

@@ -5,7 +5,7 @@ export const deleteProductCategory = async({shopId, categoryId}: {shopId: string
     const supabase = supabaseClient()
     
     const { error} = await supabase.from('product_categories').delete().eq('store_id', shopId)
-                                        .eq('name', categoryId)
+                                        .eq('id', categoryId)
 
     if(error){
         console.error('카테고리 삭제 에러 api', error)

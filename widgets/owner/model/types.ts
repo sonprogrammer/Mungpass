@@ -5,3 +5,5 @@ export interface NavItemProps{
   icon: React.ComponentType<{className? : string}>;
   active: boolean
 }
+
+

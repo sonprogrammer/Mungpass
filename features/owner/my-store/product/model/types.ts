@@ -40,3 +40,13 @@ export interface ProductSubmitData{
 export interface ProductWithCategory extends Product{
     product_categories: {name: string} | null
 }
+
+export type UpdateProductData = Partial<Pick<Product, 
+    'name' | 
+    'price' | 
+    'is_active' | 
+    'duration_minutes' | 
+    'overtime_unit_mins' | 
+    'overtime_unit_price' | 
+    'grace_period_mins'
+>>

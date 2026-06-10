@@ -1,12 +1,12 @@
 'use client'
 
-import { ProductWithCategory } from "@/features/owner/my-store/product/model";
+import { Product, ProductWithCategory } from "@/features/owner/my-store/product/model";
 import { Button, Empty, Typography } from "antd"
 
 interface QrProductSelectViewProps {
     selectedCategoryName: string;
     filteredProducts: ProductWithCategory[]
-    onSelectProduct: (productId: string) => void
+    onSelectProduct: (productId: Product) => void
 }
 
 
@@ -26,7 +26,7 @@ export function QrProductSelectView({ selectedCategoryName, filteredProducts, on
                     block
                     size="large"
                     className="h-14 text-left justify-start font-medium"
-                    onClick={() => onSelectProduct(prod.id)}
+                    onClick={() => onSelectProduct(prod)}
                 >
                     {prod.name}
                 </Button>

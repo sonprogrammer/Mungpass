@@ -7,11 +7,13 @@ export interface QrModalProps {
     isPending: boolean
     open: boolean;
     qrValue: string;
-    selectedProductId: string | null;
+    selectedProduct: Product | null
     onClose: () => void;
-    onSelectProduct: (product: string | null) => void
+    onSelectProduct: (product: Product | null) => void
     isVerified: boolean
 }
+
+
 
 //* db에서 오는 데이터임
 //*  강아지 입퇴실 정보(usage_logs테이블), 강아지 정보(dogs테이블), 이용한 상품정보(store_products테이블)

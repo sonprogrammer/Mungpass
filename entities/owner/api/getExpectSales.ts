@@ -24,6 +24,7 @@ export const getExpectSales = async (shopId: string) => {
     if (data.length === 0) {
         return 0
     }
+    // console.log('data', data)/
 
 
     const totalSales = data.reduce((acc, log) => {
@@ -50,15 +51,24 @@ export const getExpectSales = async (shopId: string) => {
         const diffMs = now.getTime() - expectedEnd.getTime()
         const diffMins = Math.floor(diffMs / 60000)
 
-        
-        // * 상품 시간초과 && 유예 시간 초과
-        if (diffMs > 0 && diffMins > gracePeriodMins) {
-            const chargeMins = diffMins - gracePeriodMins
-            const overTimeUnits = Math.ceil(chargeMins / overtimeUnitMins)
-            const extraCharge = overTimeUnits * overtimePrice
+        //TODO 코드 확인 해보기
+        // * 상품 시간초과 && 유예 시간 초과 && 유예시간 명시 안한 상품일시
+        // if (diffMs > 0 && diffMins > gracePeriodMins) {
+        //     const chargeMins = diffMins - gracePeriodMins
+        //     const overTimeUnits = Math.ceil(chargeMins / overtimeUnitMins)
+        //     const extraCharge = overTimeUnits * overtimePrice
+
+        //     return acc + price + extraCharge
+        // } 
+        if (diffMs > 0) {
+            const chargeMins = Math.max(0, diffMins - gracePeriodMins)
+            
+            // 초과 단위 시간(overtimeUnitMins)이 0인 경우(설정 오류 방지)를 대비해 1로 나눗셈 방어
+            const units = overtimeUnitMins > 0 ? Math.ceil(chargeMins / overtimeUnitMins) : 0
+            const extraCharge = units * overtimePrice
 
             return acc + price + extraCharge
-        } 
+        }
         return acc + price
     }, 0)
     return totalSales

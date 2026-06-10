@@ -12,13 +12,14 @@ import { NavItem, QrModal } from "@/widgets/owner/ui"
 import { useCallback, useMemo, useState } from "react"
 import { useGetShopInfo, useOwnerStoreStatus } from "@/entities/owner/model"
 import { useGetProducts } from "@/features/owner/my-store/product/model/useGetProducts"
+import { Product } from "@/features/owner/my-store/product/model"
 
 
 
 
 export function OwnerNavbar() {
     const [isQrModalOpen, setIsQrModalOpen] = useState<boolean>(false)
-    const [selectedProductId, setSelectedProductId] = useState<string | null>(null)
+    const [selectedProduct, setSelectedProduct] = useState<Product | null>(null)
     const pathname = usePathname()
 
     const { data} = useGetShopInfo()
@@ -26,19 +27,21 @@ export function OwnerNavbar() {
     
     const shopId = data?.id
 
-    const { data: products=[], isPending: isProductsPending} = useGetProducts(shopId)
+    const { data: rawProducts=[], isPending: isProductsPending} = useGetProducts(shopId)
+    const products = useMemo(() => rawProducts, [rawProducts])
 
     
     const isQrActive = pathname === '/owner/qr'
 
     const handleCloseQrModal = useCallback(() => {
         setIsQrModalOpen(false)
-        setSelectedProductId(null)
+        setSelectedProduct(null)
     },[])
 
-    const handleSelectedProduct = useCallback((product: string| null) => {
-        setSelectedProductId(product)
+    const handleSelectedProduct = useCallback((product: Product| null) => {
+        setSelectedProduct(product)
     },[])
+
 
     
     const qrValue = useMemo(() => {
@@ -46,8 +49,9 @@ export function OwnerNavbar() {
         const origin = typeof window !== 'undefined'
             ? window.location.origin
             : process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000'
-        return `${origin}/user?modal=checkin&shopId=${shopId}&productId=${selectedProductId}` 
-    },[shopId, selectedProductId])
+        if(!selectedProduct) return ''
+        return `${origin}/user?modal=checkin&shopId=${shopId}&productId=${selectedProduct.id}` 
+    },[shopId, selectedProduct])
 
 
 
@@ -105,7 +109,7 @@ export function OwnerNavbar() {
             </nav>
 
             <QrModal products={products} isPending={isProductsPending} qrValue={qrValue} 
-                    selectedProductId={selectedProductId} open={isQrModalOpen} onClose={handleCloseQrModal} 
+                    selectedProduct={selectedProduct} open={isQrModalOpen} onClose={handleCloseQrModal} 
                     onSelectProduct={handleSelectedProduct}
                     isVerified={isVerified}
                     />

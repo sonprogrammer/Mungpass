@@ -2,29 +2,32 @@
 import { useState } from 'react';
 
 import { Button, Form } from 'antd';
-import {  Plus } from 'lucide-react';
-import { ProductSubmitData, useDeleteProduct, useGetProducts, usePostProduct } from '@/features/owner/my-store/product/model';
+import { Plus } from 'lucide-react';
+import { ProductSubmitData, ProductWithCategory, UpdateProductData, useDeleteProduct, useGetProducts, usePostProduct } from '@/features/owner/my-store/product/model';
 import { BottomSheet } from '@/shared/ui/place';
-import { AddProduct } from '@/features/owner/my-store/product/ui';
+import { AddProduct, EditProductModal } from '@/features/owner/my-store/product/ui';
 import { ProductList } from '@/entities/owner/product/ui';
+import { useUpdateProduct } from '@/features/owner/my-store/product/model/useUpdateProduct';
 
 
 export function ProductManageBottomSheet({ open, onClose, shopId }: { open: boolean, onClose: () => void, shopId: string }) {
     const [form] = Form.useForm()
     const [addModal, setAddModal] = useState(false)
-
+    const [showHidden, setShowHidden] = useState(false)
+    const [editModal, setEditModal] = useState<{ open: boolean, product: ProductWithCategory | null }>({ open: false, product: null });
 
     //* 가져온 상품 데이터
-    const {data : productsData =[]} = useGetProducts(shopId)
+    const { data: productsData = [] } = useGetProducts(shopId)
 
     // * 상품 등록
-    const { mutate : addProduct, isPending: isPostPending} = usePostProduct()
+    const { mutate: addProduct, isPending: isPostPending } = usePostProduct()
     // * 상품 삭제
-    const { mutate: deleteProduct} = useDeleteProduct()
+    const { mutate: deleteProduct } = useDeleteProduct()
+    // *상품 수정
+    const { mutate: editProduct, isPending } = useUpdateProduct(shopId)
 
-    
     const handleAdd = (product: ProductSubmitData) => {
-        addProduct({shopId, productData: product}, {
+        addProduct({ shopId, productData: product }, {
             onSuccess: () => {
                 setAddModal(false)
                 form.resetFields()
@@ -33,50 +36,83 @@ export function ProductManageBottomSheet({ open, onClose, shopId }: { open: bool
     }
 
     const handleDelete = (productId: string) => {
-        deleteProduct({productId: productId, shopId})
+        deleteProduct({ productId: productId, shopId })
+    }
+
+    const handleEdit = (id: string, values: UpdateProductData) => {
+        editProduct({ productId: id, updatedData: values })
+        setEditModal({open:false, product: null})
+    }
+
+    const handleCloseModal = () => {
+        setShowHidden(false)
+        setAddModal(false)
+        onClose()
     }
 
     return (
-        <BottomSheet isOpen={open} onClose={() => {
-            onClose()
-             setAddModal(false)}}>
-            <div className="flex flex-col h-full pb-6">
-                <header className="px-1 flex items-center justify-between mb-4">
-                    <div>
+        <>
+            <BottomSheet isOpen={open} onClose={handleCloseModal}>
+                <div className="flex flex-col h-full pb-6">
+                    <header className="px-1 flex items-center justify-between mb-4">
+                        <div>
 
-                        <h2 className="text-2xl font-black text-slate-800">
-                            {addModal? '새 이용권 등록' : '가게 이용권 관리'}
-                        </h2>
-                        <p className="text-sm text-slate-400 font-medium mt-1">
-                            {addModal ? '새로운 이용권 정보를 입력해주세요' : '운영중인 이용권을 확인하고 관리하세요'}
-                        </p>
-                    </div>
-                    {!addModal && (
-                        <Button
-                            type="primary"
-                            shape="circle"
-                            icon={<Plus size={24} />}
-                            onClick={() => setAddModal(true)}
-                            className="w-12! h-12! bg-emerald-500! shadow-lg! shadow-emerald-100! flex! items-center! justify-center! hover:scale-105 transition-transform"
-                        />
-                    )}
-                </header>
-
-                <div className="flex-1 min-h-0">
-                    {addModal ? (
-                        <div className="animate-in fade-in slide-in-from-bottom-4 duration-300 h-full">
-                            <AddProduct form={form} isPostPending={isPostPending} add={handleAdd} setAddModal={setAddModal} shopId={shopId} />
+                            <h2 className="text-2xl font-black text-slate-800">
+                                {addModal ? '새 이용권 등록' : '가게 이용권 관리'}
+                            </h2>
+                            <p className="text-sm text-slate-400 font-medium mt-1">
+                                {addModal ? '새로운 이용권 정보를 입력해주세요' : '운영중인 이용권을 확인하고 관리하세요'}
+                            </p>
                         </div>
-                    ) : (
-                        <div className="animate-in fade-in duration-300 pb-5 h-full">
-                            <ProductList
-                                products={productsData}
-                                onDelete={handleDelete}
+                        {!addModal && (
+                            <Button
+                                type="primary"
+                                shape="circle"
+                                icon={<Plus size={24} />}
+                                onClick={() => setAddModal(true)}
+                                className="w-12! h-12! bg-emerald-500! shadow-lg! shadow-emerald-100! flex! items-center! justify-center! hover:scale-105 transition-transform"
                             />
-                        </div>
-                    )}
+                        )}
+                    </header>
+
+                    <div className="flex-1 min-h-0">
+                        {addModal ? (
+                            <div className="animate-in fade-in slide-in-from-bottom-4 duration-300 h-full">
+                                <AddProduct 
+                                    form={form} 
+                                    isPostPending={isPostPending} 
+                                    add={handleAdd} 
+                                    onCancel={() => setAddModal(false)} 
+                                    shopId={shopId} 
+                                />
+                            </div>
+                        ) : (
+                            <div className="animate-in fade-in duration-300 pb-5 h-full">
+                                <ProductList
+                                    products={productsData}
+                                    onDelete={handleDelete}
+                                    showHidden={showHidden}
+                                    setShowHidden={setShowHidden}
+                                    onEdit={(product) => setEditModal({ open: true, product })}
+                                    activeToggle={handleEdit}
+                                />
+                            </div>
+                        )}
+                    </div>
                 </div>
-            </div>
-        </BottomSheet>
+            </BottomSheet>
+
+            {editModal && (
+                <EditProductModal 
+                    open={editModal.open}
+                    product={editModal.product}
+                    onClose={() => setEditModal({open: false, product: null})}
+                    onUpdate={handleEdit}
+                    shopId={shopId}
+                    isPending={isPending}
+                />
+            )}
+            
+        </>
     )
 }

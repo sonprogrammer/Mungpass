@@ -5,18 +5,22 @@ import { QRCodeSVG } from "qrcode.react"
 
 interface QrCodeDisplayViewProps {
     qrValue: string
+    selectedProductName: string
 }
 
-export function QrCodeDisplayView({ qrValue }: QrCodeDisplayViewProps) {
+export function QrCodeDisplayView({ qrValue, selectedProductName }: QrCodeDisplayViewProps) {
     return (
         <div className="flex flex-col items-center gap-6 py-4 animate-in fade-in zoom-in duration-300">
-            <div className="text-center">
-                <div className="inline-block px-3 py-1 bg-emerald-100 text-emerald-700 rounded-full text-[11px] font-bold mb-2 uppercase">
+            <div className="text-center flex flex-col items-center">
+                <div className=" px-3 py-1 bg-emerald-100 text-emerald-700 rounded-full text-[11px] font-bold mb-2 uppercase">
                     check-in
                 </div>
-                <Typography.Title level={4} className="m-0">
-                    체크인 QR 코드
+                <Typography.Title level={3} className="m-0! text-emerald-600!">
+                    {selectedProductName}
                 </Typography.Title>
+                <Typography.Text type="secondary" className="text-base">
+                    아래 QR 코드를 스캔하여 체크인하세요
+                </Typography.Text>
             </div>
 
             <div className="p-4 bg-white rounded-2xl shadow-lg border border-slate-100">
