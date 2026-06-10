@@ -2,6 +2,8 @@
 
 import { getAdminUrl } from "@/features/admin/store/api";
 import { ApproveStoreBtn } from "@/features/admin/store/ui";
+import { useGetUserById } from "@/features/admin/user/model";
+import { AdminUserDetailModal } from "@/features/admin/user/ui";
 import { FileSearchOutlined } from "@ant-design/icons"
 import { DateField, useTable } from "@refinedev/antd"
 import { useInvalidate } from "@refinedev/core";
@@ -12,14 +14,16 @@ const { Text } = Typography;
 
 export function StoreRegistTable() {
     const [previewUrl, setPreviewUrl] = useState<string | null>(null)
+    const [selectedUserId, setSelectedUserId] = useState<string>('')
     const invalidate = useInvalidate()
 
-    const { tableProps, tableQuery } = useTable({
+    const { data: userInfo } = useGetUserById(selectedUserId)
+
+    const { tableProps } = useTable({
         resource: 'store_registrations',
         sorters: { initial: [{ field: 'created_at', order: 'desc' }] },
 
     })
-
 
     const handleOpenDocs = async (path: string) => {
 
@@ -30,7 +34,7 @@ export function StoreRegistTable() {
             return
         }
 
-        if(!path.toLowerCase().includes('.pdf')){
+        if (!path.toLowerCase().includes('.pdf')) {
             const img = new Image()
             img.src = url
         }
@@ -40,7 +44,15 @@ export function StoreRegistTable() {
 
     return (
         <>
-            <Table {...tableProps} rowKey='id' bordered>
+            <Table {...tableProps}
+                rowKey='id'
+                bordered
+                onRow={(record) => ({
+                    onClick: () => {
+                        setSelectedUserId(record.owner_id)
+                    }
+                })}
+            >
 
                 {/* //*신청일 */}
                 <Table.Column
@@ -52,7 +64,7 @@ export function StoreRegistTable() {
                 {/* //*가게정보, 사업자 번호 */}
                 <Table.Column
                     title="지점 정보"
-                    fixed="left"
+                    align='center'
                     render={(_, record) => (
                         <Space direction="vertical" size={0}>
                             <Text strong className="block truncate" style={{ maxWidth: '150px' }}>
@@ -69,7 +81,10 @@ export function StoreRegistTable() {
                         return (
                             <Button
                                 icon={<FileSearchOutlined />}
-                                onClick={() => handleOpenDocs(record.biz_reg_image_url)}
+                                onClick={(e) => {
+                                    e.stopPropagation()
+                                    handleOpenDocs(record.biz_reg_image_url)
+                                }}
                             >
                                 보기
                             </Button>
@@ -96,17 +111,20 @@ export function StoreRegistTable() {
                 <Table.Column
                     title='심사'
                     render={(_, record) => (
-                        record.status === 'PENDING' ? (
-                            <ApproveStoreBtn
-                                registrationID={record.id}
-                                registrationStoreName={record.store_name}
-                                onSuccess={() => invalidate({resource: 'store_registrations', invalidates: ['list']})}
-                            />
-                        ) : (
-                            <Tag>
-                                완료
-                            </Tag>
-                        )
+                        <div onClick={(e) => e.stopPropagation()}>
+                            {record.status === 'PENDING' ? (
+                                <ApproveStoreBtn
+                                    registrationID={record.id}
+                                    registrationStoreName={record.store_name}
+                                    onSuccess={() => invalidate({ resource: 'store_registrations', invalidates: ['list'] })}
+                                />
+                            ) : (
+                                <Tag>
+                                    완료
+                                </Tag>
+                            )
+                            }
+                        </div>
                     )}
                 />
 
@@ -141,6 +159,15 @@ export function StoreRegistTable() {
                 )}
 
             </Modal>
+
+            <AdminUserDetailModal
+                open={!!selectedUserId && !!userInfo}
+                onClose={() => setSelectedUserId('')}
+                user={userInfo}
+                onSuccess={() => {
+                    setSelectedUserId('')
+                }}
+            />
 
         </>
     )
