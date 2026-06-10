@@ -11,7 +11,7 @@ export function AdminStoreManagePageWidget() {
   return (
     <div>
       <div className='mb-6'>
-        <Typography.Title>입점 심사 관리</Typography.Title>
+        <Typography.Title level={2}>입점 심사 관리</Typography.Title>
         <p className="text-slate-500">사장님들의 입점 신청 내욕을 검토하고 승인합니다.</p>
       </div>
 

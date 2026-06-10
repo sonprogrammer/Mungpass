@@ -167,15 +167,20 @@ export default function AdminInquiryChatPage() {
             const shop = Array.isArray(profile.shop) ? profile.shop[0] : profile.shop
             return `[${shop?.name ?? '매장명 없음'}]`
         }
-        return `[${profile?.name ?? '일반 회원'}]`
+        return `[${profile?.name ?? '견주 회원'}]`
     }
 
     return (
         <>
             <div style={{ padding: "24px" }}>
-                <Typography.Title level={2} style={{ marginBottom: "24px" }}>
-                    1:1 문의 실시간 센터
-                </Typography.Title>
+                <div className="mb-6">
+                    <Typography.Title level={2}>
+                        1:1 문의 실시간 센터
+                    </Typography.Title>
+                    <p className="text-slate-500">
+                        접수된 문의를 실시간으로 확인하고 상담을 진행합니다.
+                    </p>
+                </div>
 
                 <Row gutter={16}>
 
@@ -217,7 +222,7 @@ export default function AdminInquiryChatPage() {
                                                         {getDisplayName(record.profile)}
                                                     </span>
                                                     <span className="text-xs text-gray-400">
-                                                        {isOwner ? '사장 회원' : '일반 회원'}
+                                                        {isOwner ? '사장 회원' : '견주 회원'}
                                                     </span>
                                                 </div>
                                             </div>
