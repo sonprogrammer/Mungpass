@@ -46,7 +46,7 @@ export function AroundHeader({ radius, setRadius, showMap, toggle, onSearch, onM
                 <input
                     type="text"
                     value={localValue ?? ''}
-                    placeholder="동네 이름이나 시설명을 검색해보세요"
+                    placeholder="시설명을 검색해보세요"
                     className="w-full pl-12 pr-4 py-4 bg-orange-50/50 border-2 border-orange-50 rounded-2xl outline-none focus:border-orange-500 transition-all text-sm font-bold"
                     onKeyDown={handleKeyDown}
                     onChange={(e) => setLocalValue(e.target.value)}

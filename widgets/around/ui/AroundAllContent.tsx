@@ -1,4 +1,4 @@
-'use client';
+'use client'
 
 
 import AroundHeader from '@/widgets/around/ui/AroundHeader';
