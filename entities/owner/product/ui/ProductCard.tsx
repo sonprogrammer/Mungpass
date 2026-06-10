@@ -7,12 +7,11 @@ import { Banknote, Clock, Trash2 } from "lucide-react";
 interface ProductCardProps{
     product: ProductWithCategory, 
     onDelete: (productId: string) => void, 
-    showHidden: boolean
     onClick: () => void
     onToggle: (checked: boolean) => void
 }
 
-export function ProductCard({product, onDelete, showHidden, onClick, onToggle}: ProductCardProps) {
+export function ProductCard({product, onDelete, onClick, onToggle}: ProductCardProps) {
     return(
         <div
             onClick={onClick}
@@ -59,7 +58,7 @@ export function ProductCard({product, onDelete, showHidden, onClick, onToggle}: 
                         className={product.is_active ? "bg-emerald-500!" : "bg-slate-300!"}
                     />
                     
-                    {!showHidden && onDelete && (
+                    {onDelete && (
                         <Button
                             type="text"
                             danger

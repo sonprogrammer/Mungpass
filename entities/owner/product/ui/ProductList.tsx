@@ -81,7 +81,6 @@ export function ProductList({ products, onDelete, showHidden, setShowHidden, onE
                         <ProductCard key={product.id}
                             product={product}
                             onDelete={onDelete}
-                            showHidden={showHidden}
                             onClick={() => onEdit(product)}
                             onToggle={(checked) => activeToggle(product.id, { is_active: checked })}
                         />
