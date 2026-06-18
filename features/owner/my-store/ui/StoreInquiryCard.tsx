@@ -30,7 +30,7 @@ export function StoreInquiryCard() {
   const [isWriteOpen, setIsWriteOpen] = useState(false)
   const [isDetailOpen, setIsDetailOpen] = useState(false)
   const [selectedRoomId, setSelectedRoomId] = useState<string | null>(null)
-  const [selectedRoomTitle, setSelectedRoomTitle] = useState<string>('')
+  const [, setSelectedRoomTitle] = useState<string>('')
 
   // * 자신의 문의 목록 가져오기 = 채팅방 가져오기 여러개 
   const { data: inquiryList = [], isPending: isListPending } = useGetInquiryList({ userId: profile?.id ?? '', userType: 'owner' })

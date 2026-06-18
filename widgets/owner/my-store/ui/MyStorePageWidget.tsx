@@ -12,7 +12,8 @@ import { useShopStatus } from "@/features/owner/my-store/model";
 import { StoreTimeBottomSheet, NoticeBottomSheet, InquiryBottomSheet } from "@/features/owner/my-store/ui";
 import { ProductManageBottomSheet } from "@/features/owner/my-store/product/ui";
 import { KioskSettingBottomSheet } from "@/features/owner/kiosk/ui";
-import { useOwnerStoreStatus,useGetShopInfo } from "@/entities/owner/model";
+import { useOwnerStoreStatus, useGetShopInfo } from "@/entities/owner/model";
+import { useGetInquiryUserNoti } from "@/entities/inquiry/model";
 
 
 export function MyStorePageWidget() {
@@ -35,6 +36,9 @@ export function MyStorePageWidget() {
 
     const { handleAction, contextHolder } = useRestrictedAction(regisData?.status)
 
+    const { data: userNoti = [] } = useGetInquiryUserNoti(profile?.id ?? '')
+    const hasUnreadInquiry = userNoti.some(noti => !noti.is_read)
+
     if (isRegisPending) {
         return (
             <div className="p-6 space-y-6">
@@ -48,8 +52,8 @@ export function MyStorePageWidget() {
     }
 
     if (!regisData) {
-    return null
-}
+        return null
+    }
 
 
     return (
@@ -58,7 +62,7 @@ export function MyStorePageWidget() {
             <div className="min-h-screen pb-12">
                 <div className="mx-auto flex flex-col gap-8">
 
-                    <MyStoreHeader regisData={regisData} isVerified={isVerified} shopId={shopId}/>
+                    <MyStoreHeader regisData={regisData} isVerified={isVerified} shopId={shopId} />
 
                     <div className="grid grid-cols-1 gap-8 p-6">
 
@@ -103,9 +107,6 @@ export function MyStorePageWidget() {
                                                 handleAction(() => setActiveDrawer('notice'))
                                             }}
                                             isVerified={isVerified}
-
-                                            // TODO 현재 공지사항 유무에 따라 new 또는 공지사항 없음으로 변경
-                                            status="new"
                                         />
                                     </div>
 
@@ -126,14 +127,13 @@ export function MyStorePageWidget() {
                                         onClick={() => {
                                             handleAction(() => setActiveDrawer('inquiry'))
                                         }}
-                                        // TODO 문의자가 답변한 내용이 있으면 New로
-                                        status="new"
+                                        status={hasUnreadInquiry ? 'new' : undefined}
                                         isVerified={isVerified}
                                     />
                                 </div>
 
 
-                                {/* //TODO 나중에 대강 완료하고 FAQ만들어 놓기 */}
+                                {/* //TODO  FAQ만들어 놓기 */}
                             </div>
                         </section>
 
