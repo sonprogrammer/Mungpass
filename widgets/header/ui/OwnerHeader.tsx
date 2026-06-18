@@ -77,8 +77,9 @@ export function OwnerHeader() {
   }
   return (
     <>
+      {/* // sticky top-0 z-50 */}
       <header className={`
-        px-6 py-4 flex justify-between items-center sticky top-0 z-50 shadow-sm backdrop-blur-md bg-slate-50/80 border-b border-emerald-100/50
+        px-6 py-4 flex justify-between items-center  shadow-sm backdrop-blur-md bg-slate-50/80 border-b border-emerald-100/50
       `}>
         <Link href={'/owner'} className="flex items-center gap-2 group">
           <div className={`

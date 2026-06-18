@@ -58,7 +58,7 @@ export function OwnerNavbar() {
 
     return (
         <>
-            <nav className=" w-full max-w-120 bg-slate-50/90 backdrop-blur-2xl border-t border-slate-200 px-6 py-3 flex items-center z-50 rounded-t-[2.5rem] shadow-[0_-10px_30px_-5px_rgba(0,0,0,0.05)]">
+            <nav className=" w-full max-w-120 bg-slate-50/90 backdrop-blur-2xl border-t border-slate-200 px-6 py-3 flex items-center z-50 rounded-t-[2.5rem] ">
                 <div className="grid grid-cols-5 items-end w-full">
 
                     <NavItem
@@ -81,8 +81,8 @@ export function OwnerNavbar() {
                             className="group flex flex-col items-center cursor-pointer">
                             <div className={`relative flex h-20 w-20 items-center justify-center rounded-full border-2 border-white transition-all duration-300
                                     ${isQrActive
-                                    ? 'bg-emerald-600 scale-[1.03] shadow-[0_14px_30px_rgba(16,185,129,0.32)]'
-                                    : 'bg-emerald-500 shadow-[0_12px_26px_rgba(16,185,129,0.24)] hover:scale-[1.03] hover:bg-emerald-600'}
+                                    ? 'bg-emerald-600 scale-[1.03] shadow-emerald-800'
+                                    : 'bg-emerald-500 shadow-emerald-50 hover:scale-[1.03] hover:bg-emerald-600'}
                                         `}>
                                 <div className="absolute inset-0 rounded-full bg-white/10" />
                                 <QrCode className="relative h-10 w-10 text-white" />

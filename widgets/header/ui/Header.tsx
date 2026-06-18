@@ -27,7 +27,7 @@ export default function Header() {
   return (
     <>
       <header className={`
-        px-6 py-4 flex justify-between items-center sticky top-0 z-50 shadow-sm backdrop-blur-m bg-white/70 border-b border-orange-100/50
+        px-6 py-4 flex justify-between items-center shadow-sm backdrop-blur-m bg-white/70 border-b border-orange-100/50
      `}>
         <Link href={'/home'} className="flex items-center gap-2 group">
           <div className={`

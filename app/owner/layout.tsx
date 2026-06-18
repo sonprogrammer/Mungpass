@@ -11,11 +11,11 @@ export default function OwnerLayout({ children }: { children: React.ReactNode })
     <AntdAppProvider>
 
 
-      <div className="flex justify-center bg-slate-200 h-screen">
-        <div className="w-full max-w-120 bg-white h-screen flex flex-col relative shadow-2xl">
+      <div className="flex justify-center bg-slate-200 h-dvh">
+        <div className="w-full max-w-120 bg-white h-full flex flex-col relative shadow-2xl overflow-hidden">
           <OwnerHeader />
 
-          <main className={`flex-1 bg-[#fafafa] overflow-y-auto scrollbar-none`}>
+          <main className={`flex-1 bg-stone-50 overflow-y-auto scrollbar-none`}>
             <div className='h-full'>
               {/* //* 1차가드 사장님 권환인지 확인 */}
               <OwnerRoleGuard>
@@ -27,7 +27,7 @@ export default function OwnerLayout({ children }: { children: React.ReactNode })
             </div>
           </main>
 
-          <div className="bg-[#fafafa] w-full shrink-0">
+          <div className="bg-stone-50 w-full shrink-0">
             <OwnerNavbar />
           </div>
 
