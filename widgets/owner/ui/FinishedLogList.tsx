@@ -6,7 +6,7 @@ import { useMemo, useState } from "react"
 import { CurrentUsageLog } from "@/entities/check-in/model"
 import { format, isToday, parseISO } from "date-fns"
 import { CurrentLogSkeleton } from "./CurrentLogSkeleton"
-import { useGetProductCategories, useGetProducts } from "@/features/owner/my-store/product/model"
+import { useGetProductCategories } from "@/features/owner/my-store/product/model"
 import { useGetShopInfo } from "@/entities/owner/model"
 import { ko } from "date-fns/locale"
 

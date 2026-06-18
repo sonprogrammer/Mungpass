@@ -3,6 +3,7 @@
 import { RegisterStoreModal } from "@/features/admin/store/ui"
 import { UserInfoModal } from "@/features/admin/user/ui"
 import { KakaoScriptProvider } from "@/shared/ui/map"
+import { MapLoading } from "@/widgets/around/ui"
 import { ShopOutlined, UserOutlined } from "@ant-design/icons"
 import { Button, Card, Divider, Typography } from "antd"
 import { useState } from "react"
@@ -37,11 +38,10 @@ export function QuickActions() {
                     <Divider style={{ margin: '12px 0' }} />
                 </div>
 
-                {/* //TODO 공지 사항이나 그런거 추가 -> 일반 유저, 사장도 볼 수 있게 */}
             </Card>
 
             {storeOpenModal && (
-                <KakaoScriptProvider fallback={<>map loaidng</>}>
+                <KakaoScriptProvider fallback={<MapLoading message="지도 준비중입니다."/>}>
 
                     <RegisterStoreModal open={storeOpenModal} onClose={() => setStoreOpenModal(false)} />
                 </KakaoScriptProvider>
