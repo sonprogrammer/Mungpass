@@ -7,7 +7,7 @@ export const deleteNotice = async(noticeId: string) => {
 
     if(error){
         console.error('공지사항 삭제 에러 api', error)
-        throw error
+        throw new Error('공지사항 삭제 에러 api', { cause: error})
     }
 
     return true

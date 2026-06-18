@@ -31,7 +31,7 @@ export const saveApi = {
             
             if (deleteError) {
             console.error('toggleSave failed', deleteError.message)
-            throw deleteError
+            throw new Error('toggleSave failed', { cause: deleteError})
         } 
         
 

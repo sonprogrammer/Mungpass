@@ -18,7 +18,7 @@ export const getExpectSales = async (shopId: string) => {
 
     if (error) {
         console.error('get expect sales api error', error.message)
-        throw error
+        throw new Error('get expect sales api error', error)
     }
 
     if (data.length === 0) {

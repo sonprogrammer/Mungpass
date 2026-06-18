@@ -7,7 +7,7 @@ export const getShopInfo = async(ownerId :string) => {
 
     if(error){
         console.error('shop inofo api eerorr', error.message)
-        throw error
+        throw new Error('shop inofo api eerorr', {cause: error})
     }
 
     return data

@@ -8,7 +8,7 @@ export const updateVacation = async(vacationData:UpdateVacationToServer) => {
 
     if(error){ 
         console.error('휴가 정보 보내기 오류 ', error)
-        throw error
+        throw new Error('휴가 정보 보내기 오류 ', { cause: error})
     }
 
     return data

@@ -8,7 +8,7 @@ export const getPartnerShops = async (kakaoId: string[]) => {
 
     if(error){
         console.error('멍패스 제휴매장 찾기 실패 api', error)
-        throw error
+        throw new Error('멍패스 제휴매장 찾기 실패 api', { cause: error})
     }
 
     return data

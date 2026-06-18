@@ -10,7 +10,7 @@ export const getSchedule = async(shopId: string):Promise<ScheduleRow[]> => {
 
     if(error){
         console.error('매장 영업시간 관리 가져오는 api error', error)
-        throw error
+        throw new Error('매장 영업시간 관리 가져오는 api error', { cause: error})
     }
     return (data as ScheduleRow[]) || []
 

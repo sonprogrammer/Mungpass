@@ -7,7 +7,7 @@ export async function deleteDog({userId, dogId}: {userId: string, dogId: string}
 
     const {data, error} = await supabase.from('dogs').delete().eq('id', dogId).select()
 
-    if(error) throw error
+    if(error) throw new Error('강아지 정보 삭제 에러')
 
     if(!data || data.length === 0){
         console.error('there is no data for deleting, check rls policey')

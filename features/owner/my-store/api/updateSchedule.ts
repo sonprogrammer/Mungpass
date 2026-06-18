@@ -11,7 +11,7 @@ export const updateSchedule = async({shopId,schedules} :{schedules:ScheduleRow |
                             .select()
     if(error){
         console.error('영업시간 저장 오류', error)
-        throw error
+        throw new Error('영업시간 저장 오류', { cause: error})
     }
 
     return data

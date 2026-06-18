@@ -9,7 +9,7 @@ export async function fetchDogs (userId: string): Promise<Dog[]> {
 
     const {data, error} = await supabase.from('dogs').select('*').eq('owner_id', userId).order('created_at', {ascending: true})
 
-    if(error) throw error
+    if(error) throw new Error('강아지 생성 실패 에러')
 
     return data.map(dog => ({
         ...dog,

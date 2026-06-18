@@ -11,7 +11,7 @@ export const getStatsData = async(shopId: string, selectedMonth: string):Promise
 
     if(error){
         console.error('통계 데이터 로드 실패', error.message)
-        throw error
+        throw new Error('통계 데이터 로드 실패', {cause: error})
     }
 
     return data as StatsDataFromServer

@@ -12,7 +12,7 @@ export const postProduct = async({shopId, productData}:{shopId: string, productD
 
     if(error){
         console.error('상품 등록중 에러 발생api', error)
-        throw error
+        throw new Error('상품 등록중 에러 발생api', { cause: error})
     }
 
 

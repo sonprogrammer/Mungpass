@@ -10,7 +10,7 @@ export const getMonths = async(shopId: string): Promise<string[]>=> {
 
     if(error){
         console.error('샵에 대한 월 데이터 가져오기에러', error)
-        throw error
+        throw new Error('샵에 대한 월 데이터 가져오기에러', { cause: error})
     }
 
 

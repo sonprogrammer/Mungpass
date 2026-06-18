@@ -10,7 +10,7 @@ export const getProductCategories = async(shopId: string):Promise<ProductCategor
 
     if(error){ 
         console.error('상품 카테고리 목록 가져오기실패api', error)
-        throw error
+        throw new Error('상품 카테고리 목록 가져오기실패api', {cause: error})
     }
 
     return (data || []) as ProductCategory[]

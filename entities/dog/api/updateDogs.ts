@@ -17,7 +17,7 @@ export async function updateDogs({ userId, dogId, formData,imageFile }: { userId
 
         const { error : uploadError} = await supabase.storage.from('dog-images').upload(filePath, imageFile)
 
-        if(uploadError) throw uploadError
+        if(uploadError) throw new Error('강아지 프로필 업로드 실패')
 
         const { data: {publicUrl}} = supabase.storage.from('dog-images').getPublicUrl(filePath)
 

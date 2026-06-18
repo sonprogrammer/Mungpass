@@ -8,7 +8,7 @@ export const getProducts = async(shopId: string):Promise<ProductWithCategory[]> 
                                                 .order('created_at', { ascending: false})
     if(error){ 
         console.error('상품 가져오기 api 에러', error)
-        throw error
+        throw new Error('상품 가져오기 api 에러', { cause: error})
     }
 
     return (data || []) as ProductWithCategory[]

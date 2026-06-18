@@ -47,7 +47,7 @@ export const updateOwnerDocs = async({id, ownerId, storeInfo, businessNumber, Do
 
     if(error){
         console.error('재 제출 오류 api', error)
-        throw error
+        throw new Error('재 제출 오류 api', { cause: error})
     }
 
     return data

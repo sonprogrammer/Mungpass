@@ -7,7 +7,7 @@ export const deleteTodayStatus = async(shopId: string) => {
 
     if(error){
         console.error('즉시 휴무, 조기마감 취소 실패', error)
-        throw error
+        throw new Error('즉시 휴무, 조기마감 취소 실패', { cause: error})
     }
 
     return true
