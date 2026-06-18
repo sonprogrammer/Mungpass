@@ -14,21 +14,21 @@
         },
         {
             "src": "/logo-512.png",
-            "sizes": "512x512",
+            "sizes": "512x513",
             "type": "image/png"
     }
     ],
     "screenshots": [
     {
       "src": "/mobile-screenshot.png",
-      "sizes": "1080x1920",
+      "sizes": "1284x2223",
       "type": "image/png",
       "form_factor": "narrow",
       "label": "멍패스 모바일 화면"
     },
     {
       "src": "/desktop-screenshot.png",
-      "sizes": "1920x1080",
+      "sizes": "1515x713",
       "type": "image/png",
       "form_factor": "wide",
       "label": "멍패스 데스크톱 화면"
