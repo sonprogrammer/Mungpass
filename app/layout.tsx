@@ -41,6 +41,14 @@ export const metadata: Metadata = {
   },
   other: {
     "Content-Security-Policy": "upgrade-insecure-requests",
+  },
+  appleWebApp: {
+    capable: true,
+    statusBarStyle: 'default',
+    title: '멍패스'
+  },
+  icons: {
+    apple: '/logo-512.png'
   }
 };
 
