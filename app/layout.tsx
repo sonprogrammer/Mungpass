@@ -21,7 +21,7 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   title: "멍패스 | 반려견을 위한 완벽한 솔루션",
   description: "견주와 애견카페 사장님을 연결하는 가장 스마트한 방법, 멍패스",
-  manifest: "/mainfest.json",
+  manifest: "/manifest.json",
   metadataBase: new URL('https://mungpass.vercel.app/'),
   openGraph: {
     title: '멍패스',
