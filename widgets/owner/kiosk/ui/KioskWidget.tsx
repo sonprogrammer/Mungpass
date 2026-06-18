@@ -3,7 +3,7 @@
 import { KioskProductSkeleton, ProductListItem } from "@/features/owner/kiosk/ui"
 import { ProductCategory, ProductWithCategory, useGetProductCategories, useGetProducts } from "@/features/owner/my-store/product/model"
 import { KioskCategoryNav, KioskExit, KioskHeader, KioskProductEmptyView, KioskQrSection } from "@/widgets/owner/kiosk/ui"
-import { App} from "antd"
+import { App } from "antd"
 import { useParams } from "next/navigation"
 import { useEffect, useMemo, useState } from "react"
 
@@ -17,9 +17,24 @@ export function KioskWidget() {
     const shopId = params.shopId as string
 
     const { data: products = [], isPending: isProductPending } = useGetProducts(shopId)
-    const { data: categories = [], isPending: isCategoryPending } = useGetProductCategories(shopId)
 
-    const { message} = App.useApp()
+    const categories = useMemo(() => {
+        const categoryMap = new Map<string, string>()
+        products.forEach(p => {
+            const category = p.product_categories
+            if (p.is_active && category?.id && category?.name) {
+                categoryMap.set(String(category.id), category.name)
+            }
+        })
+        return Array.from(categoryMap.entries()).map(([id, name]) => ({
+            id, name
+        })) as ProductCategory[]
+
+
+    }, [products])
+
+
+    const { message } = App.useApp()
 
     const currentCategory = selectedCategory ?? categories[0] ?? null
 
@@ -30,7 +45,7 @@ export function KioskWidget() {
 
     // * 배포환경, 개발 환경 다르게 
     const getBaseUrl = () => {
-        if(typeof window !== 'undefined'){
+        if (typeof window !== 'undefined') {
             return window.location.origin
         }
         return process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost'
@@ -60,12 +75,12 @@ export function KioskWidget() {
             <KioskCategoryNav
                 categories={categories}
                 currentCategoryId={currentCategory?.id}
-                isPending={isCategoryPending}
+                isPending={isProductPending}
                 onSelect={(c) => {
                     setSelectedCategory(c)
                     setStep('product')
                 }}
-             />
+            />
 
             {/* //* 상품 선택 화면  */}
             <main className="flex-1 p-6">
@@ -92,13 +107,13 @@ export function KioskWidget() {
 
                             </div>
                             {!isProductPending && filteredProducts.length === 0 && (
-                                <KioskProductEmptyView currentCategory={currentCategory}/>
+                                <KioskProductEmptyView currentCategory={currentCategory} />
                             )}
                         </div>
                     ) : (
                         // * 큐알
                         selectedProduct && (
-                            <KioskQrSection 
+                            <KioskQrSection
                                 product={selectedProduct}
                                 qrValue={qrValue}
                                 onBack={() => {
@@ -113,7 +128,7 @@ export function KioskWidget() {
 
             {/* //*사장 페이지로 복귀하는 버튼 */}
             <KioskExit shopId={shopId} />
-            
+
         </div>
     )
 }

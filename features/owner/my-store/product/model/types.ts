@@ -38,7 +38,7 @@ export interface ProductSubmitData{
 }
 
 export interface ProductWithCategory extends Product{
-    product_categories: {name: string} | null
+    product_categories: {id: string ;name: string} | null
 }
 
 export type UpdateProductData = Partial<Pick<Product, 

@@ -15,7 +15,7 @@ export default function OwnerLayout({ children }: { children: React.ReactNode })
         <div className="w-full max-w-120 bg-white h-screen flex flex-col relative shadow-2xl">
           <OwnerHeader />
 
-          <main className={`flex-1 bg-[#fafafa] overflow-y-auto `}>
+          <main className={`flex-1 bg-[#fafafa] overflow-y-auto scrollbar-none`}>
             <div className='h-full'>
               {/* //* 1차가드 사장님 권환인지 확인 */}
               <OwnerRoleGuard>

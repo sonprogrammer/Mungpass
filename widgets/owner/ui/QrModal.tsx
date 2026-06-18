@@ -22,7 +22,6 @@ function QrModalInner({ products, open, qrValue, selectedProduct, onClose, onSel
         return products.filter(p => p.product_categories?.name === selectedCategoryName)
     }, [products, selectedCategoryName])
 
-    console.log('filteredProducts',filteredProducts)
 
     const handleClose = () => {
         setSelectedCategoryName(null)
