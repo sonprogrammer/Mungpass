@@ -48,7 +48,7 @@ export const metadata: Metadata = {
     title: '멍패스'
   },
   icons: {
-    apple: '/logo-512.png'
+    apple: '/logo-512.png?v=4'
   }
 };
 
@@ -69,6 +69,9 @@ export default function RootLayout({
   return (
     <html lang="en">
       <head>
+        <link rel="apple-touch-icon" href="/logo-512.png?v=4" />
+        <meta name="apple-mobile-web-app-capable" content="yes" />
+        <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
         <link rel='icon' href='/favicon-icon.png' />
       </head>
       <body
