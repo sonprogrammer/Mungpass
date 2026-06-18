@@ -29,7 +29,7 @@ export const metadata: Metadata = {
     siteName: 'MungPass',
     images: [
       {
-        url: '/m.png',
+        url: '/logo.png',
         width: 1200,
         height: 630,
         alt: '멍패스 로고'

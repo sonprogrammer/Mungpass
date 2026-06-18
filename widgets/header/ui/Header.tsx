@@ -34,8 +34,9 @@ export default function Header() {
              group-active:scale-95 transition-all
           `}>
             <Image
-              src="/m.png"
+              src="/logo.png"
               alt="로고"
+              priority
               width={50}
               height={50}
               className="rounded-xl bg-orange-50 border border-orange-100"

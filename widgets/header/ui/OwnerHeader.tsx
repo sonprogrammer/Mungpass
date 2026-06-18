@@ -86,10 +86,11 @@ export function OwnerHeader() {
              group-active:scale-95 transition-all
           `}>
             <Image
-              src="/o.png"
+              src="/ownerLogo.png"
               alt="로고"
               width={50}
               height={50}
+              priority
               className="rounded-xl bg-emerald-50 border border-emerald-100"
             />
           </div>

@@ -65,10 +65,11 @@ export function PlaceDetailSheet({ place }: { place: KakaoPlace }) {
                     title="멍패스 제휴 매장입니다"
                     className="absolute flex items-center gap-1.5 px-3 py-1.5 bg-orange-50 rounded-full border border-orange-100"
                 >
-                    <Image src={'/m.png'}
+                    <Image src={'/logo.png'}
                         alt="로고"
                         width={28}
                         height={28}
+                        priority
                     />
                     <span className="text-[10px] font-black text-orange-600 uppercase tracking-tight">Partner</span>
                 </button>
