@@ -4,7 +4,7 @@
     "description": "반려 시설 통합 O2O 서비스 및 관리 시스템",
     "start_url": "/",
     "display":"standalone",
-    "background_color" : "#fafafa",
+    "background_color" : "#ffffff",
     "theme_color": "#fffbeb",
     "icons": [
         {
