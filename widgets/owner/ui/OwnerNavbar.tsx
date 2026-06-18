@@ -28,8 +28,10 @@ export function OwnerNavbar() {
     const shopId = data?.id
 
     const { data: rawProducts=[], isPending: isProductsPending} = useGetProducts(shopId)
+    //* 현재 활성화된 상품만 보여줌. 삭제된건 api요청단에서 막아놈
     const products = useMemo(() => rawProducts.filter(p => p.is_active), [rawProducts])
 
+    console.log('produc', products)
     
     const isQrActive = pathname === '/owner/qr'
 
@@ -109,7 +111,7 @@ export function OwnerNavbar() {
             </nav>
 
             <QrModal products={products} isPending={isProductsPending} qrValue={qrValue} 
-                    selectedProduct={selectedProduct} open={isQrModalOpen} onClose={handleCloseQrModal} 
+                    selectedProduct={selectedProduct} open={!isQrModalOpen} onClose={handleCloseQrModal} 
                     onSelectProduct={handleSelectedProduct}
                     isVerified={isVerified}
                     />

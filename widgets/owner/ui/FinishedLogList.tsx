@@ -6,8 +6,6 @@ import { useMemo, useState } from "react"
 import { CurrentUsageLog } from "@/entities/check-in/model"
 import { format, isToday, parseISO } from "date-fns"
 import { CurrentLogSkeleton } from "./CurrentLogSkeleton"
-import { useGetProductCategories } from "@/features/owner/my-store/product/model"
-import { useGetShopInfo } from "@/entities/owner/model"
 import { ko } from "date-fns/locale"
 
 interface FinishedLogListProps {
@@ -21,15 +19,6 @@ export function FinishedLogList({ data, isPending, isVerified }: FinishedLogList
     const [filterType, setFilterType] = useState('all')
     const [detailItem, setDetailItem] = useState<CurrentUsageLog | null>(null)
 
-
-    const { data: shopInfo } = useGetShopInfo()
-    const shopId = shopInfo?.id
-
-
-
-    // * 상품 카테고리 가져오기
-    const { data: categories } = useGetProductCategories(shopId)
-    console.log('categories', categories)
 
     const categoryOptions = useMemo(() => {
         const options = [{ value: 'all', label: '전체 유형' }]

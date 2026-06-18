@@ -22,6 +22,7 @@ function QrModalInner({ products, open, qrValue, selectedProduct, onClose, onSel
         return products.filter(p => p.product_categories?.name === selectedCategoryName)
     }, [products, selectedCategoryName])
 
+    console.log('filteredProducts',filteredProducts)
 
     const handleClose = () => {
         setSelectedCategoryName(null)
@@ -83,7 +84,7 @@ function QrModalInner({ products, open, qrValue, selectedProduct, onClose, onSel
 
                         {/* //*QR 코드 출력 화면 */}
                         {selectedCategoryName && selectedProduct && (
-                            <QrCodeDisplayView qrValue={qrValue} selectedProductName={selectedProduct.name}/>
+                            <QrCodeDisplayView qrValue={qrValue} selectedProduct={selectedProduct}/>
                         )}
                     </>
                 )}
