@@ -29,7 +29,7 @@ export interface SignupFieldsProps{
 
 export interface SignupFormProps{
     role: 'user' | 'owner';
-    handleAuthAction?: (formData: FormData) => void | Promise<void>
+    handleAuthAction: (formData: FormData) => void | Promise<void>
 }
 
 export interface LoginFormProps{
