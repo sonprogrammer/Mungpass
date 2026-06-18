@@ -35,8 +35,8 @@ export function ProductList({ products, onDelete, showHidden, setShowHidden, onE
 
     return (
         <div className="flex flex-col gap-3 overflow-y-auto h-full">
-            <div className="sticky top-0 z-10 flex border-b border-slate-100">
-                <div className="flex-1 py-3 bg-white px-3 flex gap-2 overflow-x-auto scrollbar shrink-0">
+            <div className="sticky top-0 z-10 flex border-b border-slate-100 bg-white shadow-md">
+                <div className="flex-1 py-3  px-3 flex gap-2 overflow-x-auto scrollbar shrink-0">
                     {categories.map((c) => {
                         const isActive = selectedCategory === c
                         return (
