@@ -8,7 +8,7 @@ export const deleteVacation = async(shopId: string)=> {
 
     if(error){
         console.error('삭제 오류', error)
-        throw new Error('삭제 오류', {cause: error})
+        throw error
     }
 
     return true

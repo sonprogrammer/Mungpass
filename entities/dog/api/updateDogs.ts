@@ -35,7 +35,7 @@ export async function updateDogs({ userId, dogId, formData,imageFile }: { userId
         .select()
 
     if (error) {
-        throw new Error(error.message)
+        throw error
     }
     if (!data || data.length === 0) throw new Error('can not find ')
     return data

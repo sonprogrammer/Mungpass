@@ -33,7 +33,7 @@ export async function signup(formData: FormData){
        }
        
         console.error('회원가입 에러', error.message)
-        throw new Error(error.message)
+        throw error
     }
 
 

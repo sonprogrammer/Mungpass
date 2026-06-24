@@ -9,7 +9,7 @@ export const postProductCategory = async({categoryName, shopId} : {categoryName:
 
     if(error){
         console.error('카테고리 생성오류api',error)
-        throw new Error('카테고리 생성오류api', { cause: error})
+        throw error
     }
 
     return data as ProductCategory

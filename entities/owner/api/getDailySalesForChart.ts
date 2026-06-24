@@ -12,7 +12,7 @@ export const getDailySalesForChart = async(shopId: string, start: string, end: s
 
     if(error){
         console.error('일별 차트데이터 실패', error)
-        throw new Error('일별 차트데이터 실패', { cause: error})
+        throw error
     }
 
     return data 

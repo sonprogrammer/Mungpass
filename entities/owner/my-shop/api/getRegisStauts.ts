@@ -13,7 +13,7 @@ export const getRegisData = async(userId: string): Promise<StoreRegistration> =>
 
     if(error){
         console.error('신청내역 가져오기 오류', error)
-        throw new Error('신청내역 가져오기 오류', { cause: error})
+        throw error
     }
 
     return data

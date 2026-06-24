@@ -15,7 +15,7 @@ export const getVacation = async(shopId: string) => {
     
     if(error){
         console.error('휴가 정보 에러 ', error)
-        throw new Error('휴가 정보 에러 ', { cause:error})
+        throw error
     }
 
     return data

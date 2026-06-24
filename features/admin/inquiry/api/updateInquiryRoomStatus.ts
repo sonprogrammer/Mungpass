@@ -12,6 +12,6 @@ export const updateInquiryRoomStatus = async (roomId: string) => {
 
     if (roomError) {
         console.error("방 상태 업데이트 실패", roomError)
-        throw new Error(roomError.message)
+        throw roomError
     }
 }
