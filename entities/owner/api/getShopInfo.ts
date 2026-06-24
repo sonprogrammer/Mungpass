@@ -1,7 +1,11 @@
+'use server'
+
 import { supabaseClient } from "@/shared/api/supabase/client";
+import { supabaseServer } from "@/shared/api/supabase/server";
+
 
 export const getShopInfo = async(ownerId :string) => {
-    const supabase = supabaseClient()
+    const supabase = await supabaseServer()
 
     const { data, error} = await supabase.from('shops').select('*').eq('owner_id', ownerId).single()
 

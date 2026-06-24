@@ -1,3 +1,4 @@
+export const dynamic = 'force-dynamic';
 import { LoadingFallback } from "@/shared/ui/Loader";
 import { KakaoScriptProvider } from "@/shared/ui/map";
 import { MapLoading } from "@/widgets/around/ui";

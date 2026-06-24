@@ -1,3 +1,4 @@
+export const dynamic = 'force-dynamic';
 import { MyPageWidget } from "@/widgets/mypage/ui";
 
 

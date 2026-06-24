@@ -1,3 +1,4 @@
+export const dynamic = 'force-dynamic';
 import { StatsPageWidget } from "@/widgets/owner/stats/ui";
 
 

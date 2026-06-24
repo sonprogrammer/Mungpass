@@ -1,3 +1,4 @@
+export const dynamic = 'force-dynamic';
 import { BackBtn } from "@/shared/ui";
 import { SaveList } from "@/widgets/save/ui";
 

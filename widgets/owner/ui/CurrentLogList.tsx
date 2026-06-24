@@ -19,7 +19,6 @@ export function CurrentLogList({ data, tab, isPending, isVerified }: {data: Curr
     // TODO 상품에 따라 정렬도 가능하게 하기
     
     
-    
     const handleCheckout = (item: CurrentUsageLog) => {
         setCheckoutItem(item)
     }

@@ -4,7 +4,6 @@ import { NextRequest } from "next/server";
 
 export default async function proxy(req: NextRequest) {
     const { supabase, res } = createClient(req)
-
     await supabase.auth.getUser()
 
 
@@ -20,6 +19,6 @@ export default async function proxy(req: NextRequest) {
 
 export const config = {
     matcher: [
-        '/((?!_next/static|_next/image|.*\\.(?:png|jpg|jpeg|gif|webp|ico|svg)$).*)',
+        '/((?!api|_next/static|_next/image|favicon.ico|.*\\.(?:svg|png|jpg|jpeg|gif|webp)$).*)',
     ]
 }

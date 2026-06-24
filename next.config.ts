@@ -21,26 +21,20 @@ const nextConfig: NextConfig = {
       },
     ],
   },
-  
-   onDemandEntries: {
-    maxInactiveAge: 25 * 1000,
-    pagesBufferLength: 2,
-  },
-  
-  // compiler: {
-  //   removeConsole: process.env.NODE_ENV === 'production'
-  //     ? { exclude: ['error']}
-  //     : false
-  // }
+
+  compiler: {
+    removeConsole: process.env.NODE_ENV === 'production'
+      ? { exclude: ['error']}
+      : false
+  }
 
 };
 
-export default nextConfig
-// export default withPWA({
-//   dest: 'public',
-//   disable: process.env.NODE_ENV === 'development',
-//   register: true,
-//   workboxOptions: {
-//     skipWaiting: true
-//   }
-// })(nextConfig);
+export default withPWA({
+  dest: 'public',
+  disable: process.env.NODE_ENV === 'development',
+  register: true,
+  workboxOptions: {
+    skipWaiting: true
+  }
+})(nextConfig);

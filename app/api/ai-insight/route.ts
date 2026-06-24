@@ -6,11 +6,11 @@ import { format } from "date-fns"
 
 const geminiAi = new GoogleGenerativeAI(process.env.GEMINI_API_KEY!)
 
-export async function POST(req: NextRequest){
+export async function POST(req: NextRequest) {
     try {
-        
+
         const supabase = await supabaseServer()
-        
+
         const { data: { session } } = await supabase.auth.getSession()
 
 
@@ -18,24 +18,24 @@ export async function POST(req: NextRequest){
         if (!session) {
             return NextResponse.json({ error: '인증되지 않은 사용자입니다.' }, { status: 401 })
         }
-        
-        const { statsData} = await req.json()
+
+        const { statsData } = await req.json()
         const shopId = statsData.shop_id
         const today = format(new Date(), 'yyyy-MM-dd')
 
         //* 이미 ai리포트를 받았는지 확인
-        const { data : existingInsight} = await supabase.from('store_ai_insight').select('*').eq('shop_id', shopId).eq('created_at', today).single()
+        const { data: existingInsight } = await supabase.from('store_ai_insight').select('*').eq('shop_id', shopId).eq('created_at', today).single()
 
         // * 유료 회원인지 아닌지 확인
-        const { data: shopInfo} = await supabase.from('shops').select('is_member').eq('id', shopId).single()
+        const { data: shopInfo } = await supabase.from('shops').select('is_member').eq('id', shopId).single()
 
         // *무료이고 이미 리포트를 받았다면 ai호출안해야함
-        if(!shopInfo?.is_member && existingInsight){
-            return NextResponse.json({insight: existingInsight.content}, {status: 200})
+        if (!shopInfo?.is_member && existingInsight) {
+            return NextResponse.json({ insight: existingInsight.content }, { status: 200 })
         }
-        
 
-        const model = geminiAi.getGenerativeModel({model: 'gemini-3-flash-preview'})
+
+        const model = geminiAi.getGenerativeModel({ model: 'gemini-3-flash-preview' })
 
         const prompt = `
             너는 애견 카페/유치원 전문 경영 분석가야.
@@ -62,19 +62,19 @@ export async function POST(req: NextRequest){
         const response = await result.response
         const text = response.text()
 
-        const {error: aiInsightUpsertError } = await supabase.from('store_ai_insight').upsert({
-                                    shop_id: shopId,
-                                    content: text, created_at: today
-                                })
+        const { error: aiInsightUpsertError } = await supabase.from('store_ai_insight').upsert({
+            shop_id: shopId,
+            content: text, created_at: today
+        })
 
-        if(aiInsightUpsertError){
+        if (aiInsightUpsertError) {
             console.error('db에 ai 인사이트 저장 에러 api error', aiInsightUpsertError)
         }
-        
-        
-        return NextResponse.json({insight: text}, {status: 200})
+
+
+        return NextResponse.json({ insight: text }, { status: 200 })
     } catch (error) {
         console.error('Gemini API Error', error)
-        return NextResponse.json({error: '분석 실패'},{status: 500})
+        return NextResponse.json({ error: '분석 실패' }, { status: 500 })
     }
 }
