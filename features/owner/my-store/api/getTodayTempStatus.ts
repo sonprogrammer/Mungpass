@@ -14,7 +14,7 @@ export const getTodayTempStatus = async(shopId: string) => {
 
     if(error){
         console.error('오늘 임시 휴무 데이터 가져오기 에러: ', error)
-        throw new Error('오늘 임시 휴무 데이터 가져오기 에러: ', { cause: error})
+        throw error
     }
 
     return data

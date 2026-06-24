@@ -8,7 +8,7 @@ export const deleteProduct = async({productId, shopId}: {productId: string, shop
 
     if(error){
         console.error('상품 삭제중 에러 발생api', error)
-        throw new Error('상품 삭제중 에러 발생api', { cause: error})
+        throw error
     }
     
 

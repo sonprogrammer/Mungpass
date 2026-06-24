@@ -6,6 +6,11 @@ const nextConfig: NextConfig = {
   turbopack: {
     root: __dirname,
   },
+  logging: {
+    fetches: {
+      fullUrl: true,
+    },
+  },
   images: {
     remotePatterns: [
       {
@@ -16,6 +21,12 @@ const nextConfig: NextConfig = {
       },
     ],
   },
+  
+   onDemandEntries: {
+    maxInactiveAge: 25 * 1000,
+    pagesBufferLength: 2,
+  },
+  
   // compiler: {
   //   removeConsole: process.env.NODE_ENV === 'production'
   //     ? { exclude: ['error']}

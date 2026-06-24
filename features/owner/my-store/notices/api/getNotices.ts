@@ -8,7 +8,7 @@ export const getNotices = async(shopId: string):Promise<NoticeFromDb[]> => {
 
     if(error){
         console.error('공지사항 가져오기 에러 api error', error)
-        throw new Error('공지사항 가져오기 에러 api error', {cause:error})
+        throw error
     }                                                    
 
     return (data as NoticeFromDb[]) || []

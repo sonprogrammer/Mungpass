@@ -20,7 +20,7 @@ export const updateTempStatus = async({shopId, type, reason}:{shopId: string, ty
 
     if(error){
         console.error('휴무/마감 업데이트 오류', error)
-        throw new Error('휴무/마감 업데이트 오류', { cause: error})
+        throw error
     }
 
                    

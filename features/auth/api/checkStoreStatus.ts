@@ -6,7 +6,7 @@ export const checkStoreStatus = async(ownerId: string) => {
 
     if(error){
         console.error('매장 등록 상태 확인 api 에러',error)
-        throw new Error('매장 등록 상태 확인 api 에러', { cause: error})
+        throw error
     }
     
     return data

@@ -9,7 +9,7 @@ export const deleteProductCategory = async({shopId, categoryId}: {shopId: string
 
     if(error){
         console.error('카테고리 삭제 에러 api', error)
-        throw new Error('카테고리 삭제 에러 api', { cause: error})
+        throw error
     }
     
     return true

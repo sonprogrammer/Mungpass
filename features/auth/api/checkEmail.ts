@@ -8,7 +8,7 @@ export async function checkEmail(email: string){
 
     if(error){
         console.error('db error', error)
-        throw new Error('db error', { cause: error})
+        throw error
     }
 
     return data ? 'taken' : 'available'

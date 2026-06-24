@@ -10,7 +10,7 @@ export const getMonthlySalesData = async(shopId: string):Promise<MonthlySalesDat
 
     if(error){
         console.error('연별 데이터를 가져오지 못했습니다', error)
-        throw new Error('연별 데이터를 가져오지 못했습니다', {cause: error})
+        throw error
     }
 
     return data as MonthlySalesData[]
