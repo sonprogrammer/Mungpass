@@ -41,7 +41,7 @@ export function OwnerMainPageWidget() {
         <Col span={24}>
           <OwnerSumCards
             currentCount={currentLogs.length}
-            todayVisitCount={todayVisitCount}
+            todayVisitCount={todayVisitCount ?? 0}
             avgTime={avgTime}
             expectedSales={expectedSales}
             loading={isSummaryLoading}

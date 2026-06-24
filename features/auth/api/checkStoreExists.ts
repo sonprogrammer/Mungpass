@@ -50,9 +50,9 @@ export const checkStoreExists = async (kakaoPlaceId: string, ownerId: string): P
                 .eq('kakao_place_id', kakaoPlaceId)
                 .eq('owner_id', ownerId)
                 .maybeSingle()
-            if(rejectError)
+            if(rejectError){
                 console.error('store_registrations 테이블 거절 사유 api 에러 발생', rejectError)
-                throw rejectError
+                throw rejectError}
             
             if(rejectData){
                 return {exists: false, isPending: false, isRejectedByMe: true, rejectReason: rejectData.rejection_reason || '반려 사유가 없습니다.', error: false}
