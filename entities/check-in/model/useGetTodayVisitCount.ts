@@ -9,7 +9,7 @@ export function useGetTodayVisitCount() {
     return useQuery({
         queryKey: ['todayVisitCount', shopId],
         queryFn: () => {
-                if(!shopId) throw new Error('shopId가 없습니다')
+                if(!shopId) return null
                 return getTodayVisitCount(shopId!)},
         enabled: !!shopId,
         staleTime: 1000 * 60 * 30

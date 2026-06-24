@@ -20,7 +20,7 @@ export const checkStoreExists = async (kakaoPlaceId: string, ownerId: string): P
 
         if (shopDataError) {
             console.error('shops테이블 가게 확인 api 에러 발생', shopDataError)
-            throw new Error('shops테이블 가게 확인 api 에러 발생')
+            throw shopDataError
         }
     } catch (error) {
         console.error('shops 테이블 조회 에러 발생 api', error)
@@ -38,7 +38,7 @@ export const checkStoreExists = async (kakaoPlaceId: string, ownerId: string): P
 
         if (statusError) {
             console.error('store_registrations 테이블 api 에러 발생', statusError)
-            throw new Error('store_registrations 테이블 api 에러 발생')
+            throw statusError
         }
 
         if (statusData?.status === 'PENDING') {
@@ -50,10 +50,10 @@ export const checkStoreExists = async (kakaoPlaceId: string, ownerId: string): P
                 .eq('kakao_place_id', kakaoPlaceId)
                 .eq('owner_id', ownerId)
                 .maybeSingle()
-            if(rejectError){
+            if(rejectError)
                 console.error('store_registrations 테이블 거절 사유 api 에러 발생', rejectError)
-                throw new Error('store_registrations 테이블 거절 사유 api 에러 발생')
-            }
+                throw rejectError
+            
             if(rejectData){
                 return {exists: false, isPending: false, isRejectedByMe: true, rejectReason: rejectData.rejection_reason || '반려 사유가 없습니다.', error: false}
             }

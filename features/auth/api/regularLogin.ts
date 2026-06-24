@@ -23,7 +23,7 @@ export async function regularLogin(formData:FormData){
             msg = '이메일 또는 비밀번호가 일치하지 않습니다'
         }
 
-        throw new Error(msg)
+        throw error
     }
 
 
@@ -32,7 +32,7 @@ export async function regularLogin(formData:FormData){
     if(profileError || !profile){
         console.error('상세 에러 내역', profileError)
         await supabase.auth.signOut()
-        throw new Error(`${profileError} : 사용자 프로필을 찾을 수 없습니다.`)
+        throw profileError
     }
 
     if(profile.role === 'admin'){
@@ -41,7 +41,6 @@ export async function regularLogin(formData:FormData){
 
     if(profile.role !== role){
         await supabase.auth.signOut()
-        throw new Error('선택한 회원 유형이 올바르지 않습니다.')
     }
     
     return { ...data, actualRole: profile.role }

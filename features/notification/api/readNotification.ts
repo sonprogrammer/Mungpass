@@ -7,6 +7,6 @@ export const readNotification = async(notiId: string) => {
 
     if(error){
         console.error('체크인아웃 읽음처리 에러 api', error)
-        throw new Error('체크인 아웃 읽음 처리 에러')
+        throw error
     }
 }

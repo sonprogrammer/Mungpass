@@ -6,7 +6,7 @@ export const updateOwnerDocs = async({id, ownerId, storeInfo, businessNumber, Do
     const supabase = supabaseClient()
 
     if(!ownerId){
-        throw new Error('회원가입을 먼저 해주세요')
+        return { error : '회원가입을 먼저 진행해주세요'}
     }
 
     let storagePath = typeof DocsImg === 'string' ? DocsImg : null
@@ -20,7 +20,7 @@ export const updateOwnerDocs = async({id, ownerId, storeInfo, businessNumber, Do
 
         if(uploadError) {
             console.error('upload eeeor', uploadError)
-            throw new Error('업로드 실패')
+            throw uploadError
         }
 
         storagePath = filePath
@@ -47,7 +47,7 @@ export const updateOwnerDocs = async({id, ownerId, storeInfo, businessNumber, Do
 
     if(error){
         console.error('재 제출 오류 api', error)
-        throw new Error('재 제출 오류 api', { cause: error})
+        throw error
     }
 
     return data

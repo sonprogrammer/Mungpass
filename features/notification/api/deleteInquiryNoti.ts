@@ -7,6 +7,6 @@ export const deleteIquiryNoti = async(notiId: string) => {
 
     if(error){
         console.error('1대1 문의 알림 삭제 실패 api', error)
-        throw new Error('1대1 문의 알림 삭제 실패 api')
+        throw error
     }
 }

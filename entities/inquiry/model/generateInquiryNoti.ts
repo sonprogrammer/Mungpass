@@ -26,6 +26,6 @@ export const generateInquirNoti = async (sendData: generateInquirNotiPayload) =>
 
     if (notiError) {
         console.error("알림 생성 실패 api", notiError)
-        throw new Error("알림 생성 실패")
+        throw notiError
     }
 }

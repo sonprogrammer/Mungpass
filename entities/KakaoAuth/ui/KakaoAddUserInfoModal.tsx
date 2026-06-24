@@ -27,7 +27,7 @@ export function KakaoAddUserInfoModal({onClose} : {onClose: () => void}) {
                 const {error} = await supabase.from('profiles').update({phone_number: phone, role}).eq('id', user.id)
                 if(error){
                     console.error('카카오 회원가입 에러 ',error)
-                    throw new Error('카카오 회원가입 에러')
+                    throw error
                 }
                 const {data : updateProfile} = await supabase.from('profiles').select('*').eq('id', user.id).single()
 

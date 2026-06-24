@@ -9,7 +9,7 @@ export const getInquiryUserNoti = async(userId: string) => {
 
     if(error){
         console.error('일반유저, 사장유저의 알림 가져오기 실패 api', error)
-        throw new Error('일반유저, 사장유저의 알림 가져오기 실패')
+        throw error
     }
     return data
 }

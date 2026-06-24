@@ -17,7 +17,7 @@ export const getMyPetUsage = async({userId, statuses=['staying']}: {userId: stri
                                             
     if(error){
         console.error('나의 강아지 체크인 정보 가져오기 error', error)
-        throw new Error('체크인 한 강아지 정보를 불러오지 못했습니다')
+        throw error
     }
 
     return (data as MyPetUsageAllInfo[]) || []

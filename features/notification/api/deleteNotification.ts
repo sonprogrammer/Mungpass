@@ -6,7 +6,7 @@ export const deleteNotification = async(notiId: string) => {
     
     if(error){
         console.error('알림 삭제 에러 api', error)
-        throw new Error('알림 삭제 에러발생')
+        throw error
     }
     return true
 }

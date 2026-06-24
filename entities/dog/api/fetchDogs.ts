@@ -5,11 +5,11 @@ import { supabaseClient } from "@/shared/api/supabase/client";
 export async function fetchDogs (userId: string): Promise<Dog[]> {
     const supabase = supabaseClient()
 
-    if(!userId) throw new Error('login first')
+    if(!userId) return []
 
     const {data, error} = await supabase.from('dogs').select('*').eq('owner_id', userId).order('created_at', {ascending: true})
 
-    if(error) throw new Error('강아지 생성 실패 에러')
+    if(error) throw error
 
     return data.map(dog => ({
         ...dog,

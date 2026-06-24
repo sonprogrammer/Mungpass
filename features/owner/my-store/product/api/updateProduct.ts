@@ -8,7 +8,7 @@ export const updateProduct = async(data: {productId: string, updatedData: Update
     
     if(error){
         console.error('상품 업데이트 api error', error)
-        throw new Error('상품 업데이트 에러')
+        throw error
     }
 
     return updateProduct

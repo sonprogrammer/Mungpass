@@ -17,7 +17,7 @@ export const saveNotice = async({shopId, noticeId, postData}: PostNotice) => {
                                                 }).select().single()
     if(error){
         console.error('공지사항 저장 에러 api', error)
-        throw new Error('공지 사항 저장 중  에러 발생')
+        throw error
     }
 
     return data

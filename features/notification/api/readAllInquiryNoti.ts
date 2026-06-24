@@ -7,6 +7,6 @@ export const readAllInquiryNoti = async(userId: string) => {
 
     if(error){
         console.error('1대1 문의 전체 읽음 처리 실패 api', error)
-        throw new Error('1대1 문의 전체 읽음 처리 실패 api')
+        throw error
     }
 }

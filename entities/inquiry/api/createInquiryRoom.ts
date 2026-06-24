@@ -17,7 +17,7 @@ export const createInquiryRoom = async(roomData: CreatedInquiryRoomParams):Promi
     
     if(error){
         console.error('inquiry room 생성 실패 api', error)
-        throw new Error('1대일 문의 방 생성 실패')
+        throw error
     }
 
 
@@ -29,7 +29,7 @@ export const createInquiryRoom = async(roomData: CreatedInquiryRoomParams):Promi
                                                                     }])
     if(msgError){
         console.error('메시지 전송 실패 api', msgError)
-        throw new Error('첫 문의 메시지 등록 실패')
+        throw msgError
     }
 
     return data as InquiryRoom

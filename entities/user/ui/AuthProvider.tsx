@@ -89,7 +89,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
                 if (error) {
                     console.error('errorr kakaoloign', error)
-                    throw new Error('errorr kakaoloign', { cause: error})
+                    throw error
                 }
 
             }

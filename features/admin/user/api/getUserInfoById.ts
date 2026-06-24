@@ -7,7 +7,7 @@ export const getUserInfoById = async(userId: string) => {
                                                         .eq('id', userId).single()
     if(error){
         console.error('유저아이디로 유저 정보 불러오기 실패 api error', error)
-        throw new Error('유저 아이디로 유저 정보 불러오기 에러')
+        throw error
     }
     return data
 }

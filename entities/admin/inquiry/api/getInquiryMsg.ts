@@ -7,7 +7,7 @@ export const getInquiryMsg = async(roomId: string) => {
 
     if(error){
         console.error('문의 채팅방 가져오기 실패 api',error)
-        throw new Error('문의 채팅방 가져오기 실패')
+        throw error
     }
 
     return data

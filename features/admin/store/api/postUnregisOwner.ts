@@ -16,7 +16,7 @@ export const postUnreigisOwner = async(values:Shop) => {
 
     if(error){
         console.error('회원 수동등록 api error', error)
-        throw new Error('회원 수동 등록 api errro')
+        throw error
     }
 
     return data

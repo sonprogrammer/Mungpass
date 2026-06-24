@@ -12,7 +12,7 @@ export const userCheckIn = async({dogId, shopId, productId, userId}: {dogId: str
                                                 
     if(productError){ 
         console.error('현재 스캔후 이용할 상품 정보에러api', productError)
-        throw new Error('이용 가능한 상품 정보를 찾을 수 없습니다. 다시 시도해주세요')
+        throw productError
     }
 
     // * 중복 입실 체크
@@ -50,7 +50,7 @@ export const userCheckIn = async({dogId, shopId, productId, userId}: {dogId: str
 
     if(checkInInsertError){
         console.error('체크인 usagge_logs 인서트 에러', checkInInsertError)
-        throw new Error('입실 기록 저장에 실패했습니다. 다시 스캔해주세요')
+        throw checkInInsertError
     }
 
     return usageLog

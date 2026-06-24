@@ -7,7 +7,7 @@ export async function postOwnerDocs({ownerId, storeInfo, businessNumber, DocsImg
     const supabase = supabaseClient()
     
     if(!ownerId){
-        throw new Error('회원가입을 먼저 해주세요')
+        return { error : '회원가입을 먼저 해주세요'}
     }
 
     let storagePath = null
@@ -21,7 +21,7 @@ export async function postOwnerDocs({ownerId, storeInfo, businessNumber, DocsImg
 
         if(uploadError) {
             console.error('upload eeeor', uploadError)
-            throw new Error('업로드 실패')
+            throw uploadError
         }
 
         storagePath = filePath
@@ -49,7 +49,7 @@ export async function postOwnerDocs({ownerId, storeInfo, businessNumber, DocsImg
             if(storagePath){
                 await supabase.storage.from('owner-docs').remove([storagePath])
             }
-            throw new Error(`${dbError.message} 에러 발생`)
+            throw dbError
         }
                         
 

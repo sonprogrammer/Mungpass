@@ -13,7 +13,7 @@ export const sendInquiryMsg = async(payload:SendInquiryMsgPayload):Promise<void>
                                                             }])
     if(error){
         console.error('메시지 보내기 에러 api', error)
-        throw new Error('메시지 전송에 실패하였습니다')
+        throw error
     }
 
     const nextStatus = payload.senderType === 'admin' ? 'completed' : 'pending'
@@ -22,7 +22,7 @@ export const sendInquiryMsg = async(payload:SendInquiryMsgPayload):Promise<void>
 
     if(roomUpdateError){
         console.error('채팅방 상태 업데이트 실패 api', roomUpdateError)
-        throw new Error('채팅방 상태 업데이트 실패')
+        throw roomUpdateError
     }
 
 

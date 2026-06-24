@@ -17,7 +17,7 @@ export const checkout = async (usageId: string) => {
 
     if (error) {
         console.error('이용 내역 가져오기 api error from checkout file', error)
-        throw new Error('가게 이용 기록 가져오기 실패')
+        throw error
     }
 
 
@@ -64,7 +64,7 @@ export const checkout = async (usageId: string) => {
         .single()
     if (updateError) {
         console.error('체크 아웃 상태 변경 api error from checkout file', updateError)
-        throw new Error('체크 아웃 실패, 다시 시도 해주세요')
+        throw updateError
     }
 
 

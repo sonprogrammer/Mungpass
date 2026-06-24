@@ -18,7 +18,7 @@ export function useInquiryChat(roomId: string) {
                                                                                 .order('created_at', { ascending: true})
                 if(error){
                     console.error('대화 내용을 가져오기 실패 api',error)
-                    throw new Error('대화 내용을 가져올 수 없습니다.')
+                    throw error
                 }
                 setMessages(data as InquiryMessage[] || [])
             } catch (error) {

@@ -12,7 +12,7 @@ export const getInquiryRoom = async(userData: GetInquiryRoomParams): Promise<Inq
 
     if(error){
         console.error('문의 등록 정복 가져오기 실패 api', error)
-        throw new Error('문의 내역을 가져올 수 없습니다')
+        throw error
     }
 
     return data as InquiryRoom[]

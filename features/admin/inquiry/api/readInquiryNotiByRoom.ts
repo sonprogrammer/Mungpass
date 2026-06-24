@@ -12,6 +12,6 @@ export const readInquiryNotiByRoom = async({roomId, type}: ReadInquiryNotiByRoom
 
     if(error){
         console.error('채팅방 들어갈시 읽음 처리 실패 api', error)
-        throw new Error('채팅방 들어갈시 읽음 처리 실패')
+        throw error
     }
 }

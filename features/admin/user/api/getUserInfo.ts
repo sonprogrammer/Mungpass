@@ -18,7 +18,7 @@ export const getUserInfo = async (params: { keyword?: string, role?: string, own
 
         if (error) {
             console.error('회원 정보 조회 api error', error)
-            throw new Error('회원 정보 조회 에러')
+            throw error
         }
         return userInfo || []
     }
@@ -50,7 +50,7 @@ export const getUserInfo = async (params: { keyword?: string, role?: string, own
 
     if (error) {
         console.error('회원정보 조회 api error', error)
-        throw new Error('회원 정보 조히 에러')
+        throw error
     }
 
 

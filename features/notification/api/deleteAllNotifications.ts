@@ -6,7 +6,7 @@ export const deleteAllNotifications = async(targetId: string) => {
 
     if(error){
         console.error('전체 알림 삭제 에러 Api', error)
-        throw new Error('전체 알림 삭제중 오류 발생')
+        throw error
     }
 
     return true

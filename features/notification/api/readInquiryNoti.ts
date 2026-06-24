@@ -6,7 +6,7 @@ export const readInquiryNoti = async(notiId: string) => {
 
     if(error){
         console.error('1대1 읽음처리 에러 api', error)
-        throw new Error('1대1 읽음 처리 에러')
+        throw error
     }
 
 }

@@ -7,7 +7,7 @@ export const getUnregisOnwer = async() => {
 
     if(error){
         console.error('사장 유저 불러오기 실패')
-        throw new Error('사장 유저 불러오기 실패')
+        throw error
     }
 
     return data

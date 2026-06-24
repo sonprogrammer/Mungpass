@@ -25,15 +25,15 @@ export async function signup(formData: FormData){
     if(error){
 
         if (error.message.includes("at least 6 characters")) {
-            throw new Error("비밀번호는 최소 6자 이상이어야 합니다.");
+            return { error: "비밀번호는 최소 6자 이상이어야 합니다." }
        }
        
        if(error.message.includes('already registered')){
-        throw new Error('이미 사용중인 이메일 입니다')
+        return { error: '이미 사용중인 이메일 입니다' }
        }
        
         console.error('회원가입 에러', error.message)
-        throw error
+        return { error: error.message }
     }
 
 

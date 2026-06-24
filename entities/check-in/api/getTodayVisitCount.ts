@@ -18,7 +18,7 @@ export const getTodayVisitCount = async(shopId: string) =>{
 
     if(error){ 
         console.error('에러 발생 : ',error)
-        throw new Error('에러 발생')
+        throw error
     }
     
     return count ?? 0

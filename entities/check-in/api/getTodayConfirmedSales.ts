@@ -12,7 +12,7 @@ export const getTodayConfirmedSales = async(shopId: string) => {
                                                             .gte('ended_at', todayStart)
     if(error){
         console.error('오늘 확정 매출 에러 api', error)
-        throw new Error('오늘 확정 매출 에러 api')
+        throw error
     }
 
     return data.reduce((acc, cur) => acc + (cur.total_price || 0), 0)

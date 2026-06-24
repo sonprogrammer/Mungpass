@@ -6,7 +6,7 @@ export async function updateDogs({ userId, dogId, formData,imageFile }: { userId
     const supabase = supabaseClient()
 
 
-    if (!userId) throw new Error('login first')
+    if (!userId) return { error: 'login first'}
 
     let imageUrl = formData.image_url
         
@@ -17,7 +17,7 @@ export async function updateDogs({ userId, dogId, formData,imageFile }: { userId
 
         const { error : uploadError} = await supabase.storage.from('dog-images').upload(filePath, imageFile)
 
-        if(uploadError) throw new Error('강아지 프로필 업로드 실패')
+        if(uploadError) throw uploadError
 
         const { data: {publicUrl}} = supabase.storage.from('dog-images').getPublicUrl(filePath)
 
@@ -37,6 +37,6 @@ export async function updateDogs({ userId, dogId, formData,imageFile }: { userId
     if (error) {
         throw error
     }
-    if (!data || data.length === 0) throw new Error('can not find ')
+    if (!data || data.length === 0) throw error
     return data
 }

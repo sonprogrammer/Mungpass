@@ -4,7 +4,7 @@ import { DogRegisterToSever } from "@/features/dog/model"
 export async function registerDog(formData: DogRegisterToSever, image: File | null, userId: string) {
     const supabase = supabaseClient()
 
-    if(!userId) throw new Error('login first')
+    if(!userId) return {error: '유저가 없습니다'}
 
     let imageUrl = null
 
@@ -15,7 +15,7 @@ export async function registerDog(formData: DogRegisterToSever, image: File | nu
 
         const {error: uploadError} = await supabase.storage.from('dog-images').upload(filePath, image)
 
-        if(uploadError) throw new Error('강아지 프로필 사진 업로드 에러')
+        if(uploadError) throw uploadError
 
         const { data: {publicUrl}} = supabase.storage.from('dog-images').getPublicUrl(filePath)
         
@@ -32,5 +32,5 @@ export async function registerDog(formData: DogRegisterToSever, image: File | nu
         birth_date: formData.birth_date
     }])
 
-    if(error) throw new Error('강아지 등록 실패 에러')
+    if(error) throw error
 }

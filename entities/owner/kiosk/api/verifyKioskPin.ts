@@ -7,7 +7,7 @@ export const verifyKioskPin = async(shopId: string, pin: string) => {
 
     if(error){
         console.error('핀번호 가져오기 실패 api', error)
-        throw new Error('핀번호 조회 실패')
+        throw error
     }
 
     return data.kiosk_pin === pin

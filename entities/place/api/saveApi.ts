@@ -15,7 +15,7 @@ export const saveApi = {
 
         if (error) {
             console.error('fetchSaveList Error', error)
-            throw new Error('theere is no userinof')
+            throw error
         }
         return data
     },
@@ -31,7 +31,7 @@ export const saveApi = {
             
             if (deleteError) {
             console.error('toggleSave failed', deleteError.message)
-            throw new Error('toggleSave failed', { cause: deleteError})
+            throw deleteError
         } 
         
 
@@ -49,7 +49,7 @@ export const saveApi = {
             })
         if (insertError) {
             console.error('toggleSave Error', insertError)
-            throw new Error('cant toggle')
+            throw insertError
         }
     }
 

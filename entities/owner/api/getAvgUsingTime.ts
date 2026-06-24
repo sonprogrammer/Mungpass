@@ -16,7 +16,7 @@ export const getAvgUsingTime = async (shopId: string) => {
 
     if (error) {
         console.error('avg using time api error', error.message)
-        throw new Error('고객들 평균 이용 시간 에러')
+        throw error
     }
 
     if (!data || data.length === 0) {
