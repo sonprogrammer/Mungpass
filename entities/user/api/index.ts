@@ -1,1 +1,1 @@
-export * from './fetchUser'
+export * from './getUserFromServer'

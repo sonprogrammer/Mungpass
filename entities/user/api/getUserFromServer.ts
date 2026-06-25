@@ -1,8 +1,9 @@
+'use server'
 
-import { supabaseClient } from "@/shared/api/supabase/client";
+import { supabaseServer } from "@/shared/api/supabase/server";
 
-export const fetchUser = async() => {
-    const supabase = supabaseClient()
+export const getUserFromServer = async() => {
+    const supabase = await supabaseServer()
 
     const { data: {user}} = await supabase.auth.getUser()
     if(!user) return null
@@ -15,8 +16,10 @@ export const fetchUser = async() => {
 
     if(error){
         console.error(error)
-        return null
+        throw new Error('로그인 정보를 찾을 수 없습니다.')
     }
+
+    console.log('data from server', data)
     return data
 }
 
