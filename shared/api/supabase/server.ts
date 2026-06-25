@@ -20,7 +20,8 @@ export async function supabaseServer() {
                                 ...options,
                                 path: '/',
                                 httpOnly: true,
-                                secure: isProduction,
+                                // secure: isProduction,
+                                secure: false, //TODO 빌드 테스트 용
                                 sameSite: 'lax'
                             }))
                     } catch {

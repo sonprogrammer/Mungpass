@@ -14,31 +14,39 @@ interface AuthProviderProps {
 }
 
 export function AuthProvider({ children, initialUser }: AuthProviderProps) {
-    const { setNeedSignup, needSignup, setProfile, logout, loginTabRole, isHydrated } = useUserStore(
+    const { setNeedSignup, needSignup, setProfile, logout, loginTabRole, isHydrated, isLoggingIn, setIsLoggingIn } = useUserStore(
         useShallow(state => ({
             setNeedSignup: state.setNeedSignup,
             needSignup: state.needSignup,
             setProfile: state.setProfile,
             logout: state.logout,
             loginTabRole: state.loginTabRole,
-            isHydrated: state.isHydrated
+            isHydrated: state.isHydrated,
+            isLoggingIn: state.isLoggingIn,
+            setIsLoggingIn: state.setIsLoggingIn
         })
         ))
 
     const { message } = App.useApp()
 
+    console.log('initial user from authproficer', initialUser)
+
     const validateRole = useCallback((profile: UserProfile) => {
+        console.log('검증 대상 프로필:', profile);
+        console.log('현재 설정된 loginTabRole:', loginTabRole);
+        if (!loginTabRole) return true
         if (loginTabRole && profile.role !== 'admin' && profile.role !== loginTabRole) {
-            message.error('선택한 회원 유형이 올바르지 않습니다.')
+            console.error('권한 불일치로 로그아웃 발생!');
+            message.error('선택한 회원 유형이 올바르지 않습니다.dfa')
             return false
         }
         return true
-    },[loginTabRole, message])
+    }, [loginTabRole, message])
 
     const handleLogout = useCallback(async () => {
         await cookieLogout()
         logout()
-    },[logout])
+    }, [logout])
 
     useEffect(() => {
         if (!isHydrated) return;
@@ -46,6 +54,7 @@ export function AuthProvider({ children, initialUser }: AuthProviderProps) {
             if (validateRole(initialUser)) {
                 setProfile(initialUser)
             } else {
+                console.log('firste useeffect')
                 handleLogout()
             }
         }
@@ -90,9 +99,19 @@ export function AuthProvider({ children, initialUser }: AuthProviderProps) {
 
 
         const { data: { subscription } } = supabase.auth.onAuthStateChange(async (event, session) => {
+            if (isLoggingIn || event === 'SIGNED_IN') {
+            if (event === 'SIGNED_IN') {
+                setIsLoggingIn(false); // 로그인 완료 시 플래그 해제
+                const profile = await getUserFromServer();
+                if (profile) setProfile(profile);
+            }
+            return; // 여기서 종료하여 성급한 로그아웃 방지
+        }
             if (!session?.user.id) {
                 // logout
+                console.log('session is not exsite')
                 await handleLogout()
+                setNeedSignup(false);
                 setNeedSignup(false)
                 return
             }
@@ -129,6 +148,7 @@ export function AuthProvider({ children, initialUser }: AuthProviderProps) {
                 if (validateRole(initialUser)) {
                     setProfile(initialUser)
                 } else {
+                    console.log('second useeffect')
                     await handleLogout()
                 }
                 return
@@ -153,7 +173,7 @@ export function AuthProvider({ children, initialUser }: AuthProviderProps) {
             subscription.unsubscribe()
         }
 
-    }, [setProfile, logout, setNeedSignup, loginTabRole, initialUser, validateRole, handleLogout])
+    }, [setProfile, logout, setNeedSignup, loginTabRole, initialUser, validateRole, handleLogout, isLoggingIn, setIsLoggingIn])
 
 
     return (

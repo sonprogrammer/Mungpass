@@ -1,6 +1,5 @@
 'use server'
 
-import { supabaseClient } from "@/shared/api/supabase/client";
 import { supabaseServer } from "@/shared/api/supabase/server";
 
 
@@ -13,6 +12,7 @@ export const getShopInfo = async(ownerId :string) => {
         console.error('shop inofo api eerorr', error.message)
         throw error
     }
+    // console.log('data from getshopInfo', data)
 
     return data
 }

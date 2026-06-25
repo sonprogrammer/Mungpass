@@ -1,18 +1,27 @@
-'use client'
+
+import { useUserStore } from "@/entities/user/model";
 import { regularLogin, signup } from "@/features/auth/api";
 import { App } from "antd";
 
 export function useAuthForm(mode: 'login' | 'signup', OwnerSuccess?: (id: string) => void) {
   const { message } = App.useApp()
+  const setIsLoggingIn = useUserStore(state => state.setIsLoggingIn)
 
   const handleAuthAction = async (formData: FormData) => {
     if (mode === 'login') {
       try {
-        await regularLogin(formData)
+        setIsLoggingIn(true);
+        const res = await regularLogin(formData)
+        if(!res.success){
+          message.error(res.message)
+          setIsLoggingIn(false)
+          return
+        }
+        message.success('로그인 성공')
 
-
-      } catch (error: unknown) {
-        message.error(error instanceof Error ? error.message : '로그인 중 에러가 발생하였습니다. 다시 시도해주세요')
+      } catch (error) {
+        setIsLoggingIn(false);
+        message.error('로그인 서버 통신 중 에러가 발생하였습니다. 다시 시도해주세요')
       }
     } else {
       const pw = formData.get('password')

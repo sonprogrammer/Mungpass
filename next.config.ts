@@ -21,12 +21,12 @@ const nextConfig: NextConfig = {
       },
     ],
   },
-
-  compiler: {
-    removeConsole: process.env.NODE_ENV === 'production'
-      ? { exclude: ['error']}
-      : false
-  }
+// TODO 주석 풀어주기
+  // compiler: {
+  //   removeConsole: process.env.NODE_ENV === 'production'
+  //     ? { exclude: ['error']}
+  //     : false
+  // }
 
 };
 

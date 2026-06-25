@@ -12,6 +12,7 @@ export function useGetTodayVisitCount() {
                 if(!shopId) throw new Error('매장 정보가 없습니다')
                 return getTodayVisitCount(shopId!)},
         enabled: !!shopId,
-        staleTime: 1000 * 60 * 30
+        staleTime: 1000 * 60 * 30,
+        gcTime: 1000 * 60 * 60
     })
 }

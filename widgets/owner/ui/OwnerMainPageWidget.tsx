@@ -9,7 +9,7 @@ import { useGetAvgTime, useGetShopInfo, useGetExpectedSales, useOwnerStoreStatus
 export function OwnerMainPageWidget() {
 
   const { data: shopInfo, isPending: isShopInfoPending } = useGetShopInfo()
-  console.log('shopInfo;', shopInfo)
+  // console.log('shopInfo;', shopInfo)
 
   // * 현재 승인된매장인지 확인
   const isVerified = useOwnerStoreStatus(state => state.isVerified)

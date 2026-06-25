@@ -1,9 +1,11 @@
-'use client'
+'use server'
 
-import { supabaseClient } from "@/shared/api/supabase/client"
+import { supabaseServer } from "@/shared/api/supabase/server"
+
+
 
 export const getTodayVisitCount = async(shopId: string) =>{
-    const supabase = supabaseClient()
+    const supabase = await supabaseServer()
     const today = new Date()
     today.setHours(0, 0, 0, 0)
 

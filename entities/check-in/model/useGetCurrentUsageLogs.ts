@@ -9,7 +9,7 @@ export function useGetCurrentUsageLogs() {
     const { data: shopInfo } = useGetShopInfo()
     const shopId = shopInfo?.id
     // * 현재 승인된매장인지 확인
-        const isVerified = useOwnerStoreStatus(state => state.isVerified)
+    const isVerified = useOwnerStoreStatus(state => state.isVerified)
     return useQuery({
         queryKey: ['currentLogs', shopId, 'staying'],
         queryFn: () => getCurrentUsageLogs(shopId, ['staying']),

@@ -1,9 +1,11 @@
-import { supabaseClient } from "@/shared/api/supabase/client"
+'use server'
+
+import { supabaseServer } from "@/shared/api/supabase/server"
 import { endOfDay, startOfDay } from "date-fns"
 
 
 export const getAvgUsingTime = async (shopId: string) => {
-    const supabase = supabaseClient()
+    const supabase = await supabaseServer()
     const todayStart = startOfDay(new Date()).toISOString()
     const todayEnd = endOfDay(new Date()).toISOString()
 

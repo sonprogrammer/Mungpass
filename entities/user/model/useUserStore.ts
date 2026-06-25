@@ -21,6 +21,8 @@ export interface UserState {
   isLoading: boolean;
   needSignup: boolean;
   setNeedSignup: (value: boolean) => void;
+  isLoggingIn: boolean;
+  setIsLoggingIn: (val: boolean) => void
   loginTabRole: 'user' | 'owner',
   setLoginTabRole: (role: 'user' | 'owner') => void,
   setProfile: (profile: UserProfile | null) => void;
@@ -36,9 +38,9 @@ export const useUserStore = create<UserState>()(
       profile: null,
       isLoading: true,
       needSignup: false,
-
+      isLoggingIn: false,
       setNeedSignup: (value) => set({ needSignup: value }),
-
+      setIsLoggingIn: (val) => set({ isLoggingIn: val }),
       loginTabRole: 'user',
       setLoginTabRole: (role) =>
         set({ loginTabRole: role }),

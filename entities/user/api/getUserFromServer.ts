@@ -19,7 +19,7 @@ export const getUserFromServer = async() => {
         throw new Error('로그인 정보를 찾을 수 없습니다.')
     }
 
-    console.log('data from server', data)
+    // console.log('data from server', data)
     return data
 }
 
