@@ -12,6 +12,10 @@ export function useGetShopInfo(){
         queryKey: ['shopInfo', ownerId],
         queryFn: () => getShopInfo(ownerId as string),
         enabled: !!ownerId && isVerified,
-        staleTime: 1000 * 60 * 60
+        staleTime: 1000 * 60 * 60,
+        select: (res) => {
+            if(!res.success) throw new Error(res.message)
+            return res.data
+        }
     })
 }

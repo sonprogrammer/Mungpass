@@ -11,6 +11,10 @@ export function useGetExpectedSales(shopId: string) {
         enabled: !!shopId && isVerified,
         staleTime: 1000 * 60 * 5,
         refetchInterval: 1000 * 60,
-        refetchOnWindowFocus: true
+        refetchOnWindowFocus: true,
+        select: (res) => {
+            if(!res.success) throw new Error(res.message)
+            return res.data
+        }
     })
 }

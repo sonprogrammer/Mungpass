@@ -12,8 +12,11 @@ export function useGetFinishedUsageLogs() {
     const shopId = shopInfo?.id
     return useQuery({
         queryKey: ['currentLogs', shopId, 'finish'],
-        queryFn: () => getCurrentUsageLogs(shopId, ['completed', 'cancelled']),
+        queryFn: () => getCurrentUsageLogs(shopId as string, ['completed', 'cancelled']),
         enabled: !!shopId && isVerified,
-        initialData: []
+        select: (res) => {
+            if(!res.success) throw new Error(res.message)
+                return res.data
+        }
     })
 }

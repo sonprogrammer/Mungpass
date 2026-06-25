@@ -10,9 +10,9 @@ export const getShopInfo = async(ownerId :string) => {
 
     if(error){
         console.error('shop inofo api eerorr', error.message)
-        throw error
+        return { success: false, message: '가게 정보를 불러올 수 없습니다.'}
     }
     // console.log('data from getshopInfo', data)
 
-    return data
+    return {success: true, data}
 }

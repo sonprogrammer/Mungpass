@@ -12,8 +12,11 @@ export function useGetCurrentUsageLogs() {
     const isVerified = useOwnerStoreStatus(state => state.isVerified)
     return useQuery({
         queryKey: ['currentLogs', shopId, 'staying'],
-        queryFn: () => getCurrentUsageLogs(shopId, ['staying']),
+        queryFn: () => getCurrentUsageLogs(shopId as string, ['staying']),
         enabled: !!shopId && isVerified,
-        initialData: []
+        select: (res) => {
+            if(!res.success) throw new Error(res.message)
+                return res.data
+        }
     })
 }

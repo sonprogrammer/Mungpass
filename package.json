@@ -6,7 +6,8 @@
     "dev": "next dev",
     "build": "NODE_OPTIONS='--max-old-space-size=4096' next build --webpack",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "clean": "rm -rf .next .tsbuildinfo node_modules/.cache"
   },
   "dependencies": {
     "@ant-design/icons": "^6.1.0",

@@ -2,8 +2,9 @@
 
 import { CurrentUsageLog, UsageLogStatus } from "@/entities/check-in/model/types";
 import { supabaseServer } from "@/shared/api/supabase/server";
+import { ApiRes } from "@/shared/model";
 
-export const getCurrentUsageLogs = async(myShopId: string, statuses: UsageLogStatus[]):  Promise<CurrentUsageLog[]>=> {
+export const getCurrentUsageLogs = async(myShopId: string, statuses: UsageLogStatus[]):  Promise<ApiRes<CurrentUsageLog[]>>=> {
     const supabase = await supabaseServer()
 
     const { data, error} = await supabase.from('usage_logs').select(`*, 
@@ -30,7 +31,7 @@ export const getCurrentUsageLogs = async(myShopId: string, statuses: UsageLogSta
 
         if(error){
             console.error('getCurrentUsageLogs failed', error)
-            return []
+            return {success: false, message:'최신 기록을 확인할수 없습니다.'}
         }
-        return (data ?? []) as CurrentUsageLog[]
+        return {success: true, data: data ?? []}
 }

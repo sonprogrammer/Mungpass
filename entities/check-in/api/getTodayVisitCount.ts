@@ -20,8 +20,8 @@ export const getTodayVisitCount = async(shopId: string) =>{
 
     if(error){ 
         console.error('에러 발생 : ',error)
-        throw error
+        return { success: false, message: '오늘 방문자 정보를 가져올 수 없습니다.'}
     }
     
-    return count ?? 0
+    return {success: true , data: count ?? 0}
 }

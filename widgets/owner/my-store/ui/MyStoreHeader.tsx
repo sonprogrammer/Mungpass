@@ -43,7 +43,8 @@ export function MyStoreHeader({ shopId, regisData, isVerified }: MyStoreHeaderPr
 
 
     // * 오늘 매출 - 체크인시 우선적으로 그 상품 가격이 나오고 상품시간초과시 유예시간 적용후 초과시간 만큼 계산된 매출이 계산되어 정산
-    const { data: expectedSales, isPending: isExpectedSalesPending } = useGetExpectedSales(shopId)
+    const { data: expectedSale, isPending: isExpectedSalesPending } = useGetExpectedSales(shopId)
+    const expectedSales = expectedSale ?? 0
 
     // * 월 누적 데이터를 가져오기 위함 -> 데이터 [{month: '2026-05', sales: 10000, visits: 3},,,]이런식으로 나옴
     const { data: monthlySalesData = [], isPending: isMonthlyPending } = useGetMonthlySalesData(shopId)

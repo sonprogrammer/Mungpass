@@ -1,9 +1,10 @@
 'use server'
 
 import { supabaseServer } from "@/shared/api/supabase/server"
+import { ApiRes } from "@/shared/model"
 import { endOfDay, parseISO, startOfDay } from "date-fns"
 
-export const getExpectSales = async (shopId: string) => {
+export const getExpectSales = async (shopId: string): Promise<ApiRes<number>> => {
     const supabase = await supabaseServer()
     
     const todayStart = startOfDay(new Date()).toISOString()
@@ -20,11 +21,11 @@ export const getExpectSales = async (shopId: string) => {
 
     if (error) {
         console.error('get expect sales api error', error.message)
-        throw error
+        return { success: false, message: '일일 예상 매출을 가져오지 못했습니다'}
     }
 
     if (data.length === 0) {
-        return 0
+        return { success: true, data: 0}
     }
 
 
@@ -63,5 +64,5 @@ export const getExpectSales = async (shopId: string) => {
         }
         return acc + price
     }, 0)
-    return totalSales
+    return {success: true, data: totalSales}
 }

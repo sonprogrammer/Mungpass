@@ -1,10 +1,11 @@
 'use server'
 
 import { supabaseServer } from "@/shared/api/supabase/server"
+import { ApiRes } from "@/shared/model"
 import { endOfDay, startOfDay } from "date-fns"
 
 
-export const getAvgUsingTime = async (shopId: string) => {
+export const getAvgUsingTime = async (shopId: string): Promise<ApiRes<number>> => {
     const supabase = await supabaseServer()
     const todayStart = startOfDay(new Date()).toISOString()
     const todayEnd = endOfDay(new Date()).toISOString()
@@ -18,11 +19,11 @@ export const getAvgUsingTime = async (shopId: string) => {
 
     if (error) {
         console.error('avg using time api error', error.message)
-        throw error
+        return { success: false, message: '고객 평균 이용시간을 가져오지 못했습니다.'}
     }
 
     if (!data || data.length === 0) {
-        return 0
+        return { success: true, data: 0}
     }
 
     const totalTime = data.reduce((acc, log) => {
@@ -33,5 +34,5 @@ export const getAvgUsingTime = async (shopId: string) => {
 
     const avgTime = totalTime / data.length
 
-    return Math.floor(avgTime / (1000 * 60))
+    return {success: true, data: Math.floor(avgTime / (1000 * 60))}
 }

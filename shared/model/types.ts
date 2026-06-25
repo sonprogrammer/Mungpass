@@ -14,3 +14,7 @@ export interface KakaoScriptProviderProps{
     children: React.ReactNode
     fallback?: React.ReactNode
 }
+
+export type ApiRes<T> = 
+  | { success: true; data: T; message?: string }    
+  | { success: false; data?: never; message: string };

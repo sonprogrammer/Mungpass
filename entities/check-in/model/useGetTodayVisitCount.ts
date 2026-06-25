@@ -13,6 +13,10 @@ export function useGetTodayVisitCount() {
                 return getTodayVisitCount(shopId!)},
         enabled: !!shopId,
         staleTime: 1000 * 60 * 30,
-        gcTime: 1000 * 60 * 60
+        gcTime: 1000 * 60 * 60,
+        select: (res) => {
+            if(!res.success) throw new Error(res.message)
+            return res.data
+        }
     })
 }

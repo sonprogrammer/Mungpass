@@ -9,6 +9,10 @@ export function useGetAvgTime(shopId: string) {
         queryFn: () => getAvgUsingTime(shopId!),
         enabled: !!shopId && isVerified,
         staleTime: 1000 * 60 * 5,
-        refetchInterval: 1000 * 60
+        refetchInterval: 1000 * 60,
+        select: (res) => {
+            if(!res.success) throw new Error(res.message)
+            return res.data
+        }
     })
 }
