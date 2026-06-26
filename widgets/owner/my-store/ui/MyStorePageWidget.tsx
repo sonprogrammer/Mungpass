@@ -20,7 +20,7 @@ export function MyStorePageWidget() {
     const [activeDrawer, setActiveDrawer] = useState<null | string>(null)
 
     const profile = useUserStore(state => state.profile)
-    console.log('profile', profile) 
+    // console.log('profile', profile) 
 
     // * 매장 승인 상태 
     const isVerified = useOwnerStoreStatus(state => state.isVerified)

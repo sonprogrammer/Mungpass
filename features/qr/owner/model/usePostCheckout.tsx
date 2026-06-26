@@ -14,25 +14,25 @@ export function usePostCheckout() {
     return useMutation({
         mutationFn: checkout,
         onSuccess: (res) => {
+            if(!res.success) throw new Error(res.message)
             queryClient.invalidateQueries({ queryKey: ['currentLogs', shopId] })
             queryClient.invalidateQueries({ queryKey: ['statsData', shopId] })
             queryClient.invalidateQueries({ queryKey: ['monthlySalesData', shopId]})
             queryClient.invalidateQueries({ queryKey: ['expectedSales', shopId] })
             queryClient.invalidateQueries({ queryKey: ['today-confirmed-sales', shopId]})
 
-            
 
-            if (res.extraCharge > 0) {
+            if (res.data.extraCharge > 0) {
                 modal.info({
                     title: '퇴실 및 정산 안내',
                     centered: true,
                     content: (
                         <div>
                             <p className="text-lg font-bold text-orange-600">
-                                추가 요금 {res.extraCharge.toLocaleString()}원이 발생했습니다.
+                                추가 요금 {res.data.extraCharge.toLocaleString()}원이 발생했습니다.
                             </p>
                             <p className="text-sm text-slate-500">
-                                초과 시간: {formatMinsToTime(res.overTimeMins)}분
+                                초과 시간: {formatMinsToTime(res.data.overTimeMins)}분
                             </p>
                             <p className="mt-2">현장에서 추가 결제를 진행해 주세요.</p>
                         </div>
@@ -46,7 +46,7 @@ export function usePostCheckout() {
         },
         onError: (error) => {
             console.error('usePostCheckout hooks error', error)
-            message.error('퇴실 처리 실패, 다시 시도햊주세요')
+            message.error(error.message ||'퇴실 처리 실패, 다시 시도햊주세요')
         }
     })
 }

@@ -1,6 +1,5 @@
 import { createServerClient } from "@supabase/ssr"
 import { cookies } from "next/headers"
-const isProduction = process.env.NODE_ENV === 'production';
 
 export async function supabaseServer() {
     const cookieStore = await cookies()
@@ -13,17 +12,10 @@ export async function supabaseServer() {
                 getAll() {
                     return cookieStore.getAll()
                 },
-                setAll(cookieToSet){
+                setAll(cookieToSet) {
                     try {
-                        cookieToSet.forEach(({name, value, options}) => 
-                            cookieStore.set(name, value, {
-                                ...options,
-                                path: '/',
-                                httpOnly: true,
-                                // secure: isProduction,
-                                secure: false, //TODO 빌드 테스트 용
-                                sameSite: 'lax'
-                            }))
+                        cookieToSet.forEach(({ name, value, options }) =>
+                            cookieStore.set(name, value, options))
                     } catch {
                         console.error('cookie error')
                     }

@@ -18,10 +18,6 @@ import { getUserFromServer } from "@/entities/user/api";
 export default async function LayoutContent({ children }: { children: React.ReactNode }) {
   const user = await getUserFromServer()
 
-  console.log('user from layout', user )
-
-  
-
 
   return (
     <AuthProvider initialUser={user}>

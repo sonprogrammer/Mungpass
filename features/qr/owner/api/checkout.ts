@@ -1,8 +1,19 @@
-import { supabaseClient } from "@/shared/api/supabase/client";
+'use server'
+
+import { CurrentUsageLog } from '@/entities/check-in/model';
+import { supabaseServer } from '@/shared/api/supabase/server';
+import { ApiRes } from '@/shared/model';
 import { addMinutes, differenceInMinutes, isAfter, parseISO } from "date-fns";
 
-export const checkout = async (usageId: string) => {
-    const supabase = supabaseClient()
+interface CheckoutRes {
+    data: CurrentUsageLog
+    extraCharge: number;
+    overTimeMins: number
+}
+
+
+export const checkout = async (usageId: string): Promise<ApiRes<CheckoutRes>> => {
+    const supabase = await supabaseServer()
     const now = new Date()
 
 
@@ -17,7 +28,7 @@ export const checkout = async (usageId: string) => {
 
     if (error) {
         console.error('이용 내역 가져오기 api error from checkout file', error)
-        throw error
+        return { success: false, message:'체크아웃 이용내역을 가져오지 못했습니다.'}
     }
 
 
@@ -64,14 +75,16 @@ export const checkout = async (usageId: string) => {
         .single()
     if (updateError) {
         console.error('체크 아웃 상태 변경 api error from checkout file', updateError)
-        throw updateError
+        return { success: false, message: '체크 아웃요청 실패. 다시 시도 해주세요'}
     }
 
 
     return {
         success: true,
-        data: updateDate,
-        extraCharge,
-        overTimeMins: isAfter(now, expectedEnd) ? differenceInMinutes(now, expectedEnd) : 0
+        data: {
+            data: updateDate,
+            extraCharge,
+            overTimeMins: isAfter(now, expectedEnd) ? differenceInMinutes(now, expectedEnd) : 0
+        }
     }
 }
