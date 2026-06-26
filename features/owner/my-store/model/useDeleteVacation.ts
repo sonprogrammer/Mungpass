@@ -8,11 +8,15 @@ export function useDeleteVacation() {
     const {message} = App.useApp()
 
     return useMutation({
-        mutationFn: (shopId: string) => deleteVacation(shopId),
+        mutationFn: async(shopId: string) => {
+            const res = await deleteVacation(shopId)
+            if(!res.success) throw new Error(res.message)
+            return res.data
+        },
         onSuccess: (_, shopId) => {
             queryClient.invalidateQueries({queryKey:['todayTemp', shopId]})
             queryClient.invalidateQueries({queryKey:['vacations', shopId]})
-            queryClient.invalidateQueries({queryKey:['schedules', shopId]})
+            queryClient.invalidateQueries({queryKey:['schedules']})
             message.success('휴가 일정이 취소되었습니다. 정상 영업 상태로 복구합니다')
         },
         onError: (error) => {

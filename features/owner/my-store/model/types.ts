@@ -1,7 +1,6 @@
 import { FormInstance } from "antd";
 
 export interface ScheduleRow{
-    shop_id: string;
     day_of_week: number; //0~6까지 일~토
     open_time: string 
     close_time: string
@@ -32,14 +31,14 @@ export interface VactationFromDB{
     shop_id: string;
     start_date: string;
     end_date: string;
-    updaated_at: string;
+    updated_at: string;
 }
 
 export interface StoreTimeMainViewProps{
     shopStatus: CurrentStoreStatus
     onEditClick: () => void
     shopId: string
-    vacation: VactationFromDB
+    vacation?: VactationFromDB
 }
 
 export interface VacationSubmitData {

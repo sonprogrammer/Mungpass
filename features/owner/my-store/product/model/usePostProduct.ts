@@ -9,9 +9,13 @@ export function usePostProduct() {
     const { message} = App.useApp()
     
     return useMutation({
-        mutationFn: ({shopId, productData}:{shopId: string, productData: ProductSubmitData}) => postProduct({shopId, productData}),
-        onSuccess: (_, {shopId}) => {
-                queryClient.invalidateQueries({queryKey: ['products', shopId]})
+        mutationFn: async({ productData}:{productData: ProductSubmitData}) => {
+            const res = await postProduct({ productData})
+            if(!res.success) throw new Error(res.message)
+            return res.data
+        },
+        onSuccess: () => {
+                queryClient.invalidateQueries({queryKey: ['products']})
                 message.success('새로운 상품이 등록되었습니다')
         },
         onError: (error) => {

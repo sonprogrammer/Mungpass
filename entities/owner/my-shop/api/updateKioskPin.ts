@@ -1,7 +1,9 @@
-import { supabaseClient } from "@/shared/api/supabase/client";
+'use server'
+
+import { supabaseServer } from "@/shared/api/supabase/server";
 
 export const updateKioskPin = async(shopId: string, newPin: string) => {
-    const supabase = supabaseClient()
+    const supabase = await supabaseServer()
     
     const {error} = await supabase.from('shops').update({kiosk_pin: newPin}).eq('id', shopId)
 

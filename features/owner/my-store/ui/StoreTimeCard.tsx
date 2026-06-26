@@ -31,7 +31,7 @@ export function StoreTimeCard({ shopId }: { shopId: string }) {
 
 
     // *오늘 휴무면 휴무, 시간이 지났으면 영업종료, 운영중이면 영업중
-    const currentStoreStatus = getCurrentStoreStatus(schedules || [], vacation || [], tempStatus ||[])
+    const currentStoreStatus = getCurrentStoreStatus(schedules || [], vacation ?? undefined, tempStatus ?? undefined)
 
 
     // * 운영시간 수정에서 보이는 운영 시간
@@ -75,7 +75,6 @@ export function StoreTimeCard({ shopId }: { shopId: string }) {
             const updatePayload = DAYS.map(day => {
                 const row = values[day.value]
                 return {
-                    shop_id: shopId,
                     day_of_week: day.value,
                     open_time: row.open ? format(row.open, 'HH:mm') : '09:00',
                     close_time: row.close ? format(row.close, 'HH:mm') : '22:00',
@@ -83,7 +82,7 @@ export function StoreTimeCard({ shopId }: { shopId: string }) {
                 }
             })
 
-            updateSchedule({shopId: shopId, schedules: updatePayload}, {
+            updateSchedule({ schedules: updatePayload}, {
                 onSuccess: () => setViewMode('main')
             })
         } catch (err) {
@@ -107,7 +106,7 @@ export function StoreTimeCard({ shopId }: { shopId: string }) {
                     onEditClick={handleEditClick}
                     shopStatus={currentStoreStatus}
                     shopId={shopId}
-                    vacation={vacation}
+                    vacation={vacation ?? undefined}
                 />
             ) : (
                 <StoreTimeEditView

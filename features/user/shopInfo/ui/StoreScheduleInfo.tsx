@@ -29,7 +29,7 @@ export function StoreScheduleInfo({ onClose, schedules, vacation, todayShopStatu
                 </div>
 
                 {/* //* 조기마감, 휴무등 상태랑 이유나옴 */}
-                {todayShopStatus.reason && (
+                {todayShopStatus?.reason && (
                     <div className="mb-4 p-4 bg-orange-50 rounded-2xl border border-orange-100">
                         <p className="text-xs font-black text-orange-600 mb-1">📢 매장 소식</p>
                         <p className="text-xs font-bold text-slate-700 leading-relaxed">{todayShopStatus.reason}</p>

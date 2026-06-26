@@ -30,6 +30,7 @@ export function LoginForm({email, setEmail, password, setPassword}: LoginFormPro
                     <input
                         name="password"
                         type="password"
+                        autoComplete="current-password"
                         value={password}
                         onChange={(e) => setPassword(e.target.value)}
                         placeholder="비밀번호"

@@ -12,7 +12,7 @@ export function useUpdateVacation() {
         mutationFn: (vacationData:UpdateVacationToServer ) => updateVacation(vacationData),
         onSuccess: (_, variables) => {
             const shopId = variables.shop_id
-            queryClient.invalidateQueries({queryKey: ['schedules', shopId]})
+            queryClient.invalidateQueries({queryKey: ['schedules']})
             queryClient.invalidateQueries({queryKey: ['vacations', shopId]})
         },
         onError: (error) => {

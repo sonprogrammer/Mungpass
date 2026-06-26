@@ -1,5 +1,5 @@
-import { Vacations } from '@/features/owner/model';
-import { ScheduleRow } from '@/features/owner/my-store/model';
+
+import { ScheduleRow, VactationFromDB } from '@/features/owner/my-store/model';
 import { NoticeFromDb } from '@/features/owner/my-store/notices/model';
 import { KakaoPlace } from "@/shared/model";
 
@@ -32,8 +32,8 @@ export interface StoreDetailActionBtnsProps {
 
 export interface StoreScheduleInfoProps{
     onClose: () => void;
-    schedules?: ScheduleRow[]
-    vacation: Vacations
-    todayShopStatus: TodayShopStatusInfo;
+    schedules?: ScheduleRow[];
+    vacation: VactationFromDB | null
+    todayShopStatus?: TodayShopStatusInfo;
 }
 

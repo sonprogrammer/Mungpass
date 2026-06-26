@@ -8,7 +8,11 @@ export function useDeleteTodayStatus(){
     const {message} = App.useApp()
 
     return useMutation({
-        mutationFn: (shopId: string) => deleteTodayStatus(shopId),
+        mutationFn: async(shopId: string) => {
+            const res = await deleteTodayStatus(shopId)
+            if(!res.success) throw new Error(res.message)
+            return res.data
+        },
         onSuccess: (_, shopId) => {
             queryClient.invalidateQueries({queryKey:['todayTemp', shopId]})
             queryClient.invalidateQueries({queryKey:['vacation', shopId]})

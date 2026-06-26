@@ -29,7 +29,7 @@ export function ProductManageBottomSheet({ open, onClose, shopId }: { open: bool
     const { mutate: editProduct, isPending } = useUpdateProduct(shopId)
 
     const handleAdd = (product: ProductSubmitData) => {
-        addProduct({ shopId, productData: product }, {
+        addProduct({productData: product }, {
             onSuccess: () => {
                 setAddModal(false)
                 form.resetFields()

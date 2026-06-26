@@ -8,9 +8,14 @@ export function useDeleteProduct() {
     const {message} = App.useApp()
 
     return useMutation({
-        mutationFn: ({productId, shopId}: {productId: string, shopId: string}) => deleteProduct({productId, shopId}),
-        onSuccess: (_, {shopId}) => {
-            queryClient.invalidateQueries({queryKey: ['products', shopId]})
+        mutationFn: async({productId}: {productId: string, shopId: string}) => {
+            const res = await deleteProduct({productId})
+            if(!res.success) throw new Error(res.message)
+            return res.data
+
+        },
+        onSuccess: () => {
+            queryClient.invalidateQueries({queryKey: ['products']})
             message.success('상품이 삭제되었습니다.')
         },
         onError: (error) => {

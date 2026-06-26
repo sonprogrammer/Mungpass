@@ -1,3 +1,4 @@
+import { CreatedInquiryRoomParams } from '@/entities/inquiry/model';
 import { createInquiryRoom } from "@/entities/inquiry/api";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { App } from "antd";
@@ -5,10 +6,15 @@ import { App } from "antd";
 export function usePostInquiry() {
     const queryClient = useQueryClient()
 
-    const {message} = App.useApp()
-    
+    const { message } = App.useApp()
+
     return useMutation({
-        mutationFn: createInquiryRoom,
+        mutationFn: async (roomData: CreatedInquiryRoomParams) => {
+            const res = await createInquiryRoom(roomData)
+            if (!res.success) throw new Error(res.message)
+
+            return res.data
+        },
         onSuccess: () => {
             queryClient.invalidateQueries({ queryKey: ['inquiry-list'] })
             message.success('문의가 등록되었습니다.')

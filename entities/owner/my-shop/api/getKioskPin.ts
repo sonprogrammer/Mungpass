@@ -1,7 +1,9 @@
-import { supabaseClient } from "@/shared/api/supabase/client";
+'use server'
+
+import { supabaseServer } from "@/shared/api/supabase/server";
 
 export const getKioskPin = async(shopId: string) => {
-    const supabase = supabaseClient()
+    const supabase = await supabaseServer()
     
     const {data, error} = await supabase.from('shops').select('kiosk_pin')
                                                 .eq('id', shopId)

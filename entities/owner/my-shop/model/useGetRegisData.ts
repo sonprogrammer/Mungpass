@@ -8,7 +8,11 @@ export function useGetRegisData () {
 
     return useQuery({
         queryKey: ['regisData', userId],
-        queryFn: () => getRegisData(userId!),
+        queryFn: async() => {
+            const res = await getRegisData(userId!)
+            if(!res.success) throw new Error(res.message)
+            return res.data
+        },
         enabled: !!userId,
         staleTime: 1000 * 60 * 5
     })

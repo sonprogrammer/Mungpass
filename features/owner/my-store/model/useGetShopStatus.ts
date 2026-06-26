@@ -24,7 +24,7 @@ export function useShopStatus(shopId: string) {
         return { status: '로딩 중...', isPending: true }
     }
 
-    const currentStatus = getCurrentStoreStatus(schedules || [], vacation || null, tempStatus, now)
+    const currentStatus = getCurrentStoreStatus(schedules || [], vacation ?? undefined, tempStatus ?? undefined, now)
 
     return {
         ...currentStatus,

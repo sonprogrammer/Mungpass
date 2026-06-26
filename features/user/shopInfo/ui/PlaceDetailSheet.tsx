@@ -123,7 +123,7 @@ export function PlaceDetailSheet({ place }: { place: KakaoPlace }) {
                     <StoreScheduleInfo
                         onClose={() => setIsScheduleOpen(false)}
                         schedules={shopScedules}
-                        vacation={shopVacation}
+                        vacation={shopVacation ?? null}
                         todayShopStatus={todayShopStatus}
                     />
                 )}
