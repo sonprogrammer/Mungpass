@@ -4,11 +4,27 @@ import { motion } from 'framer-motion'
 import { Segmented } from 'antd';
 import { BarChart3, Calendar } from 'lucide-react';
 import { useMemo, useState } from 'react';
-import { addDays, addYears, format, subDays, subYears } from 'date-fns';
+import { addDays, addYears, endOfMonth, format, startOfMonth, subDays, subYears } from 'date-fns';
 import { DailyChartProps } from '@/features/owner/stats/model';
 import { useGetDailyChart } from '@/entities/owner/model';
-import { DailyStatsChart, MonthlyStatsChart } from '@/features/owner/stats/ui';
+import dynamic from 'next/dynamic';
 
+
+const DailyStatsChart = dynamic(
+  () => import('@/features/owner/stats/ui').then((mod) => mod.DailyStatsChart),
+  { 
+    ssr: false, 
+    loading: () => <div className="h-64 flex items-center justify-center rounded-2xl animate-pulse">차트 로딩 중...</div> 
+  }
+);
+
+const MonthlyStatsChart = dynamic(
+  () => import('@/features/owner/stats/ui').then((mod) => mod.MonthlyStatsChart),
+  { 
+    ssr: false,
+    loading: () => <div className="h-64 flex items-center justify-center rounded-2xl animate-pulse">차트 로딩 중...</div> 
+  }
+);
 
 
 export function DailyChart({ tab, setTab, isVerified, shopId }: DailyChartProps) {
@@ -20,11 +36,21 @@ export function DailyChart({ tab, setTab, isVerified, shopId }: DailyChartProps)
     const currentYearStr = format(currentYearDate, 'yyyy')
 
 
-    const startDateStr = format(subDays(viewEndDate, 6), 'yyyy-MM-dd')
-    const endDateStr = format(viewEndDate, 'yyyy-MM-dd')
+    const startOfMonthStr = format(startOfMonth(viewEndDate), 'yyyy-MM-dd');
+    const endOfMonthStr = format(endOfMonth(viewEndDate), 'yyyy-MM-dd');
 
-    // *일별 데이터(일별 그래프 용)
-    const { data: dailyData = [], isPending: isDailyChartPending } = useGetDailyChart(shopId, startDateStr, endDateStr)
+    //* 월간 데이터를 한 번에 가져오기
+    const { data: monthlyData = [], isPending } = useGetDailyChart(shopId, startOfMonthStr, endOfMonthStr,
+        format(viewEndDate, 'yyyy-MM'));
+
+    const chartData = useMemo(() => {
+        const startOfRange = subDays(viewEndDate, 6)
+
+        return monthlyData.filter((item) => {
+            const itemDate = new Date(item.date);
+            return itemDate >= startOfRange && itemDate <= viewEndDate;
+        });
+    }, [monthlyData, viewEndDate]);
 
     const handlePrev = () => setViewEndDate(prev => subDays(prev, 7))
     const handleNext = () => setViewEndDate(prev => {
@@ -63,9 +89,9 @@ export function DailyChart({ tab, setTab, isVerified, shopId }: DailyChartProps)
                             {`${tab === 'daily' ? '일별 ' : '연별 '}`}매출 추이
                         </h2>
                         <p className="mt-1 text-sm text-gray-500 font-medium">
-                            {tab === 'daily' ? `${format(subDays(viewEndDate, 6), 'MM.dd')} ~ ${format(viewEndDate,'MM.dd')}`
-                                            : `${currentYearStr}년`
-                            } 
+                            {tab === 'daily' ? `${format(subDays(viewEndDate, 6), 'MM.dd')} ~ ${format(viewEndDate, 'MM.dd')}`
+                                : `${currentYearStr}년`
+                            }
                             매출 현황
                         </p>
                     </div>
@@ -81,7 +107,7 @@ export function DailyChart({ tab, setTab, isVerified, shopId }: DailyChartProps)
                     />
                 </div>
 
-                <div className={`w-full mt-5 transition-opacity ${isDailyChartPending ? 'opacity-50' : 'opacity-100'}`}>
+                <div className={`w-full mt-5 transition-opacity ${isPending ? 'opacity-50' : 'opacity-100'}`}>
 
                     {!isVerified && (
                         <div className="w-full h-full flex flex-col items-center justify-center rounded-xl bg-white/30 backdrop-blur-lg border border-dashed border-gray-200">
@@ -97,7 +123,8 @@ export function DailyChart({ tab, setTab, isVerified, shopId }: DailyChartProps)
                     {/* 차트 */}
                     {tab === 'daily' ? (
                         <DailyStatsChart
-                            dailyData={dailyData}
+                            allMonthlyData={monthlyData}
+                            dailyData={chartData}
                             handleNext={handleNext}
                             handlePrev={handlePrev}
                             isNextDisabled={isNextDisabled}

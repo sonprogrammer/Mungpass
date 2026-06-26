@@ -8,7 +8,11 @@ export function useGetMonths(shopId: string) {
     
     return useQuery({
         queryKey: ['months', shopId],
-        queryFn: () => getMonths(shopId),
+        queryFn: async() => {
+            const res = await getMonths(shopId)
+            if(!res.success) throw new Error(res.message)
+            return res.data
+        },
         enabled: !!shopId && isVerified,
         staleTime: 1000 * 60 * 60
     })

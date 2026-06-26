@@ -28,7 +28,7 @@ export function AuthProvider({ children, initialUser }: AuthProviderProps) {
 
     const { message } = App.useApp()
 
-    console.log('initial user from authproficer', initialUser)
+    // console.log('initial user from authproficer', initialUser)
 
     const validateRole = useCallback((profile: UserProfile) => {
         // console.log('검증 대상 프로필:', profile);

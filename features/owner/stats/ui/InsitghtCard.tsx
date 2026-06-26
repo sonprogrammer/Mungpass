@@ -9,7 +9,7 @@ export function InsightCard({ content, isPending, isVerified }: { content: strin
         <section className="mt-6">
             <article className="rounded-3xl border border-gray-100 bg-white p-6 shadow-sm overflow-hidden relative">
 
-                <div className="flex items-start justify-between gap-3 relative z-10">
+                <div className="flex items-start justify-between gap-3 relative">
                     <div>
                         <div className="flex gap-2">
                             <h2 className="text-lg font-black text-gray-900 leading-tight">멍패스 AI 리포트</h2>
@@ -22,7 +22,7 @@ export function InsightCard({ content, isPending, isVerified }: { content: strin
                     <TrendingUp size={20} className="text-orange-500" />
                 </div>
 
-                <div className="mt-5 rounded-2xl bg-gray-50 p-5 text-sm leading-7 text-gray-600 min-h-30 relative z-10">
+                <div className="mt-5 rounded-2xl bg-gray-50 p-5 text-sm leading-7 text-gray-600 min-h-30 relative">
                     {!isVerified ? (
                                 <div className="flex flex-col items-center justify-center py-4 text-center">
                                     <p className="font-semibold text-gray-700 text-lg">매장 심사 승인 후 받아보실 수 있습니다</p>
@@ -57,7 +57,8 @@ export function InsightCard({ content, isPending, isVerified }: { content: strin
                     <span>무료 회원은 매일 1회 분석 리포트가 생성됩니다.</span>
                     <button className="ml-auto font-bold text-orange-500 hover:underline flex items-center gap-0.5">
                         <Lock size={10} />
-                        실시간 분석 무제한 이용하기
+                        {/* 실시간 분석 무제한 이용하기 */}
+                        서비스 개발 중입니다.
                     </button>
                 </div>
 

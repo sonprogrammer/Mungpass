@@ -3,7 +3,7 @@
 import { useMemo, useState } from 'react'
 import { SummaryCard, DailyChart, InsightCard, StatsHeaderCard } from '@/features/owner/stats/ui'
 import { useGetDailySalesData, useGetShopInfo, useGetStatsData, useOwnerStoreStatus } from '@/entities/owner/model'
-import { endOfMonth, format } from 'date-fns'
+import {  format } from 'date-fns'
 import { calCulateTopRecord } from '@/entities/owner/lib'
 import { useGetAiInsight } from '@/features/owner/stats/model'
 
@@ -17,7 +17,6 @@ export function StatsPageWidget() {
     const [selectedMonth, setSelectedMonth] = useState<string>(thisMonth)
     // *차트 컴포넌트 월별, 일별 탭
     const [tab, setTab] = useState<'daily' | 'monthly'>('daily')
-    const [viewEndDate, setViewEndDate] = useState(now)
 
 
     const { data: shopInfo } = useGetShopInfo()
@@ -33,7 +32,7 @@ export function StatsPageWidget() {
 
 
     // *선택달 전일 대비 데이터 - 리프트용
-    const { data: diffData } = useGetStatsData(shopId, selectedMonth)
+    const { data: diffData, isPending: isDiffPending } = useGetStatsData(shopId, selectedMonth)
 
     // *월별 최고 매출, 방문, 객단가
     const topDays = useMemo(() => calCulateTopRecord(dailySalesData), [dailySalesData])
@@ -58,11 +57,8 @@ export function StatsPageWidget() {
         setSelectedMonth(newMonth)
         if (newMonth === thisMonth) {
             setTab('daily')
-            setViewEndDate(now)
         } else {
             setTab('monthly')
-            const lastDayOfSelectedMonth = endOfMonth(new Date(newMonth))
-            setViewEndDate(lastDayOfSelectedMonth)
         }
     }
 
@@ -91,6 +87,7 @@ export function StatsPageWidget() {
                         selectedMonth={selectedMonth} 
                         topDays={topDays} 
                         diffData={diffData}
+                        isPending={isDiffPending}
                     />
                 }
 

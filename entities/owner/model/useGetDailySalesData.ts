@@ -9,6 +9,10 @@ export function useGetDailySalesData(shopId: string, selectedMonth: string) {
         queryKey: ['dailySalesData', shopId, selectedMonth],
         queryFn: () => getDailySalesData(shopId, selectedMonth),
         enabled: !!shopId && !!selectedMonth && isVerified,
-        staleTime: 1000 * 60 * 60
+        staleTime: 1000 * 60 * 60,
+        select: (res)=> {
+            if(!res.success) throw new Error(res.message)
+            return res.data
+        }
     })
 }

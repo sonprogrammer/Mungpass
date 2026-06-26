@@ -7,18 +7,21 @@ import { format } from "date-fns"
 import { memo, useMemo } from "react"
 import { Bar, BarChart, CartesianGrid, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts"
 
-function DailyStatsChartInner({ dailyData,handleNext, handlePrev, isNextDisabled }: DailyStatsChartProps) {
-
+function DailyStatsChartInner({ dailyData, handleNext, handlePrev, isNextDisabled, allMonthlyData }: DailyStatsChartProps) {
 
     const topRecordDate = useMemo(() => {
-        if (!dailyData || dailyData.length === 0) return '데이터 없음'
-        if (!dailyData.some(d => d.sales > 0)) return '-'
+        if (!allMonthlyData || allMonthlyData.length === 0) return { date: '-', month: '-' };
+        if (!allMonthlyData.some(d => d.sales > 0)) return { date: '-', month: '-' };
 
-        const top = dailyData.reduce((prev, cur) => prev.sales > cur.sales ? prev : cur)
+        const top = allMonthlyData.reduce((prev, cur) => prev.sales > cur.sales ? prev : cur)
 
-        return format(new Date(top.date), 'MM.dd')
+        return {
+            date: format(new Date(top.date), 'MM.dd'),
+            month: format(new Date(top.date), 'MM')
 
-    }, [dailyData])
+        }
+
+    }, [allMonthlyData])
 
     return (
         <div >
@@ -56,8 +59,11 @@ function DailyStatsChartInner({ dailyData,handleNext, handlePrev, isNextDisabled
             </div>
 
             <div className="mt-6 flex justify-between items-center bg-gray-50 rounded-2xl p-4">
-                <p className="text-[12px] font-medium text-gray-500">가장 매출이 높았던 날</p>
-                <p className="text-[12px] font-bold text-gray-900">{topRecordDate}</p>
+                <p className="text-[12px] font-medium text-gray-500">
+                    {topRecordDate.month !== '-' ? `${topRecordDate.month}월 ` : ''}
+                    가장 매출이 높았던 날
+                </p>
+                <p className="text-[14px] font-bold text-gray-900">{topRecordDate.date}</p>
             </div>
         </div>
     )

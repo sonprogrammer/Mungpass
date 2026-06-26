@@ -7,7 +7,11 @@ export function useGetMonthlySalesData(shopId: string) {
     
     return useQuery({
         queryKey: ['monthlySalesData', shopId],
-        queryFn: () => getMonthlySalesData(shopId),
+        queryFn: async() => {
+            const res = await getMonthlySalesData(shopId)
+            if(!res.success) throw new Error(res.message)
+            return res.data
+        },
         enabled: !!shopId && isVerified,
         staleTime: 1000 * 60 * 60
     })

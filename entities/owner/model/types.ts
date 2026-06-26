@@ -24,29 +24,29 @@ export interface CurrentLogItemProps {
 }
 
 
-export interface CurrentLogDetailModalProps{
+export interface CurrentLogDetailModalProps {
     open: boolean;
     item: CurrentUsageLog | null;
     onClose: () => void;
     onCheckout?: (item: CurrentUsageLog) => void;
 }
 
-export interface StatsDataFromServer{
-        avg_visits: number;
-        prev_avg_visits: number;
-        prev_sales: number;
-        prev_visits: number;
-        total_sales: number;
-        total_visits: number;
+export interface StatsDataFromServer {
+    avg_visits: number;
+    prev_avg_visits: number;
+    prev_sales: number;
+    prev_visits: number;
+    total_sales: number;
+    total_visits: number;
 }
 
-export interface DailySalesData{
+export interface DailySalesData {
     date: string;
     sales: number;
     visits: number;
 }
 
-export interface MonthlySalesData{
+export interface MonthlySalesData {
     month: string;
     sales: number;
     visits: number;

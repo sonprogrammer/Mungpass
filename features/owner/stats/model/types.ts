@@ -34,6 +34,7 @@ export interface SummaryCardProps {
     topDays: TopDays[]
     selectedMonth: string;
     diffData: StatsDataFromServer| undefined
+    isPending: boolean
 }
 
 export interface HighestRecordsProps{
@@ -76,5 +77,6 @@ export interface DailyStatsChartProps {
     handleNext: () => void
     handlePrev: () => void
     isNextDisabled: boolean
+    allMonthlyData: DailySalesData[]
 
 }
