@@ -35,12 +35,12 @@ export function AuthProvider({ children, initialUser }: AuthProviderProps) {
         if (typeof window === 'undefined') return
         isSignupFlow.current = window.location.pathname.includes('/signup')
     }, [])
-    // console.log('initial user from authproficer', initialUser)
+
 
     const validateRole = useCallback((profile: UserProfile) => {
         if (isLoggingOut.current) return true
         if (isSignupFlow.current) return true
-        if (!profile) return true
+
         if (!loginTabRole) return true
         if (profile.role !== 'admin' && profile.role !== loginTabRole) {
             message.error('선택한 회원 유형이 올바르지 않습니다.dfa')
@@ -50,6 +50,7 @@ export function AuthProvider({ children, initialUser }: AuthProviderProps) {
     }, [loginTabRole, message])
 
     const handleLogout = useCallback(async () => {
+        if (isLoggingOut.current) return
         isLoggingOut.current = true
         await cookieLogout()
         logout()
@@ -58,34 +59,30 @@ export function AuthProvider({ children, initialUser }: AuthProviderProps) {
         }, 0)
     }, [logout])
 
-    const applyProfile = useCallback(
-        async (profile: UserProfile | null) => {
-            if (isLoggingOut.current) return
-            if (!profile) {
-                await handleLogout()
-                return
-            }
+    const applyProfile = useCallback(async (profile: UserProfile | null) => {
 
-            if (!profile.role || !profile.phone_number) {
-                setNeedSignup(true)
-                setProfile(profile)
-                return
-            }
+        if (!profile) {
+            await handleLogout()
+            return
+        }
 
-            if (!isLoggingOut.current) {
-                if (!validateRole(profile)) {
-                    await handleLogout()
-                    return
-                }
-            }
-
+        if (!profile.role || !profile.phone_number) {
+            setNeedSignup(true)
             setProfile(profile)
-        }, [handleLogout, setNeedSignup, setProfile, validateRole])
+            return
+        }
+
+        if (!isLoggingOut.current && !validateRole(profile)) {
+            await handleLogout()
+            return
+        }
+
+        setProfile(profile)
+    }, [handleLogout, setNeedSignup, setProfile, validateRole])
 
     //* 서버에서 받은 유저 최초 반영
     useEffect(() => {
-        if (!isHydrated) return
-        if (!initialUser) return
+        if (!isHydrated || !initialUser) return
 
         applyProfile(initialUser)
     }, [initialUser, isHydrated, applyProfile])
@@ -96,14 +93,10 @@ export function AuthProvider({ children, initialUser }: AuthProviderProps) {
 
 
         const { data: { subscription } } = supabase.auth.onAuthStateChange(async (event, session) => {
-            if (isLoggingOut.current) return
             if (!session) {
-                isLoggingOut.current = true
-                handleLogout()
-
-                setTimeout(() => {
-                    isLoggingOut.current = false
-                }, 0)
+                if (!isLoggingOut.current) {
+                    await handleLogout()
+                }
                 return
             }
             if (event === 'SIGNED_IN') {
@@ -113,13 +106,13 @@ export function AuthProvider({ children, initialUser }: AuthProviderProps) {
                 return;
             }
 
-            if (event === 'SIGNED_OUT') {
-                isSignupFlow.current = true
-                isLoggingOut.current = true
-                logout()
-                setNeedSignup(false)
-                return
-            }
+            // if (event === 'SIGNED_OUT') {
+            //     isSignupFlow.current = true
+            //     isLoggingOut.current = true
+            //     logout()
+            //     setNeedSignup(false)
+            //     return
+            // }
         })
 
 
