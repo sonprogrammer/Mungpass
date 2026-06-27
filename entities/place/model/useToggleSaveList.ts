@@ -1,6 +1,6 @@
-import { saveApi } from "@/entities/place/api"
+
+import { toggleSave } from "@/entities/place/api/toggleSave"
 import { Favorites } from "@/entities/place/model"
-import { useUserStore } from "@/entities/user/model"
 import { KakaoPlace } from "@/shared/model"
 import { useMutation, useQueryClient } from "@tanstack/react-query"
 import { App } from "antd"
@@ -8,16 +8,15 @@ import { App } from "antd"
 
 export const useToggleSaveList = () => {
     const queryClient = useQueryClient()
-    const profile = useUserStore(state=> state.profile)
-    const userId = profile?.id
     const {message} = App.useApp()
 
     return useMutation({
         mutationFn: async (place: KakaoPlace) => {
             
             
-            const result = await saveApi.toggleSave(userId!, place)
-            return result
+            const res = await toggleSave(place)
+            if(!res.success) throw new Error(res.message)
+            return res.data
             
         },
 

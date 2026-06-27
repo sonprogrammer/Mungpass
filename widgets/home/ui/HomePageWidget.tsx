@@ -45,7 +45,7 @@ export function HomePageWidget() {
 
 
         {/* //*QR  */}
-        <QrCheckIn dogs={dogs} isDogsPending={isDogsPending} userId={userId}/>
+        <QrCheckIn dogs={dogs} isDogsPending={isDogsPending} />
 
         {/* //* 퀵메뉴 */}
         <Menu />

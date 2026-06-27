@@ -1,19 +1,29 @@
+'use server'
+import { ApiRes } from '@/shared/model';
 
 import { Dog } from "@/entities/dog/model";
-import { supabaseClient } from "@/shared/api/supabase/client";
+import { supabaseServer } from "@/shared/api/supabase/server";
 
-export async function fetchDogs (userId: string): Promise<Dog[]> {
-    const supabase = supabaseClient()
+export async function fetchDogs(userId: string): Promise<ApiRes<Dog[]>> {
+    try {
 
-    if(!userId) return []
+        const supabase = await supabaseServer()
 
-    const {data, error} = await supabase.from('dogs').select('*').eq('owner_id', userId).order('created_at', {ascending: true})
+        if (!userId) {
+            return { success: false, message: '사용자 정보가 없습니다.'}
+        }
 
-    if(error) throw error
+        const { data, error } = await supabase.from('dogs').select('*').eq('owner_id', userId).order('created_at', { ascending: true })
 
-    return data.map(dog => ({
-        ...dog,
-        imageUrl: dog.image_url,
-        birthDate: dog.birth_date
-    }))
+        if (error) throw error
+
+        return {success: true, data : data.map(dog => ({
+            ...dog,
+            imageUrl: dog.image_url,
+            birthDate: dog.birth_date
+        }))}
+    } catch (error) {
+        console.error('반려견 목록 조회 실패', error)
+        return { success: false, message:'반려견 목록을 불러오기 실패'}
+    }
 }

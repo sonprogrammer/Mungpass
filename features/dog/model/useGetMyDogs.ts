@@ -8,7 +8,11 @@ export const useGetMyDogs = () => {
     const userId = profile?.id
     return useQuery({
         queryKey: ['my-dogs', userId],
-        queryFn: () => fetchDogs(userId!),
+        queryFn: async () => {
+            const res = await fetchDogs(userId!)
+            if (!res.success) throw new Error(res.message)
+            return res.data
+        },
         enabled: !!userId,
         staleTime: 1000 * 60 * 10,
         refetchOnWindowFocus: false

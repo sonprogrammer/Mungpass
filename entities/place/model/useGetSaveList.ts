@@ -1,20 +1,19 @@
 'use client'
 
-import { saveApi } from "@/entities/place/api"
-import { supabaseClient } from "@/shared/api/supabase/client"
+import { getSaveList } from "@/entities/place/api/getSaveList"
 import { useQuery } from "@tanstack/react-query"
 
 
 export const useGetSaveList = () => {
-    const supabase = supabaseClient()
 
     return useQuery({
         queryKey: ['favorites'],
         queryFn: async () => {
-            const {data: {user}} = await supabase.auth.getUser()
-            if(!user) { console.error('failed'); return []}
-            return saveApi.fetchSaveList(user.id)
+            const res = await getSaveList()
+            if (!res.success) throw new Error(res.message)
+            return res.data
         },
-        staleTime: 1000 * 60 * 10
+        staleTime: 1000 * 60 * 10,
+        gcTime: 1000 * 60 * 30
     })
 }

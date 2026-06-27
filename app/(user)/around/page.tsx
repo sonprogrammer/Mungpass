@@ -1,4 +1,4 @@
-export const dynamic = 'force-dynamic';
+// export const dynamic = 'force-dynamic';
 import { KakaoScriptProvider } from "@/shared/ui/map";
 import { AroundAllContent, MapLoading } from "@/widgets/around/ui";
 

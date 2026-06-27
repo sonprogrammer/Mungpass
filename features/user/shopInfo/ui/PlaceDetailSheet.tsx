@@ -19,8 +19,8 @@ export function PlaceDetailSheet({ place }: { place: KakaoPlace }) {
 
     // *카카오id로 매장 uuid값 가져오기(멍패스에 등록되어있는 매장한임) 아닌 것들은 null을 반환
     const { data: shop } = useGetShopIdByKakaoId(place?.id)
+    const shopId = shop?.id ?? '';
 
-    const shopId = shop?.id
 
 
     const isMungPassPartner = !!shopId

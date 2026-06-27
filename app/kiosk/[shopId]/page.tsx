@@ -1,4 +1,4 @@
-export const dynamic = 'force-dynamic';
+
 import { KioskWidget } from "@/widgets/owner/kiosk/ui";
 
 

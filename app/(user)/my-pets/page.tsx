@@ -1,4 +1,4 @@
-export const dynamic = 'force-dynamic';
+// export const dynamic = 'force-dynamic';
 import { MyPetsPageWidget } from "@/widgets/my-pets/ui";
 
 

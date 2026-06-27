@@ -8,7 +8,7 @@ import { App } from "antd";
 import { CheckCircle2, ChevronRight, Clock, PartyPopper, QrCode } from "lucide-react";
 import { useState } from "react";
 
-export function QrCheckIn({dogs, isDogsPending, userId}: {dogs: Dog[], isDogsPending: boolean, userId: string}) {
+export function QrCheckIn({dogs, isDogsPending}: {dogs: Dog[], isDogsPending: boolean}) {
     const [step, setStep] = useState<'IDLE' | 'SELECT_DOG' | 'SCANNING' | 'SUCCESS'>('IDLE')
     const [selectedDog, setSelectedDog] = useState<Dog | null>(null)
 
@@ -37,7 +37,7 @@ export function QrCheckIn({dogs, isDogsPending, userId}: {dogs: Dog[], isDogsPen
             return
         }
 
-        checkIn({dogId: selectedDog.id, shopId, productId, userId},{
+        checkIn({dogId: selectedDog.id, shopId, productId},{
             onSuccess: () => {
                 message.success(`${selectedDog.name} 입실 완료`)
                 setStep('SUCCESS')

@@ -1,3 +1,5 @@
+'use client'
+
 import { PlaceListProps } from "@/entities/place/model";
 import { MapPin } from "lucide-react";
 

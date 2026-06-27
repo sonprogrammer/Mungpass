@@ -31,6 +31,7 @@ export function DogDetailModal({ isOpen, onClose, directEditMode }: DogDetailMod
         image_url: dog.image_url
     } : null)
 
+    // TODO 쓸모가 없으머
     const { imagePreview, imageFile, fileInputRef, handleImageChange } = useImageUpload(dog?.image_url)
     const { mutate: updatedMutate } = useUpdateMyDogs()
     const { mutate: deleteMutate, isPending: isDeleting } = useDeleteDog()

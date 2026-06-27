@@ -42,3 +42,10 @@ export interface QrCategorySelectViewProps {
     categories: string[]
     onSelectCategory: (categoryName: string) => void
 }
+
+
+export interface CheckinParams {
+    dogId: string;
+    shopId: string;
+    productId: string;
+}

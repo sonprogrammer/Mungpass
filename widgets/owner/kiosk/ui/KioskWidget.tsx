@@ -1,7 +1,7 @@
 'use client'
 
 import { KioskProductSkeleton, ProductListItem } from "@/features/owner/kiosk/ui"
-import { ProductCategory, ProductWithCategory, useGetProductCategories, useGetProducts } from "@/features/owner/my-store/product/model"
+import { ProductCategory, ProductWithCategory, useGetProducts } from "@/features/owner/my-store/product/model"
 import { KioskCategoryNav, KioskExit, KioskHeader, KioskProductEmptyView, KioskQrSection } from "@/widgets/owner/kiosk/ui"
 import { App } from "antd"
 import { useParams } from "next/navigation"

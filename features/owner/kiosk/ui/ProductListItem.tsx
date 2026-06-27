@@ -18,9 +18,6 @@ export function ProductListItem({ product, onClick }: ProductListItem) {
                 <div className="space-y-1">
                     <div className="flex items-center gap-3">
                         <h3 className="text-3xl font-black text-slate-900 tracking-tight">{product.name}</h3>
-                        {/* <span className="bg-emerald-50 text-emerald-600 px-3 py-1 rounded-full text-sm font-black">
-                            {product.duration_minutes / 60}시간 기준
-                        </span> */}
                     </div>
                     <p className="text-slate-400 text-lg font-medium">기본 이용 {product.duration_minutes / 60}시간</p>
                 </div>
