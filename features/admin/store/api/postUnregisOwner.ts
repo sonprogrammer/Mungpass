@@ -1,9 +1,11 @@
+'use server'
+
 import { Shop } from "@/entities/admin/inquiry/model";
-import { supabaseClient } from "@/shared/api/supabase/client";
+import { supabaseServer } from "@/shared/api/supabase/server";
 
 
 export const postUnreigisOwner = async(values:Shop) => {
-    const supabase = supabaseClient()
+    const supabase = await supabaseServer()
 
     const payload = {
         ...values,

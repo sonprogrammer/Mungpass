@@ -1,7 +1,9 @@
-import { supabaseClient } from "@/shared/api/supabase/client";
+'use server'
+
+import { supabaseServer } from "@/shared/api/supabase/server";
 
 export const getUserInfoById = async(userId: string) => {
-    const supabase = supabaseClient()
+    const supabase = await supabaseServer()
 
     const { data, error} = await supabase.from('profiles').select(`*, shop:shops(*), store_registrations:store_registrations(*)`)
                                                         .eq('id', userId).single()

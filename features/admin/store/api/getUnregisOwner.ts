@@ -1,7 +1,9 @@
-import { supabaseClient } from "@/shared/api/supabase/client";
+'use server'
+
+import { supabaseServer } from "@/shared/api/supabase/server";
 
 export const getUnregisOnwer = async() => {
-    const supabase = supabaseClient()
+    const supabase = await supabaseServer()
 
     const { data, error} = await supabase.from('unregistered_owners').select('*')
 

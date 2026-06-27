@@ -38,13 +38,11 @@ export function AuthProvider({ children, initialUser }: AuthProviderProps) {
     // console.log('initial user from authproficer', initialUser)
 
     const validateRole = useCallback((profile: UserProfile) => {
-        // console.log('검증 대상 프로필:', profile);
-        // console.log('현재 설정된 loginTabRole:', loginTabRole);
-        if (isSignupFlow.current || isLoggingOut.current) return true
-
+        if (isLoggingOut.current) return true
+        if (isSignupFlow.current) return true
+        if (!profile) return true
         if (!loginTabRole) return true
         if (profile.role !== 'admin' && profile.role !== loginTabRole) {
-            // console.error('권한 불일치로 로그아웃 발생!');
             message.error('선택한 회원 유형이 올바르지 않습니다.dfa')
             return false
         }
@@ -74,9 +72,11 @@ export function AuthProvider({ children, initialUser }: AuthProviderProps) {
                 return
             }
 
-            if (!validateRole(profile)) {
-                await handleLogout()
-                return
+            if (!isLoggingOut.current) {
+                if (!validateRole(profile)) {
+                    await handleLogout()
+                    return
+                }
             }
 
             setProfile(profile)
@@ -95,8 +95,17 @@ export function AuthProvider({ children, initialUser }: AuthProviderProps) {
         const supabase = supabaseClient()
 
 
-        const { data: { subscription } } = supabase.auth.onAuthStateChange(async (event) => {
+        const { data: { subscription } } = supabase.auth.onAuthStateChange(async (event, session) => {
+            if (isLoggingOut.current) return
+            if (!session) {
+                isLoggingOut.current = true
+                handleLogout()
 
+                setTimeout(() => {
+                    isLoggingOut.current = false
+                }, 0)
+                return
+            }
             if (event === 'SIGNED_IN') {
                 setIsLoggingIn(false)
                 const profile = await getUserFromServer();
@@ -105,6 +114,8 @@ export function AuthProvider({ children, initialUser }: AuthProviderProps) {
             }
 
             if (event === 'SIGNED_OUT') {
+                isSignupFlow.current = true
+                isLoggingOut.current = true
                 logout()
                 setNeedSignup(false)
                 return
@@ -116,7 +127,7 @@ export function AuthProvider({ children, initialUser }: AuthProviderProps) {
             subscription.unsubscribe()
         }
 
-    }, [setNeedSignup, setIsLoggingIn, applyProfile, logout])
+    }, [setNeedSignup, setIsLoggingIn, applyProfile, logout, handleLogout])
 
 
     return (

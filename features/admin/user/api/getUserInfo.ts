@@ -1,7 +1,9 @@
-import { supabaseClient } from "@/shared/api/supabase/client";
+'use server'
+
+import { supabaseServer } from "@/shared/api/supabase/server";
 
 export const getUserInfo = async (params: { keyword?: string, role?: string, ownerStatus?: string }) => {
-    const supabase = supabaseClient()
+    const supabase = await supabaseServer()
 
     //* 키워드 없고 전체 유저 정보 불러올때 
     let query = supabase.from('profiles').select(`*, shop:shops(*), store_registrations: store_registrations(*)`)
