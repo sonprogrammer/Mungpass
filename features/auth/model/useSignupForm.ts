@@ -26,7 +26,13 @@ export function useSignupForm() {
 
         setEmailStatus('checking')
         const res = await checkEmail(email)
-            setEmailStatus(res)
+
+        if(!res.success) {
+            message.error(res.message)
+            setEmailStatus('idle')
+            return
+        }
+        setEmailStatus(res.data ? 'taken' : 'available')
     }
 
     return {

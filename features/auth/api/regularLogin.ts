@@ -44,7 +44,7 @@ export async function regularLogin(formData: FormData) {
 
     if (profile.role !== role) {
         await supabase.auth.signOut()
-        return { success: false, message: '선택한 회원 유형이 올바르지 않습니다. regulsat'}
+        return { success: false, message: '선택한 회원 유형이 올바르지 않습니다.'}
     }
 
     return { success: true, data: { ...data, actualRole: profile.role} }

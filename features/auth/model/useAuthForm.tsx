@@ -33,16 +33,15 @@ export function useAuthForm(mode: 'login' | 'signup', OwnerSuccess?: (id: string
       }
 
       try {
-        const user = await signup(formData)
-        if (user && 'error' in user) {
-          message.error(user.error)
+        const res = await signup(formData)
+        if (!res.success) {
+          message.error(res.message)
           return
         }
+        if (!res.data) return
 
         //*사장이면 다음단계로 이동
-        if (OwnerSuccess && user?.id) {
-          OwnerSuccess(user.id)
-        }
+        OwnerSuccess?.(res.data.id)
 
 
 

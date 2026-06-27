@@ -1,7 +1,7 @@
 
 import { supabaseClient } from "@/shared/api/supabase/client";
 
-export async function signup(formData: FormData){
+export async function signup(formData: FormData) {
     const supabase = supabaseClient()
 
     const email = (formData.get('email') as string).trim()
@@ -22,20 +22,26 @@ export async function signup(formData: FormData){
         }
     })
 
-    if(error){
-
+    if (error) {
+        let message = '회원가입에 실패했습니다.'
         if (error.message.includes("at least 6 characters")) {
-            return { error: "비밀번호는 최소 6자 이상이어야 합니다." }
-       }
-       
-       if(error.message.includes('already registered')){
-        return { error: '이미 사용중인 이메일 입니다' }
-       }
-       
-        console.error('회원가입 에러', error.message)
-        return { error: error.message }
+            message = "비밀번호는 최소 6자 이상이어야 합니다."
+        }
+
+        if (error.message.includes('already registered')) {
+            message = '이미 사용중인 이메일 입니다'
+        }
+
+        return { success: false, message }
+    }
+
+    if (!data.user) {
+        return {
+            success: false,
+            message: '유저 생성 실패',
+        };
     }
 
 
-    return data.user
+    return { success: true, data: data.user }
 }

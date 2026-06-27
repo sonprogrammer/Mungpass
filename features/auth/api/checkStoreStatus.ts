@@ -1,7 +1,9 @@
-import { supabaseClient } from "@/shared/api/supabase/client";
+'use server'
+
+import { supabaseServer } from "@/shared/api/supabase/server";
 
 export const checkStoreStatus = async(ownerId: string) => {
-    const supabase = supabaseClient()
+    const supabase = await supabaseServer()
     const { data, error} = await supabase.from('store_registrations').select('*').eq('owner_id', ownerId).order('created_at', { ascending: false }).limit(1).maybeSingle()
 
     if(error){

@@ -1,4 +1,5 @@
 import { postOwnerDocs } from "@/features/auth/api";
+import { postOwnerDocsProps } from "@/features/auth/model";
 import { useMutation } from "@tanstack/react-query";
 import { App } from "antd";
 import { useRouter } from 'next/navigation';
@@ -9,7 +10,11 @@ export const usePostOwnerDocs = () => {
     const { message } = App.useApp()
 
     return useMutation({
-        mutationFn: postOwnerDocs,
+        mutationFn: async(payload:postOwnerDocsProps) => {
+            const res = await postOwnerDocs(payload)
+            if(!res.success) throw new Error(res.message)
+                return res.data
+        },
         onSuccess: (_, variables) => {
             message.success('심사 요청이 성공적으로 접수되었습니다')
             router.push(`/signup/owner/complete?ownerId=${variables.ownerId}`)

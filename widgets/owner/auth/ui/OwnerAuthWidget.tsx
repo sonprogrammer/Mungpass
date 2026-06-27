@@ -6,38 +6,41 @@ import { LoadingFallback } from "@/shared/ui/Loader"
 import { App } from "antd"
 import { useRouter, useSearchParams } from "next/navigation"
 import { useEffect } from "react"
+import { useShallow } from "zustand/react/shallow"
 
 
 export function OwnerAuthWidget() {
     const searchParams = useSearchParams()
-    const selectedPlace = useStoreRegistrationStore(state=> state.selectedPlace)
-    const hasHydrated = useStoreRegistrationStore(state => state.hasHydrated)
+    const { selectedPlace, hasHydrated } = useStoreRegistrationStore(useShallow((state) => ({
+        hasHydrated: state.hasHydrated,
+        selectedPlace: state.selectedPlace
+    })))
     const router = useRouter()
     const { message } = App.useApp()
 
-    
+
     useEffect(() => {
-        if(hasHydrated && !selectedPlace){
+        if (hasHydrated && !selectedPlace) {
             message.error('선택된 매장이 없습니다. 다시 선택해주세요')
             router.back()
         }
     }, [hasHydrated, selectedPlace, router, message])
 
-    
+
 
     const ownerId = searchParams.get('ownerId')
 
     // *ownerId가 없을시 튕김
-        useEffect(() => {
-            if(!ownerId){
-                message.error('잘못된 접근입니다. 다시 로그인해주세요')
-                router.replace('/')
-            }
-        },[ownerId, router, message])
-  
-        // *ownerId가 없으면 얼리 리턴해주기
+    useEffect(() => {
+        if (!ownerId) {
+            message.error('잘못된 접근입니다. 다시 로그인해주세요')
+            router.replace('/')
+        }
+    }, [ownerId, router, message])
+
+    // *ownerId가 없으면 얼리 리턴해주기
     if (!hasHydrated || !ownerId || !selectedPlace) {
-        return <LoadingFallback text='정보를 확인 중입니다...'/>
+        return <LoadingFallback text='정보를 확인 중입니다...' />
     }
 
     return (
@@ -49,12 +52,12 @@ export function OwnerAuthWidget() {
 
             {/* //*선택된 가게 정보 */}
             {/* //TODO 스켈레톤 해주기 */}
-            <RegisterStoreCheckCard 
+            <RegisterStoreCheckCard
                 place_name={selectedPlace?.place_name}
                 address_name={selectedPlace?.address_name}
                 phone={selectedPlace?.phone}
             />
-            
+
 
             {/* //*사업자 인증 폼 */}
             <div className="space-y-2">
@@ -63,7 +66,7 @@ export function OwnerAuthWidget() {
                     <p className="text-sm text-slate-500">국세청에 등록된 정확한 정보를 입력해주세요.</p>
                 </div>
 
-                <BusinessForm storeInfo={selectedPlace} ownerId={ownerId} isEdit={false}/>
+                <BusinessForm storeInfo={selectedPlace} ownerId={ownerId} isEdit={false} />
             </div>
         </div>
     )

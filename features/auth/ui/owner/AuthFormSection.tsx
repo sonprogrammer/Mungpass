@@ -11,6 +11,7 @@ import { useState } from "react"
 
 export function AuthFormSection() {
     const loginTabRole = useUserStore(state => state.loginTabRole)
+    const setLoginTabRole = useUserStore(state => state.setLoginTabRole)
     const [email, setEmail] = useState<string>('')
     const [password, setPassword] = useState<string>('')
 
@@ -71,6 +72,7 @@ export function AuthFormSection() {
                 <div className="mt-8 pt-6 border-t border-dashed border-orange-100">
                     <Link
                         href='signup/owner'
+                        onClick={() => setLoginTabRole('owner')}
                         className="group flex items-center justify-between p-4 bg-orange-50 rounded-2xl border border-orange-100 hover:bg-orange-100 transition-all duration-300"
                     >
                         <div className="flex items-center gap-3">

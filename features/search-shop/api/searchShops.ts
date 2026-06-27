@@ -1,3 +1,4 @@
+
 import { KakaoPlace } from "@/shared/model";
 
 export const searchShops = (keyword: string): Promise<KakaoPlace[]> => {

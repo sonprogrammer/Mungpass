@@ -1,9 +1,11 @@
 'use client'
 
+import { useUserStore } from "@/entities/user/model"
 import { ChevronRight, Store, User } from "lucide-react"
 import Link from "next/link"
 
 export function RoleSelection() {
+    const setLoginTabRole = useUserStore(state => state.setLoginTabRole)
     return(
         <div className="w-full max-w-120 px-6 py-8 ">
             <div className="mb-8 text-center">
@@ -13,8 +15,9 @@ export function RoleSelection() {
 
             <div className="space-y-4">
                 {/* //*일반회원 */}
-                <Link 
+                <Link
                     href='/signup/user'
+                    onClick={() => setLoginTabRole('user')}
                     className="group block p-6 bg-white! rounded-3xl border-4 border-orange-100! shadow-xl shadow-orange-200/20 hover:border-orange-500! hover:-translate-y-1 transition-all duration-300"
                 >
                     <div className="flex items-center justify-between">
@@ -34,6 +37,7 @@ export function RoleSelection() {
                 {/* //*사장 */}
                 <Link
                     href='/signup/owner'
+                    onClick={() =>setLoginTabRole('owner')}
                     className="group block p-6 bg-slate-800! rounded-3xl border-4 border-slate-300! shadow-xl shadow-slate-900/20 hover:border-orange-500! hover:-translate-y-1 transition-all duration-300"
                 >
                     <div className="flex items-center justify-between">
