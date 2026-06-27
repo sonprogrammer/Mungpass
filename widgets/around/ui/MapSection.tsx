@@ -2,10 +2,16 @@
 
 import { useGetPartnerShops } from "@/entities/place/model";
 import { MapSectionProps } from "@/widgets/around/model/types";
-import { MapContainer } from "@/shared/ui/map/MapContainer";
+
 import { LocateFixed, RefreshCw } from "lucide-react";
 import { memo, useMemo } from "react";
+import dynamic from "next/dynamic";
+import { MapLoading } from "@/widgets/around/ui/MapLoading";
 
+const MapContainer = dynamic(() => import('@/shared/ui/map/MapContainer').then(mod => mod.MapContainer),{
+   ssr: false, 
+   loading: () => <MapLoading message="지도 로딩중" />
+})
 
 function MapSection({ center, places, showRefreshBtn, onMarkerClick, onBoundChange, onRefresh, onMyLocation }: MapSectionProps) {
 

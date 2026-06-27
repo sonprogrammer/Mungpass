@@ -8,7 +8,7 @@ export default function AroundPage() {
 
   return (
     <KakaoScriptProvider
-      fallback={<MapLoading message="지도 준비중입니다."/>}
+      fallback={<MapLoading message="지도 준비중입니다." />}
     >
       <AroundAllContent />
     </KakaoScriptProvider>

@@ -1,3 +1,5 @@
+'use client'
+
 import { PlaceDetailSheet } from "@/features/user/shopInfo/ui";
 import { BottomSheet } from "@/shared/ui/place";
 import { useSelectedPlace } from "@/features/search-shop/model";
