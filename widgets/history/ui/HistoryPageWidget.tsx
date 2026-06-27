@@ -11,11 +11,8 @@ export function HistoryPageWidget() {
     const { data: historyList = [], isPending } = useGetMyPetUsage({ statuses: ['completed'] }) //*이용완료된 기록만 보임
 
 
-
-
-
     return (
-        <main className="h-full bg-[#FFFBEB] flex flex-col relative">
+        <main className="h-full bg-amber-50 flex flex-col relative">
 
             <header className="relative p-6 w-full max-w-120 mx-auto shrink-0 flex items-center mt-2">
                 <div className="absolute left-6">

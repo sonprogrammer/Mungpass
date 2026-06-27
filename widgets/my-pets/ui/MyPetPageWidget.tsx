@@ -60,7 +60,6 @@ export function MyPetsPageWidget() {
 
         deleteMutate({
             dogId: selectedDog.id,
-            userId: profile.id
         },{ onSuccess: () => {
             setIsDeleteModalOpen(false)
             setSelectedDog(null)

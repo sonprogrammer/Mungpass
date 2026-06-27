@@ -1,21 +1,27 @@
 import { sendInquiryMsg } from "@/entities/inquiry/api";
+import { SendInquiryMsgPayload } from "@/entities/inquiry/model/types";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { App } from "antd";
 
-export function useSendMsg(){
+export function useSendMsg() {
     const queryClient = useQueryClient()
 
-    const {message} = App.useApp()
+    const { message } = App.useApp()
 
     return useMutation({
-        mutationFn: sendInquiryMsg,
+        mutationFn: async (payload: SendInquiryMsgPayload) => {
+            const res = await sendInquiryMsg(payload)
+            if(!res.success) throw new Error(res.message)
+            return res.data
+        }
+        ,
         onSuccess: (_, variables) => {
 
             queryClient.invalidateQueries({ queryKey: ['inquiry-list'] })
-            if(variables.senderType === 'owner' || variables.senderType === 'user'){
-                queryClient.invalidateQueries({queryKey: ['inquriy-admin-noti']})
-            }else if(variables.senderType === 'admin'){
-                queryClient.invalidateQueries({queryKey: ['inquiry-admin-noti']})
+            if (variables.senderType === 'owner' || variables.senderType === 'user') {
+                queryClient.invalidateQueries({ queryKey: ['inquriy-admin-noti'] })
+            } else if (variables.senderType === 'admin') {
+                queryClient.invalidateQueries({ queryKey: ['inquiry-admin-noti'] })
             }
         },
         onError: (error) => {

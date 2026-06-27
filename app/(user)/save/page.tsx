@@ -1,4 +1,4 @@
-// export const dynamic = 'force-dynamic';
+
 import { BackBtn } from "@/shared/ui";
 import { SaveList } from "@/widgets/save/ui";
 
@@ -7,7 +7,7 @@ export default function FavoritesPage() {
     return (
 
 
-        <main className="h-full bg-[#FFFBEB] flex flex-col ">
+        <main className="h-full bg-amber-50 flex flex-col ">
 
             <header className="relative p-6 w-full max-w-120 mx-auto shrink-0 flex items-center justify-center mt-2">
                 <div className="absolute left-6">

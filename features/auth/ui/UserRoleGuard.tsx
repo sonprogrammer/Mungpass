@@ -12,7 +12,7 @@ export function UserRoleGuard({children}: {children: React.ReactNode}){
 
     if(isLoading){
         return(
-            <div className="h-full w-full bg-[#FFFBEB] flex flex-col items-center justify-center">
+            <div className="h-full w-full bg-amber-50 flex flex-col items-center justify-center">
                 <Loader2 className="w-8 h-8 text-orange-500 animate-spin mb-2" />
                 <p className="text-xs text-orange-400 font-bold">인증 정보 확인 중...</p>
             </div>

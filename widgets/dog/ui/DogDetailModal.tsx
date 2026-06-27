@@ -74,7 +74,6 @@ export function DogDetailModal({ isOpen, onClose, directEditMode }: DogDetailMod
 
         deleteMutate({
             dogId: dog.id,
-            userId: profile.id
         })
         onClose()
         setIsDropdownOpen(false)

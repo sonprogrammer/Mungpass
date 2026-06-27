@@ -11,7 +11,7 @@ export default function SignupLayout({ children }: { children: React.ReactNode }
                         <SmallLogo />
                     </div>
                 </header>
-                <main className="flex-1 flex flex-col items-center w-full bg-[#FFFBEB] overflow-y-auto ">
+                <main className="flex-1 flex flex-col items-center w-full bg-amber-50 overflow-y-auto ">
                     {children}
                 </main>
             </div>

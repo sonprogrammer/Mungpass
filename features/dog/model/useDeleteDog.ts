@@ -2,17 +2,24 @@ import { App } from 'antd';
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useDogStore } from '@/entities/dog/model';
 import { deleteDog } from '@/entities/dog/api';
+import { useUserStore } from '@/entities/user/model';
 
 export const useDeleteDog = () => {
     const queryClient = useQueryClient()
     const setSelectedDog = useDogStore(state => state.setSelectedDog)
+    const profile = useUserStore(state => state.profile)
+    const userId = profile?.id
 
-    const { message} =App.useApp()
+    const { message } = App.useApp()
 
     return useMutation({
-        mutationFn: ({userId, dogId}: {userId: string, dogId: string}) => deleteDog({userId, dogId}),    
-        onSuccess: (deletedId, variables) => {
-            queryClient.invalidateQueries({queryKey: ['my-dogs', variables.userId]})
+        mutationFn: async ({ dogId }: { dogId: string }) => {
+            const res = await deleteDog({ dogId })
+            if (!res.success) throw new Error(res.message)
+            return res.data //null return
+        },
+        onSuccess: () => {
+            queryClient.invalidateQueries({ queryKey: ['my-dogs', userId] })
             setSelectedDog(null)
         },
         onError: (error) => {

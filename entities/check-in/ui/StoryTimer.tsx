@@ -19,7 +19,7 @@ export function StoryTimer ({ progress, imageUrl, isOverTime }: { progress: numb
                     strokeLinecap="round"
                 />
             </svg>
-            <img src={imageUrl} className="w-[52px] h-[52px] rounded-full object-cover" alt="강아지 프로필사진" />
+            <img src={imageUrl} className="w-13 h-13 rounded-full object-cover" alt="강아지 프로필사진" />
         </div>
   )
 }

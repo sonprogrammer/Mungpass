@@ -3,7 +3,7 @@ import { supabaseClient } from "@/shared/api/supabase/client";
 import { App } from 'antd';
 import { useEffect, useState } from "react";
 
-export function useInquiryChat(roomId: string) {
+export function useGetInquiryChat(roomId: string) {
     const [messages, setMessages] = useState<InquiryMessage[]>([])
     const [isLoading, setIsLoading] = useState(true)
     const {message} = App.useApp()

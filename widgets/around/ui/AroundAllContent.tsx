@@ -95,7 +95,7 @@ export function AroundAllContent() {
     }, [keyword, searchData, nearShopData, isLoading, message])
 
     return (
-        <div className="bg-[#FFFBEB] h-full  flex flex-col">
+        <div className="bg-amber-50 h-full  flex flex-col">
 
             <AroundHeader
                 showMap={showMap}

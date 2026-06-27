@@ -1,6 +1,6 @@
 'use client'
 
-import { useGenerateInquirNoti, useInquiryChat, useReadInquiryNotiByRoom, useSendMsg } from "@/entities/inquiry/model"
+import { useGenerateInquirNoti, useGetInquiryChat, useReadInquiryNotiByRoom, useSendMsg } from "@/entities/inquiry/model"
 import { useUserStore } from "@/entities/user/model"
 import { Button, Form, Input } from "antd"
 import { format, isSameDay } from "date-fns"
@@ -15,17 +15,17 @@ export function StoreInquiryChatRoom({ roomId }: { roomId: string }) {
 
     const profile = useUserStore(state => state.profile)
 
-    const { messages, isLoading } = useInquiryChat(roomId)
+    const { messages, isLoading } = useGetInquiryChat(roomId)
 
     // * 메시지전송
     const { mutate: sendMsg, isPending: isSending } = useSendMsg()
     // * 알림전송
     const { mutate: sendNoti } = useGenerateInquirNoti()
     //* 읽은 처리
-    const {mutate: readInquiryByRoom} = useReadInquiryNotiByRoom()
+    const { mutate: readInquiryByRoom } = useReadInquiryNotiByRoom()
 
     const isOwner = profile?.role === 'owner'
-    
+
     const scrollToBottom = () => {
         messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' })
     }
@@ -35,9 +35,9 @@ export function StoreInquiryChatRoom({ roomId }: { roomId: string }) {
     }, [messages, isLoading])
 
     useEffect(() => {
-        if(!roomId) return
-        readInquiryByRoom({roomId, type: 'inquiry_res'}) // 사장 알림을 읽음처리하는거니깐
-    },[readInquiryByRoom, roomId])
+        if (!roomId) return
+        readInquiryByRoom({ roomId, type: 'inquiry_res' }) // 사장 알림을 읽음처리하는거니깐
+    }, [readInquiryByRoom, roomId])
 
     const onSendMsg = (values: { text: string }) => {
         if (!values.text.trim() || !profile?.id) return
@@ -82,11 +82,9 @@ export function StoreInquiryChatRoom({ roomId }: { roomId: string }) {
     }
 
     return (
-        // <div className="flex flex-col h-120 bg-gray-50/50 rounded-2xl border border-gray-100 overflow-hidden">
         <div className={`flex flex-col bg-gray-50/50 rounded-2xl  overflow-hidden
         ${isOwner ? 'h-120' : 'h-[65vh]'} 
     `}>
-        {/* <div className="flex flex-col h-full bg-gray-50/50 rounded-2xl border border-gray-100 overflow-hidden"> */}
 
             <div className="flex-1 overflow-y-auto p-4 border border-gray-100 space-y-4 scrollbar-none">
                 {messages.map((msg, i) => {
@@ -101,7 +99,7 @@ export function StoreInquiryChatRoom({ roomId }: { roomId: string }) {
                             {isFirstOfDay && (
                                 <div className="flex justify-center my-3">
                                     <span className="text-[11px] bg-gray-200 text-gray-600 px-3 py-1 rounded-full">
-                                        {format(new Date(msg.created_at), 'yyyy년 M월 d일 EEEE', {locale: ko})}
+                                        {format(new Date(msg.created_at), 'yyyy년 M월 d일 EEEE', { locale: ko })}
                                     </span>
                                 </div>
                             )}
@@ -162,8 +160,8 @@ export function StoreInquiryChatRoom({ roomId }: { roomId: string }) {
                         loading={isSending}
                         icon={<Send size={16} />}
                         className={`h-11! w-11! rounded-xl! border-none! flex items-center justify-center text-white
-                            ${isOwner 
-                                ? 'bg-emerald-500! hover:bg-emerald-700!' 
+                            ${isOwner
+                                ? 'bg-emerald-500! hover:bg-emerald-700!'
                                 : 'bg-orange-500! hover:bg-orange-700!'}`}
                     />
                 </Form>

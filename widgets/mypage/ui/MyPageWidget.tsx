@@ -10,7 +10,7 @@ export function MyPageWidget() {
  
 
   return (
-    <div className="h-screen bg-[#FFFBEB] pb-24">
+    <div className="h-screen bg-amber-50 pb-24">
       {/* //* 프로필 섹션 */}
       <section className="bg-white px-6 pt-12 pb-8 rounded-b-[3.5rem] shadow-sm border-b border-orange-50">
         <div className="flex items-center justify-between ">
