@@ -24,8 +24,8 @@ export function LogoutBtn() {
             setIsLogoutModalOpen(false)
             await cookieLogout()
             userLogout() //해주나 마나 어차피 아래 window.locatino.href하면 전역상태 초기화됨
-            resetLoginTabRole()
             window.location.href = '/'
+            resetLoginTabRole()
         } catch (error) {
             console.error('로그아웃 실패',error)
         }finally{
