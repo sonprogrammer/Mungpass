@@ -38,6 +38,11 @@ export function AuthProvider({ children, initialUser }: AuthProviderProps) {
 
 
     const validateRole = useCallback((profile: UserProfile) => {
+        console.log('validateRole', {
+            role: profile.role,
+            loginTabRole,
+            isLoggingOut: isLoggingOut.current,
+        });
         if (isLoggingOut.current) return true
         if (isSignupFlow.current) return true
 
@@ -93,6 +98,7 @@ export function AuthProvider({ children, initialUser }: AuthProviderProps) {
 
 
         const { data: { subscription } } = supabase.auth.onAuthStateChange(async (event, session) => {
+            console.log('auth event', event);
             if (!session) {
                 if (!isLoggingOut.current) {
                     await handleLogout()
@@ -120,7 +126,7 @@ export function AuthProvider({ children, initialUser }: AuthProviderProps) {
             subscription.unsubscribe()
         }
 
-    }, [setNeedSignup, setIsLoggingIn, applyProfile, logout, handleLogout])
+    }, [setNeedSignup, setIsLoggingIn, applyProfile, handleLogout])
 
 
     return (
