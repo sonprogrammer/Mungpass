@@ -38,6 +38,8 @@ export function AuthProvider({ children, initialUser }: AuthProviderProps) {
 
 
     const validateRole = useCallback((profile: UserProfile) => {
+        console.log('validateRole')
+        console.trace('validateRole');
         console.log('validateRole', {
             role: profile.role,
             loginTabRole,
@@ -65,6 +67,7 @@ export function AuthProvider({ children, initialUser }: AuthProviderProps) {
     }, [logout])
 
     const applyProfile = useCallback(async (profile: UserProfile | null) => {
+        console.log('applyProfile', profile)
 
         if (!profile) {
             await handleLogout()
