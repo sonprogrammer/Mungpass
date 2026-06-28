@@ -22,11 +22,11 @@ const nextConfig: NextConfig = {
     ],
   },
 // TODO 주석 풀어주기
-  // compiler: {
-  //   removeConsole: process.env.NODE_ENV === 'production'
-  //     ? { exclude: ['error']}
-  //     : false
-  // }
+  compiler: {
+    removeConsole: process.env.NODE_ENV === 'production'
+      ? { exclude: ['error']}
+      : false
+  }
 
 };
 

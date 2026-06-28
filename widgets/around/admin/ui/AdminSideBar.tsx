@@ -11,6 +11,7 @@ import {
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useGetAdminInquiryNoti } from "@/entities/admin/inquiry/model/useGetAminInquiryNoti";
+import { useGetReqRegistration } from "@/entities/admin/inquiry/model/useGetReqRegistration";
 
 const { Sider } = Layout;
 
@@ -20,10 +21,24 @@ export function AdminSidebar({ collapsed }: { collapsed: boolean }) {
   const { data: adminNoti = [] } = useGetAdminInquiryNoti()
   const unReadCount = adminNoti.length
 
+  const { data: regiCount } = useGetReqRegistration()
+
+
 
   const menuItems = [
     { key: '/admin', icon: <DashboardOutlined />, label: <Link href="/admin">대시보드</Link> },
-    { key: '/admin/stores', icon: <ShopOutlined />, label: <Link href="/admin/stores">입점 심사</Link> },
+    {
+      key: '/admin/stores', icon: <ShopOutlined />, label: (
+        <Link href="/admin/stores" className="flex items-center justify-between w-full">
+          <span>입점 심사</span>
+          {(regiCount ?? 0) > 0 && (
+            <span className="ml-2 min-w-5 h-5 px-1 rounded-full bg-orange-500 text-white text-[10px] flex items-center justify-center">
+              {regiCount}
+            </span>
+          )}
+        </Link>
+      )
+    },
     { key: '/admin/users', icon: <UserOutlined />, label: <Link href="/admin/user-manage">회원 관리</Link> },
     // TODO 추후에 추가 해보기
     // { key: '/admin/coupons', icon: <GiftOutlined />, label: <Link href="/admin/coupons">쿠폰 관리</Link> },
