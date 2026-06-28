@@ -29,6 +29,8 @@ export function AuthProvider({ children, initialUser }: AuthProviderProps) {
     const { message } = App.useApp()
     const isLoggingOut = useRef(false)
     const isSignupFlow = useRef(false)
+    const initialized = useRef(false);
+
 
 
     useEffect(() => {
@@ -91,10 +93,12 @@ export function AuthProvider({ children, initialUser }: AuthProviderProps) {
 
     //* 서버에서 받은 유저 최초 반영
     useEffect(() => {
+        console.log('initial effect')
+        if (initialized.current) return;
         if (!isHydrated || !initialUser) return
 
         applyProfile(initialUser)
-    }, [initialUser, isHydrated, applyProfile])
+    }, [initialUser, isHydrated])
 
 
     useEffect(() => {
