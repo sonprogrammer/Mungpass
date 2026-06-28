@@ -71,6 +71,7 @@ export function AuthProvider({ children, initialUser }: AuthProviderProps) {
             return
         }
 
+
         if (!profile.role || !profile.phone_number) {
             setNeedSignup(true)
             setProfile(profile)
@@ -105,6 +106,11 @@ export function AuthProvider({ children, initialUser }: AuthProviderProps) {
                 }
                 return
             }
+
+            if (event === 'INITIAL_SESSION') {
+                return
+            }
+
             if (event === 'SIGNED_IN') {
                 setIsLoggingIn(false)
                 const profile = await getUserFromServer();
