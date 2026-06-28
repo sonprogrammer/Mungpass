@@ -29,7 +29,6 @@ export function AuthProvider({ children, initialUser }: AuthProviderProps) {
     const { message } = App.useApp()
     const isLoggingOut = useRef(false)
     const isSignupFlow = useRef(false)
-    const initialized = useRef(false);
 
 
 
@@ -40,13 +39,6 @@ export function AuthProvider({ children, initialUser }: AuthProviderProps) {
 
 
     const validateRole = useCallback((profile: UserProfile) => {
-        console.log('validateRole')
-        console.trace('validateRole');
-        console.log('validateRole', {
-            role: profile.role,
-            loginTabRole,
-            isLoggingOut: isLoggingOut.current,
-        });
         if (isLoggingOut.current) return true
         if (isSignupFlow.current) return true
 
@@ -69,7 +61,6 @@ export function AuthProvider({ children, initialUser }: AuthProviderProps) {
     }, [logout])
 
     const applyProfile = useCallback(async (profile: UserProfile | null) => {
-        console.log('applyProfile', profile)
 
         if (!profile) {
             await handleLogout()
@@ -93,8 +84,6 @@ export function AuthProvider({ children, initialUser }: AuthProviderProps) {
 
     //* 서버에서 받은 유저 최초 반영
     useEffect(() => {
-        console.log('initial effect')
-        if (initialized.current) return;
         if (!isHydrated || !initialUser) return
 
         applyProfile(initialUser)
@@ -106,7 +95,6 @@ export function AuthProvider({ children, initialUser }: AuthProviderProps) {
 
 
         const { data: { subscription } } = supabase.auth.onAuthStateChange(async (event, session) => {
-            console.log('auth event', event);
             if (!session) {
                 if (!isLoggingOut.current) {
                     await handleLogout()
@@ -125,13 +113,6 @@ export function AuthProvider({ children, initialUser }: AuthProviderProps) {
                 return;
             }
 
-            // if (event === 'SIGNED_OUT') {
-            //     isSignupFlow.current = true
-            //     isLoggingOut.current = true
-            //     logout()
-            //     setNeedSignup(false)
-            //     return
-            // }
         })
 
 
