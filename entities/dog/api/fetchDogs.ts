@@ -13,7 +13,7 @@ export async function fetchDogs(userId: string): Promise<ApiRes<Dog[]>> {
             return { success: false, message: '사용자 정보가 없습니다.'}
         }
 
-        const { data, error } = await supabase.from('dogs').select('*').eq('owner_id', userId).order('created_at', { ascending: true })
+        const { data, error } = await supabase.from('dogs').select('*').eq('owner_id', userId).is('deleted_at', null).order('created_at', { ascending: true })
 
         if (error) throw error
 

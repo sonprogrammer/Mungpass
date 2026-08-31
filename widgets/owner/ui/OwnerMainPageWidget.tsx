@@ -54,7 +54,6 @@ export function OwnerMainPageWidget() {
           <RealtimeUsageTable items={currentLogs} loading={isRealTimeLoading} isVerified={isVerified} />
         </Col>
 
-        {/* //* 최근 퇴실 기록 */}
         <Col span={24}>
           <Tip />
         </Col>

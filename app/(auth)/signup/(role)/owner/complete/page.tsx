@@ -1,4 +1,3 @@
-export const dynamic = 'force-dynamic';
 import { LoadingFallback } from "@/shared/ui/Loader";
 import { OwnerCompleteWidget } from "@/widgets/owner/auth/ui";
 import { Suspense } from "react";

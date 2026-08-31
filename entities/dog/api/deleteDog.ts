@@ -16,7 +16,9 @@ export async function deleteDog({ dogId }: { dogId: string }): Promise<ApiRes<nu
 
 
 
-        const { data, error } = await supabase.from('dogs').delete().eq('id', dogId).select()
+        const { data, error } = await supabase.from('dogs').update({
+            deleted_at: new Date().toISOString(),
+        }).eq('id', dogId).select()
 
         if (error) {
             console.error('강아지 삭제 에러', error);
