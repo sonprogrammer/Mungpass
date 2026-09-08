@@ -5,18 +5,21 @@ import {
   DashboardOutlined,
   ShopOutlined,
   UserOutlined,
-  // GiftOutlined,
-  CustomerServiceOutlined
+  CustomerServiceOutlined,
+  SafetyCertificateOutlined,
 } from "@ant-design/icons";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useGetAdminInquiryNoti } from "@/entities/admin/inquiry/model/useGetAminInquiryNoti";
 import { useGetReqRegistration } from "@/entities/admin/inquiry/model/useGetReqRegistration";
+import { useState } from "react";
+import { AdminManageModal } from "@/features/admin/user/ui";
 
 const { Sider } = Layout;
 
 export function AdminSidebar({ collapsed }: { collapsed: boolean }) {
   const pathname = usePathname();
+  const [modalOpen, setModalOpen] = useState(false)
 
   const { data: adminNoti = [] } = useGetAdminInquiryNoti()
   const unReadCount = adminNoti.length
@@ -39,7 +42,7 @@ export function AdminSidebar({ collapsed }: { collapsed: boolean }) {
         </Link>
       )
     },
-    { key: '/admin/users', icon: <UserOutlined />, label: <Link href="/admin/user-manage">회원 관리</Link> },
+    { key: '/admin/user-manage', icon: <UserOutlined />, label: <Link href="/admin/user-manage">회원 관리</Link> },
     // TODO 추후에 추가 해보기
     // { key: '/admin/coupons', icon: <GiftOutlined />, label: <Link href="/admin/coupons">쿠폰 관리</Link> },
     {
@@ -54,39 +57,52 @@ export function AdminSidebar({ collapsed }: { collapsed: boolean }) {
         </Link>
       )
     },
+    {
+      key: '/admin/admin-manage',
+      icon: <SafetyCertificateOutlined />,
+      label: '관리자 추가',
+      onClick: () => setModalOpen(true)
+    },
   ];
 
 
 
   return (
-    <Sider
-      trigger={null}
-      collapsible
-      collapsed={collapsed}
-      theme="light"
-      width={240}
-      style={{
-        overflow: 'auto',
-        height: '100vh',
-        position: 'fixed',
-        left: 0,
-        top: 0,
-        bottom: 0,
-        zIndex: 100,
-        borderRight: '1px solid #f0f0f0'
-      }}
-    >
-      <div className="h-16 flex items-center justify-center">
-        <span className="text-orange-500 font-black text-xl">
-          {collapsed ? 'M' : 'MungPass'}
-        </span>
-      </div>
-      <Menu
-        mode="inline"
-        selectedKeys={[pathname]}
-        items={menuItems}
-        style={{ borderRight: 0 }}
+    <>
+      <Sider
+        trigger={null}
+        collapsible
+        collapsed={collapsed}
+        theme="light"
+        width={240}
+        style={{
+          overflow: 'auto',
+          height: '100vh',
+          position: 'fixed',
+          left: 0,
+          top: 0,
+          bottom: 0,
+          zIndex: 100,
+          borderRight: '1px solid #f0f0f0'
+        }}
+      >
+        <div className="h-16 flex items-center justify-center">
+          <span className="text-orange-500 font-black text-xl">
+            {collapsed ? 'M' : 'MungPass'}
+          </span>
+        </div>
+        <Menu
+          mode="inline"
+          selectedKeys={[pathname]}
+          items={menuItems}
+          style={{ borderRight: 0 }}
+        />
+      </Sider>
+
+      <AdminManageModal
+        open={modalOpen}
+        onClose={() => setModalOpen(false)}
       />
-    </Sider>
+    </>
   );
 };
