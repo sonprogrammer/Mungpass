@@ -27,19 +27,26 @@ export async function POST(req: NextRequest) {
         const { data: existingInsight } = await supabase.from('store_ai_insight').select('*').eq('shop_id', shopId).eq('created_at', today).single()
 
         // * 유료 회원인지 아닌지 확인
-        const { data: shopInfo } = await supabase.from('shops').select('is_member').eq('id', shopId).single()
+        const { data: shopInfo } = await supabase.from('shops').select('is_member').eq('id', shopId).eq('owner_id', user.id).single()
+
+
 
         // *무료이고 이미 리포트를 받았다면 ai호출안해야함
         if (!shopInfo?.is_member && existingInsight) {
             return NextResponse.json({ insight: existingInsight.content }, { status: 200 })
         }
 
+        const now = new Date()
+        const currentYear = now.getFullYear()
 
+        const currentMonth = now.getMonth() + 1
+        
         const model = geminiAi.getGenerativeModel({ model: 'gemini-3-flash-preview' })
 
         const prompt = `
             너는 애견 카페/유치원 전문 경영 분석가야.
-            아래의 이번 달 통계 데이터를 보고 사장님에게 보내는 분석 인사이트를 작성해줘.
+            현재 기준 연월은 ${currentYear}년 ${currentMonth}월입니다.
+            아래의 이번 달과 지난달 통계 데이터를 보고 사장님에게 보내는 분석 인사이트를 작성해줘.
 
             [데이터]
             - 이번 달 총 매출 : ${statsData.total_sales.toLocaleString()}원
@@ -55,7 +62,8 @@ export async function POST(req: NextRequest) {
             1. 사장님이 읽기 편하게 친절하고 전문적인 말투로 작성해.
             2. 딱 2~3문장으로 아줄 짧고 강렬하게 요약해.
             3. 데이터에 기반해서 구체적인 성과난 주의점을 언급해줘
-            4. 대한민국 공휴일, 주말은 너가 알아서 데이터랑 맞춰서 분석해줘
+            4. 제공된 날짜를 기준으로 주말 여부를 고려해 분석해.
+            5. 데이터에 없는 사실은 추측하지 마.
         `
 
         const result = await model.generateContent(prompt)
