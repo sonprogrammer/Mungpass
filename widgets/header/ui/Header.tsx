@@ -16,13 +16,14 @@ export default function Header() {
   const userId = profile?.id
 
   useRealTimeNotification({ userId })
-  useInquiryRealTimeNoti({ userId: userId as string, isAdmin: false})
+  useInquiryRealTimeNoti({ userId: userId ?? '', isAdmin: false})
 
 
   const notifications = useNotificationStore((state) => state.notifications)
   // * 1대1알림
     const { data: inquiryNoti} = useGetInquiryUserNoti(userId ?? '')
   const hasUnread = notifications.some(n => !n.is_read) || inquiryNoti?.some(n => !n.is_read)
+
 
   return (
     <>

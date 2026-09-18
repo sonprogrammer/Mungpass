@@ -25,27 +25,54 @@ export function useInquiryRealTimeNoti({ userId, isAdmin = false }: useInquiryRe
         const channelName = isAdmin ? `inquiry-admin-noti` : `inqury-user-${userId}`
 
         const matchFilter = isAdmin ? undefined : `user_id=eq.${userId}`
+        const channel = supabase
+            .channel(channelName)
+            .on(
+                'postgres_changes',
+                {
+                    event: 'INSERT',
+                    schema: 'public',
+                    table: 'inquiry_notifications',
+                    ...(isAdmin ? {} : { filter: `user_id=eq.${userId}` }),
+                },
+                (payload) => {
 
-        const channel = supabase.channel(channelName).on('postgres_changes', {
-            event: 'INSERT',
-            schema: 'public',
-            table: 'inquiry_notifications',
-            filter: matchFilter
-        }, () => {
-            if (isAdmin) {
-                queryClient.invalidateQueries({
-                    queryKey: ['inquiry-noti-admin']
-                })
-            } else {
-                queryClient.invalidateQueries({
-                    queryKey: ['inquiry-noti', userId]
-                })
-            }
-        })
-            .subscribe()
+                    if (isAdmin) {
+                        queryClient.invalidateQueries({
+                            queryKey: ['inquiry-noti-admin'],
+                        })
+                    }
+
+                    queryClient.invalidateQueries({
+                        queryKey: ['inquiry-user-noti', userId],
+                    })
+                }
+
+            )
+            .subscribe((status, error) => {
+                console.log('🔥 realtime status:', status)
+                console.log('🔥 realtime error:', error)
+            })
+        // const channel = supabase.channel(channelName).on('postgres_changes', {
+        //     event: 'INSERT',
+        //     schema: 'public',
+        //     table: 'inquiry_notifications',
+        //     filter: matchFilter
+        // }, () => {
+        //     if (isAdmin) {
+        //         queryClient.invalidateQueries({
+        //             queryKey: ['inquiry-noti-admin']
+        //         })
+        //     } else {
+        //         queryClient.invalidateQueries({
+        //             queryKey: ['inquiry-noti', userId]
+        //         })
+        //     }
+        // })
+        //     .subscribe()
 
         return () => {
             supabase.removeChannel(channel)
         }
-    }, [userId, isAdmin, queryClient])
+    }, [userId, isAdmin, queryClient, supabase])
 }

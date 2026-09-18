@@ -14,6 +14,8 @@ import { useGetAdminInquiryNoti } from "@/entities/admin/inquiry/model/useGetAmi
 import { useGetReqRegistration } from "@/entities/admin/inquiry/model/useGetReqRegistration";
 import { useState } from "react";
 import { AdminManageModal } from "@/features/admin/user/ui";
+import { useInquiryRealTimeNoti } from "@/entities/inquiry/model";
+
 
 const { Sider } = Layout;
 
@@ -26,7 +28,7 @@ export function AdminSidebar({ collapsed }: { collapsed: boolean }) {
 
   const { data: regiCount } = useGetReqRegistration()
 
-
+  useInquiryRealTimeNoti({userId:'', isAdmin: true})
 
   const menuItems = [
     { key: '/admin', icon: <DashboardOutlined />, label: <Link href="/admin">대시보드</Link> },

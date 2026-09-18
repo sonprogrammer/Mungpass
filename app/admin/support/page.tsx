@@ -1,18 +1,7 @@
 'use client'
 
 import { useState, useEffect, useRef } from "react";
-import {
-    Table,
-    Tag,
-    Card,
-    Form,
-    Row,
-    Col,
-    Empty,
-    Typography,
-    Avatar,
-    App
-} from "antd";
+import { Table, Tag, Card, Form, Row, Col, Empty, Typography, Avatar, App } from "antd";
 
 import { useTable } from "@refinedev/antd";
 import { HttpError } from "@refinedev/core";
@@ -98,13 +87,13 @@ export default function AdminInquiryChatPage() {
 
     useEffect(() => {
         const messageRef = messageEndRef.current
-        if(!messageRef) return
+        if (!messageRef) return
 
         messageRef.scrollTo({
             top: messageRef.scrollHeight,
             behavior: 'smooth'
         })
-        
+
     }, [messages, selectedRoom?.id])
 
     // * 유저 아이콘 클릭
@@ -240,6 +229,11 @@ export default function AdminInquiryChatPage() {
                                     dataIndex="category"
                                     title="문의 주제"
                                     ellipsis
+                                    render={(category: InquiryCategory) => (
+                                        <span className="text-sm text-gray-700">
+                                            {CATEGORY_LABELS[category] ?? '기타 문의'}
+                                        </span>
+                                    )}
                                 />
                                 <Table.Column
                                     dataIndex="status"

@@ -5,7 +5,7 @@ import { supabaseServer } from "@/shared/api/supabase/server";
 // ! 유저가 받는 알림
 export const getInquiryUserNoti = async(userId: string) => {
     try {
-        
+        console.log('🔥 알림 REST 재조회 실행')
         const supabase = await supabaseServer()
         
         const {data, error} = await supabase.from('inquiry_notifications').select('*').eq('user_id', userId)
@@ -14,6 +14,8 @@ export const getInquiryUserNoti = async(userId: string) => {
         if(error){
             throw error
         }
+
+        console.log('🔥 알림 REST 결과:', data)
         return {success: true, data}
     } catch (error) {
         console.error('일반유저, 사장유저의 알림 가져오기 실패 api', error)

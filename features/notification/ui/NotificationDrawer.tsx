@@ -1,8 +1,10 @@
 'use client';
 
 import { useGetInquiryUserNoti } from '@/entities/inquiry/model';
-import { deleteAllInquiryNoti, readAllNotifications, readInquiryNoti, readNotification } from '@/features/notification/api';
+import { deleteAllInquiryNoti, readAllNotifications, readNotification } from '@/features/notification/api';
 import { useDeleteAllNotifications, useDeleteInquiryNoti, useDeleteNotification, useNotificationStore } from '@/features/notification/model';
+import { useReadAllInquiryNoti } from '@/features/notification/model/useReadAllInquiryNoti';
+import { useReadInquiryNoti } from '@/features/notification/model/useReadInquiryNoti';
 import { formatTime } from '@/shared/utils';
 import { App } from 'antd';
 import { X, Clock, Calendar, Info, Trash2 } from 'lucide-react';
@@ -21,7 +23,7 @@ interface UnifiedNotification {
   type: 'checkin' | 'checkout' | 'info' | 'inquiry_new_req' | 'inquiry_res';
   title: string;
   message: string;
-  time: string;       
+
   is_read: boolean;
   created_at: string;
 }
@@ -40,22 +42,30 @@ export function NotificationDrawer({ isOpen, onClose, userId, shopId }: Notifica
   // * 1대1알림 삭제
   const {mutate: deleteInquiryNoti} = useDeleteInquiryNoti(userId)
 
+  const { mutate: readInquiry} = useReadInquiryNoti(userId)
+  const {mutate: readAllInquiry} = useReadAllInquiryNoti(userId)
 
   const { message, modal } = App.useApp()
 
   const AllNotifications: UnifiedNotification[] = [
-    ...notifications.map(n => ({ ...n,origin: 'check' as const})),
-    ...unreadInquiryNoti.map(n => ({
-      id: n.id,
-      origin: 'inquiry' as const,
-      type: n.type,
-      title: n.title,
-      message: n.message,
-      time: formatTime(n.created_at),
-      is_read: n.is_read,
-      created_at: n.created_at
-    }))
-  ].sort((a, b) => b.created_at.localeCompare(a.created_at)) as UnifiedNotification[]
+  ...notifications.map(n => ({
+    ...n,
+    origin: 'check' as const,
+  })),
+
+  ...data.map(n => ({
+    id: n.id,
+    origin: 'inquiry' as const,
+    type: n.type,
+    title: n.title,
+    message: n.message,
+    time: formatTime(n.created_at),
+    is_read: n.is_read,
+    created_at: n.created_at,
+  })),
+].sort(
+  (a, b) => b.created_at.localeCompare(a.created_at)
+)
 
   //* 안읽은 알림수
   const totalUnreadCount = notifications.filter(n => !n.is_read).length +
@@ -110,7 +120,7 @@ export function NotificationDrawer({ isOpen, onClose, userId, shopId }: Notifica
 
     try {
       await readAllNotifications(targetId)
-      
+      readAllInquiry()
       markAllAsRead()
     } catch (error) {
       console.error('전체 읽음 처리 실패', error)
@@ -129,7 +139,7 @@ export function NotificationDrawer({ isOpen, onClose, userId, shopId }: Notifica
           await readNotification(noti.id)
         }else{
           //TODO 여기서는 해당 채팅방이 열려야하는데 동시에 채팅방이 열리면 해당 roomId로 된 알림내역은 is_read: true가되어서 알림창에는 안보여야하고
-          await readInquiryNoti(noti.id)
+          await readInquiry(noti.id)
         }
       }
     } catch (error) {
@@ -228,10 +238,10 @@ export function NotificationDrawer({ isOpen, onClose, userId, shopId }: Notifica
                 모든 알림 읽음 처리
               </button>
 
-              {notifications.length > 0 && (
+              {AllNotifications.length > 0 && (
                 <button
                   onClick={handleAllDeleteNoti}
-                  disabled={notifications.length === 0}
+                  disabled={AllNotifications.length === 0}
                   className="flex items-center justify-center cursor-pointer gap-2 w-full py-3 text-[11px] font-bold text-slate-400 hover:text-red-400 transition-colors disabled:opacity-0"
                 >
                   <Trash2 className="w-3.5 h-3.5" />
