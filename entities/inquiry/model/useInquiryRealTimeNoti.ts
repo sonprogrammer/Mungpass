@@ -22,54 +22,41 @@ export function useInquiryRealTimeNoti({ userId, isAdmin = false }: useInquiryRe
         // TODO 채널명 룸아이디로 바꾸기
 
 
-        const channelName = isAdmin ? `inquiry-admin-noti` : `inqury-user-${userId}`
+        const channelName = isAdmin ? 'inquiry-admin-noti' : `inquiry-user-${userId}`
 
-        const matchFilter = isAdmin ? undefined : `user_id=eq.${userId}`
+        const config = isAdmin ? {
+            event: 'INSERT' as const,
+            schema: 'public',
+            table: 'inquiry_notifications',
+        }
+            : {
+                event: 'INSERT' as const,
+                schema: 'public',
+                table: 'inquiry_notifications',
+                filter: `user_id=eq.${userId}`,
+            }
+
         const channel = supabase
             .channel(channelName)
             .on(
                 'postgres_changes',
-                {
-                    event: 'INSERT',
-                    schema: 'public',
-                    table: 'inquiry_notifications',
-                    ...(isAdmin ? {} : { filter: `user_id=eq.${userId}` }),
-                },
-                (payload) => {
-
+                config,
+                () => {
                     if (isAdmin) {
                         queryClient.invalidateQueries({
                             queryKey: ['inquiry-noti-admin'],
                         })
+                    } else {
+                        queryClient.invalidateQueries({
+                            queryKey: ['inquiry-user-noti', userId],
+                        })
                     }
-
-                    queryClient.invalidateQueries({
-                        queryKey: ['inquiry-user-noti', userId],
-                    })
                 }
-
             )
             .subscribe((status, error) => {
-                console.log('🔥 realtime status:', status)
-                console.log('🔥 realtime error:', error)
+                console.log('🔥 inquiry realtime:', status, error)
             })
-        // const channel = supabase.channel(channelName).on('postgres_changes', {
-        //     event: 'INSERT',
-        //     schema: 'public',
-        //     table: 'inquiry_notifications',
-        //     filter: matchFilter
-        // }, () => {
-        //     if (isAdmin) {
-        //         queryClient.invalidateQueries({
-        //             queryKey: ['inquiry-noti-admin']
-        //         })
-        //     } else {
-        //         queryClient.invalidateQueries({
-        //             queryKey: ['inquiry-noti', userId]
-        //         })
-        //     }
-        // })
-        //     .subscribe()
+
 
         return () => {
             supabase.removeChannel(channel)
