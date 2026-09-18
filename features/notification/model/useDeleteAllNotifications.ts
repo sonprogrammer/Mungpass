@@ -12,7 +12,7 @@ export function useDeleteAllNotifications() {
         mutationFn: deleteAllNotifications,
         onSuccess: () => {
             clearAllNotifications()
-            message.success('모든 알림 삭제 성공')
+
         },
         onError: () => {
             message.error('알림 삭제 중 에러 발생')

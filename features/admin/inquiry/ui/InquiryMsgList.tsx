@@ -27,7 +27,7 @@ export function InquiryMsgList({ messages, selectedRoom, messageEndRef, onUserCl
     
     return (
         <div className="flex flex-col h-112 bg-gray-50/50 rounded-2xl border border-gray-100 overflow-hidden">
-            <div className="flex-1 overflow-y-auto p-4 space-y-4">
+            <div className="flex-1 overflow-y-auto p-4 space-y-4" ref={messageEndRef}>
                 {messages.map((msg, i) => {
                     const prevMsg = messages[i - 1]
 
@@ -79,7 +79,6 @@ export function InquiryMsgList({ messages, selectedRoom, messageEndRef, onUserCl
                         </div>
                     );
                 })}
-                <div ref={messageEndRef} />
             </div>
         </div>
     )

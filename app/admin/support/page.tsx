@@ -88,7 +88,7 @@ export default function AdminInquiryChatPage() {
         },
         pagination: {
             mode: "client",
-            pageSize: 12,
+            pageSize: 5,
         },
     })
 
@@ -97,9 +97,14 @@ export default function AdminInquiryChatPage() {
     useInquiryRealtime(selectedRoom?.id ?? '')
 
     useEffect(() => {
-        messageEndRef.current?.scrollIntoView({
-            behavior: "smooth",
+        const messageRef = messageEndRef.current
+        if(!messageRef) return
+
+        messageRef.scrollTo({
+            top: messageRef.scrollHeight,
+            behavior: 'smooth'
         })
+        
     }, [messages, selectedRoom?.id])
 
     // * 유저 아이콘 클릭
