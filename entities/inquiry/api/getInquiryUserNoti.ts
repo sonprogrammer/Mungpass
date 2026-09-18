@@ -15,7 +15,6 @@ export const getInquiryUserNoti = async(userId: string) => {
             throw error
         }
 
-        console.log('🔥 알림 REST 결과:', data)
         return {success: true, data}
     } catch (error) {
         console.error('일반유저, 사장유저의 알림 가져오기 실패 api', error)

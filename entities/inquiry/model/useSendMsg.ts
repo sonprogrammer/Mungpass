@@ -15,14 +15,8 @@ export function useSendMsg() {
             return res.data
         }
         ,
-        onSuccess: (_, variables) => {
-
+        onSuccess: () => {
             queryClient.invalidateQueries({ queryKey: ['inquiry-list'] })
-            if (variables.senderType === 'owner' || variables.senderType === 'user') {
-                queryClient.invalidateQueries({ queryKey: ['inquriy-admin-noti'] })
-            } else if (variables.senderType === 'admin') {
-                queryClient.invalidateQueries({ queryKey: ['inquiry-admin-noti'] })
-            }
         },
         onError: (error) => {
             console.error(error)
