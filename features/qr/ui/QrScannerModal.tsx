@@ -17,7 +17,7 @@ export function QrScannerModal({ onClose, onScanSuccess }: {
 
   const { message } = App.useApp()
 
-   useEffect(() => {
+  useEffect(() => {
     onCloseRef.current = onClose
     onScanSuccessRef.current = onScanSuccess
   }, [onClose, onScanSuccess])
@@ -40,28 +40,32 @@ export function QrScannerModal({ onClose, onScanSuccess }: {
 
         console.log('사용 가능한 카메라:', cameras)
 
-        const preferredCamera = cameras.find(camera => {
-          const label = camera.label.toLowerCase()
+        const preferredCamera =
+          cameras.find(camera => camera.label === '후면 카메라') ??
+          cameras.find(camera => {
+            const label = camera.label.toLowerCase()
 
-          const isBackCamera =
-            label.includes('후면') ||
-            label.includes('back') ||
-            label.includes('rear')
+            const isBackCamera =
+              label.includes('후면') ||
+              label.includes('back') ||
+              label.includes('rear')
 
-          const isExcludedCamera =
-            label.includes('울트라') ||
-            label.includes('ultra') ||
-            label.includes('망원') ||
-            label.includes('telephoto')
+            const isExcludedCamera =
+              label.includes('울트라') ||
+              label.includes('ultra') ||
+              label.includes('망원') ||
+              label.includes('telephoto') ||
+              label.includes('트리플') ||
+              label.includes('triple')
 
-          return isBackCamera && !isExcludedCamera
-        })
+            return isBackCamera && !isExcludedCamera
+          })
 
         const cameraConfig = preferredCamera
           ? preferredCamera.id
           : { facingMode: 'environment' }
 
-        console.log('선택된 카메라:', preferredCamera ?? 'environment fallback')
+        console.log('선택된 카메라:', preferredCamera)
 
         if (cancelled || html5QrCode.isScanning) return
 
@@ -94,7 +98,7 @@ export function QrScannerModal({ onClose, onScanSuccess }: {
             }
 
             try {
-               if (html5QrCode.isScanning) {
+              if (html5QrCode.isScanning) {
                 await html5QrCode.stop()
               }
 
