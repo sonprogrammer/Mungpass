@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useEffect, useRef } from 'react';
-import { Html5Qrcode } from 'html5-qrcode';
+import { BrowserQRCodeReader, IScannerControls } from '@zxing/browser';
 import { X, Camera } from 'lucide-react';
 import { App } from 'antd';
 
@@ -12,7 +12,8 @@ export function QrScannerModal({
   onClose: () => void
   onScanSuccess: (data: string) => void
 }) {
-  const scannerRef = useRef<Html5Qrcode | null>(null)
+  const videoRef = useRef<HTMLVideoElement | null>(null)
+  const controlsRef = useRef<IScannerControls | null>(null)
   const isProcessing = useRef(false)
   const onCloseRef = useRef(onClose)
   const onScanSuccessRef = useRef(onScanSuccess)
@@ -25,21 +26,31 @@ export function QrScannerModal({
   }, [onClose, onScanSuccess])
 
   useEffect(() => {
-    const html5QrCode = new Html5Qrcode('reader')
-    scannerRef.current = html5QrCode
+    const video = videoRef.current
 
+    if (!video) return
+
+    const codeReader = new BrowserQRCodeReader()
     let cancelled = false
 
     const startScanner = async () => {
       try {
-        const cameras = await Html5Qrcode.getCameras()
+        const devices = await BrowserQRCodeReader.listVideoInputDevices()
 
         if (cancelled) return
 
-        const preferredCamera =
-          cameras.find(camera => camera.label === '후면 카메라') ??
-          cameras.find(camera => {
-            const label = camera.label.toLowerCase()
+        const backCamera =
+          devices.find(device => {
+            const label = device.label.toLowerCase()
+
+            return (
+              label.includes('후면 카메라') ||
+              label.includes('back camera') ||
+              label.includes('rear camera')
+            )
+          }) ??
+          devices.find(device => {
+            const label = device.label.toLowerCase()
 
             const isBackCamera =
               label.includes('후면') ||
@@ -47,50 +58,40 @@ export function QrScannerModal({
               label.includes('rear')
 
             const isExcludedCamera =
-              label.includes('울트라') ||
               label.includes('ultra') ||
-              label.includes('망원') ||
+              label.includes('울트라') ||
               label.includes('telephoto') ||
-              label.includes('트리플') ||
-              label.includes('triple')
+              label.includes('망원')
 
             return isBackCamera && !isExcludedCamera
           })
 
-        const cameraConfig = preferredCamera
-          ? preferredCamera.id
-          : { facingMode: 'environment' }
+        if (cancelled) return
 
-        if (cancelled || html5QrCode.isScanning) return
-
-        await html5QrCode.start(
-          cameraConfig,
-          {
-            fps: 10,
-            aspectRatio: 4 / 3
-          },
-          async decodedText => {
-            if (isProcessing.current) return
+        const controls = await codeReader.decodeFromVideoDevice(
+          backCamera?.deviceId,
+          video,
+          (result, error, controls) => {
+            if (!result || isProcessing.current) return
 
             isProcessing.current = true
+            controlsRef.current = controls
 
             if (navigator.vibrate) {
               navigator.vibrate(100)
             }
 
-            try {
-              if (html5QrCode.isScanning) {
-                await html5QrCode.stop()
-              }
-
-              onScanSuccessRef.current(decodedText)
-            } catch (err) {
-              console.warn('스캐너 중지 에러:', err)
-              onScanSuccessRef.current(decodedText)
-            }
-          },
-          () => {}
+            controls.stop()
+            onScanSuccessRef.current(result.getText())
+          }
         )
+
+        if (cancelled) {
+          controls.stop()
+          return
+        }
+
+        controlsRef.current = controls
       } catch (err) {
         if (cancelled) return
 
@@ -98,9 +99,11 @@ export function QrScannerModal({
 
         if (
           err instanceof Error &&
-          (err.name === 'NotAllowedError' || err.name === 'NotFoundError')
+          (err.name === 'NotAllowedError' ||
+            err.name === 'NotFoundError' ||
+            err.name === 'NotReadableError')
         ) {
-          message.error('카메라 권한이 없거나 카메라를 찾을 수 없습니다.')
+          message.error('카메라 권한이 없거나 카메라를 사용할 수 없습니다.')
           onCloseRef.current()
         }
       }
@@ -111,21 +114,13 @@ export function QrScannerModal({
     return () => {
       cancelled = true
       isProcessing.current = false
+      controlsRef.current?.stop()
+      controlsRef.current = null
 
-      if (html5QrCode.isScanning) {
-        html5QrCode
-          .stop()
-          .then(() => {
-            html5QrCode.clear()
-          })
-          .catch(err => {
-            console.warn('Cleanup stop ignored:', err)
-          })
-      } else {
-        html5QrCode.clear()
+      if (video.srcObject instanceof MediaStream) {
+        video.srcObject.getTracks().forEach(track => track.stop())
+        video.srcObject = null
       }
-
-      scannerRef.current = null
     }
   }, [message])
 
@@ -140,15 +135,20 @@ export function QrScannerModal({
 
       <div className="absolute top-20 text-center z-1001 pointer-events-none">
         <Camera className="w-8 h-8 text-blue-500 mx-auto mb-2" />
-        <h3 className="text-white font-bold text-lg">QR 코드 스캔</h3>
+        <h3 className="text-white font-bold text-lg">
+          QR 코드 스캔
+        </h3>
         <p className="text-white/60 text-sm mt-1 px-6">
           QR 코드가 화면 중앙에 보이도록 맞춰주세요
         </p>
       </div>
 
-      <div
-        id="reader"
-        className="w-full h-full [&>video]:w-full [&>video]:h-full [&>video]:object-cover"
+      <video
+        ref={videoRef}
+        autoPlay
+        playsInline
+        muted
+        className="w-full h-full object-cover"
       />
 
       <div className="absolute inset-0 pointer-events-none flex items-center justify-center z-1001">
