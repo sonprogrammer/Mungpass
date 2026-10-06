@@ -26,27 +26,57 @@ export function QrScannerModal({ onClose, onScanSuccess }: {
     const startScanner = async () => {
       try {
         const cameras = await Html5Qrcode.getCameras()
-        console.log("사용 가능한 카메라:", cameras)
+
+        console.log('사용 가능한 카메라:', cameras)
+
+        const preferredCamera = cameras.find(camera => {
+          const label = camera.label.toLowerCase()
+
+          const isBackCamera =
+            label.includes('후면') ||
+            label.includes('back') ||
+            label.includes('rear')
+
+          const isExcludedCamera =
+            label.includes('울트라') ||
+            label.includes('ultra') ||
+            label.includes('망원') ||
+            label.includes('telephoto')
+
+          return isBackCamera && !isExcludedCamera
+        })
+
+        const cameraConfig = preferredCamera
+          ? preferredCamera.id
+          : { facingMode: 'environment' }
+
+        console.log('선택된 카메라:', preferredCamera ?? 'environment fallback')
 
         if (html5QrCode.isScanning) return
 
         await html5QrCode.start(
-          { facingMode: "environment" },
+          cameraConfig,
           {
             fps: 10,
             qrbox: (viewWidth, viewHeight) => {
-              const minEdge = Math.min(viewWidth, viewHeight)
+              const size = Math.min(256, viewWidth * 0.8, viewHeight * 0.8)
+
               return {
-                width: minEdge * 0.7,
-                height: minEdge * 0.7
+                width: size,
+                height: size
               }
             }
           },
           async decodedText => {
-            console.log("QR 인식 성공:", decodedText)
-
             if (isProcessing.current) return
+
             isProcessing.current = true
+
+            console.log('QR 인식 성공:', decodedText)
+
+            if (typeof window !== 'undefined' && navigator.vibrate) {
+              navigator.vibrate(100)
+            }
 
             try {
               if (scannerRef.current?.isScanning) {
@@ -55,24 +85,26 @@ export function QrScannerModal({ onClose, onScanSuccess }: {
 
               onScanSuccess(decodedText)
             } catch (stopErr) {
-              console.warn("스캐너 중지 에러:", stopErr)
+              console.warn('스캐너 중지 시도 중 무시된 에러:', stopErr)
               onScanSuccess(decodedText)
             }
           },
           errorMessage => {
-            console.log("QR 인식 시도 실패:", errorMessage)
+            console.log('QR 인식 시도 실패:', errorMessage)
           }
         )
       } catch (err) {
-        console.error("카메라 시작 에러:", err)
+        console.error('카메라 시작 에러:', err)
 
-
-        if (err instanceof Error && (err.name === 'NotAllowedError' || err.name === 'NotFoundError')) {
-          message.error("카메라 권한이 없거나 카메라를 찾을 수 없습니다.");
-          onClose();
+        if (
+          err instanceof Error &&
+          (err.name === 'NotAllowedError' || err.name === 'NotFoundError')
+        ) {
+          message.error('카메라 권한이 없거나 카메라를 찾을 수 없습니다.')
+          onClose()
         }
       }
-    };
+    }
 
     startScanner()
 
