@@ -93,7 +93,7 @@ export function QrCheckIn({dogs, isDogsPending}: {dogs: Dog[], isDogsPending: bo
             )}
 
             {step === 'SUCCESS' && (
-                <div className="fixed h-screen inset-0 z-2000 flex items-center justify-center p-6 animate-in fade-in zoom-in duration-300">
+                <div className="fixed h-full inset-0 z-2000 flex items-center justify-center p-6 animate-in fade-in zoom-in duration-300">
                     <div className="absolute inset-0 backdrop-blur-xl" />
                     <div className="relative bg-white rounded-[3rem] p-10 w-full max-w-xs text-center shadow-2xl border-4 border-orange-100">
                         <div className="w-24 h-24 bg-orange-50 rounded-full flex items-center justify-center mx-auto mb-6 relative">

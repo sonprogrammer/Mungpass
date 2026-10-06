@@ -5,12 +5,14 @@ import { Html5Qrcode } from 'html5-qrcode';
 import { X, Camera } from 'lucide-react';
 import { App } from 'antd';
 
-export function QrScannerModal({ onClose, onScanSuccess }: {
-  onClose: () => void,
+export function QrScannerModal({
+  onClose,
+  onScanSuccess
+}: {
+  onClose: () => void
   onScanSuccess: (data: string) => void
 }) {
   const scannerRef = useRef<Html5Qrcode | null>(null)
-  const isInitialized = useRef(false)
   const isProcessing = useRef(false)
   const onCloseRef = useRef(onClose)
   const onScanSuccessRef = useRef(onScanSuccess)
@@ -23,22 +25,16 @@ export function QrScannerModal({ onClose, onScanSuccess }: {
   }, [onClose, onScanSuccess])
 
   useEffect(() => {
-    if (isInitialized.current) return;
-
-    const scannerId = "reader"
-    const html5QrCode = new Html5Qrcode(scannerId)
+    const html5QrCode = new Html5Qrcode('reader')
     scannerRef.current = html5QrCode
 
     let cancelled = false
-    // isInitialized.current = true
 
     const startScanner = async () => {
       try {
         const cameras = await Html5Qrcode.getCameras()
 
         if (cancelled) return
-
-        console.log('사용 가능한 카메라:', cameras)
 
         const preferredCamera =
           cameras.find(camera => camera.label === '후면 카메라') ??
@@ -65,35 +61,20 @@ export function QrScannerModal({ onClose, onScanSuccess }: {
           ? preferredCamera.id
           : { facingMode: 'environment' }
 
-        console.log('선택된 카메라:', preferredCamera)
-
         if (cancelled || html5QrCode.isScanning) return
 
         await html5QrCode.start(
           cameraConfig,
           {
             fps: 10,
-            qrbox: (viewWidth, viewHeight) => {
-              const size = Math.min(256, viewWidth * 0.8, viewHeight * 0.8)
-
-              return {
-                width: size,
-                height: size
-              }
-            }
+            aspectRatio: 4 / 3
           },
           async decodedText => {
             if (isProcessing.current) return
 
             isProcessing.current = true
 
-            console.log('QR 인식 성공:', decodedText)
-
             if (navigator.vibrate) {
-              navigator.vibrate(100)
-            }
-
-            if (typeof window !== 'undefined' && navigator.vibrate) {
               navigator.vibrate(100)
             }
 
@@ -108,11 +89,11 @@ export function QrScannerModal({ onClose, onScanSuccess }: {
               onScanSuccessRef.current(decodedText)
             }
           },
-          errorMessage => {
-            console.log('QR 인식 시도 실패:', errorMessage)
-          }
+          () => {}
         )
       } catch (err) {
+        if (cancelled) return
+
         console.error('카메라 시작 에러:', err)
 
         if (
@@ -134,19 +115,22 @@ export function QrScannerModal({ onClose, onScanSuccess }: {
       if (html5QrCode.isScanning) {
         html5QrCode
           .stop()
-          .then(() => html5QrCode.clear())
+          .then(() => {
+            html5QrCode.clear()
+          })
           .catch(err => {
             console.warn('Cleanup stop ignored:', err)
           })
       } else {
         html5QrCode.clear()
       }
+
+      scannerRef.current = null
     }
   }, [message])
 
   return (
     <div className="fixed inset-0 z-1000 h-dvh w-screen bg-black flex flex-col items-center justify-center overflow-hidden">
-
       <button
         onClick={onClose}
         className="absolute top-8 right-8 z-1001 p-3 bg-white/10 rounded-full text-white backdrop-blur-md active:scale-95"
@@ -154,17 +138,19 @@ export function QrScannerModal({ onClose, onScanSuccess }: {
         <X className="w-6 h-6" />
       </button>
 
-      {/* //*가이드 문구 */}
       <div className="absolute top-20 text-center z-1001 pointer-events-none">
         <Camera className="w-8 h-8 text-blue-500 mx-auto mb-2" />
         <h3 className="text-white font-bold text-lg">QR 코드 스캔</h3>
-        <p className="text-white/60 text-sm mt-1 px-6">사각형 안에 QR 코드를 맞춰주세요</p>
+        <p className="text-white/60 text-sm mt-1 px-6">
+          QR 코드가 화면 중앙에 보이도록 맞춰주세요
+        </p>
       </div>
 
-      {/* //*카메라*/}
-      <div id="reader" className="w-full h-full [&>video]:w-full [&>video]:h-full [&>video]:object-cover" />
+      <div
+        id="reader"
+        className="w-full h-full [&>video]:w-full [&>video]:h-full [&>video]:object-cover"
+      />
 
-      {/* //*스캔 가이드 라인 */}
       <div className="absolute inset-0 pointer-events-none flex items-center justify-center z-1001">
         <div className="w-64 h-64 border-2 border-white/20 rounded-3xl relative">
           <div className="absolute -top-1 -left-1 w-6 h-6 border-t-4 border-l-4 border-blue-500 rounded-tl-lg" />
@@ -175,5 +161,5 @@ export function QrScannerModal({ onClose, onScanSuccess }: {
         </div>
       </div>
     </div>
-  );
+  )
 }
