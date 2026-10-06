@@ -12,8 +12,15 @@ export function QrScannerModal({ onClose, onScanSuccess }: {
   const scannerRef = useRef<Html5Qrcode | null>(null)
   const isInitialized = useRef(false)
   const isProcessing = useRef(false)
+  const onCloseRef = useRef(onClose)
+  const onScanSuccessRef = useRef(onScanSuccess)
 
   const { message } = App.useApp()
+
+   useEffect(() => {
+    onCloseRef.current = onClose
+    onScanSuccessRef.current = onScanSuccess
+  }, [onClose, onScanSuccess])
 
   useEffect(() => {
     if (isInitialized.current) return;
@@ -21,11 +28,15 @@ export function QrScannerModal({ onClose, onScanSuccess }: {
     const scannerId = "reader"
     const html5QrCode = new Html5Qrcode(scannerId)
     scannerRef.current = html5QrCode
-    isInitialized.current = true
+
+    let cancelled = false
+    // isInitialized.current = true
 
     const startScanner = async () => {
       try {
         const cameras = await Html5Qrcode.getCameras()
+
+        if (cancelled) return
 
         console.log('사용 가능한 카메라:', cameras)
 
@@ -52,7 +63,7 @@ export function QrScannerModal({ onClose, onScanSuccess }: {
 
         console.log('선택된 카메라:', preferredCamera ?? 'environment fallback')
 
-        if (html5QrCode.isScanning) return
+        if (cancelled || html5QrCode.isScanning) return
 
         await html5QrCode.start(
           cameraConfig,
@@ -74,19 +85,23 @@ export function QrScannerModal({ onClose, onScanSuccess }: {
 
             console.log('QR 인식 성공:', decodedText)
 
+            if (navigator.vibrate) {
+              navigator.vibrate(100)
+            }
+
             if (typeof window !== 'undefined' && navigator.vibrate) {
               navigator.vibrate(100)
             }
 
             try {
-              if (scannerRef.current?.isScanning) {
-                await scannerRef.current.stop()
+               if (html5QrCode.isScanning) {
+                await html5QrCode.stop()
               }
 
-              onScanSuccess(decodedText)
-            } catch (stopErr) {
-              console.warn('스캐너 중지 시도 중 무시된 에러:', stopErr)
-              onScanSuccess(decodedText)
+              onScanSuccessRef.current(decodedText)
+            } catch (err) {
+              console.warn('스캐너 중지 에러:', err)
+              onScanSuccessRef.current(decodedText)
             }
           },
           errorMessage => {
@@ -101,7 +116,7 @@ export function QrScannerModal({ onClose, onScanSuccess }: {
           (err.name === 'NotAllowedError' || err.name === 'NotFoundError')
         ) {
           message.error('카메라 권한이 없거나 카메라를 찾을 수 없습니다.')
-          onClose()
+          onCloseRef.current()
         }
       }
     }
@@ -109,22 +124,21 @@ export function QrScannerModal({ onClose, onScanSuccess }: {
     startScanner()
 
     return () => {
-      isInitialized.current = false;
-      const currentScanner = scannerRef.current;
+      cancelled = true
+      isProcessing.current = false
 
-      if (currentScanner) {
-        if (currentScanner.isScanning) {
-          currentScanner.stop()
-            .then(() => {
-              currentScanner.clear();
-            })
-            .catch((err) => {
-              console.warn("Cleanup stop ignored:", err);
-            });
-        }
+      if (html5QrCode.isScanning) {
+        html5QrCode
+          .stop()
+          .then(() => html5QrCode.clear())
+          .catch(err => {
+            console.warn('Cleanup stop ignored:', err)
+          })
+      } else {
+        html5QrCode.clear()
       }
-    };
-  }, [onScanSuccess, onClose, message])
+    }
+  }, [message])
 
   return (
     <div className="fixed inset-0 z-1000 h-dvh w-screen bg-black flex flex-col items-center justify-center overflow-hidden">
