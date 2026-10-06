@@ -5,91 +5,99 @@ import { Html5Qrcode } from 'html5-qrcode';
 import { X, Camera } from 'lucide-react';
 import { App } from 'antd';
 
-export function QrScannerModal({ onClose, onScanSuccess }: { 
-  onClose: () => void, 
-  onScanSuccess: (data: string) => void 
+export function QrScannerModal({ onClose, onScanSuccess }: {
+  onClose: () => void,
+  onScanSuccess: (data: string) => void
 }) {
   const scannerRef = useRef<Html5Qrcode | null>(null)
   const isInitialized = useRef(false)
   const isProcessing = useRef(false)
 
-  const { message} = App.useApp()
-  
+  const { message } = App.useApp()
+
   useEffect(() => {
-  if (isInitialized.current) return;
-  
-  const scannerId = "reader"
-  const html5QrCode = new Html5Qrcode(scannerId)
-  scannerRef.current = html5QrCode
-  isInitialized.current = true
+    if (isInitialized.current) return;
 
-  const startScanner = async () => {
-    try {
-      if (html5QrCode.isScanning) return;
+    const scannerId = "reader"
+    const html5QrCode = new Html5Qrcode(scannerId)
+    scannerRef.current = html5QrCode
+    isInitialized.current = true
 
-      await html5QrCode.start(
-        { facingMode: "environment" },
-        {
-          fps: 10,
-          qrbox: (viewWidth, viewHeight) => {
-            const minEdge = Math.min(viewWidth, viewHeight);
-            return { width: minEdge * 0.7, height: minEdge * 0.7 };
-          },
-        },
-        async (decodedText) => {
-          if (isProcessing.current) return
-            isProcessing.current = true
-          
-          if (typeof window !== 'undefined' && navigator.vibrate) {
-            navigator.vibrate(100)
-          }
+    const startScanner = async () => {
+      try {
+        const cameras = await Html5Qrcode.getCameras()
+        console.log("사용 가능한 카메라:", cameras)
 
-          try {
-              if (scannerRef.current?.isScanning) {
-                await scannerRef.current.stop();
-                onScanSuccess(decodedText)
+        if (html5QrCode.isScanning) return
+
+        await html5QrCode.start(
+          { facingMode: "environment" },
+          {
+            fps: 10,
+            qrbox: (viewWidth, viewHeight) => {
+              const minEdge = Math.min(viewWidth, viewHeight)
+              return {
+                width: minEdge * 0.7,
+                height: minEdge * 0.7
               }
-            } catch (stopErr) {
-              console.warn("스캐너 중지 시도 중 무시된 에러:", stopErr)
-              onScanSuccess(decodedText)
-            } 
+            }
           },
-          () => {}
-      );
-    } catch (err) {
-      console.error("카메라 시작 에러:", err);
+          async decodedText => {
+            console.log("QR 인식 성공:", decodedText)
 
-      if (err instanceof Error && (err.name === 'NotAllowedError' || err.name === 'NotFoundError')) {
-        message.error("카메라 권한이 없거나 카메라를 찾을 수 없습니다.");
-        onClose();
+            if (isProcessing.current) return
+            isProcessing.current = true
+
+            try {
+              if (scannerRef.current?.isScanning) {
+                await scannerRef.current.stop()
+              }
+
+              onScanSuccess(decodedText)
+            } catch (stopErr) {
+              console.warn("스캐너 중지 에러:", stopErr)
+              onScanSuccess(decodedText)
+            }
+          },
+          errorMessage => {
+            console.log("QR 인식 시도 실패:", errorMessage)
+          }
+        )
+      } catch (err) {
+        console.error("카메라 시작 에러:", err)
+
+
+        if (err instanceof Error && (err.name === 'NotAllowedError' || err.name === 'NotFoundError')) {
+          message.error("카메라 권한이 없거나 카메라를 찾을 수 없습니다.");
+          onClose();
+        }
       }
-    }
-  };
+    };
 
-  startScanner()
+    startScanner()
 
-  return () => {
-    isInitialized.current = false;
-    const currentScanner = scannerRef.current;
-    
-    if (currentScanner) {
-      if (currentScanner.isScanning) {
-        currentScanner.stop()
-          .then(() => {
-            currentScanner.clear();
-          })
-          .catch((err) => {
-            console.warn("Cleanup stop ignored:", err);
-          });
+    return () => {
+      isInitialized.current = false;
+      const currentScanner = scannerRef.current;
+
+      if (currentScanner) {
+        if (currentScanner.isScanning) {
+          currentScanner.stop()
+            .then(() => {
+              currentScanner.clear();
+            })
+            .catch((err) => {
+              console.warn("Cleanup stop ignored:", err);
+            });
+        }
       }
-    }
-  };
-}, [onScanSuccess, onClose, message])
+    };
+  }, [onScanSuccess, onClose, message])
 
   return (
     <div className="fixed inset-0 z-1000 h-dvh w-screen bg-black flex flex-col items-center justify-center overflow-hidden">
-  
-      <button 
+
+      <button
         onClick={onClose}
         className="absolute top-8 right-8 z-1001 p-3 bg-white/10 rounded-full text-white backdrop-blur-md active:scale-95"
       >

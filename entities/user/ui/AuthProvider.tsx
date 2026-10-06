@@ -44,7 +44,7 @@ export function AuthProvider({ children, initialUser }: AuthProviderProps) {
 
         if (!loginTabRole) return true
         if (profile.role !== 'admin' && profile.role !== loginTabRole) {
-            message.error('선택한 회원 유형이 올바르지 않습니다.dfa')
+            message.error('선택한 회원 유형이 올바르지 않습니다.')
             return false
         }
         return true
