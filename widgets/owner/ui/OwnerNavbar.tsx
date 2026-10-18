@@ -46,12 +46,17 @@ export function OwnerNavbar() {
 
     
     const qrValue = useMemo(() => {
+        if(!selectedProduct) return ''
         // * 배포환경, 개발 환경 다르게 
         const origin = typeof window !== 'undefined'
             ? window.location.origin
             : process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000'
-        if(!selectedProduct) return ''
-        return `${origin}/user?modal=checkin&shopId=${shopId}&productId=${selectedProduct.id}` 
+        const url = new URL('/home', origin)
+        url.searchParams.set('modal', 'checkin')
+        url.searchParams.set('shopId', shopId)
+        url.searchParams.set('productId', selectedProduct.id)
+        
+        return url.toString()
     },[shopId, selectedProduct])
 
 

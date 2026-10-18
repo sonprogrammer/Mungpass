@@ -6,52 +6,76 @@ import { QrScannerModal } from "@/features/qr/ui";
 import { DogSelectStep } from "@/features/user-checkin/ui";
 import { App } from "antd";
 import { CheckCircle2, ChevronRight, Clock, PartyPopper, QrCode } from "lucide-react";
+import { useSearchParams } from "next/navigation";
 import { useState } from "react";
 
-export function QrCheckIn({dogs, isDogsPending}: {dogs: Dog[], isDogsPending: boolean}) {
-    const [step, setStep] = useState<'IDLE' | 'SELECT_DOG' | 'SCANNING' | 'SUCCESS'>('IDLE')
+export function QrCheckIn({ dogs, isDogsPending }: { dogs: Dog[], isDogsPending: boolean }) {
+    const params = useSearchParams()
+
+    const shopId = params.get('shopId')
+    const productId = params.get('productId')
+
+    const isExternalCheckIn = params.get('modal') === 'checkin' && Boolean(shopId && productId)
+
+
+    const [step, setStep] = useState<'IDLE' | 'SELECT_DOG' | 'SCANNING' | 'SUCCESS'>(isExternalCheckIn ? 'SELECT_DOG' : 'IDLE')
     const [selectedDog, setSelectedDog] = useState<Dog | null>(null)
 
-    const { mutate: checkIn, isPending: isCheckInPending} = usePostCheckIn()
+    const { mutate: checkIn, isPending: isCheckInPending } = usePostCheckIn()
 
-    const {message} = App.useApp()
+    const { message } = App.useApp()
 
-    
-    // * 이용할 펫 선택
-    const handleDogSelect = (dog: Dog) => {
-        setSelectedDog(dog)
-        setStep('SCANNING')
+    const submitCheckIn = (dog: Dog, targetShopId: string, targetProductId: string) =>{
+        if(isCheckInPending)return
+        checkIn({dogId: dog.id, shopId: targetShopId, productId: targetProductId},{
+            onSuccess: () => {
+                message.success(`${dog.name} 입실 완료`)
+                setStep('SUCCESS')
+                setTimeout(() => {
+
+                }, 3000)
+            },
+            onError: () => {
+                message.error('입실처리 실패, 다시 시도해 주세요')
+                setStep('IDLE')
+            }
+        })
     }
 
-     // //*QR 스캔 성공 시 (입실 로직)
-    const handleScanSuccess = (data: string) => {
-        if(!selectedDog || isCheckInPending) return
+    // * 이용할 펫 선택
+    const handleDogSelect = (dog: Dog) => {
+        if(isCheckInPending) return
+        setSelectedDog(dog)
+        if (isExternalCheckIn && shopId && productId) {
+        submitCheckIn(dog, shopId, productId)
+        }else {
+            setStep('SCANNING')
+        }
+    }
 
-        const url = new URL(data.startsWith('http') ? data : `http://${data}`)
+    // //*QR 스캔 성공 시 (입실 로직)
+    const handleScanSuccess = (data: string) => {
+        if (!selectedDog || isCheckInPending) return
+        let url: URL
+        try {
+            url = new URL(data.startsWith('http') ? data : `http://${data}`)
+        } catch {
+            message.error('잘못된 QR코드 입니다. 다시시도해 주세요')   
+            setStep('IDLE')
+            return
+        }
         const params = new URLSearchParams(url.search)
         const shopId = params.get('shopId')
         const productId = params.get('productId')
 
-        if(!shopId || !productId){
+        if (!shopId || !productId) {
             message.error('잘못된 QR코드입니다. 다시 시도해주세요')
+            setStep('IDLE')
             return
         }
 
-        checkIn({dogId: selectedDog.id, shopId, productId},{
-            onSuccess: () => {
-                message.success(`${selectedDog.name} 입실 완료`)
-                setStep('SUCCESS')
-                setTimeout(() => {
-                    setStep('IDLE')
-                    setSelectedDog(null)
-                }, 3000)
-            },
-            onError: (error) => {
-                message.error(error.message || '입실 처리에 실패했습니다. 다시 시도해주세요')
-                setStep('IDLE')
-            }
-        })
-        
+       submitCheckIn(selectedDog, shopId, productId)
+
     }
 
     const closeModal = () => {
@@ -76,7 +100,7 @@ export function QrCheckIn({dogs, isDogsPending}: {dogs: Dog[], isDogsPending: bo
                 <ChevronRight className="w-6 h-6 text-white/30" />
             </button>
 
-            <DogSelectStep 
+            <DogSelectStep
                 open={step === 'SELECT_DOG'}
                 onClose={closeModal}
                 dogs={dogs}
