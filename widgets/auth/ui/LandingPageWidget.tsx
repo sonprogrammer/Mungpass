@@ -24,7 +24,7 @@ export function LandingPageWidget() {
       if(next){
         try {
           const target = new URL(next, window.location.origin)
-          if(target.origin === window.location.origin && target.pathname === 'home'){
+          if(target.origin === window.location.origin && target.pathname === '/home'){
             destination = `${target.pathname}${target.search}`
           }
         } catch {
