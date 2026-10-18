@@ -1,12 +1,12 @@
 
-import { UserRoleGuard } from "@/features/auth/ui";
+import { requireRole } from "@/features/auth/lib/server/requireRole";
 import { GlobalLiveUsage } from "@/widgets/dog/ui";
 import Header from "@/widgets/header/ui/Header";
 import Navbar from "@/widgets/navbar/ui/Navbar";
 import { App } from "antd";
 
-export default function UserLayout({ children }: { children: React.ReactNode }) {
-
+export default async function UserLayout({ children }: { children: React.ReactNode }) {
+    await requireRole('user')
     return (
         <div className="flex justify-center bg-slate-200 h-dvh">
             <App className="w-full h-full">
@@ -14,9 +14,7 @@ export default function UserLayout({ children }: { children: React.ReactNode }) 
                     <Header />
 
                     <main className={`flex-1 w-full bg-amber-50 overflow-y-auto `}>
-                        <UserRoleGuard>
                             {children}
-                        </UserRoleGuard>
                     </main>
 
                     <div className="absolute bottom-24 left-0 right-0 z-60 px-4 pointer-events-none">

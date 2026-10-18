@@ -1,7 +1,6 @@
 export * from './AuthFormSection'
 export * from './BusinessBizImg'
 export * from './BusinessForm'
-export * from './OwnerRoleGuard'
 export * from './OwnerStoreStatusGuard'
 export * from './RegisterStatus'
 export * from './RegisterStoreCheckCard'

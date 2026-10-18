@@ -1,14 +1,13 @@
-import { AdminRoleGuard } from "@/features/auth/ui/admin";
+
+import { requireRole } from "@/features/auth/lib/server/requireRole";
 import { AdminAppProvider } from "@/shared/ui";
 
 
-export default function AdminLayout({ children }: { children: React.ReactNode }) {
-
+export default async function AdminLayout({ children }: { children: React.ReactNode }) {
+ await requireRole('admin')
   return (
     <AdminAppProvider>
-      <AdminRoleGuard>
         {children}
-      </AdminRoleGuard>
     </AdminAppProvider>
   );
 }

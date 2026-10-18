@@ -110,7 +110,7 @@ export function QrScannerModal({
     }
 
     startScanner()
-
+ 
     return () => {
       cancelled = true
       isProcessing.current = false

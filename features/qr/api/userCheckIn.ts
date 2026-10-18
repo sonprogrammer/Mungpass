@@ -25,7 +25,7 @@ export const userCheckIn = async ({ dogId, shopId, productId }: { dogId: string,
         }
 
         // * 중복 입실 체크
-        const { data: existingLog } = await supabase.from('usage_logs')
+        const { data: existingLog, error: existingLogError } = await supabase.from('usage_logs')
             .select('id')
             .eq('dog_id', dogId)
             .eq('status', 'staying')
@@ -33,6 +33,10 @@ export const userCheckIn = async ({ dogId, shopId, productId }: { dogId: string,
 
         if (existingLog) {
             throw new Error('해당 강아지는 이미 입실중입니다')
+        }
+
+        if(existingLogError){
+            throw new Error('입실 상태를 확인하지 못했습니다. 다시 시도 해주세요')
         }
 
         const now = new Date()
@@ -57,6 +61,9 @@ export const userCheckIn = async ({ dogId, shopId, productId }: { dogId: string,
             .single()
 
         if (checkInInsertError) {
+            if(checkInInsertError.code === '23505' && checkInInsertError.message.includes('usage_logs_one_staying_per_dog')){
+                throw new Error('해당 강아지는 이미 입실중입니다.')
+            }
             console.error('체크인 usagge_logs 인서트 에러', checkInInsertError)
             throw new Error('체크인 정보를 저장하지 못했습니다.')
         }

@@ -1,12 +1,13 @@
-import { OwnerRoleGuard, OwnerStoreStatusGuard } from "@/features/auth/ui/owner";
+import { requireRole } from "@/features/auth/lib/server/requireRole";
+import { OwnerStoreStatusGuard } from "@/features/auth/ui/owner";
 import { AntdAppProvider } from "@/shared/ui";
 import { OwnerHeader } from "@/widgets/header/ui";
 import { OwnerNavbar } from "@/widgets/owner/ui";
 
 
 
-export default function OwnerLayout({ children }: { children: React.ReactNode }) {
-
+export default async function OwnerLayout({ children }: { children: React.ReactNode }) {
+ await requireRole('owner')
   return (
     <AntdAppProvider>
 
@@ -17,13 +18,10 @@ export default function OwnerLayout({ children }: { children: React.ReactNode })
 
           <main className={`flex-1 bg-stone-50 overflow-y-auto scrollbar-none`}>
             <div className='h-full'>
-              {/* //* 1차가드 사장님 권환인지 확인 */}
-              <OwnerRoleGuard>
                 {/* //* 1차가드 매장 심사상태별 라우팅 처리 */}
                 <OwnerStoreStatusGuard>
                   {children}
                 </OwnerStoreStatusGuard>
-              </OwnerRoleGuard>
             </div>
           </main>
 

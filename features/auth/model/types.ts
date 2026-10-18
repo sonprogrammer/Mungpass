@@ -1,11 +1,5 @@
 
 
-export interface AuthTabProps{
-    isLogin: boolean
-    setIsLogin: (value: boolean) => void
-}
-
-
 export interface SignupFieldsProps{
     name: string;
     setName: (val: string) => void;
