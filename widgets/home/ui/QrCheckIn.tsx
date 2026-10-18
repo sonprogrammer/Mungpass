@@ -6,11 +6,22 @@ import { QrScannerModal } from "@/features/qr/ui";
 import { DogSelectStep } from "@/features/user-checkin/ui";
 import { App } from "antd";
 import { CheckCircle2, ChevronRight, Clock, PartyPopper, QrCode } from "lucide-react";
-import { useSearchParams } from "next/navigation";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useState } from "react";
 
 export function QrCheckIn({ dogs, isDogsPending }: { dogs: Dog[], isDogsPending: boolean }) {
     const params = useSearchParams()
+    const router = useRouter()
+    const pathname = usePathname()
+
+    const clearCheckInParams = () => {
+        const nextParams = new URLSearchParams(params.toString())
+        nextParams.delete('modal')
+        nextParams.delete('shopId')
+        nextParams.delete('productId')
+        const query = nextParams.toString()
+        router.replace(query ? `${pathname}?${query}` : pathname, { scroll: false })
+    }
 
     const shopId = params.get('shopId')
     const productId = params.get('productId')
@@ -25,13 +36,16 @@ export function QrCheckIn({ dogs, isDogsPending }: { dogs: Dog[], isDogsPending:
 
     const { message } = App.useApp()
 
-    const submitCheckIn = (dog: Dog, targetShopId: string, targetProductId: string) =>{
-        if(isCheckInPending)return
-        checkIn({dogId: dog.id, shopId: targetShopId, productId: targetProductId},{
+    const submitCheckIn = (dog: Dog, targetShopId: string, targetProductId: string) => {
+        if (isCheckInPending) return
+        checkIn({ dogId: dog.id, shopId: targetShopId, productId: targetProductId }, {
             onSuccess: () => {
                 message.success(`${dog.name} 입실 완료`)
                 setStep('SUCCESS')
+                clearCheckInParams()
                 setTimeout(() => {
+                    setStep('IDLE')
+                    setSelectedDog(null)
 
                 }, 3000)
             },
@@ -44,11 +58,11 @@ export function QrCheckIn({ dogs, isDogsPending }: { dogs: Dog[], isDogsPending:
 
     // * 이용할 펫 선택
     const handleDogSelect = (dog: Dog) => {
-        if(isCheckInPending) return
+        if (isCheckInPending) return
         setSelectedDog(dog)
         if (isExternalCheckIn && shopId && productId) {
-        submitCheckIn(dog, shopId, productId)
-        }else {
+            submitCheckIn(dog, shopId, productId)
+        } else {
             setStep('SCANNING')
         }
     }
@@ -60,7 +74,7 @@ export function QrCheckIn({ dogs, isDogsPending }: { dogs: Dog[], isDogsPending:
         try {
             url = new URL(data.startsWith('http') ? data : `http://${data}`)
         } catch {
-            message.error('잘못된 QR코드 입니다. 다시시도해 주세요')   
+            message.error('잘못된 QR코드 입니다. 다시시도해 주세요')
             setStep('IDLE')
             return
         }
@@ -74,13 +88,17 @@ export function QrCheckIn({ dogs, isDogsPending }: { dogs: Dog[], isDogsPending:
             return
         }
 
-       submitCheckIn(selectedDog, shopId, productId)
+        submitCheckIn(selectedDog, shopId, productId)
 
     }
 
     const closeModal = () => {
+        if (isCheckInPending) return
         setStep('IDLE')
         setSelectedDog(null)
+        if (params.get('modal') === 'checkin') {
+            clearCheckInParams()
+        }
     }
     return (
         <>

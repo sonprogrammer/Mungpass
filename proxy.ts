@@ -1,19 +1,29 @@
+
 import { createClient } from "@/shared/api/supabase/supabaseMiddleware";
-import { NextRequest } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 
 
 export default async function proxy(req: NextRequest) {
     const { supabase, res } = createClient(req)
-    await supabase.auth.getUser()
+    const {data: {user}} = await supabase.auth.getUser()
+
+    const url = req.nextUrl
+    const shopId = url.searchParams.get('shopId')
+    const productId = url.searchParams.get('productId')
+    
+    const isCheckInEntry = url.pathname === '/home'  && url.searchParams.get('modal') === 'checkin' && Boolean(shopId && productId)
 
 
-    const url = req.nextUrl.clone()
-
-
-    // * 카카오 콜백 함수는 걍 통과
-    if (url.pathname.startsWith('/api/auth')) {
-        return res
+    if(!user && isCheckInEntry){
+        const loginUrl = new URL('/', req.url)
+        loginUrl.searchParams.set('next', `${url.pathname}${url.search}`)
+        const redirectRes = NextResponse.redirect(loginUrl)
+        res.cookies.getAll().forEach(cookie => {
+            redirectRes.cookies.set(cookie)
+        })
+        return redirectRes
     }
+
     return res
 }
 
