@@ -9,19 +9,22 @@ export async function GET(req: NextRequest) {
     let destination = new URL('/', origin)
 
     if (next) {
-        const target = new URL(next, origin)
-        if (target.origin === origin && target.pathname === '/home') {
-            destination = target
+        try {
+            const target = new URL(next, origin)
+            if (target.origin === origin && target.pathname === '/home') {
+                destination = target
+            }
+        } catch {
+            destination = new URL('/', origin)
         }
     }
 
     if (code) {
-        const res = NextResponse.redirect(`${origin}${next}`)
         const supabase = await supabaseServer()
         const { error } = await supabase.auth.exchangeCodeForSession(code)
 
         if (!error) {
-            return res
+            return NextResponse.redirect(destination)
         }
 
         console.error('exchange error', error.message)
