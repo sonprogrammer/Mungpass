@@ -1,3 +1,4 @@
+'use client'
 
 import { useUserStore } from "@/entities/user/model";
 import { regularLogin, signup } from "@/features/auth/api";

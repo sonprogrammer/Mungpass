@@ -19,6 +19,19 @@ export function LandingPageWidget() {
     }
 
     if (profile.role === 'user') {
+      const next = new URLSearchParams(window.location.search).get('next')
+      let destination = '/home'
+      if(next){
+        try {
+          const target = new URL(next, window.location.origin)
+          if(target.origin === window.location.origin && target.pathname === 'home'){
+            destination = `${target.pathname}${target.search}`
+          }
+        } catch {
+          destination = '/home'
+        }
+        router.replace(destination)
+      }
       router.replace('/home')
     } else if (profile.role === 'owner') {
       router.replace('/owner')
