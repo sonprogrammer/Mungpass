@@ -54,7 +54,7 @@ export function useInquiryRealTimeNoti({ userId, isAdmin = false }: useInquiryRe
                 }
             )
             .subscribe((status, error) => {
-                console.log('🔥 inquiry realtime:', status, error)
+                console.log('inquiry realtime', status, error)
             })
 
 
