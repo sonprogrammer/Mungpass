@@ -20,7 +20,7 @@ export function useAuthForm(mode: 'login' | 'signup', OwnerSuccess?: (id: string
         }
         message.success('로그인 성공')
 
-      } catch (error) {
+      } catch  {
         setIsLoggingIn(false);
         message.error('로그인 서버 통신 중 에러가 발생하였습니다. 다시 시도해주세요')
       }

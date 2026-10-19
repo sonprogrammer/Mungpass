@@ -30,9 +30,8 @@ export function LandingPageWidget() {
         } catch {
           destination = '/home'
         }
-        router.replace(destination)
       }
-      router.replace('/home')
+      router.replace(destination)
     } else if (profile.role === 'owner') {
       router.replace('/owner')
     } else if (profile.role === 'admin') {
