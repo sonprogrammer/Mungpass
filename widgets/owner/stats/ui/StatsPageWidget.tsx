@@ -11,6 +11,7 @@ import { useGetAiInsight } from '@/features/owner/stats/model'
 export function StatsPageWidget() {
     const now = new Date()
     const thisMonth = format(now, 'yyyy-MM')
+    const [ isAiInsightReq, setIsAiInsightReq] = useState(false)
 
     // *리포트보기
     const [openSummary, setOpenSummary] = useState(false)
@@ -37,7 +38,7 @@ export function StatsPageWidget() {
     // *월별 최고 매출, 방문, 객단가
     const topDays = useMemo(() => calCulateTopRecord(dailySalesData), [dailySalesData])
 
-    const dataReadyForAi = !!diffData && topDays.length > 0 && !!shopId
+    const dataReadyForAi =  isAiInsightReq && !!diffData && topDays.length > 0 && !!shopId
 
     // *ai insight가져오기 - 제미나이
     const { data: aiInsight, isPending: aiPending } = useGetAiInsight({
@@ -98,7 +99,14 @@ export function StatsPageWidget() {
                     shopId={shopId}
                 />
 
-                <InsightCard content={aiInsight} isPending={aiPending} isVerified={isVerified}/>
+                <InsightCard 
+                    content={aiInsight}  
+                    isPending={aiPending} 
+                    isVerified={isVerified}
+                    isAiReq={isAiInsightReq}
+                    isDataReady={dataReadyForAi}
+                    onReq={() => setIsAiInsightReq(true)}
+                />
             </div>
         </main>
     )

@@ -1,10 +1,10 @@
 'use client'
 
-import { Info, Lock, TrendingUp } from "lucide-react";
+import { Info, Lock, Sparkles, TrendingUp } from "lucide-react";
 
 // TODO 일단은 일별 한번만 ai인사이트 요청 가능하고 멍패스 인사이트 가입시 무제한으로 되게(이건 나중에 규모 커지면) - 서버로직은 짜놈
 
-export function InsightCard({ content, isPending, isVerified }: { content: string, isPending: boolean, isVerified: boolean }) {
+export function InsightCard({ content, isPending, isVerified, isDataReady, onReq, isAiReq }: { content: string, isPending: boolean, isVerified: boolean, isDataReady: boolean, onReq: () => void, isAiReq: boolean }) {
     return (
         <section className="mt-6">
             <article className="rounded-3xl border border-gray-100 bg-white p-6 shadow-sm overflow-hidden relative">
@@ -31,8 +31,29 @@ export function InsightCard({ content, isPending, isVerified }: { content: strin
                                         AI가 사장님 매장만을 위한 운영 리포트를 작성해드려요.
                                     </p>
                                 </div>
-                    )
-                    : isPending ? (
+                    ) : !isAiReq ? (
+                        <div className="flex flex-col items-center justify-center py-5 text-center">
+                            <div className="mb-3 rounded-2xl bg-orange-100 p-3 text-orange-500">
+                                <Sparkles size={24} />
+                            </div>
+                            <p className="text-base font-bold text-gray-800">
+                                AI가 매장 운영 데이터를 분석해 드려요
+                            </p>
+                            <p className="mt-1 text-[13px] text-gray-500">
+                                매출과 방문 데이터를 기반으로 맞춤형 인사이트를 확인해 보세요.
+                            </p>
+                            <button
+                                type="button"
+                                onClick={onReq}
+                                disabled={!isDataReady}
+                                className="mt-5 flex items-center gap-2 rounded-xl bg-orange-500 px-5 py-2.5 font-bold text-white transition-colors hover:bg-orange-600 disabled:cursor-not-allowed disabled:bg-gray-300"
+                            >
+                                <Sparkles size={16} />
+                                AI 리포트 분석하기
+                            </button>
+                        </div>
+                    ):
+                    isPending ? (
                         <div className="flex flex-col gap-3 animate-pulse">
                             <div className="h-4 w-[90%] rounded-full bg-linear-to-r from-gray-200 to-gray-100"></div>
                             <div className="h-4 w-full rounded-full bg-linear-to-r from-gray-200 to-gray-100"></div>
