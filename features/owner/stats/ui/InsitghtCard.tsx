@@ -17,7 +17,6 @@ export function InsightCard({ content, isPending, isVerified, isDataReady, onReq
                                 일일 1회
                             </span>
                         </div>
-                        <p className="text-[11px] font-bold text-orange-400 uppercase tracking-wider">Smart Insights</p>
                     </div>
                     <TrendingUp size={20} className="text-orange-500" />
                 </div>
@@ -45,8 +44,7 @@ export function InsightCard({ content, isPending, isVerified, isDataReady, onReq
                             <button
                                 type="button"
                                 onClick={onReq}
-                                disabled={!isDataReady}
-                                className="mt-5 flex items-center gap-2 rounded-xl bg-orange-500 px-5 py-2.5 font-bold text-white transition-colors hover:bg-orange-600 disabled:cursor-not-allowed disabled:bg-gray-300"
+                                className="mt-5 flex items-center gap-2 rounded-xl bg-orange-500 px-5 py-2.5 font-bold text-white transition-colors hover:bg-orange-600 disabled:cursor-not-allowed disabled:bg-gray-300 cursor-pointer"
                             >
                                 <Sparkles size={16} />
                                 AI 리포트 분석하기
@@ -76,11 +74,11 @@ export function InsightCard({ content, isPending, isVerified, isDataReady, onReq
                 <div className="mt-4 flex items-center gap-1.5 px-1 text-[11px] text-gray-400">
                     <Info size={13} />
                     <span>무료 회원은 매일 1회 분석 리포트가 생성됩니다.</span>
-                    <button className="ml-auto font-bold text-orange-500 hover:underline flex items-center gap-0.5">
-                        <Lock size={10} />
+                    {/* <button className="ml-auto font-bold text-orange-500 hover:underline flex items-center gap-0.5"> */}
+                        {/* <Lock size={10} /> */}
                         {/* 실시간 분석 무제한 이용하기 */}
-                        서비스 개발 중입니다.
-                    </button>
+                        {/* 서비스 개발 중입니다. */}
+                    {/* </button> */}
                 </div>
 
             </article>

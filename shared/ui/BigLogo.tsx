@@ -17,7 +17,7 @@ export function BigLogo() {
       <h1 className="text-4xl font-black text-slate-900 tracking-tighter mb-1">
         멍 <span className="text-orange-500">패스</span>
       </h1>
-      <p className="text-orange-400 text-[10px] font-bold uppercase tracking-[0.2em]">MungPass - Membership</p>
+      <p className="text-orange-400 text-[10px] font-bold uppercase tracking-[0.2em]">MungPass</p>
     </div>
   )
 }
